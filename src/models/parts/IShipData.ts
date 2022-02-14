@@ -1,13 +1,17 @@
+import ForeAftEnum from "../enums/ForeAftEnum";
+import LcgReferenceEnum from "../enums/LcgReferenceEnum";
+import PositionFormatEnum from "../enums/PositionFormatEnum";
+import StackWeightCalculationEnum from "../enums/StackWeightCalculationEnum";
+import { LengthUnitsEnum, WeightUnitsEnum } from "../enums/UnitsEnum";
+import ValuesSourceEnum, {
+  ValuesSourceStackTierEnum,
+} from "../enums/ValuesSourceEnum";
+
 import type {
   TCompatibilityGroups,
   TContainerLengths,
   TImdgClasses,
-  TPositionFormat,
-  TStackWeightCalculation,
-  TUnits,
   TUnNumber,
-  TWeightUnits,
-  TForeAft,
 } from "./Types";
 
 export default interface IShipData {
@@ -21,12 +25,12 @@ export default interface IShipData {
   hatchless?: boolean;
 
   /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
-  positionFormat: TPositionFormat;
+  positionFormat: PositionFormatEnum;
 
   /** All the available container lengths. 20' and 40' should be available in most of the cases */
   containersLengths: Array<TContainerLengths>;
 
-  stackWeightCalculation: TStackWeightCalculation;
+  stackWeightCalculation: StackWeightCalculationEnum;
   dynamicStackWeightLimit: boolean;
 
   dangerousAndHazardous?: IDangerousAndHazardous;
@@ -54,9 +58,9 @@ interface IHistory {
 
 interface IFileUnits {
   /** The length units used in this file */
-  lengthUnits: TUnits;
+  lengthUnits: LengthUnitsEnum;
   /** The weight units used in this file */
-  weightUnits: TWeightUnits;
+  weightUnits: WeightUnitsEnum;
 }
 
 interface IShipMeta {
@@ -75,21 +79,21 @@ interface IVisibility {
 }
 
 interface ILCGOptions {
-  values: "KNOWN" | "ESTIMATED";
-  reference: "MIDSHIPS" | "AFT_PERP" | "FWD_PERP";
+  values: ValuesSourceEnum;
+  reference: LcgReferenceEnum;
   /** FWD or AFT */
-  orientationIncrease: TForeAft;
+  orientationIncrease: ForeAftEnum;
   /** Array of two values */
   orientatonRange: [number, number];
 }
 
 interface IVGCOptions {
-  values: "BY_TIER" | "BY_STACK" | "ESTIMATED";
+  values: ValuesSourceStackTierEnum;
   ratio: number;
 }
 
 interface ITGCOptions {
-  values: "KNOWN" | "ESTIMATED";
+  values: ValuesSourceEnum;
 }
 
 interface IRefrigeratedContainersOptions {

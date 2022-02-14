@@ -1,12 +1,3 @@
-export type TWeightUnits =
-  | "TONNES"
-  | "LONG_TONS"
-  | "SHORT_TONS"
-  | "1000S_LBS"
-  | "KILOGRAMS";
-
-export type TUnits = "METRIC" | "FEET";
-
 export type TContainerLengths = 20 | 40 | 24 | 45 | 48 | 53;
 
 export type TImdgClasses =
@@ -52,19 +43,7 @@ export type TCompatibilityGroups =
 
 export type TUnNumber = `${number}${number}${number}${number}`;
 
-export type TPositionFormat =
-  | "BAY_STACK_TIER"
-  | "BAY_TIER_STACK"
-  | "STACK_BAY_TIER"
-  | "STACK_TIER_BAY"
-  | "TIER_BAY_STACK"
-  | "TIER_STACK_BAY";
-
-export type TStackWeightCalculation = "CONTAINER_LENGTH" | "LENGTH_40_AVG20";
-
-export type TForeAft = "FWD" | "AFT";
-
-export type TValuePerLenght = {
+export type TValuePerContainerLength = {
   containerLenght: TContainerLengths;
   value: number;
 };

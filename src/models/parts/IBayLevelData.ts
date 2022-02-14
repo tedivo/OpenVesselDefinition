@@ -1,30 +1,35 @@
-import { TContainerLengths, TForeAft, TValuePerLenght } from "./Types";
+import BayLevelEnum from "../enums/BayLevelEnum";
+import ForeAftEnum from "../enums/ForeAftEnum";
+import { TContainerLengths } from "./Types";
 
 export default interface IBayLevelData {
   /** 3 digits ISO Bay */
   isoBay: `${number}${number}${number}`;
-  /** "A": Above, "B": Below */
-  level: "A" | "B";
+  /** Above, Below */
+  level: BayLevelEnum;
 
   meta: {
     notes?: string;
   };
 
-  name20?: string;
-  name40?: string;
+  /* AFT attribs */
+  label20?: string;
+  label40?: string;
   slHatch?: string;
   slForeAft?: string;
 
   maxHeight?: number;
 
-  reeferPlugs?: TForeAft;
-  doors?: TForeAft;
-  pairedBay?: TForeAft;
-  reeferPlugLimit?: [number, number];
+  reeferPlugs?: ForeAftEnum;
+  doors?: ForeAftEnum;
+  pairedBay?: ForeAftEnum;
+  reeferPlugLimit?: number;
 
   bulkhead?: {
-    exists: true;
-    lcg: number;
+    fore: boolean;
+    foreLcg: number;
+    aft: boolean;
+    aftLcg: number;
   };
 
   centerLineStack?: boolean;
@@ -38,13 +43,13 @@ export default interface IBayLevelData {
   quartersFore?: boolean;
   engineRmBulkfore?: boolean;
 
-  lcgsBySize: Array<ILCGBySize>;
+  stackAttributesByContainerLength: Array<IStackAttributesByContainerLength>;
+  perStacksInfo?: Array<IBayStackInfo>;
 
-  stacksInfo?: Array<IBayStackInfo>;
   tiersInfo?: Array<IBayTierInfo>;
 }
 
-interface ILCGBySize {
+interface IStackAttributesByContainerLength {
   size: TContainerLengths;
   lcg: number;
   stackWeight: number;
@@ -53,15 +58,16 @@ interface ILCGBySize {
 
 interface IBayStackInfo {
   isoStack: `${number}${number}`;
+  label?: string;
   maxHeight?: number;
+  maxIsoTier?: `${number}${number}`;
   tcg?: number;
   hazard?: number;
-  lcg: Array<TValuePerLenght>;
-  stackWeights?: Array<TValuePerLenght>;
-  bottomWeights?: Array<TValuePerLenght>;
+  stackAttributesByContainerLength: Array<IStackAttributesByContainerLength>;
 }
 
 interface IBayTierInfo {
   isoTier: `${number}${number}`;
+  label?: string;
   vcg: number;
 }
