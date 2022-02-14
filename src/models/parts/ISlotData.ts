@@ -1,3 +1,4 @@
+import { IDangerousAndHazardous } from "./IDangerousAndHazardous";
 import { TContainerLengths } from "./Types";
 
 export default interface ISlotData {
@@ -5,4 +6,7 @@ export default interface ISlotData {
   isoPosition: `${number}${number}${number}${number}${number}${number}${number}`;
   acceptsContainers: Array<TContainerLengths>;
   reeferPlug?: boolean;
+  restricted?: boolean;
+  coolStowProhibited?: boolean;
+  hazardousProhibited?: IDangerousAndHazardous;
 }

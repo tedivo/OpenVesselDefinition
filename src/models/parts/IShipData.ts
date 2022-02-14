@@ -6,13 +6,9 @@ import { LengthUnitsEnum, WeightUnitsEnum } from "../enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../enums/ValuesSourceEnum";
+import { IDangerousAndHazardous } from "./IDangerousAndHazardous";
 
-import type {
-  TCompatibilityGroups,
-  TContainerLengths,
-  TImdgClasses,
-  TUnNumber,
-} from "./Types";
+import type { TContainerLengths } from "./Types";
 
 export default interface IShipData {
   lineOperator: string;
@@ -99,13 +95,4 @@ interface ITGCOptions {
 interface IRefrigeratedContainersOptions {
   reeferPlugLimit: number;
   copyLimitFwdAft?: boolean;
-}
-
-interface IDangerousAndHazardous {
-  /** All the available IMDG Classes for this ship */
-  imdgClasses: Array<TImdgClasses>;
-  /** All the Class 1 compatibility groups allowed */
-  compatibilityGroups: Array<TCompatibilityGroups>;
-  /** All the restricted UN Numbers allowed */
-  unNumbers?: Array<TUnNumber>;
 }
