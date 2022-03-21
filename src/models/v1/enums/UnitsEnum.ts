@@ -10,3 +10,9 @@ export enum LengthUnitsEnum {
   "METRIC" = 1,
   "FEET" = 2,
 }
+
+export const getStafLengthUnitsEnumValue = (
+  s: keyof typeof LengthUnitsEnum
+): LengthUnitsEnum => {
+  return LengthUnitsEnum[s];
+};

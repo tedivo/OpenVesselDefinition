@@ -1,3 +1,3 @@
 # Models
 
-Main model: `IShipInfoData.ts`.
+Main model: `OpenShipSpec.ts`.

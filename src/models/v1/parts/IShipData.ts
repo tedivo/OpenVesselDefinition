@@ -1,5 +1,6 @@
 import ForeAftEnum from "../enums/ForeAftEnum";
 import LcgReferenceEnum from "../enums/LcgReferenceEnum";
+import PortStarboardEnum from "../enums/PortStarboardEnum";
 import PositionFormatEnum from "../enums/PositionFormatEnum";
 import StackWeightCalculationEnum from "../enums/StackWeightCalculationEnum";
 import { LengthUnitsEnum, WeightUnitsEnum } from "../enums/UnitsEnum";
@@ -90,6 +91,7 @@ interface IVGCOptions {
 
 interface ITGCOptions {
   values: ValuesSourceEnum;
+  direction: PortStarboardEnum;
 }
 
 interface IRefrigeratedContainersOptions {
