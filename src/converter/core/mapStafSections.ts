@@ -1,4 +1,4 @@
-import { ISectionContent, ISectionsByName } from "./getSectionsFromFileContent";
+import { ISectionContent, ISectionsByName } from "../models/ISectionContent";
 
 /**
  * Separates each Section and creates Objects using the header var names

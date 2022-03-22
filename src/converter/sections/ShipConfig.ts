@@ -8,7 +8,7 @@ import {
   getStafValuesSourceStackTierEnumValue,
 } from "../../models/v1/enums/ValuesSourceEnum";
 import IShipData from "../../models/v1/parts/IShipData";
-import ISectionMapConfig from "./ISectionMapConfig";
+import ISectionMapConfig from "../models/ISectionMapConfig";
 
 /**
  * DEFINITION of main Ship class for the converter
@@ -17,7 +17,7 @@ const ShipConfig: ISectionMapConfig<IShipData> = {
   stafSection: "SHIP",
   singleRow: true,
   mapVars: {
-    CLASS: { target: "shipName", passValue: true },
+    CLASS: { target: "shipName", passValue: true, dashIsEmpty: true },
     UNITS: {
       target: "fileUnits.lengthUnits",
       mapper: getStafLengthUnitsEnumValue,

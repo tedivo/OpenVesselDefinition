@@ -1,10 +1,10 @@
+import { ISectionContentMap } from "../models/ISectionContent";
 import ISectionMapConfig, {
   IMappedVarConfig,
-} from "../sections/ISectionMapConfig";
-import { ISectionObject } from "./getSectionsFromFileContent";
+} from "../models/ISectionMapConfig";
 
 function convertStafObjectToShipOpenSpec<T>(
-  sectionArray: ISectionObject,
+  sectionArray: ISectionContentMap,
   sectionConfig: ISectionMapConfig<T>
 ): T[] {
   const rows: T[] = [];
@@ -34,10 +34,22 @@ function convertStafObjectToShipOpenSpec<T>(
         if (MapConfigOfKey.mapper) {
           baseObjRef[lastKey] = MapConfigOfKey.mapper(mappedObj[key]);
         } else {
-          baseObjRef[lastKey] = mappedObj[key];
+          baseObjRef[lastKey] =
+            mappedObj[key] === "-" && MapConfigOfKey.dashIsEmpty
+              ? ""
+              : mappedObj[key];
+        }
+
+        if (MapConfigOfKey.setSelf) {
+          const [selfName, selfValue] = MapConfigOfKey.setSelf;
+          baseObjRef[selfName] = selfValue;
         }
       }
     });
+
+    if (sectionConfig.postProcessors) {
+      sectionConfig.postProcessors.forEach((fn) => fn(baseObj as T));
+    }
 
     rows.push(baseObj as T);
   });

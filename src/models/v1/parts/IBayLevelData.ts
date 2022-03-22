@@ -43,30 +43,41 @@ export default interface IBayLevelData {
   quartersFore?: boolean;
   engineRmBulkfore?: boolean;
 
-  stackAttributesByContainerLength: Array<IStackAttributesByContainerLength>;
-  perStacksInfo?: Array<IBayStackInfo>;
+  stackAttributesByContainerLength: TStackAttributesByContainerLength;
+  perStacksInfo?: TBayStackInfo;
 
-  tiersInfo?: Array<IBayTierInfo>;
+  tiersInfo?: TBayTierInfo;
 }
 
-interface IStackAttributesByContainerLength {
+export type TStackAttributesByContainerLength = {
+  [key in TContainerLengths]: IStackAttributesByContainerLength;
+};
+export interface IStackAttributesByContainerLength {
   size: TContainerLengths;
   lcg: number;
   stackWeight: number;
   bottomWeight: number;
 }
 
-interface IBayStackInfo {
+export type TBayStackInfo = {
+  [key: `${number}${number}`]: IBayStackInfo;
+};
+export interface IBayStackInfo {
   isoStack: `${number}${number}`;
   label?: string;
   maxHeight?: number;
-  maxIsoTier?: `${number}${number}`;
+  topIsoTier?: `${number}${number}`;
+  bottomIsoTier?: `${number}${number}`;
+  bottomVcg?: number;
   tcg?: number;
   hazard?: number;
-  stackAttributesByContainerLength: Array<IStackAttributesByContainerLength>;
+  stackAttributesByContainerLength: TStackAttributesByContainerLength;
 }
 
-interface IBayTierInfo {
+export type TBayTierInfo = {
+  [key: `${number}${number}`]: IBayTierInfo;
+};
+export interface IBayTierInfo {
   isoTier: `${number}${number}`;
   label?: string;
   vcg: number;

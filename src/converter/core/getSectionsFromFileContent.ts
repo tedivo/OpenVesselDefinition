@@ -1,3 +1,5 @@
+import { ISectionContent } from "../models/ISectionContent";
+
 /**
  * Gets the content of a file and parses it (string operations)
  * @param fileContent string
@@ -40,16 +42,4 @@ export default function getSectionsFromFileContent(
   });
 
   return sections;
-}
-
-export interface ISectionContent {
-  name: string;
-  headers: string[];
-  data: Array<Array<string>>;
-}
-
-export type ISectionObject = Array<{ [name: string]: string }>;
-
-export interface ISectionsByName {
-  [name: string]: ISectionObject;
 }

@@ -5,7 +5,8 @@ enum ForeAftEnum {
 
 export const getStafForeAftEnumValue = (s: "A" | "F"): ForeAftEnum => {
   if (s === "A") return ForeAftEnum.AFT;
-  return ForeAftEnum.FWD;
+  if (s === "F") return ForeAftEnum.FWD;
+  return undefined;
 };
 
 export default ForeAftEnum;
