@@ -116,20 +116,5 @@ export default function stafToShipInfoSpecV1Converter(
     lidData: dataProcessed.lidData,
   };
 
-  const bl = result.baysData.map((b) => ({
-    bay: b.isoBay,
-    level: b.level,
-    perStackInfoLength: Object.keys(b.perStackInfo).length,
-  }));
-
-  const blDict = bl.reduce((acc, v) => {
-    acc[`${v.bay}-${v.level}`] = v.perStackInfoLength;
-    return acc;
-  }, {});
-
-  //console.log(JSON.stringify(blDict, null, 2));
-
-  //console.log(JSON.stringify(result, null, 2));
-
   return result;
 }
