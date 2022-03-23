@@ -1,0 +1,29 @@
+{
+    "name": "open-ship-spec",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "directories": {
+        "example": "examples"
+    },
+    "dependencies": {},
+    "devDependencies": {},
+    "scripts": {
+        "test": "jest --watchAll",
+        "testCI": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tedivo/shipInfo-spec.git"
+    },
+    "keywords": [
+        "Ship Definition",
+        "Vessel Definition"
+    ],
+    "author": "Tedivo",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/tedivo/shipInfo-spec/issues"
+    },
+    "homepage": "https://github.com/tedivo/shipInfo-spec#readme"
+}
