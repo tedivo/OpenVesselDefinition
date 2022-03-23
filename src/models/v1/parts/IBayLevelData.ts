@@ -44,9 +44,9 @@ export default interface IBayLevelData {
   engineRmBulkfore?: boolean;
 
   stackAttributesByContainerLength: TStackAttributesByContainerLength;
-  perStacksInfo?: TBayStackInfo;
+  perStackInfo?: TBayStackInfo;
 
-  tiersInfo?: TBayTierInfo;
+  perTierInfo?: TBayTierInfo;
 }
 
 export type TStackAttributesByContainerLength = {

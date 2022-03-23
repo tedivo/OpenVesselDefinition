@@ -1,6 +1,5 @@
 import { IStackAttributesByContainerLengthWithAcceptsSize } from "../converter/models/IStackStafData";
 import { TStackAttributesByContainerLength } from "../models/v1/parts/IBayLevelData";
-import { TContainerLengths } from "../models/v1/parts/Types";
 
 /**
  * Mutates the object deleting TContainerLenghts without data

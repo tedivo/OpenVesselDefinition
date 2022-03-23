@@ -8,7 +8,7 @@ import { ISectionContent } from "../models/ISectionContent";
 export default function getSectionsFromFileContent(
   fileContent: string
 ): Array<ISectionContent> {
-  const lines = fileContent.split(/\n/).filter(Boolean);
+  const lines = fileContent.split(/\n|\r/).filter(Boolean);
   const sections: Array<ISectionContent> = [];
 
   let name: string;

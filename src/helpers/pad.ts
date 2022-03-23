@@ -1,6 +1,6 @@
 type TNumberPadded2 = `${number}${number}`;
 type TNumberPadded3 = `${number}${number}${number}`;
-type TNumberPadded7 =
+export type TNumberPadded7 =
   `${number}${number}${number}${number}${number}${number}${number}`;
 
 const pad = (num: string | number, size: number): string => {
