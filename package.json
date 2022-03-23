@@ -16,7 +16,7 @@
     },
     "scripts": {
         "test": "jest --watch",
-        "testCI": "jest"
+        "testCI": "jest --passWithNoTests"
     },
     "repository": {
         "type": "git",
