@@ -77,6 +77,7 @@ export default function stafToShipInfoSpecV1Converter(
     const stackDataOfBay = stackDataByBayLevel[key];
     if (!bl.perStackInfo) bl.perStackInfo = {};
     if (stackDataOfBay) {
+      let centerLineStack = false;
       stackDataOfBay
         .sort(
           sortByMultipleFields<IStackStafData>([
@@ -86,7 +87,9 @@ export default function stafToShipInfoSpecV1Converter(
         .forEach((sData) => {
           const { isoBay, level, ...sDataK } = sData;
           bl.perStackInfo[sDataK.isoStack] = sDataK;
+          if (sDataK.isoStack === "00") centerLineStack = true;
         });
+      if (centerLineStack) bl.centerLineStack = true;
     }
   });
 
