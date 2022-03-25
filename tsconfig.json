@@ -16,7 +16,8 @@
     // "baseUrl": ".",
     "esModuleInterop": true,
     //"isolatedModules": true,
-    "paths": {}
+    "paths": {},
+    "outDir": "build"
   },
   "exclude": ["node_modules", "tmp"]
 }
