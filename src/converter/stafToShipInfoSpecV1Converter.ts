@@ -4,6 +4,7 @@ import {
 } from "../helpers/createDictionary";
 import { TNumberPadded7 } from "../helpers/pad";
 import sortByMultipleFields from "../helpers/sortByMultipleFields";
+import sortStacksArray from "../helpers/sortStacksArray";
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
 import IBayLevelData from "../models/v1/parts/IBayLevelData";
 import ILidData from "../models/v1/parts/ILidData";
@@ -79,11 +80,7 @@ export default function stafToShipInfoSpecV1Converter(
     if (stackDataOfBay) {
       let centerLineStack = false;
       stackDataOfBay
-        .sort(
-          sortByMultipleFields<IStackStafData>([
-            { name: "isoStack", ascending: true },
-          ])
-        )
+        .sort((a, b) => sortStacksArray(a.isoStack, b.isoStack))
         .forEach((sData) => {
           const { isoBay, level, ...sDataK } = sData;
           bl.perStackInfo[sDataK.isoStack] = sDataK;
