@@ -110,6 +110,8 @@ export default function stafToShipInfoSpecV1Converter(
   });
 
   const result: IOpenShipSpecV1 = {
+    schema: "OpenShipSpec",
+    version: "1.0.0",
     shipData: dataProcessed.shipData,
     baysData: dataProcessed.bayLevelData,
     slotsDataByPosition: slotDataByIsoPosition,
