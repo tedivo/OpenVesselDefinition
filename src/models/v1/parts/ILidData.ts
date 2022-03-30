@@ -1,9 +1,10 @@
+import { IIsoBay } from "../../../helpers/types/IPositionPatterns";
 import BayLevelEnum from "../enums/BayLevelEnum";
 
 export default interface ILidData {
   label: string;
   /** 3 digits ISO Bay */
-  isoBay: `${number}${number}${number}`;
+  isoBay: IIsoBay;
   /** Above, Below */
   level: BayLevelEnum;
 

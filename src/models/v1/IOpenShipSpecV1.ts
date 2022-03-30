@@ -1,5 +1,5 @@
-import { TNumberPadded7 } from "../../helpers/pad";
 import { IObjectKey } from "../../helpers/types/IObjectKey";
+import { IPosition } from "../../helpers/types/IPositionPatterns";
 import OpenShipSpecVersion from "./OpenShipSpecVersion";
 import IBayLevelData from "./parts/IBayLevelData";
 import ILidData from "./parts/ILidData";
@@ -9,6 +9,6 @@ import ISlotData from "./parts/ISlotData";
 export default interface IOpenShipSpecV1 extends OpenShipSpecVersion {
   shipData: IShipData;
   baysData: Array<IBayLevelData>;
-  slotsDataByPosition: IObjectKey<ISlotData, TNumberPadded7>;
+  slotsDataByPosition: IObjectKey<ISlotData, IPosition>;
   lidData: Array<ILidData>;
 }
