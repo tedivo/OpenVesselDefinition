@@ -1,5 +1,13 @@
 import fs from "fs";
 import path from "path";
+import ForeAftEnum from "../models/v1/enums/ForeAftEnum";
+import LcgReferenceEnum from "../models/v1/enums/LcgReferenceEnum";
+import PortStarboardEnum from "../models/v1/enums/PortStarboardEnum";
+import PositionFormatEnum from "../models/v1/enums/PositionFormatEnum";
+import { LengthUnitsEnum } from "../models/v1/enums/UnitsEnum";
+import ValuesSourceEnum, {
+  ValuesSourceStackTierEnum,
+} from "../models/v1/enums/ValuesSourceEnum";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
 import stafToShipInfoSpecV1Converter from "./stafToShipInfoSpecV1Converter";
@@ -54,16 +62,45 @@ describe("stafToShipInfoSpecConverter should...", () => {
       "utf8"
     );
   });
+
+  it("make conversion of shipData correctly", () => {
+    const converted = stafToShipInfoSpecV1Converter(stafFileContent);
+    const shipData = converted.shipData;
+
+    expect(shipData.isoBays).toBe(79);
+    expect(shipData.shipName).toBe("OBEI");
+    expect(shipData.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);
+
+    expect(shipData.fileUnits).toBeDefined();
+    expect(shipData.fileUnits.lengthUnits).toBe(LengthUnitsEnum.METRIC);
+
+    expect(shipData.lcgOptions).toBeDefined();
+    expect(shipData.lcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
+    expect(shipData.lcgOptions.reference).toBe(
+      LcgReferenceEnum.AFT_PERSPECTIVE
+    );
+    expect(shipData.lcgOptions.orientationIncrease).toBe(ForeAftEnum.FWD);
+
+    expect(shipData.vcgOptions).toBeDefined();
+    expect(shipData.vcgOptions.values).toBe(ValuesSourceStackTierEnum.BY_TIER);
+
+    expect(shipData.tcgOptions).toBeDefined();
+    expect(shipData.tcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
+    expect(shipData.tcgOptions.direction).toBe(PortStarboardEnum.STARBOARD);
+  });
+
   it("make conversion of bays correctly", () => {
     const converted = stafToShipInfoSpecV1Converter(stafFileContent);
     expect(converted.baysData.length).toBe(sectionsExpected[1][1]);
   });
+
   it("make conversion of slots correctly", () => {
     const converted = stafToShipInfoSpecV1Converter(stafFileContent);
     expect(Object.keys(converted.slotsDataByPosition).length).toBe(
       sectionsExpected[4][1]
     );
   });
+
   it("make conversion of perStack correctly", () => {
     const perStackInfoKeysLenght = {
       "001-2": 9,
@@ -165,6 +202,20 @@ describe("stafToShipInfoSpecConverter should...", () => {
 
     expect(totalStacks).toBe(sectionsExpected[2][1]);
   });
+
+  it("creates sizeSummary correctly", () => {
+    const converted = stafToShipInfoSpecV1Converter(stafFileContent);
+    const summary = converted.sizeSummary;
+
+    expect(summary.isoBays).toBe(79);
+    expect(summary.centerLineStack).toBe(true);
+    expect(summary.maxStack).toBe("16");
+    expect(summary.maxAboveTier).toBe("98");
+    expect(summary.minAboveTier).toBe("82");
+    expect(summary.maxBelowTier).toBe("18");
+    expect(summary.minBelowTier).toBe("02");
+  });
+
   it.skip("just convert", () => {
     const converted = stafToShipInfoSpecV1Converter(stafFileContent);
     fs.writeFileSync(

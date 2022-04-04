@@ -2,15 +2,19 @@ import {
   createDictionary,
   createDictionaryMultiple,
 } from "../helpers/createDictionary";
-import { TNumberPadded7 } from "../helpers/pad";
 import sortByMultipleFields from "../helpers/sortByMultipleFields";
 import sortStacksArray from "../helpers/sortStacksArray";
+import {
+  IIsoBayPattern,
+  IIsoPositionPattern,
+} from "../models/base/types/IPositionPatterns";
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
 import IBayLevelData from "../models/v1/parts/IBayLevelData";
 import ILidData from "../models/v1/parts/ILidData";
 import IShipData from "../models/v1/parts/IShipData";
 import ISlotData from "../models/v1/parts/ISlotData";
 import convertStafObjectToShipOpenSpec from "./core/convertStafObjectToShipOpenSpec";
+import createSummary from "./core/createSummary";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
 import IStackStafData from "./models/IStackStafData";
@@ -67,13 +71,18 @@ export default function stafToShipInfoSpecV1Converter(
       dataProcessed.tierData,
       (d) => `${d.isoBay}-${d.level}`
     ),
-    slotDataByIsoPosition = createDictionary<ISlotData, TNumberPadded7>(
+    slotDataByIsoPosition = createDictionary<ISlotData, IIsoPositionPattern>(
       dataProcessed.slotData,
       (d) => d.isoPosition
     );
 
+  let isoBays: number = 0;
+
   // Add stack to BayLevel.perStackInfo
   dataProcessed.bayLevelData.forEach((bl) => {
+    // Find the max isoBay for ShipData
+    if (Number(bl.isoBay) > isoBays) isoBays = Number(bl.isoBay);
+
     const key = `${bl.isoBay}-${bl.level}`;
     const stackDataOfBay = stackDataByBayLevel[key];
     if (!bl.perStackInfo) bl.perStackInfo = {};
@@ -109,9 +118,18 @@ export default function stafToShipInfoSpecV1Converter(
     }
   });
 
+  dataProcessed.shipData.isoBays = isoBays;
+
+  const sizeSummary = createSummary({
+    shipData: dataProcessed.shipData,
+    bayLevelData: dataProcessed.bayLevelData,
+    slotData: slotDataByIsoPosition,
+  });
+
   const result: IOpenShipSpecV1 = {
     schema: "OpenShipSpec",
     version: "1.0.0",
+    sizeSummary,
     shipData: dataProcessed.shipData,
     baysData: dataProcessed.bayLevelData,
     slotsDataByPosition: slotDataByIsoPosition,

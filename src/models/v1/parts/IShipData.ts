@@ -28,11 +28,11 @@ export default interface IShipData {
   containersLengths: Array<TContainerLengths>;
 
   stackWeightCalculation: StackWeightCalculationEnum;
-  dynamicStackWeightLimit: boolean;
+  dynamicStackWeightLimit?: boolean;
 
   dangerousAndHazardous?: IDangerousAndHazardous;
 
-  visibility: IVisibility;
+  visibility?: IVisibility;
 
   /** Note and Revisions history */
   metaInfo: IShipMeta;
@@ -44,7 +44,7 @@ export default interface IShipData {
   vcgOptions: IVGCOptions;
   tcgOptions: ITGCOptions;
 
-  refrigeratedContainersOptions: IRefrigeratedContainersOptions;
+  refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
 }
 
 interface IHistory {
@@ -79,19 +79,19 @@ interface ILCGOptions {
   values: ValuesSourceEnum;
   reference: LcgReferenceEnum;
   /** FWD or AFT */
-  orientationIncrease: ForeAftEnum;
+  orientationIncrease?: ForeAftEnum;
   /** Array of two values */
-  orientatonRange: [number, number];
+  orientatonRange?: [number, number];
 }
 
 interface IVGCOptions {
   values: ValuesSourceStackTierEnum;
-  ratio: number;
+  ratio?: number;
 }
 
 interface ITGCOptions {
   values: ValuesSourceEnum;
-  direction: PortStarboardEnum;
+  direction?: PortStarboardEnum;
 }
 
 interface IRefrigeratedContainersOptions {
