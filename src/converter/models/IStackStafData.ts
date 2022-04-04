@@ -1,4 +1,4 @@
-import BayLevelEnum from "../../models/v1/enums/BayLevelEnum";
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import {
   IBayStackInfo,
   IStackAttributesByContainerLength,

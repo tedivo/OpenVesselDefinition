@@ -3,7 +3,7 @@ import {
   IIsoBayPattern,
   IIsoStackTierPattern,
 } from "../../models/base/types/IPositionPatterns";
-import BayLevelEnum from "../../models/v1/enums/BayLevelEnum";
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import IBayLevelData, {
   TBayStackInfo,
   TBayTierInfo,

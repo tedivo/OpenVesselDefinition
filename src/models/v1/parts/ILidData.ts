@@ -1,5 +1,5 @@
 import { IIsoBayPattern } from "../../base/types/IPositionPatterns";
-import BayLevelEnum from "../enums/BayLevelEnum";
+import BayLevelEnum from "../../base/enums/BayLevelEnum";
 
 export default interface ILidData {
   label: string;

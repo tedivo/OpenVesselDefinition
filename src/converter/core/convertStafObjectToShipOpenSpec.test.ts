@@ -1,12 +1,12 @@
-import BayLevelEnum from "../../models/v1/enums/BayLevelEnum";
-import ForeAftEnum from "../../models/v1/enums/ForeAftEnum";
-import LcgReferenceEnum from "../../models/v1/enums/LcgReferenceEnum";
-import PortStarboardEnum from "../../models/v1/enums/PortStarboardEnum";
-import PositionFormatEnum from "../../models/v1/enums/PositionFormatEnum";
-import { LengthUnitsEnum } from "../../models/v1/enums/UnitsEnum";
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
+import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
+import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
+import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
+import { LengthUnitsEnum } from "../../models/base/enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
-} from "../../models/v1/enums/ValuesSourceEnum";
+} from "../../models/base/enums/ValuesSourceEnum";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import ILidData from "../../models/v1/parts/ILidData";
 import IShipData from "../../models/v1/parts/IShipData";

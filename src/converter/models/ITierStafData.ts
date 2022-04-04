@@ -1,4 +1,4 @@
-import BayLevelEnum from "../../models/v1/enums/BayLevelEnum";
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { IBayTierInfo } from "../../models/v1/parts/IBayLevelData";
 
 type ITierStafData = {

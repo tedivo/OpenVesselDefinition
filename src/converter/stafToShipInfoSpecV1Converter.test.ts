@@ -1,13 +1,13 @@
 import fs from "fs";
 import path from "path";
-import ForeAftEnum from "../models/v1/enums/ForeAftEnum";
-import LcgReferenceEnum from "../models/v1/enums/LcgReferenceEnum";
-import PortStarboardEnum from "../models/v1/enums/PortStarboardEnum";
-import PositionFormatEnum from "../models/v1/enums/PositionFormatEnum";
-import { LengthUnitsEnum } from "../models/v1/enums/UnitsEnum";
+import ForeAftEnum from "../models/base/enums/ForeAftEnum";
+import LcgReferenceEnum from "../models/base/enums/LcgReferenceEnum";
+import PortStarboardEnum from "../models/base/enums/PortStarboardEnum";
+import PositionFormatEnum from "../models/base/enums/PositionFormatEnum";
+import { LengthUnitsEnum } from "../models/base/enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
-} from "../models/v1/enums/ValuesSourceEnum";
+} from "../models/base/enums/ValuesSourceEnum";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
 import stafToShipInfoSpecV1Converter from "./stafToShipInfoSpecV1Converter";

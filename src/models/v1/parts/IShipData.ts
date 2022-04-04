@@ -1,12 +1,12 @@
-import ForeAftEnum from "../enums/ForeAftEnum";
-import LcgReferenceEnum from "../enums/LcgReferenceEnum";
-import PortStarboardEnum from "../enums/PortStarboardEnum";
-import PositionFormatEnum from "../enums/PositionFormatEnum";
-import StackWeightCalculationEnum from "../enums/StackWeightCalculationEnum";
-import { LengthUnitsEnum, WeightUnitsEnum } from "../enums/UnitsEnum";
+import ForeAftEnum from "../../base/enums/ForeAftEnum";
+import LcgReferenceEnum from "../../base/enums/LcgReferenceEnum";
+import PortStarboardEnum from "../../base/enums/PortStarboardEnum";
+import PositionFormatEnum from "../../base/enums/PositionFormatEnum";
+import StackWeightCalculationEnum from "../../base/enums/StackWeightCalculationEnum";
+import { LengthUnitsEnum, WeightUnitsEnum } from "../../base/enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
-} from "../enums/ValuesSourceEnum";
+} from "../../base/enums/ValuesSourceEnum";
 import { IDangerousAndHazardous } from "./IDangerousAndHazardous";
 
 import type { TContainerLengths } from "./Types";

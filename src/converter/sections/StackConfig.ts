@@ -2,7 +2,7 @@ import { deleteMissingContainerLenghtDataWithAcceptsSize } from "../../helpers/d
 import { pad2, pad3 } from "../../helpers/pad";
 import safeNumber from "../../helpers/safeNumber";
 import yNToBoolean from "../../helpers/yNToBoolean";
-import { getStafBayLevelEnumValue } from "../../models/v1/enums/BayLevelEnum";
+import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 import IStackStafData from "../models/IStackStafData";
 

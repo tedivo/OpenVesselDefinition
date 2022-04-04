@@ -1,12 +1,12 @@
-import { getStafForeAftEnumValue } from "../../models/v1/enums/ForeAftEnum";
-import { getStafLcgReferenceEnumValue } from "../../models/v1/enums/LcgReferenceEnum";
-import { getStafPortStarboardValue } from "../../models/v1/enums/PortStarboardEnum";
-import { getStafPositionFormatEnumValue } from "../../models/v1/enums/PositionFormatEnum";
-import { getStafLengthUnitsEnumValue } from "../../models/v1/enums/UnitsEnum";
+import { getStafForeAftEnumValue } from "../../models/base/enums/ForeAftEnum";
+import { getStafLcgReferenceEnumValue } from "../../models/base/enums/LcgReferenceEnum";
+import { getStafPortStarboardValue } from "../../models/base/enums/PortStarboardEnum";
+import { getStafPositionFormatEnumValue } from "../../models/base/enums/PositionFormatEnum";
+import { getStafLengthUnitsEnumValue } from "../../models/base/enums/UnitsEnum";
 import {
   getStafValuesSourceEnumValue,
   getStafValuesSourceStackTierEnumValue,
-} from "../../models/v1/enums/ValuesSourceEnum";
+} from "../../models/base/enums/ValuesSourceEnum";
 import IShipData from "../../models/v1/parts/IShipData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 

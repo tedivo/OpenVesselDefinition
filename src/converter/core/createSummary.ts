@@ -4,7 +4,7 @@ import {
   IIsoPositionPattern,
   IIsoStackTierPattern,
 } from "../../models/base/types/IPositionPatterns";
-import BayLevelEnum from "../../models/v1/enums/BayLevelEnum";
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import IShipData from "../../models/v1/parts/IShipData";
 import ISlotData from "../../models/v1/parts/ISlotData";

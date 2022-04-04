@@ -1,5 +1,5 @@
 import { pad2, pad3 } from "../../helpers/pad";
-import { getStafBayLevelEnumValue } from "../../models/v1/enums/BayLevelEnum";
+import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
 import ILidData from "../../models/v1/parts/ILidData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 

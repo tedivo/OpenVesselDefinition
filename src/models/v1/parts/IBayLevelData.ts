@@ -2,8 +2,8 @@ import {
   IIsoBayPattern,
   IIsoStackTierPattern,
 } from "../../base/types/IPositionPatterns";
-import BayLevelEnum from "../enums/BayLevelEnum";
-import ForeAftEnum from "../enums/ForeAftEnum";
+import BayLevelEnum from "../../base/enums/BayLevelEnum";
+import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import { TContainerLengths } from "./Types";
 
 export default interface IBayLevelData {

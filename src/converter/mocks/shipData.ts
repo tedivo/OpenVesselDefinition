@@ -1,13 +1,13 @@
-import LcgReferenceEnum from "../../models/v1/enums/LcgReferenceEnum";
-import PositionFormatEnum from "../../models/v1/enums/PositionFormatEnum";
-import StackWeightCalculationEnum from "../../models/v1/enums/StackWeightCalculationEnum";
+import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
+import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
+import StackWeightCalculationEnum from "../../models/base/enums/StackWeightCalculationEnum";
 import {
   LengthUnitsEnum,
   WeightUnitsEnum,
-} from "../../models/v1/enums/UnitsEnum";
+} from "../../models/base/enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
-} from "../../models/v1/enums/ValuesSourceEnum";
+} from "../../models/base/enums/ValuesSourceEnum";
 import IShipData from "../../models/v1/parts/IShipData";
 
 export const shipData: IShipData = {

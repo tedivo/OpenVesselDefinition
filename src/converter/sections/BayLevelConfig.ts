@@ -2,8 +2,8 @@ import { deleteMissingContainerLenghtData } from "../../helpers/deleteMissingInf
 import { pad3 } from "../../helpers/pad";
 import safeNumber from "../../helpers/safeNumber";
 import yNToBoolean from "../../helpers/yNToBoolean";
-import { getStafBayLevelEnumValue } from "../../models/v1/enums/BayLevelEnum";
-import { getStafForeAftEnumValue } from "../../models/v1/enums/ForeAftEnum";
+import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
+import { getStafForeAftEnumValue } from "../../models/base/enums/ForeAftEnum";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 
