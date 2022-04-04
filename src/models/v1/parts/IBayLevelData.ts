@@ -1,12 +1,14 @@
+import {
+  IIsoBay,
+  IStackOrTier,
+} from "../../../helpers/types/IPositionPatterns";
 import BayLevelEnum from "../enums/BayLevelEnum";
 import ForeAftEnum from "../enums/ForeAftEnum";
 import { TContainerLengths } from "./Types";
 
-type IStackTierPattern = `${number}${number}`;
-type IBayPattern = `${number}${number}${number}`;
 export default interface IBayLevelData {
   /** 3 digits ISO Bay */
-  isoBay: IBayPattern;
+  isoBay: IIsoBay;
   /** Above, Below */
   level: BayLevelEnum;
 
@@ -62,14 +64,14 @@ export interface IStackAttributesByContainerLength {
 }
 
 export type TBayStackInfo = {
-  [key in IStackTierPattern]: IBayStackInfo;
+  [key in IStackOrTier]: IBayStackInfo;
 };
 export interface IBayStackInfo {
-  isoStack: IStackTierPattern;
+  isoStack: IStackOrTier;
   label?: string;
   maxHeight?: number;
-  topIsoTier?: IStackTierPattern;
-  bottomIsoTier?: IStackTierPattern;
+  topIsoTier?: IStackOrTier;
+  bottomIsoTier?: IStackOrTier;
   bottomVcg?: number;
   tcg?: number;
   hazard?: number;
@@ -77,10 +79,10 @@ export interface IBayStackInfo {
 }
 
 export type TBayTierInfo = {
-  [key in IStackTierPattern]: IBayTierInfo;
+  [key in IStackOrTier]: IBayTierInfo;
 };
 export interface IBayTierInfo {
-  isoTier: IStackTierPattern;
+  isoTier: IStackOrTier;
   label?: string;
   vcg: number;
 }
