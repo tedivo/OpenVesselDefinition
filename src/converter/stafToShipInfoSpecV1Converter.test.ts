@@ -217,9 +217,14 @@ describe("stafToShipInfoSpecConverter should...", () => {
   });
 
   it.skip("just convert", () => {
-    const converted = stafToShipInfoSpecV1Converter(stafFileContent);
+    const converted = stafToShipInfoSpecV1Converter(
+      fs.readFileSync(
+        path.resolve("./src/converter/mocks/OOL.OASI.OOCL ASIA_STAF.txt"),
+        "utf8"
+      )
+    );
     fs.writeFileSync(
-      path.resolve("./examples/OOL.OBEI.OOCL BEIJING_OPENSHIPSPEC.json"),
+      path.resolve("./examples/OOL.OASI.OOCL ASIA_OPENSHIPSPEC.json"),
       JSON.stringify(converted)
     );
   });
