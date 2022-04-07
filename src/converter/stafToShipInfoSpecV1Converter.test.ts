@@ -216,7 +216,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
     expect(summary.minBelowTier).toBe("02");
   });
 
-  it("just convert", () => {
+  it.skip("just convert", () => {
     const converted = stafToShipInfoSpecV1Converter(
       fs.readFileSync(
         path.resolve("./src/converter/mocks/OOL.OASI.OOCL ASIA_STAF.txt"),
