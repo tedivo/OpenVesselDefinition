@@ -17,7 +17,7 @@ export const shipData: IShipData = {
   positionFormat: PositionFormatEnum.BAY_STACK_TIER,
   containersLengths: [],
   stackWeightCalculation: StackWeightCalculationEnum.CONTAINER_LENGTH,
-  dynamicStackWeightLimit: false,
+  dynamicStackWeightLimit: 0,
   metaInfo: {},
   fileUnits: {
     lengthUnits: LengthUnitsEnum.METRIC,

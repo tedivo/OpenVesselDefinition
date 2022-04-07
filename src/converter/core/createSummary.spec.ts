@@ -31,7 +31,7 @@ describe("createSummary should", () => {
     const summary = createSummary(params);
 
     expect(summary.isoBays).toBe(13);
-    expect(summary.centerLineStack).toBe(true);
+    expect(summary.centerLineStack).toBe(1);
     expect(summary.maxStack).toBe("02");
     expect(summary.maxAboveTier).toBe("86");
     expect(summary.minAboveTier).toBe("80");
@@ -59,7 +59,7 @@ describe("createSummary should", () => {
     const summary = createSummary(params);
 
     expect(summary.isoBays).toBe(13);
-    expect(summary.centerLineStack).toBe(true);
+    expect(summary.centerLineStack).toBe(1);
     expect(summary.maxStack).toBe("04");
     expect(summary.maxAboveTier).toBe("86");
     expect(summary.minAboveTier).toBe("80");
@@ -87,7 +87,7 @@ describe("createSummary should", () => {
     const summary = createSummary(params);
 
     expect(summary.isoBays).toBe(13);
-    expect(summary.centerLineStack).toBe(true);
+    expect(summary.centerLineStack).toBe(1);
     expect(summary.maxStack).toBe("02");
     expect(summary.maxAboveTier).toBe("88");
     expect(summary.minAboveTier).toBe("80");

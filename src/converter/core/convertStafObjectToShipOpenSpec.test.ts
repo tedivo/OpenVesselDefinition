@@ -124,7 +124,7 @@ describe("for STAF_BAY data", () => {
     expect(row1.label20).toBe("label 20 001B");
     expect(row1.label40).toBe("label 40 001B");
     expect(row1.maxHeight).toBe(10.51);
-    expect(row1.bulkhead.fore).toBe(true);
+    expect(row1.bulkhead.fore).toBe(1);
     expect(row1.bulkhead.foreLcg).toBe(-117.4);
     expect(row1.stackAttributesByContainerLength[20].lcg).toBe(-114.11);
     expect(row1.stackAttributesByContainerLength[20].stackWeight).toBe(96);
@@ -172,7 +172,7 @@ describe("for STACK data", () => {
     expect(row1.tcg).toBe(1.28);
     expect(row1.stackAttributesByContainerLength[20]).toBeTruthy();
     expect(row1.stackAttributesByContainerLength[20].size).toBe(20);
-    expect(row1.stackAttributesByContainerLength[20].acceptsSize).toBe(true);
+    expect(row1.stackAttributesByContainerLength[20].acceptsSize).toBe(1);
     expect(row1.stackAttributesByContainerLength[24]).toBeFalsy();
     expect(row1.stackAttributesByContainerLength[40]).toBeFalsy();
     expect(row1.stackAttributesByContainerLength[45]).toBeFalsy();
@@ -187,7 +187,7 @@ describe("for STACK data", () => {
     expect(row27.tcg).toBe(-11.38);
     expect(row27.stackAttributesByContainerLength[20]).toBeTruthy();
     expect(row27.stackAttributesByContainerLength[20].size).toBe(20);
-    expect(row27.stackAttributesByContainerLength[20].acceptsSize).toBe(true);
+    expect(row27.stackAttributesByContainerLength[20].acceptsSize).toBe(1);
     expect(row27.stackAttributesByContainerLength[24]).toBeFalsy();
     expect(row27.stackAttributesByContainerLength[40]).toBeTruthy();
     expect(row27.stackAttributesByContainerLength[45]).toBeTruthy();
@@ -253,29 +253,29 @@ describe("for SLOT data", () => {
     const row2 = processed[1];
     const row23 = processed[22];
 
-    expect(row1.isoPosition).toBe("0190692");
-    expect(row1.acceptsContainers[20]).toBe(true);
-    expect(row1.acceptsContainers[40]).toBe(true);
-    expect(row1.acceptsContainers[45]).toBe(true);
-    expect(row1.acceptsContainers[24]).toBe(false);
-    expect(row1.acceptsContainers[48]).toBe(false);
-    expect(row1.reeferPlug).toBe(false);
+    expect(row1.pos).toBe("0190692");
+    expect(row1.sizes[20]).toBe(1);
+    expect(row1.sizes[40]).toBe(1);
+    expect(row1.sizes[45]).toBe(1);
+    expect(row1.sizes[24]).toBe(0);
+    expect(row1.sizes[48]).toBe(0);
+    expect(row1.reefer).toBe(0);
 
-    expect(row2.acceptsContainers[20]).toBe(true);
-    expect(row2.isoPosition).toBe("0190782");
-    expect(row2.acceptsContainers[40]).toBe(true);
-    expect(row2.acceptsContainers[45]).toBe(false);
-    expect(row2.acceptsContainers[24]).toBe(false);
-    expect(row2.acceptsContainers[48]).toBe(false);
-    expect(row2.reeferPlug).toBe(true);
+    expect(row2.sizes[20]).toBe(1);
+    expect(row2.pos).toBe("0190782");
+    expect(row2.sizes[40]).toBe(1);
+    expect(row2.sizes[45]).toBe(0);
+    expect(row2.sizes[24]).toBe(0);
+    expect(row2.sizes[48]).toBe(0);
+    expect(row2.reefer).toBe(1);
 
-    expect(row23.isoPosition).toBe("0191088");
-    expect(row23.acceptsContainers[20]).toBe(true);
-    expect(row23.acceptsContainers[40]).toBe(true);
-    expect(row23.acceptsContainers[45]).toBe(true);
-    expect(row23.acceptsContainers[24]).toBe(false);
-    expect(row23.acceptsContainers[48]).toBe(false);
-    expect(row23.reeferPlug).toBe(false);
+    expect(row23.pos).toBe("0191088");
+    expect(row23.sizes[20]).toBe(1);
+    expect(row23.sizes[40]).toBe(1);
+    expect(row23.sizes[45]).toBe(1);
+    expect(row23.sizes[24]).toBe(0);
+    expect(row23.sizes[48]).toBe(0);
+    expect(row23.reefer).toBe(0);
   });
 });
 

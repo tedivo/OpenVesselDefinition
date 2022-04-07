@@ -1,8 +1,10 @@
+import { TYesNo } from "../models/base/types/IPositionPatterns";
+
 /**
- * Converts Y/N to boolean
+ * Converts Y/N to TYesNo
  * @param s String
- * @returns boolean
+ * @returns TYesNo
  */
-export default function yNToBoolean(s: string): boolean {
-  return s === "Y" || s === "I";
+export default function yNToBoolean(s: string): TYesNo {
+  return s === "Y" || s === "I" ? 1 : 0;
 }

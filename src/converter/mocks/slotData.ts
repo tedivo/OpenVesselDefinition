@@ -3,20 +3,20 @@ import ISlotData from "../../models/v1/parts/ISlotData";
 import destructurePosition from "../core/destructurePosition";
 
 export const slotData20: ISlotData = {
-  isoPosition: "0010080",
-  acceptsContainers: { 20: true },
+  pos: "0010080",
+  sizes: { 20: 1 },
 };
 
 export const slotData40: ISlotData = {
-  isoPosition: "0020080",
-  acceptsContainers: { 20: true, 40: true },
+  pos: "0020080",
+  sizes: { 20: 1, 40: 1 },
 };
 
-export function createMockedSlotData(position: IIsoPositionPattern) {
+export function createMockedSlotData(position: IIsoPositionPattern): ISlotData {
   const desPos = destructurePosition(position);
   const is40 = desPos.iBay !== desPos.iOddBay;
   return {
-    isoPosition: position,
-    acceptsContainers: { 20: true, 40: is40 },
+    pos: position,
+    sizes: { 20: 1, 40: is40 ? 1 : 0 },
   };
 }

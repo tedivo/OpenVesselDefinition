@@ -7,6 +7,7 @@ import { LengthUnitsEnum, WeightUnitsEnum } from "../../base/enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../base/enums/ValuesSourceEnum";
+import { TYesNo } from "../../base/types/IPositionPatterns";
 import { IDangerousAndHazardous } from "./IDangerousAndHazardous";
 
 import type { TContainerLengths } from "./Types";
@@ -18,8 +19,8 @@ export default interface IShipData {
   /** Number of ISO Bays in Ship */
   isoBays: number;
 
-  tweenDecks?: boolean;
-  hatchless?: boolean;
+  tweenDecks?: TYesNo;
+  hatchless?: TYesNo;
 
   /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
   positionFormat: PositionFormatEnum;
@@ -28,7 +29,7 @@ export default interface IShipData {
   containersLengths: Array<TContainerLengths>;
 
   stackWeightCalculation: StackWeightCalculationEnum;
-  dynamicStackWeightLimit?: boolean;
+  dynamicStackWeightLimit?: TYesNo;
 
   dangerousAndHazardous?: IDangerousAndHazardous;
 
@@ -96,5 +97,5 @@ interface ITGCOptions {
 
 interface IRefrigeratedContainersOptions {
   reeferPlugLimit: number;
-  copyLimitFwdAft?: boolean;
+  copyLimitFwdAft?: TYesNo;
 }

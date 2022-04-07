@@ -1,10 +1,13 @@
 import {
   IIsoBayPattern,
   IIsoStackTierPattern,
+  ICombinedStackTierPattern,
+  TYesNo,
 } from "../../base/types/IPositionPatterns";
 import BayLevelEnum from "../../base/enums/BayLevelEnum";
 import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import { TContainerLengths } from "./Types";
+import ISlotData from "./ISlotData";
 
 export default interface IBayLevelData {
   /** 3 digits ISO Bay */
@@ -30,27 +33,33 @@ export default interface IBayLevelData {
   reeferPlugLimit?: number;
 
   bulkhead?: {
-    fore: boolean;
+    fore: TYesNo;
     foreLcg: number;
-    aft: boolean;
+    aft: TYesNo;
     aftLcg: number;
   };
 
-  centerLineStack?: boolean;
-  athwartShip?: boolean;
-  foreHatch?: boolean;
-  ventilated?: boolean;
-  nearBow?: boolean;
-  nearStern?: boolean;
-  heatSrcFore?: boolean;
-  ignitionSrcFore?: boolean;
-  quartersFore?: boolean;
-  engineRmBulkfore?: boolean;
+  centerLineStack?: TYesNo;
+  athwartShip?: TYesNo;
+  foreHatch?: TYesNo;
+  ventilated?: TYesNo;
+  nearBow?: TYesNo;
+  nearStern?: TYesNo;
+  heatSrcFore?: TYesNo;
+  ignitionSrcFore?: TYesNo;
+  quartersFore?: TYesNo;
+  engineRmBulkfore?: TYesNo;
 
   stackAttributesByContainerLength: TStackAttributesByContainerLength;
   perStackInfo?: TBayStackInfo;
 
   perTierInfo?: TBayTierInfo;
+
+  baySlotData?: IBaySlotData;
+}
+
+export interface IBaySlotData {
+  [key: ICombinedStackTierPattern]: ISlotData;
 }
 
 export type TStackAttributesByContainerLength = Partial<{

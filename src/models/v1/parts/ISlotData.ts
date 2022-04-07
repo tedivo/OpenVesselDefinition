@@ -1,14 +1,17 @@
-import { IIsoPositionPattern } from "../../base/types/IPositionPatterns";
+import {
+  IIsoPositionPattern,
+  TYesNo,
+} from "../../base/types/IPositionPatterns";
 import { IDangerousAndHazardous } from "./IDangerousAndHazardous";
 import { TContainerLengths } from "./Types";
 
-type IAcceptsContainers = Partial<{ [name in TContainerLengths]: boolean }>;
+type IAcceptsContainers = Partial<{ [name in TContainerLengths]: TYesNo }>;
 export default interface ISlotData {
   /** Position: BAY_STACK_TIER */
-  isoPosition: IIsoPositionPattern;
-  acceptsContainers: IAcceptsContainers;
-  reeferPlug?: boolean;
-  restricted?: boolean;
-  coolStowProhibited?: boolean;
+  pos: IIsoPositionPattern;
+  sizes: IAcceptsContainers;
+  reefer?: TYesNo;
+  restricted?: TYesNo;
+  coolStowProhibited?: TYesNo;
   hazardousProhibited?: true | IDangerousAndHazardous;
 }

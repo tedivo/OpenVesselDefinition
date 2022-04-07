@@ -208,7 +208,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
     const summary = converted.sizeSummary;
 
     expect(summary.isoBays).toBe(79);
-    expect(summary.centerLineStack).toBe(true);
+    expect(summary.centerLineStack).toBe(1);
     expect(summary.maxStack).toBe("16");
     expect(summary.maxAboveTier).toBe("98");
     expect(summary.minAboveTier).toBe("82");
@@ -216,7 +216,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
     expect(summary.minBelowTier).toBe("02");
   });
 
-  it.skip("just convert", () => {
+  it("just convert", () => {
     const converted = stafToShipInfoSpecV1Converter(
       fs.readFileSync(
         path.resolve("./src/converter/mocks/OOL.OASI.OOCL ASIA_STAF.txt"),

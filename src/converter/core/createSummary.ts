@@ -3,6 +3,7 @@ import ISizeSummary from "../../models/base/ISizeSummary";
 import {
   IIsoPositionPattern,
   IIsoStackTierPattern,
+  TYesNo,
 } from "../../models/base/types/IPositionPatterns";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
@@ -26,7 +27,7 @@ export default function createSummary({
   bayLevelData: Array<IBayLevelData>;
   slotData: IObjectKey<ISlotData, IIsoPositionPattern>;
 }): ISizeSummary {
-  let centerLineStack = false,
+  let centerLineStack: TYesNo = 0,
     maxStack: IIsoStackTierPattern | undefined = undefined,
     maxAboveTier: IIsoStackTierPattern | undefined = undefined,
     minAboveTier: IIsoStackTierPattern | undefined = undefined,
@@ -75,7 +76,7 @@ export default function createSummary({
     const bayMinStack = bayStacks[0];
 
     // Centerline stack, through stack definitions
-    if (!centerLineStack && bayMinStack === "00") centerLineStack = true;
+    if (!centerLineStack && bayMinStack === "00") centerLineStack = 1;
 
     // Max stack, through stack definitions
     if (
@@ -91,7 +92,7 @@ export default function createSummary({
     if (desPos) {
       const stack = desPos.stack;
       // Centerline stack, through slots
-      if (!centerLineStack && stack === "00") centerLineStack = true;
+      if (!centerLineStack && stack === "00") centerLineStack = 1;
       // Max stack, through slots
       if (maxStack === undefined || maxStack < stack) maxStack = stack;
 
@@ -114,7 +115,7 @@ export default function createSummary({
 
   const summary: ISizeSummary = {
     isoBays: shipData.isoBays,
-    centerLineStack: !!centerLineStack,
+    centerLineStack,
     maxStack,
     maxAboveTier,
     minAboveTier,

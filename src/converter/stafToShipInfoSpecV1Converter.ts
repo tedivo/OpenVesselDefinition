@@ -73,7 +73,7 @@ export default function stafToShipInfoSpecV1Converter(
     ),
     slotDataByIsoPosition = createDictionary<ISlotData, IIsoPositionPattern>(
       dataProcessed.slotData,
-      (d) => d.isoPosition
+      (d) => d.pos
     );
 
   let isoBays: number = 0;
@@ -87,15 +87,15 @@ export default function stafToShipInfoSpecV1Converter(
     const stackDataOfBay = stackDataByBayLevel[key];
     if (!bl.perStackInfo) bl.perStackInfo = {};
     if (stackDataOfBay) {
-      let centerLineStack = false;
+      let centerLineStack = 0;
       stackDataOfBay
         .sort((a, b) => sortStacksArray(a.isoStack, b.isoStack))
         .forEach((sData) => {
           const { isoBay, level, ...sDataK } = sData;
           bl.perStackInfo[sDataK.isoStack] = sDataK;
-          if (sDataK.isoStack === "00") centerLineStack = true;
+          if (sDataK.isoStack === "00") centerLineStack = 1;
         });
-      if (centerLineStack) bl.centerLineStack = true;
+      if (centerLineStack) bl.centerLineStack = 1;
     }
   });
 
