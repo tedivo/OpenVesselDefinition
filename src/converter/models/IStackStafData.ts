@@ -1,4 +1,5 @@
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import { TYesNo } from "../../models/base/types/IPositionPatterns";
 import {
   IBayStackInfo,
   IStackAttributesByContainerLength,
@@ -7,7 +8,7 @@ import { TContainerLengths } from "../../models/v1/parts/Types";
 
 export type IStackAttributesByContainerLengthWithAcceptsSize =
   IStackAttributesByContainerLength & {
-    acceptsSize: boolean;
+    acceptsSize: TYesNo;
   };
 
 type IStackStafData = {

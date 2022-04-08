@@ -55,7 +55,7 @@ export default interface IBayLevelData {
 
   perTierInfo?: TBayTierInfo;
 
-  baySlotData?: IBaySlotData;
+  perSlotInfo?: IBaySlotData;
 }
 
 export interface IBaySlotData {

@@ -2,6 +2,7 @@ import {
   createDictionary,
   createDictionaryMultiple,
 } from "../helpers/createDictionary";
+import { pad2 } from "../helpers/pad";
 import sortByMultipleFields from "../helpers/sortByMultipleFields";
 import sortStacksArray from "../helpers/sortStacksArray";
 import {
@@ -14,6 +15,9 @@ import ILidData from "../models/v1/parts/ILidData";
 import IShipData from "../models/v1/parts/IShipData";
 import ISlotData from "../models/v1/parts/ISlotData";
 import convertStafObjectToShipOpenSpec from "./core/convertStafObjectToShipOpenSpec";
+import createSlotsFromStacksInfo, {
+  createSlotsFromStack,
+} from "./core/createSlotsFromStacksInfo";
 import createSummary from "./core/createSummary";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
@@ -33,6 +37,8 @@ export default function stafToShipInfoSpecV1Converter(
   const sectionsByName = mapStafSections(
     getSectionsFromFileContent(fileContent)
   );
+
+  if (console) console.time("stafToShipInfoSpecV1Converter");
 
   // 1. Process data
   const dataProcessed: IStafDataProcessed = {
@@ -86,14 +92,21 @@ export default function stafToShipInfoSpecV1Converter(
     const key = `${bl.isoBay}-${bl.level}`;
     const stackDataOfBay = stackDataByBayLevel[key];
     if (!bl.perStackInfo) bl.perStackInfo = {};
+    if (!bl.perSlotInfo) bl.perSlotInfo = {};
+
     if (stackDataOfBay) {
       let centerLineStack = 0;
       stackDataOfBay
         .sort((a, b) => sortStacksArray(a.isoStack, b.isoStack))
         .forEach((sData) => {
           const { isoBay, level, ...sDataK } = sData;
+          // a. Set perStackInfo
           bl.perStackInfo[sDataK.isoStack] = sDataK;
+          // b. Set perSlotInfo
+          bl.perSlotInfo = createSlotsFromStack(sDataK, bl.perSlotInfo);
+          // c. centerLineStack?
           if (sDataK.isoStack === "00") centerLineStack = 1;
+          // d. TODO: Clean perStack redundant sizes
         });
       if (centerLineStack) bl.centerLineStack = 1;
     }
@@ -118,6 +131,48 @@ export default function stafToShipInfoSpecV1Converter(
     }
   });
 
+  // Add slotsData to BayLevel.perSlotInfo
+  dataProcessed.bayLevelData.forEach((bl) => {
+    const isoBay = bl.isoBay;
+
+    dataProcessed.slotData
+      .filter((v) => v.pos.indexOf(isoBay) === 0)
+      .forEach((v) => {
+        const stackTier = `${v.pos.substring(3, 5)}|${v.pos.substring(5, 7)}`;
+        const { pos, sizes, ...withoutSizesAndPos } = v;
+
+        // Create it if it doesn't exist
+        if (!bl.perSlotInfo[stackTier])
+          bl.perSlotInfo[stackTier] = { stackTier, sizes: {} };
+
+        // Existing sizes
+        const existingSizesInBl = Object.keys(
+          bl.perSlotInfo[stackTier].sizes
+        ).filter((size) => bl.perSlotInfo[stackTier].sizes[size] === 1);
+
+        // Sizes from slotData
+        const existingSizesInSlot = Object.keys(sizes).filter(
+          (size) => sizes[size] === 1
+        );
+
+        // Concat and unique
+        const allExistingSizes = existingSizesInBl
+          .concat(existingSizesInSlot)
+          .filter((v, idx, arr) => arr.indexOf(v) === idx);
+
+        // Create object of sizes
+        bl.perSlotInfo[stackTier].sizes = allExistingSizes.reduce((acc, v) => {
+          acc[v] = 1;
+          return acc;
+        }, {});
+
+        Object.assign(bl.perSlotInfo[stackTier], withoutSizesAndPos);
+
+        if (bl.perSlotInfo[stackTier].reefer === 0)
+          delete bl.perSlotInfo[stackTier].reefer;
+      });
+  });
+
   dataProcessed.shipData.isoBays = isoBays;
 
   const sizeSummary = createSummary({
@@ -135,6 +190,8 @@ export default function stafToShipInfoSpecV1Converter(
     slotsDataByPosition: slotDataByIsoPosition,
     lidData: dataProcessed.lidData,
   };
+
+  if (console) console.timeEnd("stafToShipInfoSpecV1Converter");
 
   return result;
 }

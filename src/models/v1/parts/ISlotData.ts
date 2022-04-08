@@ -1,4 +1,5 @@
 import {
+  ICombinedStackTierPattern,
   IIsoPositionPattern,
   TYesNo,
 } from "../../base/types/IPositionPatterns";
@@ -10,6 +11,7 @@ export default interface ISlotData {
   /** Position: BAY_STACK_TIER */
   pos: IIsoPositionPattern;
   sizes: IAcceptsContainers;
+  stackTier: ICombinedStackTierPattern;
   reefer?: TYesNo;
   restricted?: TYesNo;
   coolStowProhibited?: TYesNo;

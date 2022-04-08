@@ -216,7 +216,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
     expect(summary.minBelowTier).toBe("02");
   });
 
-  it.skip("just convert", () => {
+  it("just convert", () => {
     const converted = stafToShipInfoSpecV1Converter(
       fs.readFileSync(
         path.resolve("./src/converter/mocks/OOL.OASI.OOCL ASIA_STAF.txt"),
@@ -225,7 +225,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
     );
     fs.writeFileSync(
       path.resolve("./examples/OOL.OASI.OOCL ASIA_OPENSHIPSPEC.json"),
-      JSON.stringify(converted)
+      JSON.stringify(converted, null, 2)
     );
   });
 });
