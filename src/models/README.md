@@ -1,3 +1,3 @@
 # Models
 
-Main model: `OpenShipSpec.ts`.
+V1.0.0 model: `OpenShipSpec.ts`.

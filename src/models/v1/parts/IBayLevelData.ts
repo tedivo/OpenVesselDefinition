@@ -1,16 +1,21 @@
-import BayLevelEnum from "../enums/BayLevelEnum";
-import ForeAftEnum from "../enums/ForeAftEnum";
+import {
+  IIsoBayPattern,
+  IIsoStackTierPattern,
+  ICombinedStackTierPattern,
+  TYesNo,
+} from "../../base/types/IPositionPatterns";
+import BayLevelEnum from "../../base/enums/BayLevelEnum";
+import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import { TContainerLengths } from "./Types";
+import ISlotData from "./ISlotData";
 
-type IStackTierPattern = `${number}${number}`;
-type IBayPattern = `${number}${number}${number}`;
 export default interface IBayLevelData {
   /** 3 digits ISO Bay */
-  isoBay: IBayPattern;
+  isoBay: IIsoBayPattern;
   /** Above, Below */
   level: BayLevelEnum;
 
-  meta: {
+  meta?: {
     notes?: string;
   };
 
@@ -28,59 +33,65 @@ export default interface IBayLevelData {
   reeferPlugLimit?: number;
 
   bulkhead?: {
-    fore: boolean;
+    fore: TYesNo;
     foreLcg: number;
-    aft: boolean;
+    aft: TYesNo;
     aftLcg: number;
   };
 
-  centerLineStack?: boolean;
-  athwartShip?: boolean;
-  foreHatch?: boolean;
-  ventilated?: boolean;
-  nearBow?: boolean;
-  nearStern?: boolean;
-  heatSrcFore?: boolean;
-  ignitionSrcFore?: boolean;
-  quartersFore?: boolean;
-  engineRmBulkfore?: boolean;
+  centerLineStack?: TYesNo;
+  athwartShip?: TYesNo;
+  foreHatch?: TYesNo;
+  ventilated?: TYesNo;
+  nearBow?: TYesNo;
+  nearStern?: TYesNo;
+  heatSrcFore?: TYesNo;
+  ignitionSrcFore?: TYesNo;
+  quartersFore?: TYesNo;
+  engineRmBulkfore?: TYesNo;
 
   stackAttributesByContainerLength: TStackAttributesByContainerLength;
   perStackInfo?: TBayStackInfo;
 
   perTierInfo?: TBayTierInfo;
+
+  perSlotInfo?: IBaySlotData;
 }
 
-export type TStackAttributesByContainerLength = {
+export interface IBaySlotData {
+  [key: ICombinedStackTierPattern]: ISlotData;
+}
+
+export type TStackAttributesByContainerLength = Partial<{
   [key in TContainerLengths]: IStackAttributesByContainerLength;
-};
+}>;
 export interface IStackAttributesByContainerLength {
   size: TContainerLengths;
-  lcg: number;
-  stackWeight: number;
-  bottomWeight: number;
+  lcg?: number;
+  stackWeight?: number;
+  bottomWeight?: number;
 }
 
 export type TBayStackInfo = {
-  [key in IStackTierPattern]: IBayStackInfo;
+  [key in IIsoStackTierPattern]: IBayStackInfo;
 };
 export interface IBayStackInfo {
-  isoStack: IStackTierPattern;
+  isoStack: IIsoStackTierPattern;
   label?: string;
   maxHeight?: number;
-  topIsoTier?: IStackTierPattern;
-  bottomIsoTier?: IStackTierPattern;
+  topIsoTier?: IIsoStackTierPattern;
+  bottomIsoTier?: IIsoStackTierPattern;
   bottomVcg?: number;
   tcg?: number;
   hazard?: number;
-  stackAttributesByContainerLength: TStackAttributesByContainerLength;
+  stackAttributesByContainerLength?: TStackAttributesByContainerLength;
 }
 
 export type TBayTierInfo = {
-  [key in IStackTierPattern]: IBayTierInfo;
+  [key in IIsoStackTierPattern]: IBayTierInfo;
 };
 export interface IBayTierInfo {
-  isoTier: IStackTierPattern;
+  isoTier: IIsoStackTierPattern;
   label?: string;
-  vcg: number;
+  vcg?: number;
 }

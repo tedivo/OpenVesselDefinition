@@ -9,13 +9,13 @@ import ISectionMapConfig from "../models/ISectionMapConfig";
 const SlotConfig: ISectionMapConfig<ISlotData> = {
   stafSection: "SLOT",
   mapVars: {
-    SLOT: { target: "isoPosition", mapper: pad7 },
-    ACCEPTS_20: { target: "acceptsContainers.20", mapper: yNToBoolean },
-    ACCEPTS_24: { target: "acceptsContainers.24", mapper: yNToBoolean },
-    ACCEPTS_40: { target: "acceptsContainers.40", mapper: yNToBoolean },
-    ACCEPTS_45: { target: "acceptsContainers.45", mapper: yNToBoolean },
-    ACCEPTS_48: { target: "acceptsContainers.48", mapper: yNToBoolean },
-    REEFER_TYPE: { target: "reeferPlug", mapper: yNToBoolean },
+    SLOT: { target: "position", mapper: pad7 },
+    ACCEPTS_20: { target: "sizes.20", mapper: yNToBoolean },
+    ACCEPTS_24: { target: "sizes.24", mapper: yNToBoolean },
+    ACCEPTS_40: { target: "sizes.40", mapper: yNToBoolean },
+    ACCEPTS_45: { target: "sizes.45", mapper: yNToBoolean },
+    ACCEPTS_48: { target: "sizes.48", mapper: yNToBoolean },
+    REEFER_TYPE: { target: "reefer", mapper: yNToBoolean },
   },
 };
 

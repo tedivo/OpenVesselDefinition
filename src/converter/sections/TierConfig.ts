@@ -1,6 +1,6 @@
 import { pad3 } from "../../helpers/pad";
 import safeNumber from "../../helpers/safeNumber";
-import { getStafBayLevelEnumValue } from "../../models/v1/enums/BayLevelEnum";
+import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 import ITierStafData from "../models/ITierStafData";
 

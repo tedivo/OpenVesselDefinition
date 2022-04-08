@@ -1,12 +1,13 @@
-import ForeAftEnum from "../enums/ForeAftEnum";
-import LcgReferenceEnum from "../enums/LcgReferenceEnum";
-import PortStarboardEnum from "../enums/PortStarboardEnum";
-import PositionFormatEnum from "../enums/PositionFormatEnum";
-import StackWeightCalculationEnum from "../enums/StackWeightCalculationEnum";
-import { LengthUnitsEnum, WeightUnitsEnum } from "../enums/UnitsEnum";
+import ForeAftEnum from "../../base/enums/ForeAftEnum";
+import LcgReferenceEnum from "../../base/enums/LcgReferenceEnum";
+import PortStarboardEnum from "../../base/enums/PortStarboardEnum";
+import PositionFormatEnum from "../../base/enums/PositionFormatEnum";
+import StackWeightCalculationEnum from "../../base/enums/StackWeightCalculationEnum";
+import { LengthUnitsEnum, WeightUnitsEnum } from "../../base/enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
-} from "../enums/ValuesSourceEnum";
+} from "../../base/enums/ValuesSourceEnum";
+import { TYesNo } from "../../base/types/IPositionPatterns";
 import { IDangerousAndHazardous } from "./IDangerousAndHazardous";
 
 import type { TContainerLengths } from "./Types";
@@ -18,8 +19,8 @@ export default interface IShipData {
   /** Number of ISO Bays in Ship */
   isoBays: number;
 
-  tweenDecks?: boolean;
-  hatchless?: boolean;
+  tweenDecks?: TYesNo;
+  hatchless?: TYesNo;
 
   /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
   positionFormat: PositionFormatEnum;
@@ -28,11 +29,11 @@ export default interface IShipData {
   containersLengths: Array<TContainerLengths>;
 
   stackWeightCalculation: StackWeightCalculationEnum;
-  dynamicStackWeightLimit: boolean;
+  dynamicStackWeightLimit?: TYesNo;
 
   dangerousAndHazardous?: IDangerousAndHazardous;
 
-  visibility: IVisibility;
+  visibility?: IVisibility;
 
   /** Note and Revisions history */
   metaInfo: IShipMeta;
@@ -44,7 +45,7 @@ export default interface IShipData {
   vcgOptions: IVGCOptions;
   tcgOptions: ITGCOptions;
 
-  refrigeratedContainersOptions: IRefrigeratedContainersOptions;
+  refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
 }
 
 interface IHistory {
@@ -79,22 +80,22 @@ interface ILCGOptions {
   values: ValuesSourceEnum;
   reference: LcgReferenceEnum;
   /** FWD or AFT */
-  orientationIncrease: ForeAftEnum;
+  orientationIncrease?: ForeAftEnum;
   /** Array of two values */
-  orientatonRange: [number, number];
+  orientatonRange?: [number, number];
 }
 
 interface IVGCOptions {
   values: ValuesSourceStackTierEnum;
-  ratio: number;
+  ratio?: number;
 }
 
 interface ITGCOptions {
   values: ValuesSourceEnum;
-  direction: PortStarboardEnum;
+  direction?: PortStarboardEnum;
 }
 
 interface IRefrigeratedContainersOptions {
   reeferPlugLimit: number;
-  copyLimitFwdAft?: boolean;
+  copyLimitFwdAft?: TYesNo;
 }
