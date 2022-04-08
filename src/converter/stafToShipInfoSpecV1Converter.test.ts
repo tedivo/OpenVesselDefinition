@@ -94,13 +94,6 @@ describe("stafToShipInfoSpecConverter should...", () => {
     expect(converted.baysData.length).toBe(sectionsExpected[1][1]);
   });
 
-  it("make conversion of slots correctly", () => {
-    const converted = stafToShipInfoSpecV1Converter(stafFileContent);
-    expect(Object.keys(converted.slotsDataByPosition).length).toBe(
-      sectionsExpected[4][1]
-    );
-  });
-
   it("make conversion of perStack correctly", () => {
     const perStackInfoKeysLenght = {
       "001-2": 9,
@@ -225,7 +218,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
     );
     fs.writeFileSync(
       path.resolve("./examples/OOL.OASI.OOCL ASIA_OPENSHIPSPEC.json"),
-      JSON.stringify(converted, null, 2)
+      JSON.stringify(converted)
     );
   });
 });

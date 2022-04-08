@@ -2,6 +2,7 @@ import { pad3 } from "../../helpers/pad";
 import {
   IIsoBayPattern,
   IIsoStackTierPattern,
+  IJoinedStackTierPattern,
 } from "../../models/base/types/IPositionPatterns";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import IBayLevelData, {
@@ -35,7 +36,8 @@ export const bayLevelData: IBayLevelData = {
 export function createMockedSingleBayLevelData(
   isoBay: IIsoBayPattern,
   isAbove: boolean,
-  hasZeroStack = true
+  hasZeroStack: boolean,
+  perSlotKeys: IJoinedStackTierPattern[]
 ): IBayLevelData {
   const isFake40 = (Number(isoBay) % 4) - 2 === 1;
 
@@ -60,11 +62,20 @@ export function createMockedSingleBayLevelData(
       acc[v] = { isoStack: v };
       return acc;
     }, {} as TBayStackInfo),
+
+    perSlotInfo: perSlotKeys.reduce((acc, v) => {
+      acc[v] = isFake40
+        ? { sizes: { 20: 1, 40: 1 } }
+        : { sizes: { 20: 1, 24: 1 } };
+      return acc;
+    }, {}),
   };
 }
 
 export function createMockedSimpleBayLevelData(
-  isoBays: number | IIsoBayPattern
+  isoBays: number | IIsoBayPattern,
+  perSlotKeysAbove: IJoinedStackTierPattern[],
+  perSlotKeysBelow: IJoinedStackTierPattern[]
 ): IBayLevelData[] {
   const bays = Number(isoBays);
   const bayLevelDataArray: IBayLevelData[] = [];
@@ -72,9 +83,13 @@ export function createMockedSimpleBayLevelData(
   for (let i = 1; i < bays; i += 2) {
     let isoBay = pad3(i);
     // Above
-    bayLevelDataArray.push(createMockedSingleBayLevelData(isoBay, true));
+    bayLevelDataArray.push(
+      createMockedSingleBayLevelData(isoBay, true, true, perSlotKeysAbove)
+    );
     // Below
-    bayLevelDataArray.push(createMockedSingleBayLevelData(isoBay, false));
+    bayLevelDataArray.push(
+      createMockedSingleBayLevelData(isoBay, false, true, perSlotKeysBelow)
+    );
   }
 
   return bayLevelDataArray;

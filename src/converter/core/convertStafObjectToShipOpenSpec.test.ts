@@ -253,7 +253,7 @@ describe("for SLOT data", () => {
     const row2 = processed[1];
     const row23 = processed[22];
 
-    expect(row1.pos).toBe("0190692");
+    expect(row1.position).toBe("0190692");
     expect(row1.sizes[20]).toBe(1);
     expect(row1.sizes[40]).toBe(1);
     expect(row1.sizes[45]).toBe(1);
@@ -262,14 +262,14 @@ describe("for SLOT data", () => {
     expect(row1.reefer).toBe(0);
 
     expect(row2.sizes[20]).toBe(1);
-    expect(row2.pos).toBe("0190782");
+    expect(row2.position).toBe("0190782");
     expect(row2.sizes[40]).toBe(1);
     expect(row2.sizes[45]).toBe(0);
     expect(row2.sizes[24]).toBe(0);
     expect(row2.sizes[48]).toBe(0);
     expect(row2.reefer).toBe(1);
 
-    expect(row23.pos).toBe("0191088");
+    expect(row23.position).toBe("0191088");
     expect(row23.sizes[20]).toBe(1);
     expect(row23.sizes[40]).toBe(1);
     expect(row23.sizes[45]).toBe(1);

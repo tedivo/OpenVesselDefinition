@@ -1,15 +1,11 @@
-import { IObjectKey } from "../../helpers/types/IObjectKey";
 import ISizeSummary from "../../models/base/ISizeSummary";
 import {
-  IIsoPositionPattern,
   IIsoStackTierPattern,
   TYesNo,
 } from "../../models/base/types/IPositionPatterns";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import IShipData from "../../models/v1/parts/IShipData";
-import ISlotData from "../../models/v1/parts/ISlotData";
-import destructurePosition from "./destructurePosition";
 
 // Used in case bayLevel data is missing
 const MAX_BELOW_TIER = 66;
@@ -21,11 +17,9 @@ const MAX_BELOW_TIER = 66;
 export default function createSummary({
   shipData,
   bayLevelData,
-  slotData,
 }: {
   shipData: IShipData;
   bayLevelData: Array<IBayLevelData>;
-  slotData: IObjectKey<ISlotData, IIsoPositionPattern>;
 }): ISizeSummary {
   let centerLineStack: TYesNo = 0,
     maxStack: IIsoStackTierPattern | undefined = undefined,
@@ -34,18 +28,27 @@ export default function createSummary({
     maxBelowTier: IIsoStackTierPattern | undefined = undefined,
     minBelowTier: IIsoStackTierPattern | undefined = undefined;
 
-  const slotDataPositionsArray = Object.keys(slotData) as IIsoPositionPattern[];
-
-  // 0. Through Bays
+  // 0. Through Bays-Tiers
   bayLevelData.forEach((bl) => {
-    if (bl.level === BayLevelEnum.ABOVE) {
-      const tiersAbove = Object.keys(
-        bl.perTierInfo
-      ).sort() as IIsoStackTierPattern[];
+    // Tiers obtained from perSlotInfo
+    const tiersFromSlotsInfo = bl.perSlotInfo
+      ? Object.keys(bl.perSlotInfo).map((s) => s.substring(2, 4))
+      : [];
+    // Tiers obtained from perTierInfo
+    const tiersFromTiersInfo = bl.perTierInfo
+      ? Object.keys(bl.perTierInfo)
+      : [];
 
-      if (tiersAbove.length) {
-        const bayMaxAboveTier = tiersAbove[tiersAbove.length - 1];
-        const bayMinAboveTier = tiersAbove[0];
+    // Concat and unique
+    const allTiers = tiersFromSlotsInfo
+      .concat(tiersFromTiersInfo)
+      .filter((v, idx, arr) => arr.indexOf(v) === idx)
+      .sort() as IIsoStackTierPattern[];
+
+    if (bl.level === BayLevelEnum.ABOVE) {
+      if (allTiers.length) {
+        const bayMaxAboveTier = allTiers[allTiers.length - 1];
+        const bayMinAboveTier = allTiers[0];
 
         if (maxAboveTier === undefined || maxAboveTier < bayMaxAboveTier)
           maxAboveTier = bayMaxAboveTier;
@@ -53,13 +56,9 @@ export default function createSummary({
           minAboveTier = bayMinAboveTier;
       }
     } else if (bl.level === BayLevelEnum.BELOW) {
-      const tiersBelow = Object.keys(
-        bl.perTierInfo
-      ).sort() as IIsoStackTierPattern[];
-
-      if (tiersBelow.length) {
-        const bayMaxBelowTier = tiersBelow[tiersBelow.length - 1];
-        const bayMinBelowTier = tiersBelow[0];
+      if (allTiers.length) {
+        const bayMaxBelowTier = allTiers[allTiers.length - 1];
+        const bayMinBelowTier = allTiers[0];
 
         if (maxBelowTier === undefined || maxBelowTier < bayMaxBelowTier)
           maxBelowTier = bayMaxBelowTier;
@@ -68,12 +67,21 @@ export default function createSummary({
       }
     }
 
-    const bayStacks = Object.keys(
-      bl.perStackInfo
-    ).sort() as IIsoStackTierPattern[];
+    const stacksFromSlotsInfo = bl.perSlotInfo
+      ? Object.keys(bl.perSlotInfo).map((s) => s.substring(0, 2))
+      : [];
+    const stacksFromStackInfo = bl.perStackInfo
+      ? Object.keys(bl.perStackInfo)
+      : [];
 
-    const bayMaxStack = bayStacks[bayStacks.length - 1];
-    const bayMinStack = bayStacks[0];
+    // Concat and unique
+    const allStacks = stacksFromSlotsInfo
+      .concat(stacksFromStackInfo)
+      .filter((v, idx, arr) => arr.indexOf(v) === idx)
+      .sort() as IIsoStackTierPattern[];
+
+    const bayMaxStack = allStacks[allStacks.length - 1];
+    const bayMinStack = allStacks[0];
 
     // Centerline stack, through stack definitions
     if (!centerLineStack && bayMinStack === "00") centerLineStack = 1;
@@ -84,33 +92,6 @@ export default function createSummary({
       (maxStack === undefined || maxStack < bayMaxStack)
     )
       maxStack = bayMaxStack;
-  });
-
-  // 1. Through slots
-  slotDataPositionsArray.forEach((position) => {
-    const desPos = destructurePosition(position);
-    if (desPos) {
-      const stack = desPos.stack;
-      // Centerline stack, through slots
-      if (!centerLineStack && stack === "00") centerLineStack = 1;
-      // Max stack, through slots
-      if (maxStack === undefined || maxStack < stack) maxStack = stack;
-
-      const tier = desPos.tier;
-      if (desPos.iTier <= MAX_BELOW_TIER) {
-        // Below
-        if (maxBelowTier === undefined || maxBelowTier < tier)
-          maxBelowTier = tier;
-        if (minBelowTier === undefined || minBelowTier > tier)
-          minBelowTier = tier;
-      } else {
-        // Above
-        if (maxAboveTier === undefined || maxAboveTier < tier)
-          maxAboveTier = tier;
-        if (minAboveTier === undefined || minAboveTier > tier)
-          minAboveTier = tier;
-      }
-    }
   });
 
   const summary: ISizeSummary = {

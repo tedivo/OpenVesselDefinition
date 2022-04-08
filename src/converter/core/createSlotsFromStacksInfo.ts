@@ -14,14 +14,14 @@ export function createSlotsFromStack(
     iTier <= Number(stackData.topIsoTier);
     iTier += 2
   ) {
-    const stackTier = `${stackData.isoStack}|${pad2(iTier)}`;
+    const pos = `${stackData.isoStack}${pad2(iTier)}`;
 
-    baySlotData[stackTier] = { stackTier };
+    baySlotData[pos] = { pos };
 
     const sizes = Object.keys(stackData.stackAttributesByContainerLength);
     sizes.forEach((size) => {
-      if (!baySlotData[stackTier].sizes) baySlotData[stackTier].sizes = {};
-      baySlotData[stackTier].sizes[size] = 1;
+      if (!baySlotData[pos].sizes) baySlotData[pos].sizes = {};
+      baySlotData[pos].sizes[size] = 1;
     });
   }
 

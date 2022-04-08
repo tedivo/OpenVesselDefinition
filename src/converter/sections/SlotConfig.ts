@@ -9,7 +9,7 @@ import ISectionMapConfig from "../models/ISectionMapConfig";
 const SlotConfig: ISectionMapConfig<ISlotData> = {
   stafSection: "SLOT",
   mapVars: {
-    SLOT: { target: "pos", mapper: pad7 },
+    SLOT: { target: "position", mapper: pad7 },
     ACCEPTS_20: { target: "sizes.20", mapper: yNToBoolean },
     ACCEPTS_24: { target: "sizes.24", mapper: yNToBoolean },
     ACCEPTS_40: { target: "sizes.40", mapper: yNToBoolean },

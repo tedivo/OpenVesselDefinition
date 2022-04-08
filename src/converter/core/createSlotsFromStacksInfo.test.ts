@@ -29,11 +29,11 @@ describe("createSlotsFromStack should", () => {
 
     const keys = Object.keys(res);
     expect(keys.length).toBe(5); // 72-74-76-78-80
-    expect(keys).toContain("01|72");
-    expect(keys).toContain("01|74");
-    expect(keys).toContain("01|76");
-    expect(keys).toContain("01|78");
-    expect(keys).toContain("01|80");
+    expect(keys).toContain("0172");
+    expect(keys).toContain("0174");
+    expect(keys).toContain("0176");
+    expect(keys).toContain("0178");
+    expect(keys).toContain("0180");
 
     expect(res[keys[0]].sizes).toBeDefined();
     expect(Object.keys(res[keys[0]].sizes).length).toBe(3); //20-40-48
@@ -53,23 +53,23 @@ describe("createSlotsFromStacksInfo should", () => {
 
     const keys = Object.keys(res);
     expect(keys.length).toBe(8); // 72-74-76-78-80 & 72-74-76
-    expect(keys).toContain("01|72");
-    expect(keys).toContain("01|74");
-    expect(keys).toContain("01|76");
-    expect(keys).toContain("01|78");
-    expect(keys).toContain("01|80");
-    expect(keys).toContain("02|72");
-    expect(keys).toContain("02|74");
-    expect(keys).toContain("02|76");
+    expect(keys).toContain("0172");
+    expect(keys).toContain("0174");
+    expect(keys).toContain("0176");
+    expect(keys).toContain("0178");
+    expect(keys).toContain("0180");
+    expect(keys).toContain("0272");
+    expect(keys).toContain("0274");
+    expect(keys).toContain("0276");
 
-    expect(res[keys[0]].stackTier).toBe("01|72");
+    expect(res[keys[0]].pos).toBe("0172");
     expect(res[keys[0]].sizes).toBeDefined();
     expect(Object.keys(res[keys[0]].sizes).length).toBe(3); //20-40-48
     expect(res[keys[0]].sizes[20]).toBe(1);
     expect(res[keys[0]].sizes[40]).toBe(1);
     expect(res[keys[0]].sizes[48]).toBe(1);
 
-    expect(res[keys[6]].stackTier).toBe("02|74");
+    expect(res[keys[6]].pos).toBe("0274");
     expect(res[keys[5]].sizes).toBeDefined();
     expect(Object.keys(res[keys[5]].sizes).length).toBe(1); //20
     expect(res[keys[5]].sizes[20]).toBe(1);

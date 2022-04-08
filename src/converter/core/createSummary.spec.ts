@@ -1,31 +1,22 @@
-import { IObjectKey } from "../../helpers/types/IObjectKey";
-import { IIsoPositionPattern } from "../../models/base/types/IPositionPatterns";
-import ISlotData from "../../models/v1/parts/ISlotData";
+import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import { shipData } from "../mocks/shipData";
-import { createMockedSlotData } from "../mocks/slotData";
 import createSummary from "./createSummary";
 
-const mockSlotPositions: IIsoPositionPattern[] = [
-  "0010080",
-  "0030080",
-  "0020082",
-  "0040082",
-];
+const mockSlotInfoKeysAbove: IJoinedStackTierPattern[] = ["0080", "0082"];
+const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];
 
 describe("createSummary should", () => {
   it("works correctly", () => {
-    const bayLevelData = createMockedSimpleBayLevelData(shipData.isoBays);
-    const slotData: IObjectKey<ISlotData, IIsoPositionPattern> = {};
-
-    mockSlotPositions.forEach((position) => {
-      slotData[position] = createMockedSlotData(position);
-    });
+    const bayLevelData = createMockedSimpleBayLevelData(
+      shipData.isoBays,
+      mockSlotInfoKeysAbove,
+      mockSlotInfoKeysBelow
+    );
 
     const params = {
       shipData,
       bayLevelData,
-      slotData,
     };
 
     const summary = createSummary(params);
@@ -40,20 +31,18 @@ describe("createSummary should", () => {
   });
 
   it("manages inconsistencies in Stack", () => {
-    const bayLevelData = createMockedSimpleBayLevelData(shipData.isoBays);
-    const slotData: IObjectKey<ISlotData, IIsoPositionPattern> = {};
+    const bayLevelData = createMockedSimpleBayLevelData(
+      shipData.isoBays,
+      mockSlotInfoKeysAbove,
+      mockSlotInfoKeysBelow
+    );
 
-    const inconsistentPositions = mockSlotPositions.slice();
-    inconsistentPositions.push("0010480");
-
-    inconsistentPositions.forEach((position) => {
-      slotData[position] = createMockedSlotData(position);
-    });
+    // Add a different slotInfo, to create the stack 04
+    bayLevelData[2].perSlotInfo["0480"] = bayLevelData[2].perSlotInfo["0080"];
 
     const params = {
       shipData,
       bayLevelData,
-      slotData,
     };
 
     const summary = createSummary(params);
@@ -68,20 +57,18 @@ describe("createSummary should", () => {
   });
 
   it("manages inconsistencies in Tiers", () => {
-    const bayLevelData = createMockedSimpleBayLevelData(shipData.isoBays);
-    const slotData: IObjectKey<ISlotData, IIsoPositionPattern> = {};
+    const bayLevelData = createMockedSimpleBayLevelData(
+      shipData.isoBays,
+      mockSlotInfoKeysAbove,
+      mockSlotInfoKeysBelow
+    );
 
-    const inconsistentPositions = mockSlotPositions.slice();
-    inconsistentPositions.push("0010288");
-
-    inconsistentPositions.forEach((position) => {
-      slotData[position] = createMockedSlotData(position);
-    });
+    // Add a different slotInfo, to create the stack 04
+    bayLevelData[2].perSlotInfo["0288"] = bayLevelData[2].perSlotInfo["0080"];
 
     const params = {
       shipData,
       bayLevelData,
-      slotData,
     };
 
     const summary = createSummary(params);

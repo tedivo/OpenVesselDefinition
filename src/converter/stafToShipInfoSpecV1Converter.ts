@@ -2,22 +2,17 @@ import {
   createDictionary,
   createDictionaryMultiple,
 } from "../helpers/createDictionary";
-import { pad2 } from "../helpers/pad";
 import sortByMultipleFields from "../helpers/sortByMultipleFields";
 import sortStacksArray from "../helpers/sortStacksArray";
-import {
-  IIsoBayPattern,
-  IIsoPositionPattern,
-} from "../models/base/types/IPositionPatterns";
+import BayLevelEnum from "../models/base/enums/BayLevelEnum";
+import { IIsoPositionPattern } from "../models/base/types/IPositionPatterns";
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
 import IBayLevelData from "../models/v1/parts/IBayLevelData";
 import ILidData from "../models/v1/parts/ILidData";
 import IShipData from "../models/v1/parts/IShipData";
 import ISlotData from "../models/v1/parts/ISlotData";
 import convertStafObjectToShipOpenSpec from "./core/convertStafObjectToShipOpenSpec";
-import createSlotsFromStacksInfo, {
-  createSlotsFromStack,
-} from "./core/createSlotsFromStacksInfo";
+import { createSlotsFromStack } from "./core/createSlotsFromStacksInfo";
 import createSummary from "./core/createSummary";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
@@ -37,8 +32,6 @@ export default function stafToShipInfoSpecV1Converter(
   const sectionsByName = mapStafSections(
     getSectionsFromFileContent(fileContent)
   );
-
-  if (console) console.time("stafToShipInfoSpecV1Converter");
 
   // 1. Process data
   const dataProcessed: IStafDataProcessed = {
@@ -79,7 +72,7 @@ export default function stafToShipInfoSpecV1Converter(
     ),
     slotDataByIsoPosition = createDictionary<ISlotData, IIsoPositionPattern>(
       dataProcessed.slotData,
-      (d) => d.pos
+      (d) => d.position
     );
 
   let isoBays: number = 0;
@@ -131,24 +124,40 @@ export default function stafToShipInfoSpecV1Converter(
     }
   });
 
+  // Use this to know the minAboveTier
+  const preSizeSummary = createSummary({
+    shipData: dataProcessed.shipData,
+    bayLevelData: dataProcessed.bayLevelData,
+  });
+
   // Add slotsData to BayLevel.perSlotInfo
   dataProcessed.bayLevelData.forEach((bl) => {
     const isoBay = bl.isoBay;
 
     dataProcessed.slotData
-      .filter((v) => v.pos.indexOf(isoBay) === 0)
+      .filter((v) => {
+        const iTIer = Number(v.position.substring(5, 7));
+        return (
+          v.position.indexOf(isoBay) === 0 &&
+          ((bl.level === BayLevelEnum.ABOVE &&
+            iTIer >= Number(preSizeSummary.minAboveTier)) ||
+            (bl.level === BayLevelEnum.BELOW &&
+              iTIer < Number(preSizeSummary.minAboveTier)))
+        );
+      })
       .forEach((v) => {
-        const stackTier = `${v.pos.substring(3, 5)}|${v.pos.substring(5, 7)}`;
-        const { pos, sizes, ...withoutSizesAndPos } = v;
+        const pos = v.position.substring(3, 7); // Remove bay
+        const tier = pos.substring(2, 4);
+
+        const { position, sizes, ...withoutSizesAndPos } = v;
 
         // Create it if it doesn't exist
-        if (!bl.perSlotInfo[stackTier])
-          bl.perSlotInfo[stackTier] = { stackTier, sizes: {} };
+        if (!bl.perSlotInfo[pos]) bl.perSlotInfo[pos] = { pos, sizes: {} };
 
         // Existing sizes
-        const existingSizesInBl = Object.keys(
-          bl.perSlotInfo[stackTier].sizes
-        ).filter((size) => bl.perSlotInfo[stackTier].sizes[size] === 1);
+        const existingSizesInBl = Object.keys(bl.perSlotInfo[pos].sizes).filter(
+          (size) => bl.perSlotInfo[pos].sizes[size] === 1
+        );
 
         // Sizes from slotData
         const existingSizesInSlot = Object.keys(sizes).filter(
@@ -160,16 +169,22 @@ export default function stafToShipInfoSpecV1Converter(
           .concat(existingSizesInSlot)
           .filter((v, idx, arr) => arr.indexOf(v) === idx);
 
-        // Create object of sizes
-        bl.perSlotInfo[stackTier].sizes = allExistingSizes.reduce((acc, v) => {
-          acc[v] = 1;
-          return acc;
-        }, {});
+        if (allExistingSizes.length) {
+          // Create object of sizes
+          bl.perSlotInfo[pos].sizes = allExistingSizes.reduce((acc, v) => {
+            acc[v] = 1;
+            return acc;
+          }, {});
 
-        Object.assign(bl.perSlotInfo[stackTier], withoutSizesAndPos);
+          Object.assign(bl.perSlotInfo[pos], withoutSizesAndPos);
 
-        if (bl.perSlotInfo[stackTier].reefer === 0)
-          delete bl.perSlotInfo[stackTier].reefer;
+          // Delete unnecesary reefer
+          if (bl.perSlotInfo[pos].reefer === 0)
+            delete bl.perSlotInfo[pos].reefer;
+        } else {
+          // If no sizes exist, delete object
+          delete bl.perSlotInfo[pos];
+        }
       });
   });
 
@@ -178,7 +193,6 @@ export default function stafToShipInfoSpecV1Converter(
   const sizeSummary = createSummary({
     shipData: dataProcessed.shipData,
     bayLevelData: dataProcessed.bayLevelData,
-    slotData: slotDataByIsoPosition,
   });
 
   const result: IOpenShipSpecV1 = {
@@ -187,11 +201,8 @@ export default function stafToShipInfoSpecV1Converter(
     sizeSummary,
     shipData: dataProcessed.shipData,
     baysData: dataProcessed.bayLevelData,
-    slotsDataByPosition: slotDataByIsoPosition,
     lidData: dataProcessed.lidData,
   };
-
-  if (console) console.timeEnd("stafToShipInfoSpecV1Converter");
 
   return result;
 }
