@@ -69,10 +69,6 @@ export default function stafToShipInfoSpecV1Converter(
     tierDataByBayLevel = createDictionaryMultiple<ITierStafData, string>(
       dataProcessed.tierData,
       (d) => `${d.isoBay}-${d.level}`
-    ),
-    slotDataByIsoPosition = createDictionary<ISlotData, IIsoPositionPattern>(
-      dataProcessed.slotData,
-      (d) => d.position
     );
 
   let isoBays: number = 0;
