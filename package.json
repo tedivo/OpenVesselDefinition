@@ -1,35 +1,37 @@
 {
-    "name": "open-ship-spec",
-    "version": "1.0.0-beta.1",
-    "description": "",
-    "main": "build/src/index.js",
-    "types": "build/src/index.d.ts",
-    "files": ["build/**/*"],
-    "dependencies": {},
-    "devDependencies": {
-        "@types/jest": "^27.4.1",
-        "jest": "^27.5.1",
-        "ts-jest": "^27.1.3",
-        "tslib": "^2.3.1",
-        "typescript": "^4.6.2"
-    },
-    "scripts": {
-        "build": "tsc",
-        "test": "jest --watch",
-        "testCI": "jest --passWithNoTests"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/tedivo/OpenShipSpec.git"
-    },
-    "keywords": [
-        "Ship Definition",
-        "Vessel Definition"
-    ],
-    "author": "Tedivo <github@tedivo.com> (https://tedivo.com)",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/tedivo/OpenShipSpec/issues"
-    },
-    "homepage": "https://github.com/tedivo/OpenShipSpec#readme"
+  "name": "open-ship-spec",
+  "version": "1.0.0-beta.3",
+  "description": "",
+  "main": "build/src/index.js",
+  "types": "build/src/index.d.ts",
+  "files": [
+    "build/**/*"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.3",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "jest --watch",
+    "testCI": "jest --passWithNoTests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tedivo/OpenShipSpec.git"
+  },
+  "keywords": [
+    "Ship Definition",
+    "Vessel Definition"
+  ],
+  "author": "Tedivo <github@tedivo.com> (https://tedivo.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tedivo/OpenShipSpec/issues"
+  },
+  "homepage": "https://github.com/tedivo/OpenShipSpec#readme"
 }

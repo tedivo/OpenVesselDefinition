@@ -16,9 +16,9 @@ type IStackStafData = {
   isoBay: `${number}${number}${number}`;
   /** Above, Below */
   level: BayLevelEnum;
-  stackAttributesByContainerLength: {
+  stackAttributesByContainerLength: Partial<{
     [key in TContainerLengths]: IStackAttributesByContainerLengthWithAcceptsSize;
-  };
+  }>;
 } & Omit<IBayStackInfo, "stackAttributesByContainerLength">;
 
 export default IStackStafData;
