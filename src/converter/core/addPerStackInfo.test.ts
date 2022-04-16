@@ -56,7 +56,7 @@ describe("addPerStackInfo should", () => {
           isoBay: "001" as IIsoBayPattern,
           isoStack: "03",
           level: BayLevelEnum.ABOVE,
-          stackAttributesByContainerLength: {
+          stackInfoByLength: {
             20: {
               acceptsSize: 1,
               size: 20,
@@ -79,16 +79,16 @@ describe("addPerStackInfo should", () => {
     const stack03 = bayLevelData[0].perStackInfo["03"];
 
     expect(stack03).toBeDefined();
-    expect(stack03.stackAttributesByContainerLength).toBeDefined();
-    expect(stack03.stackAttributesByContainerLength[20]).toBeDefined();
-    expect(stack03.stackAttributesByContainerLength[40]).toBeDefined();
-    expect(stack03.stackAttributesByContainerLength[53]).toBeDefined();
-    expect(stack03.stackAttributesByContainerLength[24]).toBeUndefined();
-    expect(stack03.stackAttributesByContainerLength[48]).toBeUndefined();
+    expect(stack03.stackInfoByLength).toBeDefined();
+    expect(stack03.stackInfoByLength[20]).toBeDefined();
+    expect(stack03.stackInfoByLength[40]).toBeDefined();
+    expect(stack03.stackInfoByLength[53]).toBeDefined();
+    expect(stack03.stackInfoByLength[24]).toBeUndefined();
+    expect(stack03.stackInfoByLength[48]).toBeUndefined();
 
-    expect(stack03.stackAttributesByContainerLength[20].size).toBe(20);
-    expect(stack03.stackAttributesByContainerLength[40].size).toBe(40);
-    expect(stack03.stackAttributesByContainerLength[53].size).toBe(53);
+    expect(stack03.stackInfoByLength[20].size).toBe(20);
+    expect(stack03.stackInfoByLength[40].size).toBe(40);
+    expect(stack03.stackInfoByLength[53].size).toBe(53);
 
     const stack03InBayBelow = bayLevelData[1].perStackInfo["03"];
     expect(stack03InBayBelow).toBeUndefined();

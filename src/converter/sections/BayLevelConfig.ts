@@ -20,48 +20,48 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelData> = {
     SL_Hatch: { target: "slHatch", passValue: true, dashIsEmpty: true },
     SL_ForeAft: { target: "slForeAft", passValue: true, dashIsEmpty: true },
     LCG_20: {
-      target: "stackAttributesByContainerLength.20.lcg",
+      target: "stackInfoByLength.20.lcg",
       mapper: safeNumber,
       setSelf: ["size", 20],
     },
     LCG_24: {
-      target: "stackAttributesByContainerLength.24.lcg",
+      target: "stackInfoByLength.24.lcg",
       mapper: safeNumber,
       setSelf: ["size", 24],
     },
     LCG_40: {
-      target: "stackAttributesByContainerLength.40.lcg",
+      target: "stackInfoByLength.40.lcg",
       mapper: safeNumber,
       setSelf: ["size", 40],
     },
     LCG_45: {
-      target: "stackAttributesByContainerLength.45.lcg",
+      target: "stackInfoByLength.45.lcg",
       mapper: safeNumber,
       setSelf: ["size", 45],
     },
     LCG_48: {
-      target: "stackAttributesByContainerLength.48.lcg",
+      target: "stackInfoByLength.48.lcg",
       mapper: safeNumber,
       setSelf: ["size", 48],
     },
     STACK_WT_20: {
-      target: "stackAttributesByContainerLength.20.stackWeight",
+      target: "stackInfoByLength.20.stackWeight",
       mapper: safeNumber,
     },
     STACK_WT_24: {
-      target: "stackAttributesByContainerLength.24.stackWeight",
+      target: "stackInfoByLength.24.stackWeight",
       mapper: safeNumber,
     },
     STACK_WT_40: {
-      target: "stackAttributesByContainerLength.40.stackWeight",
+      target: "stackInfoByLength.40.stackWeight",
       mapper: safeNumber,
     },
     STACK_WT_45: {
-      target: "stackAttributesByContainerLength.45.stackWeight",
+      target: "stackInfoByLength.45.stackWeight",
       mapper: safeNumber,
     },
     STACK_WT_48: {
-      target: "stackAttributesByContainerLength.48.stackWeight",
+      target: "stackInfoByLength.48.stackWeight",
       mapper: safeNumber,
     },
     MAX_HEIGHT: { target: "maxHeight", mapper: safeNumber },

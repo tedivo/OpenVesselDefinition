@@ -1,5 +1,5 @@
 import { IStackAttributesByContainerLengthWithAcceptsSize } from "../converter/models/IStackStafData";
-import { TStackAttributesByContainerLength } from "../models/v1/parts/IBayLevelData";
+import { TStackInfoByLength } from "../models/v1/parts/IBayLevelData";
 
 /**
  * Mutates the object deleting TContainerLenghts without data
@@ -8,15 +8,15 @@ import { TStackAttributesByContainerLength } from "../models/v1/parts/IBayLevelD
 export function deleteMissingContainerLenghtData<T>(
   obj: TWithStackAttributesByContainerLength<T>
 ): void {
-  const sizes = Object.keys(obj.stackAttributesByContainerLength);
+  const sizes = Object.keys(obj.stackInfoByLength);
 
   sizes.forEach((size) => {
-    const objBySize = obj.stackAttributesByContainerLength[size];
+    const objBySize = obj.stackInfoByLength[size];
     const keysOfObj = Object.keys(objBySize).filter(
       (o) => objBySize[o] !== undefined
     );
     if (keysOfObj.length === 1 && objBySize.size !== undefined) {
-      delete obj.stackAttributesByContainerLength[size];
+      delete obj.stackInfoByLength[size];
     }
   });
 }
@@ -24,10 +24,10 @@ export function deleteMissingContainerLenghtData<T>(
 export function deleteMissingContainerLenghtDataWithAcceptsSize<T>(
   obj: TWithStackAttributesByContainerLengthWithAcceptsSize<T>
 ): void {
-  const sizes = Object.keys(obj.stackAttributesByContainerLength);
+  const sizes = Object.keys(obj.stackInfoByLength);
 
   sizes.forEach((size) => {
-    const objBySize = obj.stackAttributesByContainerLength[size];
+    const objBySize = obj.stackInfoByLength[size];
     const keysOfObj = Object.keys(objBySize).filter(
       (o) => objBySize[o] !== undefined
     );
@@ -36,19 +36,19 @@ export function deleteMissingContainerLenghtDataWithAcceptsSize<T>(
       objBySize.size !== undefined &&
       !objBySize.acceptsSize
     ) {
-      delete obj.stackAttributesByContainerLength[size];
+      delete obj.stackInfoByLength[size];
     }
   });
 }
 
 type TWithStackAttributesByContainerLength<T> = T extends {
-  stackAttributesByContainerLength: TStackAttributesByContainerLength;
+  stackInfoByLength: TStackInfoByLength;
 }
   ? T
   : never;
 
 type TWithStackAttributesByContainerLengthWithAcceptsSize<T> = T extends {
-  stackAttributesByContainerLength: IStackAttributesByContainerLengthWithAcceptsSize;
+  stackInfoByLength: IStackAttributesByContainerLengthWithAcceptsSize;
 }
   ? T
   : never;

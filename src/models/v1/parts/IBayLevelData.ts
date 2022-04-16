@@ -50,11 +50,21 @@ export default interface IBayLevelData {
   quartersFore?: TYesNo;
   engineRmBulkfore?: TYesNo;
 
-  stackAttributesByContainerLength: TStackAttributesByContainerLength;
+  /**
+   * Contains information that applies to all stacks
+   */
+  stackInfoByLength: TStackInfoByLength;
+  /**
+   * Contains information per Stack number (i.e. "04") like maxTier, minTier, maxWeight...
+   */
   perStackInfo?: TBayStackInfo;
-
+  /**
+   * Contains information per Tier number (i.e. "78")
+   */
   perTierInfo?: TBayTierInfo;
-
+  /**
+   * Contains information per Slot (i.e. "0078")
+   */
   perSlotInfo?: IBaySlotData;
 }
 
@@ -62,10 +72,10 @@ export interface IBaySlotData {
   [key: ICombinedStackTierPattern]: ISlotData;
 }
 
-export type TStackAttributesByContainerLength = Partial<{
-  [key in TContainerLengths]: IStackAttributesByContainerLength;
+export type TStackInfoByLength = Partial<{
+  [key in TContainerLengths]: IStackInfoByLength;
 }>;
-export interface IStackAttributesByContainerLength {
+export interface IStackInfoByLength {
   size: TContainerLengths;
   lcg?: number;
   stackWeight?: number;
@@ -84,7 +94,8 @@ export interface IBayStackInfo {
   bottomVcg?: number;
   tcg?: number;
   hazard?: number;
-  stackAttributesByContainerLength?: TStackAttributesByContainerLength;
+  /** Overrides general bay LCG and Stack Weight by length */
+  stackInfoByLength?: TStackInfoByLength;
 }
 
 export type TBayTierInfo = {

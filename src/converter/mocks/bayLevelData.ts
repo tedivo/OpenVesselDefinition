@@ -8,29 +8,27 @@ import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import IBayLevelData, {
   TBayStackInfo,
   TBayTierInfo,
-  TStackAttributesByContainerLength,
+  TStackInfoByLength,
 } from "../../models/v1/parts/IBayLevelData";
 
 const defaultAboveTiers: IIsoStackTierPattern[] = ["80", "82", "84", "86"];
 const defaultBelowTiers: IIsoStackTierPattern[] = ["02", "04", "06", "08"];
 const defaultStacks: IIsoStackTierPattern[] = ["00", "01", "02"];
 
-const defaultStackAttributesByContainerLength2024: TStackAttributesByContainerLength =
-  {
-    "20": { size: 20 },
-    "24": { size: 24 },
-  };
+const defaultStackAttributesByContainerLength2024: TStackInfoByLength = {
+  "20": { size: 20 },
+  "24": { size: 24 },
+};
 
-const defaultStackAttributesByContainerLength2040: TStackAttributesByContainerLength =
-  {
-    "20": { size: 20 },
-    "40": { size: 40 },
-  };
+const defaultStackAttributesByContainerLength2040: TStackInfoByLength = {
+  "20": { size: 20 },
+  "40": { size: 40 },
+};
 
 export const bayLevelData: IBayLevelData = {
   isoBay: "001",
   level: BayLevelEnum.ABOVE,
-  stackAttributesByContainerLength: defaultStackAttributesByContainerLength2024,
+  stackInfoByLength: defaultStackAttributesByContainerLength2024,
 };
 
 export function createMockedSingleBayLevelData(
@@ -48,7 +46,7 @@ export function createMockedSingleBayLevelData(
   return {
     isoBay,
     level: isAbove ? BayLevelEnum.ABOVE : BayLevelEnum.BELOW,
-    stackAttributesByContainerLength: isFake40
+    stackInfoByLength: isFake40
       ? defaultStackAttributesByContainerLength2040
       : defaultStackAttributesByContainerLength2024,
     perTierInfo: (isAbove ? defaultAboveTiers : defaultBelowTiers).reduce(

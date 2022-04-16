@@ -21,68 +21,68 @@ const StackConfig: ISectionMapConfig<IStackStafData> = {
     BOTTOM_VCG: { target: "bottomVcg", mapper: safeNumber },
     TCG: { target: "tcg", mapper: safeNumber },
     LCG_20: {
-      target: "stackAttributesByContainerLength.20.lcg",
+      target: "stackInfoByLength.20.lcg",
       mapper: safeNumber,
       setSelf: ["size", 20],
     },
     LCG_24: {
-      target: "stackAttributesByContainerLength.24.lcg",
+      target: "stackInfoByLength.24.lcg",
       mapper: safeNumber,
       setSelf: ["size", 24],
     },
     LCG_40: {
-      target: "stackAttributesByContainerLength.40.lcg",
+      target: "stackInfoByLength.40.lcg",
       mapper: safeNumber,
       setSelf: ["size", 40],
     },
     LCG_45: {
-      target: "stackAttributesByContainerLength.45.lcg",
+      target: "stackInfoByLength.45.lcg",
       mapper: safeNumber,
       setSelf: ["size", 45],
     },
     LCG_48: {
-      target: "stackAttributesByContainerLength.48.lcg",
+      target: "stackInfoByLength.48.lcg",
       mapper: safeNumber,
       setSelf: ["size", 48],
     },
     STACK_WT_20: {
-      target: "stackAttributesByContainerLength.20.stackWeight",
+      target: "stackInfoByLength.20.stackWeight",
       mapper: safeNumber,
     },
     STACK_WT_24: {
-      target: "stackAttributesByContainerLength.24.stackWeight",
+      target: "stackInfoByLength.24.stackWeight",
       mapper: safeNumber,
     },
     STACK_WT_40: {
-      target: "stackAttributesByContainerLength.40.stackWeight",
+      target: "stackInfoByLength.40.stackWeight",
       mapper: safeNumber,
     },
     STACK_WT_45: {
-      target: "stackAttributesByContainerLength.45.stackWeight",
+      target: "stackInfoByLength.45.stackWeight",
       mapper: safeNumber,
     },
     STACK_WT_48: {
-      target: "stackAttributesByContainerLength.48.stackWeight",
+      target: "stackInfoByLength.48.stackWeight",
       mapper: safeNumber,
     },
     ACCEPTS_20: {
-      target: "stackAttributesByContainerLength.20.acceptsSize",
+      target: "stackInfoByLength.20.acceptsSize",
       mapper: yNToBoolean,
     },
     ACCEPTS_24: {
-      target: "stackAttributesByContainerLength.24.acceptsSize",
+      target: "stackInfoByLength.24.acceptsSize",
       mapper: yNToBoolean,
     },
     ACCEPTS_40: {
-      target: "stackAttributesByContainerLength.40.acceptsSize",
+      target: "stackInfoByLength.40.acceptsSize",
       mapper: yNToBoolean,
     },
     ACCEPTS_45: {
-      target: "stackAttributesByContainerLength.45.acceptsSize",
+      target: "stackInfoByLength.45.acceptsSize",
       mapper: yNToBoolean,
     },
     ACCEPTS_48: {
-      target: "stackAttributesByContainerLength.48.acceptsSize",
+      target: "stackInfoByLength.48.acceptsSize",
       mapper: yNToBoolean,
     },
     MAX_HT: { target: "maxHeight", mapper: safeNumber },
