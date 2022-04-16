@@ -18,7 +18,7 @@ export function createSlotsFromStack(
 
     baySlotData[pos] = { pos };
 
-    const sizes = Object.keys(stackData.stackAttributesByContainerLength);
+    const sizes = Object.keys(stackData.stackInfoByLength);
     sizes.forEach((size) => {
       if (!baySlotData[pos].sizes) baySlotData[pos].sizes = {};
       baySlotData[pos].sizes[size] = 1;

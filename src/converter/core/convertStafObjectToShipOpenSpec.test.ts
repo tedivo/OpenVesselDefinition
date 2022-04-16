@@ -126,8 +126,8 @@ describe("for STAF_BAY data", () => {
     expect(row1.maxHeight).toBe(10.51);
     expect(row1.bulkhead.fore).toBe(1);
     expect(row1.bulkhead.foreLcg).toBe(-117.4);
-    expect(row1.stackAttributesByContainerLength[20].lcg).toBe(-114.11);
-    expect(row1.stackAttributesByContainerLength[20].stackWeight).toBe(96);
+    expect(row1.stackInfoByLength[20].lcg).toBe(-114.11);
+    expect(row1.stackInfoByLength[20].stackWeight).toBe(96);
 
     expect(row2.isoBay).toBe("001");
     expect(row2.level).toBe(BayLevelEnum.ABOVE);
@@ -139,12 +139,12 @@ describe("for STAF_BAY data", () => {
 
     expect(row4.isoBay).toBe("003");
     expect(row4.level).toBe(BayLevelEnum.ABOVE);
-    expect(row4.stackAttributesByContainerLength[20].lcg).toBe(-106.77);
-    expect(row4.stackAttributesByContainerLength[40].lcg).toBe(-108.69);
-    expect(row4.stackAttributesByContainerLength[45].lcg).toBe(-108.69);
-    expect(row4.stackAttributesByContainerLength[20].stackWeight).toBe(70);
-    expect(row4.stackAttributesByContainerLength[40].stackWeight).toBe(120);
-    expect(row4.stackAttributesByContainerLength[45].stackWeight).toBe(120);
+    expect(row4.stackInfoByLength[20].lcg).toBe(-106.77);
+    expect(row4.stackInfoByLength[40].lcg).toBe(-108.69);
+    expect(row4.stackInfoByLength[45].lcg).toBe(-108.69);
+    expect(row4.stackInfoByLength[20].stackWeight).toBe(70);
+    expect(row4.stackInfoByLength[40].stackWeight).toBe(120);
+    expect(row4.stackInfoByLength[45].stackWeight).toBe(120);
   });
 });
 
@@ -170,13 +170,13 @@ describe("for STACK data", () => {
     expect(row1.topIsoTier).toBe("18");
     expect(row1.bottomIsoTier).toBe("12");
     expect(row1.tcg).toBe(1.28);
-    expect(row1.stackAttributesByContainerLength[20]).toBeTruthy();
-    expect(row1.stackAttributesByContainerLength[20].size).toBe(20);
-    expect(row1.stackAttributesByContainerLength[20].acceptsSize).toBe(1);
-    expect(row1.stackAttributesByContainerLength[24]).toBeFalsy();
-    expect(row1.stackAttributesByContainerLength[40]).toBeFalsy();
-    expect(row1.stackAttributesByContainerLength[45]).toBeFalsy();
-    expect(row1.stackAttributesByContainerLength[48]).toBeFalsy();
+    expect(row1.stackInfoByLength[20]).toBeTruthy();
+    expect(row1.stackInfoByLength[20].size).toBe(20);
+    expect(row1.stackInfoByLength[20].acceptsSize).toBe(1);
+    expect(row1.stackInfoByLength[24]).toBeFalsy();
+    expect(row1.stackInfoByLength[40]).toBeFalsy();
+    expect(row1.stackInfoByLength[45]).toBeFalsy();
+    expect(row1.stackInfoByLength[48]).toBeFalsy();
 
     const row27 = processed[27];
     expect(row27.isoBay).toBe("003");
@@ -185,13 +185,13 @@ describe("for STACK data", () => {
     expect(row27.topIsoTier).toBe("90");
     expect(row27.bottomIsoTier).toBe("82");
     expect(row27.tcg).toBe(-11.38);
-    expect(row27.stackAttributesByContainerLength[20]).toBeTruthy();
-    expect(row27.stackAttributesByContainerLength[20].size).toBe(20);
-    expect(row27.stackAttributesByContainerLength[20].acceptsSize).toBe(1);
-    expect(row27.stackAttributesByContainerLength[24]).toBeFalsy();
-    expect(row27.stackAttributesByContainerLength[40]).toBeTruthy();
-    expect(row27.stackAttributesByContainerLength[45]).toBeTruthy();
-    expect(row27.stackAttributesByContainerLength[48]).toBeFalsy();
+    expect(row27.stackInfoByLength[20]).toBeTruthy();
+    expect(row27.stackInfoByLength[20].size).toBe(20);
+    expect(row27.stackInfoByLength[20].acceptsSize).toBe(1);
+    expect(row27.stackInfoByLength[24]).toBeFalsy();
+    expect(row27.stackInfoByLength[40]).toBeTruthy();
+    expect(row27.stackInfoByLength[45]).toBeTruthy();
+    expect(row27.stackInfoByLength[48]).toBeFalsy();
   });
 });
 

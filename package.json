@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "jest --watch",
+    "test": "jest --watch --verbose",
     "testCI": "jest --passWithNoTests"
   },
   "repository": {

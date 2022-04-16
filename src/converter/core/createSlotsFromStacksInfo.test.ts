@@ -7,7 +7,7 @@ const testStack01: IBayStackInfo = {
   isoStack: "01",
   topIsoTier: "80",
   bottomIsoTier: "72",
-  stackAttributesByContainerLength: {
+  stackInfoByLength: {
     20: { size: 20 },
     40: { size: 40 },
     48: { size: 48 },
@@ -18,7 +18,7 @@ const testStack02: IBayStackInfo = {
   isoStack: "02",
   topIsoTier: "76",
   bottomIsoTier: "72",
-  stackAttributesByContainerLength: {
+  stackInfoByLength: {
     20: { size: 20 },
   },
 };
