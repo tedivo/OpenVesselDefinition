@@ -7,15 +7,13 @@ import safeNumber from "../../helpers/safeNumber";
 import yNToBoolean from "../../helpers/yNToBoolean";
 import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
 import { getStafForeAftEnumValue } from "../../models/base/enums/ForeAftEnum";
-import IBayLevelData, {
-  ILabelsOfBayLevel,
-} from "../../models/v1/parts/IBayLevelData";
+import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 
 /**
  * DEFINITION of main Bay
  */
-const BayLevelConfig: ISectionMapConfig<IBayLevelData & ILabelsOfBayLevel> = {
+const BayLevelConfig: ISectionMapConfig<IBayLevelData> = {
   stafSection: "SECTION",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },

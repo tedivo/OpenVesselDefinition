@@ -3,7 +3,6 @@ import {
   IIsoStackTierPattern,
   ICombinedStackTierPattern,
   TYesNo,
-  IJoinedStackTierPattern,
 } from "../../base/types/IPositionPatterns";
 import BayLevelEnum from "../../base/enums/BayLevelEnum";
 import ForeAftEnum from "../../base/enums/ForeAftEnum";
@@ -21,6 +20,8 @@ export default interface IBayLevelData {
   };
 
   /* AFT attribs */
+  label20?: string;
+  label40?: string;
   slHatch?: string;
   slForeAft?: string;
 
@@ -67,13 +68,8 @@ export default interface IBayLevelData {
   perSlotInfo?: IBaySlotData;
 }
 
-export interface ILabelsOfBayLevel {
-  label20?: string;
-  label40?: string;
-}
-
 export interface IBaySlotData {
-  [key: IJoinedStackTierPattern]: ISlotData;
+  [key: ICombinedStackTierPattern]: ISlotData;
 }
 
 export type TStackInfoByLength = Partial<{
@@ -91,6 +87,7 @@ export type TBayStackInfo = {
 };
 export interface IBayStackInfo {
   isoStack: IIsoStackTierPattern;
+  label?: string;
   maxHeight?: number;
   topIsoTier?: IIsoStackTierPattern;
   bottomIsoTier?: IIsoStackTierPattern;
@@ -106,5 +103,6 @@ export type TBayTierInfo = {
 };
 export interface IBayTierInfo {
   isoTier: IIsoStackTierPattern;
+  label?: string;
   vcg?: number;
 }
