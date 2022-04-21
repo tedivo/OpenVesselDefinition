@@ -3,6 +3,7 @@ import {
   IIsoStackTierPattern,
   ICombinedStackTierPattern,
   TYesNo,
+  IJoinedStackTierPattern,
 } from "../../base/types/IPositionPatterns";
 import BayLevelEnum from "../../base/enums/BayLevelEnum";
 import ForeAftEnum from "../../base/enums/ForeAftEnum";
@@ -69,7 +70,7 @@ export default interface IBayLevelData {
 }
 
 export interface IBaySlotData {
-  [key: ICombinedStackTierPattern]: ISlotData;
+  [key: IJoinedStackTierPattern]: ISlotData;
 }
 
 export type TStackInfoByLength = Partial<{

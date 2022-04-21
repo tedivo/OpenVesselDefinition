@@ -78,6 +78,8 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelData> = {
   postProcessors: [
     deleteMissingContainerLenghtData,
     deleteVerboseOptionalFalsyKeys([
+      "label20",
+      "label40",
       "slHatch",
       "slForeAft",
       "maxHeight",

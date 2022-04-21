@@ -1,4 +1,8 @@
 import destructurePosition from "./converter/core/destructurePosition";
+import {
+  createMockedSimpleBayLevelData,
+  createMockedSingleBayLevelData,
+} from "./converter/mocks/bayLevelData";
 import stafToShipInfoSpecV1Converter from "./converter/stafToShipInfoSpecV1Converter";
 import BayLevelEnum from "./models/base/enums/BayLevelEnum";
 import ForeAftEnum from "./models/base/enums/ForeAftEnum";
@@ -50,4 +54,6 @@ export {
   ValuesSourceStackTierEnum,
   stafToShipInfoSpecV1Converter,
   destructurePosition,
+  createMockedSimpleBayLevelData,
+  createMockedSingleBayLevelData,
 };

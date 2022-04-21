@@ -1,4 +1,5 @@
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import ISlotData from "../../models/v1/parts/ISlotData";
 
@@ -34,7 +35,7 @@ export default function addPerSlotData(
         );
       })
       .forEach((v) => {
-        const pos = v.position.substring(3, 7); // Remove bay
+        const pos = v.position.substring(3, 7) as IJoinedStackTierPattern; // Remove bay
 
         const { position, sizes, ...withoutSizesAndPos } = v;
 
