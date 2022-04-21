@@ -1,16 +1,21 @@
-import { deleteMissingContainerLenghtData } from "../../helpers/deleteMissingInfo";
+import {
+  deleteMissingContainerLenghtData,
+  deleteVerboseOptionalFalsyKeys,
+} from "../../helpers/deleteMissingInfo";
 import { pad3 } from "../../helpers/pad";
 import safeNumber from "../../helpers/safeNumber";
 import yNToBoolean from "../../helpers/yNToBoolean";
 import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
 import { getStafForeAftEnumValue } from "../../models/base/enums/ForeAftEnum";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
+import IBayLevelData, {
+  ILabelsOfBayLevel,
+} from "../../models/v1/parts/IBayLevelData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 
 /**
  * DEFINITION of main Bay
  */
-const BayLevelConfig: ISectionMapConfig<IBayLevelData> = {
+const BayLevelConfig: ISectionMapConfig<IBayLevelData & ILabelsOfBayLevel> = {
   stafSection: "SECTION",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },
@@ -72,7 +77,28 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelData> = {
     BULKHEAD: { target: "bulkhead.fore", mapper: yNToBoolean },
     BULKHEAD_LCG: { target: "bulkhead.foreLcg", mapper: safeNumber },
   },
-  postProcessors: [deleteMissingContainerLenghtData],
+  postProcessors: [
+    deleteMissingContainerLenghtData,
+    deleteVerboseOptionalFalsyKeys([
+      "slHatch",
+      "slForeAft",
+      "maxHeight",
+      "reeferPlugs",
+      "doors",
+      "pairedBay",
+      "reeferPlugLimit",
+      "centerLineStack",
+      "athwartShip",
+      "foreHatch",
+      "ventilated",
+      "nearBow",
+      "nearStern",
+      "heatSrcFore",
+      "ignitionSrcFore",
+      "quartersFore",
+      "engineRmBulkfore",
+    ]),
+  ],
 };
 
 export default BayLevelConfig;

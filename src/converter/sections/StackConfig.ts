@@ -9,7 +9,7 @@ import IStackStafData from "../models/IStackStafData";
 /**
  * DEFINITION of a Stack
  */
-const StackConfig: ISectionMapConfig<IStackStafData> = {
+const StackConfig: ISectionMapConfig<IStackStafData & { label?: string }> = {
   stafSection: "SECTION",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },

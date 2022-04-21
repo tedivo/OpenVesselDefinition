@@ -7,7 +7,7 @@ import ITierStafData from "../models/ITierStafData";
 /**
  * DEFINITION of Tier
  */
-const TierConfig: ISectionMapConfig<ITierStafData> = {
+const TierConfig: ISectionMapConfig<ITierStafData & { label?: string }> = {
   stafSection: "TIER",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },

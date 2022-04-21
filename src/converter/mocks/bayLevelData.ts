@@ -51,7 +51,7 @@ export function createMockedSingleBayLevelData(
       : defaultStackAttributesByContainerLength2024,
     perTierInfo: (isAbove ? defaultAboveTiers : defaultBelowTiers).reduce(
       (acc, v) => {
-        acc[v] = { isoTier: v };
+        acc[v] = { isoTier: v, vcg: Number(v) + 100 };
         return acc;
       },
       {} as TBayTierInfo
@@ -78,7 +78,7 @@ export function createMockedSimpleBayLevelData(
   const bays = Number(isoBays);
   const bayLevelDataArray: IBayLevelData[] = [];
 
-  for (let i = 1; i < bays; i += 2) {
+  for (let i = 1; i <= bays; i += 2) {
     let isoBay = pad3(i);
     // Above
     bayLevelDataArray.push(

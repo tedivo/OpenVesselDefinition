@@ -41,6 +41,14 @@ export function deleteMissingContainerLenghtDataWithAcceptsSize<T>(
   });
 }
 
+export function deleteVerboseOptionalFalsyKeys<T>(keys: (keyof T)[]) {
+  return (obj: T) => {
+    keys.forEach((key) => {
+      if (!obj[key]) delete obj[key];
+    });
+  };
+}
+
 type TWithStackAttributesByContainerLength<T> = T extends {
   stackInfoByLength: TStackInfoByLength;
 }

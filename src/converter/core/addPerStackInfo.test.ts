@@ -37,7 +37,7 @@ describe("addPerStackInfo should", () => {
 
     const isoBays = addPerStackInfo(bayLevelData, {});
 
-    expect(isoBays).toBe(11);
+    expect(isoBays).toBe(13);
   });
 
   it("adds stack data to BayLevel", () => {

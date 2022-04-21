@@ -210,15 +210,25 @@ describe("stafToShipInfoSpecConverter should...", () => {
   });
 
   it.skip("just convert", () => {
-    const converted = stafToShipInfoSpecV1Converter(
-      fs.readFileSync(
-        path.resolve("./src/converter/mocks/OOL.OBEI.OOCL BEIJING_STAFF2.txt"),
-        "utf8"
-      )
-    );
-    fs.writeFileSync(
-      path.resolve("./examples/OOL.OBEI.OOCL BEIJING_OPENSHIPSPEC.json"),
-      JSON.stringify(converted)
-    );
+    const mockedFiles = [
+      [
+        "./src/converter/mocks/OOL.OBEI.OOCL BEIJING_STAFF2.txt",
+        "./examples/OOL.OBEI.OOCL BEIJING_OPENSHIPSPEC.json",
+      ],
+      [
+        "./src/converter/mocks/OOL.OASI.OOCL ASIA_STAF.txt",
+        "./examples//OOL.OASI.OOCL ASIA_OPENSHIPSPEC.json",
+      ],
+    ];
+
+    mockedFiles.forEach(([inputFileName, outputFileName]) => {
+      const converted = stafToShipInfoSpecV1Converter(
+        fs.readFileSync(path.resolve(inputFileName), "utf8")
+      );
+      fs.writeFileSync(
+        path.resolve(outputFileName),
+        JSON.stringify(converted, null, 2)
+      );
+    });
   });
 });

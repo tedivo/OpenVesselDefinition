@@ -121,8 +121,6 @@ describe("for STAF_BAY data", () => {
 
     expect(row1.isoBay).toBe("001");
     expect(row1.level).toBe(BayLevelEnum.BELOW);
-    expect(row1.label20).toBe("label 20 001B");
-    expect(row1.label40).toBe("label 40 001B");
     expect(row1.maxHeight).toBe(10.51);
     expect(row1.bulkhead.fore).toBe(1);
     expect(row1.bulkhead.foreLcg).toBe(-117.4);
@@ -213,7 +211,6 @@ describe("for TIER data", () => {
 
     expect(row1.isoBay).toBe("001");
     expect(row1.level).toBe(BayLevelEnum.BELOW);
-    expect(row1.label).toBe("");
     expect(row1.isoTier).toBe("12");
     expect(row1.vcg).toBe(16.58);
 
@@ -221,7 +218,6 @@ describe("for TIER data", () => {
 
     expect(row2.isoBay).toBe("001");
     expect(row2.level).toBe(BayLevelEnum.BELOW);
-    expect(row2.label).toBe("");
     expect(row2.isoTier).toBe("14");
     expect(row2.vcg).toBe(19.17);
 
@@ -229,7 +225,6 @@ describe("for TIER data", () => {
 
     expect(row14.isoBay).toBe("003");
     expect(row14.level).toBe(BayLevelEnum.ABOVE);
-    expect(row14.label).toBe("");
     expect(row14.isoTier).toBe("82");
     expect(row14.vcg).toBe(28.13);
   });

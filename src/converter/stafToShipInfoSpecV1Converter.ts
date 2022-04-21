@@ -7,6 +7,7 @@ import IBayLevelData from "../models/v1/parts/IBayLevelData";
 import ILidData from "../models/v1/parts/ILidData";
 import IShipData from "../models/v1/parts/IShipData";
 import ISlotData from "../models/v1/parts/ISlotData";
+import addLabelsData from "./core/addLabelsData";
 import convertStafObjectToShipOpenSpec from "./core/convertStafObjectToShipOpenSpec";
 import createSummary from "./core/createSummary";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
@@ -94,12 +95,15 @@ export default function stafToShipInfoSpecV1Converter(
     bayLevelData: dataProcessed.bayLevelData,
   });
 
+  const labels = addLabelsData(dataProcessed.bayLevelData);
+
   // Final OpenShipSpec JSON
   const result: IOpenShipSpecV1 = {
     schema: "OpenShipSpec",
     version: "1.0.0",
     sizeSummary,
     shipData: dataProcessed.shipData,
+    labels,
     baysData: dataProcessed.bayLevelData,
     lidData: dataProcessed.lidData,
   };
