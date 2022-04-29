@@ -1,3 +1,4 @@
+import VoidTypesEnum from "../../base/enums/VoidTypesEnum";
 import {
   IIsoPositionPattern,
   IJoinedStackTierPattern,
@@ -13,7 +14,7 @@ export default interface ISlotData {
   pos: IJoinedStackTierPattern;
   sizes: IAcceptsContainers;
   reefer?: TYesNo;
-  restricted?: TYesNo;
+  restricted?: VoidTypesEnum;
   coolStowProhibited?: TYesNo;
   hazardousProhibited?: true | IDangerousAndHazardous;
 }

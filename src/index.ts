@@ -11,14 +11,14 @@ import PortStarboardEnum from "./models/base/enums/PortStarboardEnum";
 import PositionFormatEnum from "./models/base/enums/PositionFormatEnum";
 import StackWeightCalculationEnum from "./models/base/enums/StackWeightCalculationEnum";
 import {
-  WeightUnitsEnum,
   LengthUnitsEnum,
+  WeightUnitsEnum,
 } from "./models/base/enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "./models/base/enums/ValuesSourceEnum";
+import VoidTypesEnum from "./models/base/enums/VoidTypesEnum";
 import ISizeSummary from "./models/base/ISizeSummary";
-
 import OpenShipSpec from "./models/OpenShipSpec";
 import IOpenShipSpecV1 from "./models/v1/IOpenShipSpecV1";
 import IBayLevelData from "./models/v1/parts/IBayLevelData";
@@ -26,9 +26,9 @@ import ILidData from "./models/v1/parts/ILidData";
 import IShipData from "./models/v1/parts/IShipData";
 import ISlotData from "./models/v1/parts/ISlotData";
 import {
+  TCompatibilityGroups,
   TContainerLengths,
   TImdgClasses,
-  TCompatibilityGroups,
 } from "./models/v1/parts/Types";
 
 export {
@@ -52,6 +52,7 @@ export {
   LengthUnitsEnum,
   ValuesSourceEnum,
   ValuesSourceStackTierEnum,
+  VoidTypesEnum,
   stafToShipInfoSpecV1Converter,
   destructurePosition,
   createMockedSimpleBayLevelData,
