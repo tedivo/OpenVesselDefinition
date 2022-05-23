@@ -8,30 +8,28 @@ import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../base/enums/ValuesSourceEnum";
 import { TYesNo } from "../../base/types/IPositionPatterns";
-import { IDangerousAndHazardous } from "./IDangerousAndHazardous";
 
 import type { TContainerLengths } from "./Types";
 
 export default interface IShipData {
   lineOperator: string;
   shipName: string;
+  lloydsCode?: string;
+  callSign?: string;
+  imoCode?: string;
 
   /** Number of ISO Bays in Ship */
   isoBays: number;
-
-  tweenDecks?: TYesNo;
-  hatchless?: TYesNo;
-
   /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
   positionFormat: PositionFormatEnum;
+
+  hatchless?: TYesNo;
 
   /** All the available container lengths. 20' and 40' should be available in most of the cases */
   containersLengths: Array<TContainerLengths>;
 
   stackWeightCalculation: StackWeightCalculationEnum;
   dynamicStackWeightLimit?: TYesNo;
-
-  dangerousAndHazardous?: IDangerousAndHazardous;
 
   visibility?: IVisibility;
 

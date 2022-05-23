@@ -2,6 +2,7 @@ import addPerSlotData from "../converter/core/addPerSlotData";
 import addPerStackInfo from "../converter/core/addPerStackInfo";
 import addPerTierInfo from "../converter/core/addPerTierInfo";
 import { createDictionaryMultiple } from "../helpers/createDictionary";
+import substractLabels from "../helpers/substractLabels";
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
 import IBayLevelData from "../models/v1/parts/IBayLevelData";
 import ILidData from "../models/v1/parts/ILidData";
@@ -88,7 +89,10 @@ export default function stafToShipInfoSpecV1Converter(
     Number(preSizeSummary.minAboveTier)
   );
 
-  // 6. Size Summary
+  // 6. Create labels dictionaries
+  const positionLabels = substractLabels(dataProcessed.bayLevelData);
+
+  // 7. Size Summary
   const sizeSummary = createSummary({
     shipData: dataProcessed.shipData,
     bayLevelData: dataProcessed.bayLevelData,
@@ -101,6 +105,7 @@ export default function stafToShipInfoSpecV1Converter(
     sizeSummary,
     shipData: dataProcessed.shipData,
     baysData: dataProcessed.bayLevelData,
+    positionLabels,
     lidData: dataProcessed.lidData,
   };
 

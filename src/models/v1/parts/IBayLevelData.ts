@@ -52,21 +52,26 @@ export default interface IBayLevelData {
   engineRmBulkfore?: TYesNo;
 
   /**
-   * Contains information that applies to all stacks
+   * Dictionary: contains information that applies to all stacks
    */
   stackInfoByLength: TStackInfoByLength;
   /**
-   * Contains information per Stack number (i.e. "04") like maxTier, minTier, maxWeight...
+   * Dictionary: contains information per Stack number (i.e. "04") like maxTier, minTier, maxWeight...
    */
   perStackInfo?: TBayStackInfo;
   /**
-   * Contains information per Tier number (i.e. "78")
+   * Dictionary: contains information per Tier number (i.e. "78")
    */
   perTierInfo?: TBayTierInfo;
   /**
-   * Contains information per Slot (i.e. "0078")
+   * Dictionary: contains information per Slot (i.e. "0078")
    */
   perSlotInfo?: IBaySlotData;
+
+  /** If Tiers use custom labels, this is the name of the defintion */
+  tiersLabelsDictionary?: string;
+  /** If Stacks use custom labels, this is the name of the defintion */
+  stacksLabelsDictionary?: string;
 }
 
 export interface IBaySlotData {
