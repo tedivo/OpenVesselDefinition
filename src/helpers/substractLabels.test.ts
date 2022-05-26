@@ -75,7 +75,7 @@ describe("substractLabels should", () => {
 
     const substractedLabels = substractLabels(bayLevelData);
 
-    expect(Object.keys(substractedLabels.bays).length).toBe(0);
+    expect(Object.keys(substractedLabels.bays).length).toBe(2);
     expect(Object.keys(substractedLabels.stacks).length).toBe(0);
     expect(Object.keys(substractedLabels.tiers).length).toBe(1);
 
@@ -97,7 +97,7 @@ describe("substractLabels should", () => {
 
     const substractedLabels = substractLabels(bayLevelData);
 
-    expect(Object.keys(substractedLabels.bays).length).toBe(0);
+    expect(Object.keys(substractedLabels.bays).length).toBe(2);
     expect(Object.keys(substractedLabels.stacks).length).toBe(0);
     expect(Object.keys(substractedLabels.tiers).length).toBe(2);
 
@@ -122,7 +122,7 @@ describe("substractLabels should", () => {
 
     const substractedLabels = substractLabels(bayLevelData);
 
-    expect(Object.keys(substractedLabels.bays).length).toBe(0);
+    expect(Object.keys(substractedLabels.bays).length).toBe(2);
     expect(Object.keys(substractedLabels.stacks).length).toBe(1);
 
     expect(substractedLabels.stacks["stacks-labels-1"]).toStrictEqual({

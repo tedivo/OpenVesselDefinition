@@ -4,6 +4,7 @@ import IPositionLabels, {
   ITierStackLabelDictionary,
   ITierStackLabelDictionaries,
 } from "../models/v1/parts/IPositionLabels";
+import { pad3 } from "./pad";
 
 /**
  * Obtains a dictionary of labels (for bays, tiers and stacks)
@@ -25,16 +26,21 @@ export default function substractLabels(
     const stackLabels: ITierStackLabelDictionary = {};
 
     // 1. ISO Bay levels
+    if (!positionLabels.bays[bayLevelData.isoBay])
+      positionLabels.bays[bayLevelData.isoBay] = {};
+
     if (bayLevelData.label20) {
-      if (!positionLabels.bays[bayLevelData.isoBay])
-        positionLabels.bays[bayLevelData.isoBay] = {};
       positionLabels.bays[bayLevelData.isoBay].label20 = bayLevelData.label20;
+    } else {
+      positionLabels.bays[bayLevelData.isoBay].label20 = bayLevelData.isoBay;
     }
 
     if (bayLevelData.label40) {
-      if (!positionLabels.bays[bayLevelData.isoBay])
-        positionLabels.bays[bayLevelData.isoBay] = {};
       positionLabels.bays[bayLevelData.isoBay].label40 = bayLevelData.label40;
+    } else {
+      positionLabels.bays[bayLevelData.isoBay].label40 = pad3(
+        Number(bayLevelData.isoBay) + 1
+      );
     }
 
     // 2. ISO Tiers

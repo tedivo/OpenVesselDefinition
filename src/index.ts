@@ -23,6 +23,10 @@ import OpenShipSpec from "./models/OpenShipSpec";
 import IOpenShipSpecV1 from "./models/v1/IOpenShipSpecV1";
 import IBayLevelData from "./models/v1/parts/IBayLevelData";
 import ILidData from "./models/v1/parts/ILidData";
+import IPositionLabels, {
+  ITierStackLabelDictionaries,
+  ITierStackLabelDictionary,
+} from "./models/v1/parts/IPositionLabels";
 import IShipData from "./models/v1/parts/IShipData";
 import ISlotData from "./models/v1/parts/ISlotData";
 import {
@@ -39,9 +43,12 @@ export {
   ILidData,
   ISlotData,
   ISizeSummary,
+  IPositionLabels,
   TContainerLengths,
   TImdgClasses,
   TCompatibilityGroups,
+  ITierStackLabelDictionary,
+  ITierStackLabelDictionaries,
   PositionFormatEnum,
   BayLevelEnum,
   ForeAftEnum,
