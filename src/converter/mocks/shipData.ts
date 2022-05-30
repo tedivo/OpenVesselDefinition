@@ -10,8 +10,9 @@ import ValuesSourceEnum, {
 } from "../../models/base/enums/ValuesSourceEnum";
 import IShipData from "../../models/v1/parts/IShipData";
 
+export const shipDataBays = 13;
+
 export const shipData: IShipData = {
-  isoBays: 13,
   lineOperator: "OEM",
   shipName: "OEM 1",
   positionFormat: PositionFormatEnum.BAY_STACK_TIER,

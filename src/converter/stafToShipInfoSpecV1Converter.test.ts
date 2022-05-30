@@ -67,7 +67,6 @@ describe("stafToShipInfoSpecConverter should...", () => {
     const converted = stafToShipInfoSpecV1Converter(stafFileContent);
     const shipData = converted.shipData;
 
-    expect(shipData.isoBays).toBe(79);
     expect(shipData.shipName).toBe("OBEI");
     expect(shipData.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);
 
@@ -200,7 +199,6 @@ describe("stafToShipInfoSpecConverter should...", () => {
     const converted = stafToShipInfoSpecV1Converter(stafFileContent);
     const summary = converted.sizeSummary;
 
-    expect(summary.isoBays).toBe(79);
     expect(summary.centerLineStack).toBe(1);
     expect(summary.maxStack).toBe("16");
     expect(summary.maxAboveTier).toBe("98");

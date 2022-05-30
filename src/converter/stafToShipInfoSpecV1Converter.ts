@@ -68,7 +68,7 @@ export default function stafToShipInfoSpecV1Converter(
     );
 
   // 3. Add stacks info to BayLevel.perStackInfo and get bays number
-  dataProcessed.shipData.isoBays = addPerStackInfo(
+  const isoBays = addPerStackInfo(
     dataProcessed.bayLevelData,
     stackDataByBayLevel
   );
@@ -78,6 +78,7 @@ export default function stafToShipInfoSpecV1Converter(
 
   // Pre-calculate the minAboveTier
   const preSizeSummary = createSummary({
+    isoBays,
     shipData: dataProcessed.shipData,
     bayLevelData: dataProcessed.bayLevelData,
   });
@@ -94,6 +95,7 @@ export default function stafToShipInfoSpecV1Converter(
 
   // 7. Size Summary
   const sizeSummary = createSummary({
+    isoBays,
     shipData: dataProcessed.shipData,
     bayLevelData: dataProcessed.bayLevelData,
   });

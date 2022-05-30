@@ -21,7 +21,7 @@ import VoidTypesEnum from "./models/base/enums/VoidTypesEnum";
 import ISizeSummary from "./models/base/ISizeSummary";
 import OpenShipSpec from "./models/OpenShipSpec";
 import IOpenShipSpecV1 from "./models/v1/IOpenShipSpecV1";
-import IBayLevelData from "./models/v1/parts/IBayLevelData";
+import IBayLevelData, { IBulkheadInfo } from "./models/v1/parts/IBayLevelData";
 import ILidData from "./models/v1/parts/ILidData";
 import IPositionLabels, {
   ITierStackLabelDictionaries,
@@ -49,6 +49,7 @@ export {
   TCompatibilityGroups,
   ITierStackLabelDictionary,
   ITierStackLabelDictionaries,
+  IBulkheadInfo,
   PositionFormatEnum,
   BayLevelEnum,
   ForeAftEnum,

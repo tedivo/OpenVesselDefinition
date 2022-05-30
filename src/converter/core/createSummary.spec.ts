@@ -1,6 +1,6 @@
 import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
-import { shipData } from "../mocks/shipData";
+import { shipData, shipDataBays } from "../mocks/shipData";
 import createSummary from "./createSummary";
 
 const mockSlotInfoKeysAbove: IJoinedStackTierPattern[] = ["0080", "0082"];
@@ -9,12 +9,13 @@ const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];
 describe("createSummary should", () => {
   it("works correctly", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );
 
     const params = {
+      isoBays: shipDataBays,
       shipData,
       bayLevelData,
     };
@@ -32,7 +33,7 @@ describe("createSummary should", () => {
 
   it("manages inconsistencies in Stack", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );
@@ -41,6 +42,7 @@ describe("createSummary should", () => {
     bayLevelData[2].perSlotInfo["0480"] = bayLevelData[2].perSlotInfo["0080"];
 
     const params = {
+      isoBays: shipDataBays,
       shipData,
       bayLevelData,
     };
@@ -58,7 +60,7 @@ describe("createSummary should", () => {
 
   it("manages inconsistencies in Tiers", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );
@@ -67,6 +69,7 @@ describe("createSummary should", () => {
     bayLevelData[2].perSlotInfo["0288"] = bayLevelData[2].perSlotInfo["0080"];
 
     const params = {
+      isoBays: shipDataBays,
       shipData,
       bayLevelData,
     };

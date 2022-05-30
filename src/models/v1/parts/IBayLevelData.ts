@@ -33,12 +33,7 @@ export default interface IBayLevelData {
   pairedBay?: ForeAftEnum;
   reeferPlugLimit?: number;
 
-  bulkhead?: {
-    fore: TYesNo;
-    foreLcg: number;
-    aft: TYesNo;
-    aftLcg: number;
-  };
+  bulkhead?: IBulkheadInfo;
 
   centerLineStack?: TYesNo;
   athwartShip?: TYesNo;
@@ -111,4 +106,11 @@ export interface IBayTierInfo {
   isoTier: IIsoStackTierPattern;
   label?: string;
   vcg?: number;
+}
+
+export interface IBulkheadInfo {
+  fore?: TYesNo;
+  foreLcg?: number;
+  aft?: TYesNo;
+  aftLcg?: number;
 }

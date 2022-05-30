@@ -15,9 +15,11 @@ const MAX_BELOW_TIER = 66;
  * @returns Object { isoBays, centerLineStack, maxStack, maxAboveTier, minAboveTier, maxBelowTier, minBelowTier,}
  */
 export default function createSummary({
+  isoBays,
   shipData,
   bayLevelData,
 }: {
+  isoBays: number;
   shipData: IShipData;
   bayLevelData: Array<IBayLevelData>;
 }): ISizeSummary {
@@ -95,7 +97,7 @@ export default function createSummary({
   });
 
   const summary: ISizeSummary = {
-    isoBays: shipData.isoBays,
+    isoBays,
     centerLineStack,
     maxStack,
     maxAboveTier,

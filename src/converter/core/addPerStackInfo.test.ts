@@ -5,7 +5,7 @@ import {
   IJoinedStackTierPattern,
 } from "../../models/base/types/IPositionPatterns";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
-import { shipData } from "../mocks/shipData";
+import { shipDataBays } from "../mocks/shipData";
 import IStackStafData from "../models/IStackStafData";
 import addPerStackInfo from "./addPerStackInfo";
 
@@ -15,7 +15,7 @@ const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];
 describe("addPerStackInfo should", () => {
   it("work ok with missing Stack Info", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );
@@ -30,7 +30,7 @@ describe("addPerStackInfo should", () => {
 
   it("return isoBays correctly", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );
@@ -42,7 +42,7 @@ describe("addPerStackInfo should", () => {
 
   it("adds stack data to BayLevel", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );

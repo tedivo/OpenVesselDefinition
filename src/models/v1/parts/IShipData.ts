@@ -18,8 +18,6 @@ export default interface IShipData {
   callSign?: string;
   imoCode?: string;
 
-  /** Number of ISO Bays in Ship */
-  isoBays: number;
   /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
   positionFormat: PositionFormatEnum;
 
