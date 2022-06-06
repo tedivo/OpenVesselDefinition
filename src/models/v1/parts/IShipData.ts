@@ -21,8 +21,6 @@ export default interface IShipData {
   /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
   positionFormat: PositionFormatEnum;
 
-  hatchless?: TYesNo;
-
   /** All the available container lengths. 20' and 40' should be available in most of the cases */
   containersLengths: Array<TContainerLengths>;
 

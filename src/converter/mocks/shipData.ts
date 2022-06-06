@@ -16,7 +16,7 @@ export const shipData: IShipData = {
   lineOperator: "OEM",
   shipName: "OEM 1",
   positionFormat: PositionFormatEnum.BAY_STACK_TIER,
-  containersLengths: [],
+  containersLengths: [20, 40, 45],
   stackWeightCalculation: StackWeightCalculationEnum.CONTAINER_LENGTH,
   dynamicStackWeightLimit: 0,
   metaInfo: {},

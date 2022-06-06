@@ -45,6 +45,11 @@ const StackConfig: ISectionMapConfig<IStackStafData> = {
       mapper: safeNumber,
       setSelf: ["size", 48],
     },
+    LCG_53: {
+      target: "stackInfoByLength.53.lcg",
+      mapper: safeNumber,
+      setSelf: ["size", 53],
+    },
     STACK_WT_20: {
       target: "stackInfoByLength.20.stackWeight",
       mapper: safeNumber,
@@ -65,6 +70,10 @@ const StackConfig: ISectionMapConfig<IStackStafData> = {
       target: "stackInfoByLength.48.stackWeight",
       mapper: safeNumber,
     },
+    STACK_WT_53: {
+      target: "stackInfoByLength.53.stackWeight",
+      mapper: safeNumber,
+    },
     ACCEPTS_20: {
       target: "stackInfoByLength.20.acceptsSize",
       mapper: yNToBoolean,
@@ -83,6 +92,10 @@ const StackConfig: ISectionMapConfig<IStackStafData> = {
     },
     ACCEPTS_48: {
       target: "stackInfoByLength.48.acceptsSize",
+      mapper: yNToBoolean,
+    },
+    ACCEPTS_53: {
+      target: "stackInfoByLength.53.acceptsSize",
       mapper: yNToBoolean,
     },
     MAX_HT: { target: "maxHeight", mapper: safeNumber },

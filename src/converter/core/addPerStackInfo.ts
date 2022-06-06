@@ -1,6 +1,9 @@
 import sortStacksArray from "../../helpers/sortStacksArray";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
+import IBayLevelData, {
+  TStackInfoByLength,
+} from "../../models/v1/parts/IBayLevelData";
+import { TContainerLengths } from "../../models/v1/parts/Types";
 import { createSlotsFromStack } from "../core/createSlotsFromStacksInfo";
 import IStackStafData from "../models/IStackStafData";
 
@@ -43,7 +46,6 @@ export default function addPerStackInfo(
           bl.perSlotInfo = createSlotsFromStack(sDataK, bl.perSlotInfo);
           // c. centerLineStack?
           if (sDataK.isoStack === "00") centerLineStack = 1;
-          // d. TODO: Clean perStack redundant sizes
         });
       if (centerLineStack) bl.centerLineStack = 1;
     }

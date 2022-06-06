@@ -1,6 +1,6 @@
-import { createMockedSimpleBayLevelData } from "../converter/mocks/bayLevelData";
-import { IJoinedStackTierPattern } from "../models/base/types/IPositionPatterns";
-import { ITierStackLabelDictionaries } from "../models/v1/parts/IPositionLabels";
+import { createMockedSimpleBayLevelData } from "../../converter/mocks/bayLevelData";
+import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
+import { ITierStackLabelDictionaries } from "../../models/v1/parts/IPositionLabels";
 import substractLabels, {
   dictionaryHash,
   getExistingDictionaryLabelsName,

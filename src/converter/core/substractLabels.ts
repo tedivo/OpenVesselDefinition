@@ -1,10 +1,10 @@
-import { IIsoStackTierPattern } from "../models/base/types/IPositionPatterns";
-import IBayLevelData from "../models/v1/parts/IBayLevelData";
+import { pad3 } from "../../helpers/pad";
+import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
+import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import IPositionLabels, {
   ITierStackLabelDictionary,
   ITierStackLabelDictionaries,
-} from "../models/v1/parts/IPositionLabels";
-import { pad3 } from "./pad";
+} from "../../models/v1/parts/IPositionLabels";
 
 /**
  * Obtains a dictionary of labels (for bays, tiers and stacks)

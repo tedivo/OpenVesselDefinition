@@ -31,6 +31,8 @@ export function deleteMissingContainerLenghtDataWithAcceptsSize<T>(
     const keysOfObj = Object.keys(objBySize).filter(
       (o) => objBySize[o] !== undefined
     );
+
+    // Delete if doesn't accepts size
     if (
       keysOfObj.length <= 2 &&
       objBySize.size !== undefined &&

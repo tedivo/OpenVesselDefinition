@@ -19,10 +19,15 @@ export function createSlotsFromStack(
     baySlotData[pos] = { pos };
 
     const sizes = Object.keys(stackData.stackInfoByLength);
-    sizes.forEach((size) => {
-      if (!baySlotData[pos].sizes) baySlotData[pos].sizes = {};
-      baySlotData[pos].sizes[size] = 1;
-    });
+
+    if (sizes.length) {
+      sizes.forEach((size) => {
+        if (!baySlotData[pos].sizes) baySlotData[pos].sizes = {};
+        baySlotData[pos].sizes[size] = 1;
+      });
+    } else {
+      delete baySlotData[pos];
+    }
   }
 
   return baySlotData;
