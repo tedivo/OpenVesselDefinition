@@ -1,12 +1,13 @@
 import { pad2, pad3 } from "../../helpers/pad";
+import safeNumber from "../../helpers/safeNumber";
 import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
-import ILidData from "../../models/v1/parts/ILidData";
+import ILidData, { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 
 /**
  * DEFINITION of LID
  */
-const SlotConfig: ISectionMapConfig<ILidData> = {
+const SlotConfig: ISectionMapConfig<ILidDataFromStaf> = {
   stafSection: "LID",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },
@@ -28,12 +29,8 @@ const SlotConfig: ISectionMapConfig<ILidData> = {
       passValue: true,
       dashIsEmpty: true,
     },
-    OVERLAP_PORT: { target: "overlapPort", passValue: true, dashIsEmpty: true },
-    OVERLAP_STBD: {
-      target: "overlapStarboard",
-      passValue: true,
-      dashIsEmpty: true,
-    },
+    OVERLAP_PORT: { target: "overlapPort", mapper: safeNumber },
+    OVERLAP_STBD: { target: "overlapStarboard", mapper: safeNumber },
   },
 };
 

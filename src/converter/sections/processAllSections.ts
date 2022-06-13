@@ -1,5 +1,5 @@
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
-import ILidData from "../../models/v1/parts/ILidData";
+import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import IShipData from "../../models/v1/parts/IShipData";
 import ISlotData from "../../models/v1/parts/ISlotData";
 import convertStafObjectToShipOpenSpec from "../core/convertStafObjectToShipOpenSpec";
@@ -38,7 +38,7 @@ export function processAllSections(
       sectionsByName["SLOT"],
       SlotConfig
     ),
-    lidData: convertStafObjectToShipOpenSpec<ILidData>(
+    lidData: convertStafObjectToShipOpenSpec<ILidDataFromStaf>(
       sectionsByName["LID"],
       LidConfig
     ),

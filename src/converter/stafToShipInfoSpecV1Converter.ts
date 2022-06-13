@@ -9,6 +9,7 @@ import { getContainerLengths } from "./core/getContainerLengths";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
 import substractLabels from "./core/substractLabels";
+import transformLids from "./core/transformLids";
 import IStackStafData from "./models/IStackStafData";
 import IStafDataProcessed from "./models/IStafDataProcessed";
 import ITierStafData from "./models/ITierStafData";
@@ -80,7 +81,7 @@ export default function stafToShipInfoSpecV1Converter(
     shipData: dataProcessed.shipData,
     baysData: dataProcessed.bayLevelData,
     positionLabels,
-    lidData: dataProcessed.lidData,
+    lidData: transformLids(dataProcessed.lidData),
   };
 
   // Final Clean-Up

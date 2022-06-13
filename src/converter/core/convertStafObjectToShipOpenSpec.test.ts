@@ -8,7 +8,7 @@ import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
-import ILidData from "../../models/v1/parts/ILidData";
+import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import IShipData from "../../models/v1/parts/IShipData";
 import ISlotData from "../../models/v1/parts/ISlotData";
 import convertStafObjectToShipOpenSpec from "../core/convertStafObjectToShipOpenSpec";
@@ -287,7 +287,7 @@ describe("for LID data", () => {
 
     const headerSection = sectionsByName["LID"];
 
-    const processed = convertStafObjectToShipOpenSpec<ILidData>(
+    const processed = convertStafObjectToShipOpenSpec<ILidDataFromStaf>(
       headerSection,
       LidConfig
     );
