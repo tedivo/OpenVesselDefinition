@@ -1,3 +1,4 @@
+import createSummary from "./converter/core/createSummary";
 import destructurePosition from "./converter/core/destructurePosition";
 import {
   createMockedSimpleBayLevelData,
@@ -65,4 +66,5 @@ export {
   destructurePosition,
   createMockedSimpleBayLevelData,
   createMockedSingleBayLevelData,
+  createSummary,
 };
