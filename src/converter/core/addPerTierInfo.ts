@@ -1,7 +1,9 @@
 import sortByMultipleFields from "../../helpers/sortByMultipleFields";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
+import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import ITierStafData from "../models/ITierStafData";
+import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
 
 /**
  * Adds the Tier info to the Bay
@@ -30,7 +32,17 @@ export default function addPerTierInfo(
           ])
         )
         .forEach((tData) => {
-          const { isoBay, level, ...sDataK } = tData;
+          const { isoBay, level, label, ...sDataK } = tData;
+
+          if (label)
+            if (stringIsTierOrStafNumber(label, true)) {
+              sDataK.isoTier = label as IIsoStackTierPattern;
+            } else {
+              throw new Error(
+                `Tier label must be an even number between 00 and 98: "${label}"`
+              );
+            }
+
           bl.perTierInfo[sDataK.isoTier] = sDataK;
         });
     }

@@ -304,8 +304,8 @@ describe("for LID data", () => {
     expect(row1.starboardIsoStack).toBe("04");
     expect(row1.joinLidFwdLabel).toBe("");
     expect(row1.joinLidAftLabel).toBe("03B1");
-    expect(row1.overlapPort).toBe("");
-    expect(row1.overlapStarboard).toBe("");
+    expect(row1.overlapPort).toBeUndefined();
+    expect(row1.overlapStarboard).toBeUndefined();
 
     expect(row2.label).toBe("XXXX");
     expect(row2.isoBay).toBe("001");
@@ -314,8 +314,8 @@ describe("for LID data", () => {
     expect(row2.starboardIsoStack).toBe("01");
     expect(row2.joinLidFwdLabel).toBe("");
     expect(row2.joinLidAftLabel).toBe("");
-    expect(row2.overlapPort).toBe("");
-    expect(row2.overlapStarboard).toBe("");
+    expect(row2.overlapPort).toBeUndefined();
+    expect(row2.overlapStarboard).toBeUndefined();
 
     expect(row7.label).toBe("03B1");
     expect(row7.isoBay).toBe("003");
@@ -324,7 +324,7 @@ describe("for LID data", () => {
     expect(row7.starboardIsoStack).toBe("04");
     expect(row7.joinLidFwdLabel).toBe("01B1");
     expect(row7.joinLidAftLabel).toBe("");
-    expect(row7.overlapPort).toBe("");
-    expect(row7.overlapStarboard).toBe("");
+    expect(row7.overlapPort).toBeUndefined();
+    expect(row7.overlapStarboard).toBeUndefined();
   });
 });

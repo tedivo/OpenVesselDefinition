@@ -1,11 +1,13 @@
 import sortStacksArray from "../../helpers/sortStacksArray";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
+import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import IBayLevelData, {
   TStackInfoByLength,
 } from "../../models/v1/parts/IBayLevelData";
 import { TContainerLengths } from "../../models/v1/parts/Types";
 import { createSlotsFromStack } from "../core/createSlotsFromStacksInfo";
 import IStackStafData from "../models/IStackStafData";
+import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
 
 /**
  * Add Stack Info to the Bay
@@ -39,7 +41,17 @@ export default function addPerStackInfo(
       stackDataOfBay
         .sort((a, b) => sortStacksArray(a.isoStack, b.isoStack))
         .forEach((sData) => {
-          const { isoBay, level, ...sDataK } = sData;
+          const { isoBay, level, label, ...sDataK } = sData;
+
+          if (label)
+            if (stringIsTierOrStafNumber(label)) {
+              sData.isoStack = label as IIsoStackTierPattern;
+            } else {
+              throw new Error(
+                `Stack label must be a number between 00 and 99: "${label}"`
+              );
+            }
+
           // a. Set perStackInfo
           bl.perStackInfo[sDataK.isoStack] = sDataK;
           // b. Set perSlotInfo

@@ -5,6 +5,7 @@ import IPositionLabels, {
   ITierStackLabelDictionary,
   ITierStackLabelDictionaries,
 } from "../../models/v1/parts/IPositionLabels";
+import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
 
 /**
  * Obtains a dictionary of labels (for bays, tiers and stacks)
@@ -14,8 +15,6 @@ export default function substractLabels(
 ): IPositionLabels {
   const positionLabels: IPositionLabels = {
     bays: {},
-    tiers: {},
-    stacks: {},
   };
 
   let incrementalForTiers = 1;
@@ -41,52 +40,6 @@ export default function substractLabels(
       positionLabels.bays[bayLevelData.isoBay].label40 = pad3(
         Number(bayLevelData.isoBay) + 1
       );
-    }
-
-    // 2. ISO Tiers
-    const tiers = Object.keys(
-      bayLevelData.perTierInfo
-    ) as IIsoStackTierPattern[];
-    tiers.forEach((tier) => {
-      if (bayLevelData.perTierInfo[tier].label) {
-        tierLabels[tier] = bayLevelData.perTierInfo[tier].label;
-      }
-    });
-
-    // 3. ISO Stacks
-    const stacks = Object.keys(
-      bayLevelData.perStackInfo
-    ) as IIsoStackTierPattern[];
-    stacks.forEach((stack) => {
-      if (bayLevelData.perStackInfo[stack].label) {
-        stackLabels[stack] = bayLevelData.perStackInfo[stack].label;
-      }
-    });
-
-    // 4.a Check if tier labels definitions exist
-    if (dictionaryHash(tierLabels) !== "") {
-      let tierDictName = getExistingDictionaryLabelsName(
-        tierLabels,
-        positionLabels.tiers
-      );
-      if (!tierDictName) {
-        tierDictName = `tiers-labels-${incrementalForTiers++}`;
-        positionLabels.tiers[tierDictName] = tierLabels;
-      }
-      bayLevelData.tiersLabelsDictionary = tierDictName;
-    }
-
-    // 4.b Check if tier labels definitions exist
-    if (dictionaryHash(stackLabels) !== "") {
-      let stackDictName = getExistingDictionaryLabelsName(
-        stackLabels,
-        positionLabels.stacks
-      );
-      if (!stackDictName) {
-        stackDictName = `stacks-labels-${incrementalForStacks++}`;
-        positionLabels.stacks[stackDictName] = stackLabels;
-      }
-      bayLevelData.stacksLabelsDictionary = stackDictName;
     }
   });
 

@@ -38,7 +38,7 @@ describe("addPerTierInfo should", () => {
     const tier78Prev = bayLevelData[0].perTierInfo["78"];
     expect(tier78Prev).toBeUndefined();
 
-    const stackData: IObjectKeyArray<ITierStafData, string> = {
+    const tierData: IObjectKeyArray<ITierStafData, string> = {
       [`001-${BayLevelEnum.ABOVE}`]: [
         {
           isoBay: "001" as IIsoBayPattern,
@@ -49,12 +49,13 @@ describe("addPerTierInfo should", () => {
       ],
     };
 
-    addPerTierInfo([bayLevelData[0], bayLevelData[1]], stackData);
+    addPerTierInfo([bayLevelData[0], bayLevelData[1]], tierData);
 
     const tier78 = bayLevelData[0].perTierInfo["78"];
 
     expect(tier78).toBeDefined();
     expect(tier78.vcg).toBe(10);
+    expect(tier78.isoTier).toBe("78");
 
     const tier78InBayBelow = bayLevelData[1].perTierInfo["78"];
     expect(tier78InBayBelow).toBeUndefined();

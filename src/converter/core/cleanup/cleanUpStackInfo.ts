@@ -5,10 +5,12 @@ import { IStackAttributesByContainerLengthWithAcceptsSize } from "../../models/I
 export default function cleanUpPerStackInfo(perStackInfo: TBayStackInfo) {
   const stacks = Object.keys(perStackInfo);
 
-  stacks
-    .filter((stack) => !!perStackInfo[stack].stackInfoByLength)
-    .forEach((stack) => {
-      const attrsByLength = perStackInfo[stack].stackInfoByLength;
+  stacks.forEach((stack) => {
+    delete perStackInfo[stack].label;
+
+    const attrsByLength = perStackInfo[stack].stackInfoByLength;
+
+    if (attrsByLength) {
       const sizesKeys = Object.keys(
         attrsByLength
       ) as unknown as TContainerLengths[];
@@ -30,5 +32,6 @@ export default function cleanUpPerStackInfo(perStackInfo: TBayStackInfo) {
           delete attrsByLength[size];
         }
       });
-    });
+    }
+  });
 }

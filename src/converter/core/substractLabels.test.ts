@@ -67,69 +67,16 @@ describe("substractLabels should", () => {
     mockSlotInfoKeysBelow
   );
 
-  it("detect two equal (tiers)", () => {
-    bayLevelData[0].perTierInfo["80"].label = "tier-A";
-    bayLevelData[0].perTierInfo["82"].label = "tier-B";
-    bayLevelData[2].perTierInfo["80"].label = "tier-A";
-    bayLevelData[2].perTierInfo["82"].label = "tier-B";
-
+  it("detect bay labels", () => {
     const substractedLabels = substractLabels(bayLevelData);
 
     expect(Object.keys(substractedLabels.bays).length).toBe(2);
-    expect(Object.keys(substractedLabels.stacks).length).toBe(0);
-    expect(Object.keys(substractedLabels.tiers).length).toBe(1);
 
-    expect(substractedLabels.tiers["tiers-labels-1"]).toStrictEqual({
-      "80": "tier-A",
-      "82": "tier-B",
-    });
-
-    expect(bayLevelData[0].tiersLabelsDictionary).toBe("tiers-labels-1");
-    expect(bayLevelData[2].tiersLabelsDictionary).toBe("tiers-labels-1");
-    expect(bayLevelData[0].stacksLabelsDictionary).toBeFalsy();
-  });
-
-  it("detect no equal (tiers)", () => {
-    bayLevelData[0].perTierInfo["80"].label = "tier-A";
-    bayLevelData[0].perTierInfo["82"].label = "tier-B";
-    bayLevelData[2].perTierInfo["80"].label = "tier-A";
-    bayLevelData[2].perTierInfo["82"].label = "tier-V";
-
-    const substractedLabels = substractLabels(bayLevelData);
-
-    expect(Object.keys(substractedLabels.bays).length).toBe(2);
-    expect(Object.keys(substractedLabels.stacks).length).toBe(0);
-    expect(Object.keys(substractedLabels.tiers).length).toBe(2);
-
-    expect(substractedLabels.tiers["tiers-labels-1"]).toStrictEqual({
-      "80": "tier-A",
-      "82": "tier-B",
-    });
-
-    expect(substractedLabels.tiers["tiers-labels-2"]).toStrictEqual({
-      "80": "tier-A",
-      "82": "tier-V",
-    });
-
-    expect(bayLevelData[0].tiersLabelsDictionary).toBe("tiers-labels-1");
-    expect(bayLevelData[2].tiersLabelsDictionary).toBe("tiers-labels-2");
-    expect(bayLevelData[0].stacksLabelsDictionary).toBeFalsy();
-  });
-
-  it("test with stacks", () => {
-    bayLevelData[0].perStackInfo["02"].label = "stack-A";
-    bayLevelData[0].perStackInfo["00"].label = "stack-B";
-
-    const substractedLabels = substractLabels(bayLevelData);
-
-    expect(Object.keys(substractedLabels.bays).length).toBe(2);
-    expect(Object.keys(substractedLabels.stacks).length).toBe(1);
-
-    expect(substractedLabels.stacks["stacks-labels-1"]).toStrictEqual({
-      "00": "stack-B",
-      "02": "stack-A",
-    });
-
-    expect(bayLevelData[0].stacksLabelsDictionary).toBe("stacks-labels-1");
+    expect(substractedLabels.bays["001"]).toBeDefined();
+    expect(substractedLabels.bays["001"].label20).toBe("001");
+    expect(substractedLabels.bays["001"].label40).toBe("002");
+    expect(substractedLabels.bays["003"]).toBeDefined();
+    expect(substractedLabels.bays["003"].label20).toBe("003");
+    expect(substractedLabels.bays["003"].label40).toBe("004");
   });
 });
