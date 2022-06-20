@@ -10,8 +10,8 @@ export default interface ILidData {
   startIsoBay: IIsoBayPattern;
   endIsoBay: IIsoBayPattern;
 
-  overlapPort?: number;
-  overlapStarboard?: number;
+  overlapPort?: string;
+  overlapStarboard?: string;
 
   weight?: number;
 }
@@ -30,6 +30,6 @@ export interface ILidDataFromStaf {
   joinLidFwdLabel?: string;
   joinLidAftLabel?: string;
 
-  overlapPort?: number;
-  overlapStarboard?: number;
+  overlapPort?: string;
+  overlapStarboard?: string;
 }

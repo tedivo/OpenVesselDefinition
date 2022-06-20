@@ -12,11 +12,11 @@ export default function transformLids(lidData: ILidDataFromStaf[]): ILidData[] {
 }
 
 function joinAftFwdLids(
-  lidData: ILidDataFromStaf[],
+  lidDataFromStaf: ILidDataFromStaf[],
   lidsByLabel: { [name: string]: ILidDataTemp }
 ): ILidData[] {
   // Create new object
-  lidData.forEach((lid, idx) => {
+  lidDataFromStaf.forEach((lid, idx) => {
     const label = lid.label || `L${pad2(idx)}`;
     const newLid = {
       label,
@@ -101,8 +101,8 @@ function justOneLevel(lidData: ILidDataWithLevel[]): ILidData[] {
 
   Object.keys(isoBays).forEach((bay) => {
     const v = Array.from(isoBays[bay]);
-    // Use max because the Enum has below=2 and above=1
-    levelPerBay[bay] = Math.max.apply(null, v);
+    // Use min because the Enum has below=2 and above=1
+    levelPerBay[bay] = Math.min.apply(null, v);
   });
 
   return lidData
