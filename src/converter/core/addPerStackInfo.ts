@@ -20,7 +20,7 @@ export default function addPerStackInfo(
   stackDataByBayLevel: IObjectKeyArray<IStackStafData, string>
 ) {
   if (!bayLevelData) {
-    throw new Error("Missing bayLevelData");
+    throw { message: "Missing bayLevelData", code: "MissingBayData" };
   }
 
   if (!stackDataByBayLevel) return 0;
@@ -47,9 +47,10 @@ export default function addPerStackInfo(
             if (stringIsTierOrStafNumber(label)) {
               sData.isoStack = label as IIsoStackTierPattern;
             } else {
-              throw new Error(
-                `Stack label must be a number between 00 and 99: "${label}"`
-              );
+              throw {
+                code: "StackLabelError",
+                message: `Stack label must be a number between 00 and 99: "${label}"`,
+              };
             }
 
           // a. Set perStackInfo

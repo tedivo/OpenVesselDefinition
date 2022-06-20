@@ -173,7 +173,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
       "075-1": 17,
       "079-1": 17,
     };
-    const converted = stafToShipInfoSpecV1Converter(stafFileContent);
+    const converted = stafToShipInfoSpecV1Converter(stafFileContent, false);
 
     let totalStacks = 0;
     const blDict = converted.baysData

@@ -15,7 +15,7 @@ export default function addPerSlotData(
   preCalculatedMinAboveTier: number
 ) {
   if (!bayLevelData) {
-    throw new Error("Missing bayLevelData");
+    throw { message: "Missing bayLevelData", code: "MissingBayData" };
   }
 
   if (!slotData) return;

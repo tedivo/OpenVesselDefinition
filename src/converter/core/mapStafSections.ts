@@ -29,3 +29,12 @@ export default function mapStafSections(sections: Array<ISectionContent>) {
   });
   return sectionsByName;
 }
+
+export const STAF_MIN_SECTIONS = [
+  "SHIP",
+  "SECTION",
+  "STACK",
+  "TIER",
+  "SLOT",
+  "END",
+];

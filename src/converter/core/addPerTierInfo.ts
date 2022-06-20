@@ -15,7 +15,7 @@ export default function addPerTierInfo(
   tierDataByBayLevel: IObjectKeyArray<ITierStafData, string>
 ) {
   if (!bayLevelData) {
-    throw new Error("Missing bayLevelData");
+    throw { message: "Missing bayLevelData", code: "MissingBayData" };
   }
 
   if (!tierDataByBayLevel) return;
@@ -38,9 +38,10 @@ export default function addPerTierInfo(
             if (stringIsTierOrStafNumber(label, true)) {
               sDataK.isoTier = label as IIsoStackTierPattern;
             } else {
-              throw new Error(
-                `Tier label must be an even number between 00 and 98: "${label}"`
-              );
+              throw {
+                code: "TierLabelError",
+                message: `Tier label must be an even number between 00 and 98: "${label}"`,
+              };
             }
 
           bl.perTierInfo[sDataK.isoTier] = sDataK;

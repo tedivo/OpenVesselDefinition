@@ -7,7 +7,7 @@ import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
 import createSummary from "./core/createSummary";
 import { getContainerLengths } from "./core/getContainerLengths";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
-import mapStafSections from "./core/mapStafSections";
+import mapStafSections, { STAF_MIN_SECTIONS } from "./core/mapStafSections";
 import substractLabels from "./core/substractLabels";
 import transformLids from "./core/transformLids";
 import IStackStafData from "./models/IStackStafData";
@@ -16,11 +16,27 @@ import ITierStafData from "./models/ITierStafData";
 import { processAllSections } from "./sections/processAllSections";
 
 export default function stafToShipInfoSpecV1Converter(
-  fileContent: string
+  fileContent: string,
+  validateStaf = true
 ): IOpenShipSpecV1 {
   const sectionsByName = mapStafSections(
     getSectionsFromFileContent(fileContent)
   );
+
+  // Check minimum data?
+  if (validateStaf) {
+    const sectionsFound = Object.keys(sectionsByName);
+    const compliesWithStaf = STAF_MIN_SECTIONS.every(
+      (sectionName) => sectionsFound.indexOf(sectionName) >= 0
+    );
+
+    if (!compliesWithStaf) {
+      throw {
+        code: "NotStafFile",
+        message: "This file doesn't seem to be a valid STAF file",
+      };
+    }
+  }
 
   // 0. Process data
   const dataProcessed: IStafDataProcessed = processAllSections(sectionsByName);
