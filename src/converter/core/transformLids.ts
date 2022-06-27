@@ -15,6 +15,10 @@ function joinAftFwdLids(
   lidDataFromStaf: ILidDataFromStaf[],
   lidsByLabel: { [name: string]: ILidDataTemp }
 ): ILidData[] {
+  if (!lidDataFromStaf || lidDataFromStaf.length === 0) {
+    return [];
+  }
+
   // Create new object
   lidDataFromStaf.forEach((lid, idx) => {
     const label = lid.label || `L${pad2(idx)}`;
@@ -43,12 +47,15 @@ function joinAftFwdLids(
     if (lidsByLabel[label].joinLidFwdLabel) {
       const joinLidFwdLabel = lidsByLabel[label].joinLidFwdLabel;
       const currentStartIsoBay = Number(lidsByLabel[label].startIsoBay);
-      const proposedStartIsoBay = Number(
-        lidsByLabel[joinLidFwdLabel].startIsoBay
-      );
-      if (proposedStartIsoBay < currentStartIsoBay)
-        lidsByLabel[label].startIsoBay =
-          lidsByLabel[joinLidFwdLabel].startIsoBay;
+
+      if (lidsByLabel[joinLidFwdLabel]) {
+        const proposedStartIsoBay = Number(
+          lidsByLabel[joinLidFwdLabel].startIsoBay
+        );
+        if (proposedStartIsoBay < currentStartIsoBay)
+          lidsByLabel[label].startIsoBay =
+            lidsByLabel[joinLidFwdLabel].startIsoBay;
+      }
     }
 
     // Join AFT
