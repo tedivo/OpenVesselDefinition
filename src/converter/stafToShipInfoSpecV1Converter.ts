@@ -1,19 +1,21 @@
-import addPerSlotData from "../converter/core/addPerSlotData";
-import addPerStackInfo from "../converter/core/addPerStackInfo";
-import addPerTierInfo from "../converter/core/addPerTierInfo";
-import { createDictionaryMultiple } from "../helpers/createDictionary";
-import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
-import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
-import createSummary from "./core/createSummary";
-import { getContainerLengths } from "./core/getContainerLengths";
-import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections, { STAF_MIN_SECTIONS } from "./core/mapStafSections";
-import substractLabels from "./core/substractLabels";
-import transformLids from "./core/transformLids";
+
+import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
 import IStackStafData from "./models/IStackStafData";
 import IStafDataProcessed from "./models/IStafDataProcessed";
 import ITierStafData from "./models/ITierStafData";
+import addPerSlotData from "../converter/core/addPerSlotData";
+import addPerStackInfo from "../converter/core/addPerStackInfo";
+import addPerTierInfo from "../converter/core/addPerTierInfo";
+import { calculateMasterCGs } from "./core/calculateMasterCGs";
+import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
+import { createDictionaryMultiple } from "../helpers/createDictionary";
+import createSummary from "./core/createSummary";
+import { getContainerLengths } from "./core/getContainerLengths";
+import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import { processAllSections } from "./sections/processAllSections";
+import substractLabels from "./core/substractLabels";
+import transformLids from "./core/transformLids";
 
 export default function stafToShipInfoSpecV1Converter(
   fileContent: string,
@@ -82,7 +84,13 @@ export default function stafToShipInfoSpecV1Converter(
     dataProcessed.bayLevelData
   );
 
-  // 7. Size Summary
+  // 7. Master CGs (Centers of gravity for TCG & VCG)
+  dataProcessed.shipData.masterCGs = calculateMasterCGs(
+    dataProcessed.shipData,
+    dataProcessed.bayLevelData
+  );
+
+  // 8. Size Summary
   const sizeSummary = createSummary({
     isoBays,
     shipData: dataProcessed.shipData,

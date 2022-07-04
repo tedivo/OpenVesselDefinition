@@ -1,14 +1,17 @@
+import {
+  IIsoStackTierPattern,
+  TYesNo,
+} from "../../base/types/IPositionPatterns";
+import { LengthUnitsEnum, WeightUnitsEnum } from "../../base/enums/UnitsEnum";
+import ValuesSourceEnum, {
+  ValuesSourceStackTierEnum,
+} from "../../base/enums/ValuesSourceEnum";
+
 import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import LcgReferenceEnum from "../../base/enums/LcgReferenceEnum";
 import PortStarboardEnum from "../../base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../../base/enums/PositionFormatEnum";
 import StackWeightCalculationEnum from "../../base/enums/StackWeightCalculationEnum";
-import { LengthUnitsEnum, WeightUnitsEnum } from "../../base/enums/UnitsEnum";
-import ValuesSourceEnum, {
-  ValuesSourceStackTierEnum,
-} from "../../base/enums/ValuesSourceEnum";
-import { TYesNo } from "../../base/types/IPositionPatterns";
-
 import type { TContainerLengths } from "./Types";
 
 export default interface IShipData {
@@ -38,6 +41,8 @@ export default interface IShipData {
   lcgOptions: ILCGOptions;
   vcgOptions: IVGCOptions;
   tcgOptions: ITGCOptions;
+
+  masterCGs: IMasterCGs;
 
   refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
 }
@@ -92,4 +97,16 @@ interface ITGCOptions {
 interface IRefrigeratedContainersOptions {
   reeferPlugLimit: number;
   copyLimitFwdAft?: TYesNo;
+}
+
+export interface IMasterCGs {
+  aboveTcgs: {
+    [stack: IIsoStackTierPattern]: number;
+  };
+  belowTcgs: {
+    [stack: IIsoStackTierPattern]: number;
+  };
+  vcgs: {
+    [tier: IIsoStackTierPattern]: number;
+  };
 }
