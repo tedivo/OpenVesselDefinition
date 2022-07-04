@@ -1,6 +1,3 @@
-import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
-import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
-import StackWeightCalculationEnum from "../../models/base/enums/StackWeightCalculationEnum";
 import {
   LengthUnitsEnum,
   WeightUnitsEnum,
@@ -8,7 +5,11 @@ import {
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
+
 import IShipData from "../../models/v1/parts/IShipData";
+import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
+import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
+import StackWeightCalculationEnum from "../../models/base/enums/StackWeightCalculationEnum";
 
 export const shipDataBays = 13;
 
@@ -33,5 +34,10 @@ export const shipData: IShipData = {
   },
   tcgOptions: {
     values: ValuesSourceEnum.ESTIMATED,
+  },
+  masterCGs: {
+    aboveTcgs: {},
+    belowTcgs: {},
+    vcgs: {},
   },
 };
