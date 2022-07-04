@@ -105,6 +105,9 @@ export function calculateMasterCGs(
     (a: string, b: string) => Number(a) - Number(b)
   );
 
+  // TODO: Remove repeated TCGs & VCGs?
+  // TODO: Create Class to simplify data resolution
+
   return result;
 }
 
@@ -153,17 +156,6 @@ function sortResult(
       acc[key] = result[key];
       return acc;
     }, {});
-}
-
-function makeJsonFromObject(
-  result: ISResult,
-  sortKeysFn: (a: string, b: string) => number
-): string[] {
-  return Object.keys(result)
-    .sort(sortKeysFn)
-    .map((key) => {
-      return `\t"${key}": ${result[key]}`;
-    });
 }
 
 class MasterCGs implements IMasterCGs {
