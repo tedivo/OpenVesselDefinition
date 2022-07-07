@@ -1,14 +1,15 @@
 import {
+  ICombinedStackTierPattern,
   IIsoBayPattern,
   IIsoStackTierPattern,
-  ICombinedStackTierPattern,
-  TYesNo,
   IJoinedStackTierPattern,
+  TYesNo,
 } from "../../base/types/IPositionPatterns";
+
 import BayLevelEnum from "../../base/enums/BayLevelEnum";
 import ForeAftEnum from "../../base/enums/ForeAftEnum";
-import { TContainerLengths } from "./Types";
 import ISlotData from "./ISlotData";
+import { TContainerLengths } from "./Types";
 
 export default interface IBayLevelData {
   /** 3 digits ISO Bay */
@@ -92,7 +93,7 @@ export interface IBayStackInfo {
   maxHeight?: number;
   topIsoTier?: IIsoStackTierPattern;
   bottomIsoTier?: IIsoStackTierPattern;
-  bottomVcg?: number;
+  bottomBase?: number;
   tcg?: number;
   hazard?: number;
   /** Overrides general bay LCG and Stack Weight by length */

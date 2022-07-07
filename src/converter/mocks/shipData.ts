@@ -28,6 +28,7 @@ export const shipData: IShipData = {
   lcgOptions: {
     values: ValuesSourceEnum.ESTIMATED,
     reference: LcgReferenceEnum.MIDSHIPS,
+    lbp: 100,
   },
   vcgOptions: {
     values: ValuesSourceStackTierEnum.ESTIMATED,

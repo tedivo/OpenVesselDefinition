@@ -1,11 +1,6 @@
-import {
-  IIsoStackTierPattern,
-  TYesNo,
-} from "../../models/base/types/IPositionPatterns";
-
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
-import IShipData from "../../models/v1/parts/IShipData";
+import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import ISizeSummary from "../../models/base/ISizeSummary";
 
 // Used in case bayLevel data is missing

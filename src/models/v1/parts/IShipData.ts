@@ -80,8 +80,7 @@ interface ILCGOptions {
   reference: LcgReferenceEnum;
   /** FWD or AFT */
   orientationIncrease?: ForeAftEnum;
-  /** Array of two values */
-  orientatonRange?: [number, number];
+  lbp: number;
 }
 
 interface IVGCOptions {
@@ -110,3 +109,13 @@ export interface IMasterCGs {
     [tier: IIsoStackTierPattern]: number;
   };
 }
+
+export type IShipDataFromStaf = Pick<
+  IShipData,
+  | "shipName"
+  | "fileUnits"
+  | "lcgOptions"
+  | "tcgOptions"
+  | "vcgOptions"
+  | "positionFormat"
+>;

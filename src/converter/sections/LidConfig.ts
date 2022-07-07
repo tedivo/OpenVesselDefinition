@@ -1,8 +1,9 @@
 import { pad2, pad3 } from "../../helpers/pad";
-import safeNumber from "../../helpers/safeNumber";
-import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
-import ILidData, { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
+
+import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
+import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
+import yNToBooleanLoose from "../../helpers/yNToBooleanLoose";
 
 /**
  * DEFINITION of LID
@@ -29,8 +30,8 @@ const SlotConfig: ISectionMapConfig<ILidDataFromStaf> = {
       passValue: true,
       dashIsEmpty: true,
     },
-    OVERLAP_PORT: { target: "overlapPort", mapper: safeNumber },
-    OVERLAP_STBD: { target: "overlapStarboard", mapper: safeNumber },
+    OVERLAP_PORT: { target: "overlapPort", mapper: yNToBooleanLoose },
+    OVERLAP_STBD: { target: "overlapStarboard", mapper: yNToBooleanLoose },
   },
 };
 

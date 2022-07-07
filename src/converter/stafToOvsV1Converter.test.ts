@@ -1,16 +1,17 @@
-import fs from "fs";
-import path from "path";
-import ForeAftEnum from "../models/base/enums/ForeAftEnum";
-import LcgReferenceEnum from "../models/base/enums/LcgReferenceEnum";
-import PortStarboardEnum from "../models/base/enums/PortStarboardEnum";
-import PositionFormatEnum from "../models/base/enums/PositionFormatEnum";
-import { LengthUnitsEnum } from "../models/base/enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../models/base/enums/ValuesSourceEnum";
+
+import ForeAftEnum from "../models/base/enums/ForeAftEnum";
+import LcgReferenceEnum from "../models/base/enums/LcgReferenceEnum";
+import { LengthUnitsEnum } from "../models/base/enums/UnitsEnum";
+import PortStarboardEnum from "../models/base/enums/PortStarboardEnum";
+import PositionFormatEnum from "../models/base/enums/PositionFormatEnum";
+import fs from "fs";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
-import stafToShipInfoSpecV1Converter from "./stafToShipInfoSpecV1Converter";
+import path from "path";
+import stafToOvsV1Converter from "./stafToOvsV1Converter";
 
 let stafFileContent: string;
 
@@ -55,7 +56,7 @@ describe("Test Data is as expected...", () => {
   });
 });
 
-describe("stafToShipInfoSpecConverter should...", () => {
+describe("stafToOvsV1Converter should...", () => {
   beforeAll(() => {
     stafFileContent = fs.readFileSync(
       path.resolve("./src/converter/mocks/OOL.OBEI.OOCL BEIJING_STAFF2.txt"),
@@ -64,7 +65,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
   });
 
   it("make conversion of shipData correctly", () => {
-    const converted = stafToShipInfoSpecV1Converter(stafFileContent);
+    const converted = stafToOvsV1Converter(stafFileContent, 0);
     const shipData = converted.shipData;
 
     expect(shipData.shipName).toBe("OBEI");
@@ -89,7 +90,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
   });
 
   it("make conversion of bays correctly", () => {
-    const converted = stafToShipInfoSpecV1Converter(stafFileContent);
+    const converted = stafToOvsV1Converter(stafFileContent, 0);
     expect(converted.baysData.length).toBe(sectionsExpected[1][1]);
   });
 
@@ -173,7 +174,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
       "075-1": 17,
       "079-1": 17,
     };
-    const converted = stafToShipInfoSpecV1Converter(stafFileContent, false);
+    const converted = stafToOvsV1Converter(stafFileContent, 0);
 
     let totalStacks = 0;
     const blDict = converted.baysData
@@ -196,7 +197,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
   });
 
   it("creates sizeSummary correctly", () => {
-    const converted = stafToShipInfoSpecV1Converter(stafFileContent);
+    const converted = stafToOvsV1Converter(stafFileContent, 0);
     const summary = converted.sizeSummary;
 
     expect(summary.centerLineStack).toBe(1);
@@ -208,20 +209,23 @@ describe("stafToShipInfoSpecConverter should...", () => {
   });
 
   it("just convert", () => {
-    const mockedFiles = [
+    const mockedFiles: [string, string, number][] = [
       [
         "./src/converter/mocks/OOL.OBEI.OOCL BEIJING_STAFF2.txt",
         "./examples/OOL.OBEI.OOCL BEIJING_OPENSHIPSPEC.json",
+        320,
       ],
       [
         "./src/converter/mocks/OOL.OASI.OOCL ASIA_STAF.txt",
         "./examples//OOL.OASI.OOCL ASIA_OPENSHIPSPEC.json",
+        308,
       ],
     ];
 
-    mockedFiles.forEach(([inputFileName, outputFileName]) => {
-      const converted = stafToShipInfoSpecV1Converter(
-        fs.readFileSync(path.resolve(inputFileName), "utf8")
+    mockedFiles.forEach(([inputFileName, outputFileName, blp]) => {
+      const converted = stafToOvsV1Converter(
+        fs.readFileSync(path.resolve(inputFileName), "utf8"),
+        blp
       );
       fs.writeFileSync(
         path.resolve(outputFileName),

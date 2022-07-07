@@ -35,7 +35,7 @@ import PositionFormatEnum from "./models/base/enums/PositionFormatEnum";
 import StackWeightCalculationEnum from "./models/base/enums/StackWeightCalculationEnum";
 import VoidTypesEnum from "./models/base/enums/VoidTypesEnum";
 import destructurePosition from "./converter/core/destructurePosition";
-import stafToShipInfoSpecV1Converter from "./converter/stafToShipInfoSpecV1Converter";
+import stafToOvsV1Converter from "./converter/stafToOvsV1Converter";
 
 export {
   OpenShipSpec,
@@ -63,7 +63,7 @@ export {
   ValuesSourceEnum,
   ValuesSourceStackTierEnum,
   VoidTypesEnum,
-  stafToShipInfoSpecV1Converter,
+  stafToOvsV1Converter,
   destructurePosition,
   createMockedSimpleBayLevelData,
   createMockedSingleBayLevelData,

@@ -17,31 +17,31 @@ import { processAllSections } from "./sections/processAllSections";
 import substractLabels from "./core/substractLabels";
 import transformLids from "./core/transformLids";
 
-export default function stafToShipInfoSpecV1Converter(
+export default function stafToOvsV1Converter(
   fileContent: string,
-  validateStaf = true
+  lbp: number,
+  vgcRatio = 0.45
 ): IOpenShipSpecV1 {
   const sectionsByName = mapStafSections(
     getSectionsFromFileContent(fileContent)
   );
 
-  // Check minimum data?
-  if (validateStaf) {
-    const sectionsFound = Object.keys(sectionsByName);
-    const compliesWithStaf = STAF_MIN_SECTIONS.every(
-      (sectionName) => sectionsFound.indexOf(sectionName) >= 0
-    );
+  // Check minimum data
+  const sectionsFound = Object.keys(sectionsByName);
+  const compliesWithStaf = STAF_MIN_SECTIONS.every(
+    (sectionName) => sectionsFound.indexOf(sectionName) >= 0
+  );
 
-    if (!compliesWithStaf) {
-      throw {
-        code: "NotStafFile",
-        message: "This file doesn't seem to be a valid STAF file",
-      };
-    }
+  if (!compliesWithStaf) {
+    throw {
+      code: "NotStafFile",
+      message: "This file doesn't seem to be a valid STAF file",
+    };
   }
 
   // 0. Process data
   const dataProcessed: IStafDataProcessed = processAllSections(sectionsByName);
+  dataProcessed.shipData.lcgOptions.lbp = lbp;
 
   // 1. Create dictionaries
   const stackDataByBayLevel = createDictionaryMultiple<IStackStafData, string>(
@@ -97,7 +97,7 @@ export default function stafToShipInfoSpecV1Converter(
 
   // OpenShipSpec JSON
   const result: IOpenShipSpecV1 = {
-    schema: "OpenShipSpec",
+    schema: "OpenVesselSpec",
     version: "1.0.0",
     sizeSummary,
     shipData: dataProcessed.shipData,
