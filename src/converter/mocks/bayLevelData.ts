@@ -1,15 +1,17 @@
-import { pad3 } from "../../helpers/pad";
+import IBayLevelData, {
+  IBayLevelDataIntermediate,
+  TBayStackInfo,
+  TBayTierInfo,
+  TStackInfoByLength,
+} from "../../models/v1/parts/IBayLevelData";
 import {
   IIsoBayPattern,
   IIsoStackTierPattern,
   IJoinedStackTierPattern,
 } from "../../models/base/types/IPositionPatterns";
+
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import IBayLevelData, {
-  TBayStackInfo,
-  TBayTierInfo,
-  TStackInfoByLength,
-} from "../../models/v1/parts/IBayLevelData";
+import { pad3 } from "../../helpers/pad";
 
 const defaultAboveTiers: IIsoStackTierPattern[] = ["80", "82", "84", "86"];
 const defaultBelowTiers: IIsoStackTierPattern[] = ["02", "04", "06", "08"];
@@ -36,7 +38,7 @@ export function createMockedSingleBayLevelData(
   isAbove: boolean,
   hasZeroStack: boolean,
   perSlotKeys: IJoinedStackTierPattern[]
-): IBayLevelData {
+): IBayLevelDataIntermediate {
   const isFake40 = (Number(isoBay) % 4) - 2 === 1;
 
   const stacks = hasZeroStack
@@ -74,7 +76,7 @@ export function createMockedSimpleBayLevelData(
   isoBays: number | IIsoBayPattern,
   perSlotKeysAbove: IJoinedStackTierPattern[],
   perSlotKeysBelow: IJoinedStackTierPattern[]
-): IBayLevelData[] {
+): IBayLevelDataIntermediate[] {
   const bays = Number(isoBays);
   const bayLevelDataArray: IBayLevelData[] = [];
 

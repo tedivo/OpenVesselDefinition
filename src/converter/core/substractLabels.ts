@@ -1,29 +1,22 @@
-import { pad3 } from "../../helpers/pad";
-import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import IPositionLabels, {
-  ITierStackLabelDictionary,
   ITierStackLabelDictionaries,
+  ITierStackLabelDictionary,
 } from "../../models/v1/parts/IPositionLabels";
-import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
+
+import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
+import { pad3 } from "../../helpers/pad";
 
 /**
  * Obtains a dictionary of labels (for bays, tiers and stacks)
  */
 export default function substractLabels(
-  data: IBayLevelData[]
+  data: IBayLevelDataIntermediate[]
 ): IPositionLabels {
   const positionLabels: IPositionLabels = {
     bays: {},
   };
 
-  let incrementalForTiers = 1;
-  let incrementalForStacks = 1;
-
   data.forEach((bayLevelData) => {
-    const tierLabels: ITierStackLabelDictionary = {};
-    const stackLabels: ITierStackLabelDictionary = {};
-
     // 1. ISO Bay levels
     if (!positionLabels.bays[bayLevelData.isoBay])
       positionLabels.bays[bayLevelData.isoBay] = {};

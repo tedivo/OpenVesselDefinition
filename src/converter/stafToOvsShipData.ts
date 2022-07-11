@@ -1,4 +1,7 @@
-import IShipData, { IShipDataFromStaf } from "../models/v1/parts/IShipData";
+import {
+  IShipDataFromStaf,
+  IShipDataIntermediateStaf,
+} from "../models/v1/parts/IShipData";
 
 import ShipConfig from "./sections/ShipConfig";
 import convertStafObjectToShipOpenSpec from "./core/convertStafObjectToShipOpenSpec";
@@ -25,7 +28,7 @@ export default function stafToOvsShipData(
     };
   }
 
-  const shipData = convertStafObjectToShipOpenSpec<IShipData>(
+  const shipData = convertStafObjectToShipOpenSpec<IShipDataIntermediateStaf>(
     sectionsByName["SHIP"],
     ShipConfig
   )[0];

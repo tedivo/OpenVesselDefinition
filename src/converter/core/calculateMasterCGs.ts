@@ -1,4 +1,7 @@
-import IShipData, { IMasterCGs } from "../../models/v1/parts/IShipData";
+import {
+  IMasterCGs,
+  IShipDataIntermediateStaf,
+} from "../../models/v1/parts/IShipData";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
@@ -12,12 +15,12 @@ import sortStacksArray from "../../helpers/sortStacksArray";
  * Extract main TCGs and VCGs. Once extracted, delete repetitions
  */
 export function calculateMasterCGs(
-  shipData: IShipData,
+  shipData: IShipDataIntermediateStaf,
   bls: IBayLevelData[]
 ): IMasterCGs {
   const extractedAboveTCGs: IInventory = {};
   const extractedBelowTCGs: IInventory = {};
-  const extractedVCGs: IInventory = {};
+  const extractedBottomBases: IInventory = {};
   const result = new MasterCGs();
 
   const shouldProcessStacks =
@@ -57,33 +60,23 @@ export function calculateMasterCGs(
             extractedTCGs[stack].get(tcgValue) + 1
           );
         }
-      });
-    }
 
-    // B. Tiers
-    if (
-      shouldProcessTiers &&
-      shipData.vcgOptions.values === ValuesSourceStackTierEnum.BY_TIER
-    ) {
-      const perTierInfo = bl.perTierInfo;
-      const tiers = Object.keys(perTierInfo) as IIsoStackTierPattern[];
-
-      tiers.forEach((tier) => {
-        // Create dictionary for this stack if it doesn't exist
-        if (!extractedVCGs[tier])
-          extractedVCGs[tier] = new Map<number, number>();
-        // Gather TCG value
-        const vcgValue = perTierInfo[tier].vcg;
-
+        const vcgValue = perStackInfo[stack].bottomBase;
         if (vcgValue !== undefined) {
+          const tier = perStackInfo[stack].bottomIsoTier;
+
+          if (!extractedBottomBases[tier])
+            extractedBottomBases[tier] = new Map<number, number>();
+
           // Create repetitions counter
-          if (!extractedVCGs[tier].has(vcgValue)) {
-            extractedVCGs[tier].set(vcgValue, 0);
+          if (!extractedBottomBases[tier].has(vcgValue)) {
+            extractedBottomBases[tier].set(vcgValue, 0);
           }
+
           // Annotate repetition
-          extractedVCGs[tier].set(
+          extractedBottomBases[tier].set(
             vcgValue,
-            extractedVCGs[tier].get(vcgValue) + 1
+            extractedBottomBases[tier].get(vcgValue) + 1
           );
         }
       });
@@ -100,8 +93,8 @@ export function calculateMasterCGs(
     sortStacksArray
   );
 
-  result.vcgs = chooseMostRepeatedValue(
-    extractedVCGs,
+  result.bottomBases = chooseMostRepeatedValue(
+    extractedBottomBases,
     (a: string, b: string) => Number(a) - Number(b)
   );
 
@@ -161,5 +154,5 @@ function sortResult(
 class MasterCGs implements IMasterCGs {
   aboveTcgs: {};
   belowTcgs: {};
-  vcgs: {};
+  bottomBases: {};
 }

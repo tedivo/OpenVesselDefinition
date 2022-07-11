@@ -1,6 +1,10 @@
+import ValuesSourceEnum, {
+  ValuesSourceStackTierEnum,
+} from "../models/base/enums/ValuesSourceEnum";
 import mapStafSections, { STAF_MIN_SECTIONS } from "./core/mapStafSections";
 
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
+import IShipData from "../models/v1/parts/IShipData";
 import IStackStafData from "./models/IStackStafData";
 import IStafDataProcessed from "./models/IStafDataProcessed";
 import ITierStafData from "./models/ITierStafData";
@@ -8,6 +12,7 @@ import addPerSlotData from "../converter/core/addPerSlotData";
 import addPerStackInfo from "../converter/core/addPerStackInfo";
 import addPerTierInfo from "../converter/core/addPerTierInfo";
 import { calculateMasterCGs } from "./core/calculateMasterCGs";
+import { cgsRemap } from "./core/cgsRemap";
 import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
 import { createDictionaryMultiple } from "../helpers/createDictionary";
 import createSummary from "./core/createSummary";
@@ -19,7 +24,7 @@ import transformLids from "./core/transformLids";
 
 export default function stafToOvsV1Converter(
   fileContent: string,
-  lbp: number,
+  lpp: number,
   vgcRatio = 0.45
 ): IOpenShipSpecV1 {
   const sectionsByName = mapStafSections(
@@ -41,7 +46,8 @@ export default function stafToOvsV1Converter(
 
   // 0. Process data
   const dataProcessed: IStafDataProcessed = processAllSections(sectionsByName);
-  dataProcessed.shipData.lcgOptions.lbp = lbp;
+  dataProcessed.shipData.lcgOptions.lpp = lpp * 1000;
+  dataProcessed.shipData.vcgOptions.ratio = vgcRatio;
 
   // 1. Create dictionaries
   const stackDataByBayLevel = createDictionaryMultiple<IStackStafData, string>(
@@ -59,7 +65,7 @@ export default function stafToOvsV1Converter(
     stackDataByBayLevel
   );
 
-  // 3. Add tiers info to BayLevel.perTierInfo
+  // 3. Add tiers info to BayLevel.perTierInfo. Temporary, it will be deleted later
   addPerTierInfo(dataProcessed.bayLevelData, tierDataByBayLevel);
 
   // Pre-calculate the minAboveTier
@@ -79,15 +85,29 @@ export default function stafToOvsV1Converter(
   const positionLabels = substractLabels(dataProcessed.bayLevelData);
 
   // 6. Container Lenghts in Vessel
-  dataProcessed.shipData.containersLengths = getContainerLengths(
-    dataProcessed.bayLevelData
-  );
+  const { lcgOptions, vcgOptions, tcgOptions, ...shipDataWithoutCgsOptions } =
+    dataProcessed.shipData;
 
-  // 7. Master CGs (Centers of gravity for TCG & VCG)
-  dataProcessed.shipData.masterCGs = calculateMasterCGs(
-    dataProcessed.shipData,
-    dataProcessed.bayLevelData
-  );
+  // 7. Create Final shipData
+  const shipData: IShipData = {
+    ...shipDataWithoutCgsOptions,
+    lcgOptions: {
+      values: lcgOptions.values,
+      lpp: lcgOptions.lpp,
+    },
+    tcgOptions: {
+      values: tcgOptions.values,
+    },
+    vcgOptions: {
+      values:
+        vcgOptions.values !== ValuesSourceStackTierEnum.ESTIMATED
+          ? ValuesSourceEnum.KNOWN
+          : ValuesSourceEnum.ESTIMATED,
+      ratio: vcgOptions.ratio,
+    },
+    containersLengths: getContainerLengths(dataProcessed.bayLevelData),
+    masterCGs: { aboveTcgs: {}, belowTcgs: {}, bottomBases: {} },
+  };
 
   // 8. Size Summary
   const sizeSummary = createSummary({
@@ -95,12 +115,26 @@ export default function stafToOvsV1Converter(
     bayLevelData: dataProcessed.bayLevelData,
   });
 
+  // 9. Change LCG, TCG & VCG references. Deletes perTierInfo
+  cgsRemap(
+    dataProcessed.bayLevelData,
+    dataProcessed.shipData.lcgOptions,
+    dataProcessed.shipData.vcgOptions,
+    dataProcessed.shipData.tcgOptions
+  );
+
+  // 10. Obtain most repeated CGs in masterCGs
+  shipData.masterCGs = calculateMasterCGs(
+    dataProcessed.shipData,
+    dataProcessed.bayLevelData
+  );
+
   // OpenShipSpec JSON
   const result: IOpenShipSpecV1 = {
     schema: "OpenVesselSpec",
     version: "1.0.0",
     sizeSummary,
-    shipData: dataProcessed.shipData,
+    shipData: shipData,
     baysData: dataProcessed.bayLevelData,
     positionLabels,
     lidData: transformLids(dataProcessed.lidData),

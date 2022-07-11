@@ -1,3 +1,6 @@
+import IShipData, {
+  IShipDataIntermediateStaf,
+} from "../../models/v1/parts/IShipData";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
@@ -8,7 +11,6 @@ import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
-import IShipData from "../../models/v1/parts/IShipData";
 import ISlotData from "../../models/v1/parts/ISlotData";
 import IStackStafData from "../models/IStackStafData";
 import ITierStafData from "../models/ITierStafData";
@@ -84,10 +86,11 @@ describe("for SHIP data", () => {
 
     const headerSection = sectionsByName["SHIP"];
 
-    const processed = convertStafObjectToShipOpenSpec<IShipData>(
-      headerSection,
-      ShipConfig
-    );
+    const processed =
+      convertStafObjectToShipOpenSpec<IShipDataIntermediateStaf>(
+        headerSection,
+        ShipConfig
+      );
 
     const singleRow = processed[0];
 

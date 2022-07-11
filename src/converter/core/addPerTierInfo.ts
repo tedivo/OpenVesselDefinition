@@ -1,8 +1,8 @@
-import sortByMultipleFields from "../../helpers/sortByMultipleFields";
-import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
+import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
 import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
+import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
 import ITierStafData from "../models/ITierStafData";
+import sortByMultipleFields from "../../helpers/sortByMultipleFields";
 import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
 
 /**
@@ -11,7 +11,7 @@ import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
  * @param tierDataByBayLevel
  */
 export default function addPerTierInfo(
-  bayLevelData: IBayLevelData[],
+  bayLevelData: IBayLevelDataIntermediate[],
   tierDataByBayLevel: IObjectKeyArray<ITierStafData, string>
 ) {
   if (!bayLevelData) {

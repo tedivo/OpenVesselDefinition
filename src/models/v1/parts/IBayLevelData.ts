@@ -1,5 +1,4 @@
 import {
-  ICombinedStackTierPattern,
   IIsoBayPattern,
   IIsoStackTierPattern,
   IJoinedStackTierPattern,
@@ -11,7 +10,7 @@ import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import ISlotData from "./ISlotData";
 import { TContainerLengths } from "./Types";
 
-export default interface IBayLevelData {
+export interface IBayLevelDataIntermediate {
   /** 3 digits ISO Bay */
   isoBay: IIsoBayPattern;
   /** Above, Below */
@@ -69,6 +68,9 @@ export default interface IBayLevelData {
   /** If Stacks use custom labels, this is the name of the defintion */
   stacksLabelsDictionary?: string;
 }
+
+type IBayLevelData = Omit<IBayLevelDataIntermediate, "perTierInfo">;
+export default IBayLevelData;
 
 export interface IBaySlotData {
   [key: IJoinedStackTierPattern]: ISlotData;

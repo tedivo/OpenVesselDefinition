@@ -1,12 +1,14 @@
-import sortStacksArray from "../../helpers/sortStacksArray";
-import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import IBayLevelData, {
+  IBayLevelDataIntermediate,
   TStackInfoByLength,
 } from "../../models/v1/parts/IBayLevelData";
+
+import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
+import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
+import IStackStafData from "../models/IStackStafData";
 import { TContainerLengths } from "../../models/v1/parts/Types";
 import { createSlotsFromStack } from "../core/createSlotsFromStacksInfo";
-import IStackStafData from "../models/IStackStafData";
+import sortStacksArray from "../../helpers/sortStacksArray";
 import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
 
 /**
@@ -16,7 +18,7 @@ import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
  * @returns
  */
 export default function addPerStackInfo(
-  bayLevelData: IBayLevelData[],
+  bayLevelData: IBayLevelDataIntermediate[],
   stackDataByBayLevel: IObjectKeyArray<IStackStafData, string>
 ) {
   if (!bayLevelData) {

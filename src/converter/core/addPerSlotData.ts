@@ -1,6 +1,6 @@
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
 import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import ISlotData from "../../models/v1/parts/ISlotData";
 
 /**
@@ -10,7 +10,7 @@ import ISlotData from "../../models/v1/parts/ISlotData";
  * @param preCalculatedMinAboveTier
  */
 export default function addPerSlotData(
-  bayLevelData: IBayLevelData[],
+  bayLevelData: IBayLevelDataIntermediate[],
   slotData: ISlotData[],
   preCalculatedMinAboveTier: number
 ) {
