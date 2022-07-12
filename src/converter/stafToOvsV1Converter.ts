@@ -46,7 +46,7 @@ export default function stafToOvsV1Converter(
 
   // 0. Process data
   const dataProcessed: IStafDataProcessed = processAllSections(sectionsByName);
-  dataProcessed.shipData.lcgOptions.lpp = lpp * 1000;
+  dataProcessed.shipData.lcgOptions.lpp = lpp;
   dataProcessed.shipData.vcgOptions.heightFactor = vgcHeightFactor;
 
   // 1. Create dictionaries
