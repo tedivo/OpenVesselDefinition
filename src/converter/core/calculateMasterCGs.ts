@@ -21,7 +21,7 @@ export function calculateMasterCGs(
   const extractedAboveTCGs: IInventory = {};
   const extractedBelowTCGs: IInventory = {};
   const extractedBottomBases: IInventory = {};
-  const result = new MasterCGs();
+  const result: IMasterCGs = { aboveTcgs: {}, belowTcgs: {}, bottomBases: {} };
 
   const shouldProcessStacks =
     shipData.tcgOptions.values !== ValuesSourceEnum.ESTIMATED;
@@ -99,7 +99,6 @@ export function calculateMasterCGs(
   );
 
   // TODO: Remove repeated TCGs & VCGs?
-  // TODO: Create Class to simplify data resolution
 
   return result;
 }
@@ -149,10 +148,4 @@ function sortResult(
       acc[key] = result[key];
       return acc;
     }, {});
-}
-
-class MasterCGs implements IMasterCGs {
-  aboveTcgs: {};
-  belowTcgs: {};
-  bottomBases: {};
 }

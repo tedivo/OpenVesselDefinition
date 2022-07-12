@@ -208,12 +208,12 @@ describe("stafToOvsV1Converter should...", () => {
       [
         "./src/converter/mocks/OOL.OBEI.OOCL BEIJING_STAFF2.txt",
         "./examples/OOL.OBEI.OOCL BEIJING_OPENSHIPSPEC.json",
-        320,
+        320000,
       ],
       [
         "./src/converter/mocks/OOL.OASI.OOCL ASIA_STAF.txt",
         "./examples//OOL.OASI.OOCL ASIA_OPENSHIPSPEC.json",
-        308,
+        308000,
       ],
     ];
 

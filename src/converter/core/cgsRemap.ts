@@ -67,7 +67,7 @@ function remapVcgs(
   bls: IBayLevelDataIntermediate[]
 ) {
   const baseAdjust = Math.round(
-    (8.5 / ONE_MILLIMETER_IN_FEET) * (vcgOptions.ratio || 0)
+    (8.5 / ONE_MILLIMETER_IN_FEET) * (vcgOptions.heightFactor || 0)
   );
 
   bls.forEach((bl) => {

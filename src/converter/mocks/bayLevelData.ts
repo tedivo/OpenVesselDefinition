@@ -40,6 +40,7 @@ export function createMockedSingleBayLevelData(
   perSlotKeys: IJoinedStackTierPattern[]
 ): IBayLevelDataIntermediate {
   const isFake40 = (Number(isoBay) % 4) - 2 === 1;
+  const bottomBase = isAbove ? 50000 : 0;
 
   const stacks = hasZeroStack
     ? defaultStacks
@@ -53,13 +54,18 @@ export function createMockedSingleBayLevelData(
       : defaultStackAttributesByContainerLength2024,
     perTierInfo: (isAbove ? defaultAboveTiers : defaultBelowTiers).reduce(
       (acc, v) => {
-        acc[v] = { isoTier: v, vcg: Number(v) + 100 };
+        acc[v] = { isoTier: v };
         return acc;
       },
       {} as TBayTierInfo
     ),
     perStackInfo: stacks.reduce((acc, v) => {
-      acc[v] = { isoStack: v };
+      acc[v] = {
+        isoStack: v,
+        bottomBase,
+        bottomIsoTier: isAbove ? defaultAboveTiers[0] : defaultBelowTiers[0],
+        topIsoTier: isAbove ? defaultAboveTiers[3] : defaultBelowTiers[3],
+      };
       return acc;
     }, {} as TBayStackInfo),
 

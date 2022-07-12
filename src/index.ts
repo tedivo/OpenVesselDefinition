@@ -3,6 +3,7 @@ import IPositionLabels, {
   ITierStackLabelDictionaries,
   ITierStackLabelDictionary,
 } from "./models/v1/parts/IPositionLabels";
+import IShipData, { IMasterCGs } from "./models/v1/parts/IShipData";
 import {
   LengthUnitsEnum,
   WeightUnitsEnum,
@@ -25,7 +26,6 @@ import BayLevelEnum from "./models/base/enums/BayLevelEnum";
 import ForeAftEnum from "./models/base/enums/ForeAftEnum";
 import ILidData from "./models/v1/parts/ILidData";
 import IOpenShipSpecV1 from "./models/v1/IOpenShipSpecV1";
-import IShipData from "./models/v1/parts/IShipData";
 import ISizeSummary from "./models/base/ISizeSummary";
 import ISlotData from "./models/v1/parts/ISlotData";
 import LcgReferenceEnum from "./models/base/enums/LcgReferenceEnum";
@@ -41,6 +41,7 @@ export {
   OpenShipSpec,
   IOpenShipSpecV1,
   IShipData,
+  IMasterCGs,
   IBayLevelData,
   ILidData,
   ISlotData,

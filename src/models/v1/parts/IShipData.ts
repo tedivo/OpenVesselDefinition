@@ -91,7 +91,7 @@ export interface ILCGOptions {
 
 export interface IVGCOptions {
   values: ValuesSourceEnum;
-  ratio?: number;
+  heightFactor?: number;
 }
 
 export interface ITGCOptions {
@@ -109,7 +109,7 @@ export interface ILCGOptionsIntermediate {
 
 export interface IVGCOptionsIntermediate {
   values: ValuesSourceStackTierEnum;
-  ratio?: number;
+  heightFactor?: number;
 }
 
 export interface ITGCOptionsIntermediate {

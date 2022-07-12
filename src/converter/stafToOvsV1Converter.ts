@@ -25,7 +25,7 @@ import transformLids from "./core/transformLids";
 export default function stafToOvsV1Converter(
   fileContent: string,
   lpp: number,
-  vgcRatio = 0.45
+  vgcHeightFactor = 0.45
 ): IOpenShipSpecV1 {
   const sectionsByName = mapStafSections(
     getSectionsFromFileContent(fileContent)
@@ -47,7 +47,7 @@ export default function stafToOvsV1Converter(
   // 0. Process data
   const dataProcessed: IStafDataProcessed = processAllSections(sectionsByName);
   dataProcessed.shipData.lcgOptions.lpp = lpp * 1000;
-  dataProcessed.shipData.vcgOptions.ratio = vgcRatio;
+  dataProcessed.shipData.vcgOptions.heightFactor = vgcHeightFactor;
 
   // 1. Create dictionaries
   const stackDataByBayLevel = createDictionaryMultiple<IStackStafData, string>(
@@ -103,7 +103,7 @@ export default function stafToOvsV1Converter(
         vcgOptions.values !== ValuesSourceStackTierEnum.ESTIMATED
           ? ValuesSourceEnum.KNOWN
           : ValuesSourceEnum.ESTIMATED,
-      ratio: vcgOptions.ratio,
+      heightFactor: vcgOptions.heightFactor,
     },
     containersLengths: getContainerLengths(dataProcessed.bayLevelData),
     masterCGs: { aboveTcgs: {}, belowTcgs: {}, bottomBases: {} },
