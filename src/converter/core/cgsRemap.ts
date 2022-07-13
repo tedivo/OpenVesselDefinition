@@ -111,15 +111,15 @@ function remapLcgs(
     lcgOptions.orientationIncrease === ForeAftEnum.FWD ? 1 : -1;
 
   bls.forEach((bl) => {
-    const stackInfoByLength = bl.stackInfoByLength;
+    const infoByContLength = bl.infoByContLength;
     const contLens = Object.keys(
-      stackInfoByLength
+      infoByContLength
     ) as unknown as TContainerLengths[];
 
     contLens.forEach((len) => {
-      let lcg = stackInfoByLength[len].lcg;
+      let lcg = infoByContLength[len].lcg;
       if (lcg !== undefined) {
-        stackInfoByLength[len].lcg = lcg * lcgSignMult + lcgRebase;
+        infoByContLength[len].lcg = lcg * lcgSignMult + lcgRebase;
       }
     });
   });

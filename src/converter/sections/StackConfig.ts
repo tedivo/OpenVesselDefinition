@@ -5,7 +5,7 @@ import safeNumberMtToMm, {
 
 import ISectionMapConfig from "../models/ISectionMapConfig";
 import IStackStafData from "../models/IStackStafData";
-import { deleteMissingContainerLenghtDataWithAcceptsSize } from "../../helpers/deleteMissingInfo";
+import { deleteMissingStackInfoByLength } from "../../helpers/deleteMissingInfo";
 import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
 import yNToBoolean from "../../helpers/yNToBoolean";
 
@@ -103,7 +103,7 @@ const StackConfig: ISectionMapConfig<IStackStafData> = {
     },
     MAX_HT: { target: "maxHeight", mapper: safeNumberMtToMm },
   },
-  postProcessors: [deleteMissingContainerLenghtDataWithAcceptsSize],
+  postProcessors: [deleteMissingStackInfoByLength],
 };
 
 export default StackConfig;

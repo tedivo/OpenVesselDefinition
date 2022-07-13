@@ -30,7 +30,8 @@ const defaultStackAttributesByContainerLength2040: TStackInfoByLength = {
 export const bayLevelData: IBayLevelData = {
   isoBay: "001",
   level: BayLevelEnum.ABOVE,
-  stackInfoByLength: defaultStackAttributesByContainerLength2024,
+  infoByContLength: defaultStackAttributesByContainerLength2024,
+  masterInfo: {},
 };
 
 export function createMockedSingleBayLevelData(
@@ -49,7 +50,8 @@ export function createMockedSingleBayLevelData(
   return {
     isoBay,
     level: isAbove ? BayLevelEnum.ABOVE : BayLevelEnum.BELOW,
-    stackInfoByLength: isFake40
+    masterInfo: {},
+    infoByContLength: isFake40
       ? defaultStackAttributesByContainerLength2040
       : defaultStackAttributesByContainerLength2024,
     perTierInfo: (isAbove ? defaultAboveTiers : defaultBelowTiers).reduce(

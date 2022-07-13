@@ -47,15 +47,21 @@ export interface IBayLevelDataIntermediate {
   engineRmBulkfore?: TYesNo;
 
   /**
-   * Dictionary: contains information that applies to all stacks
+   * This object contains the common data of `perStackInfo`
    */
-  stackInfoByLength: TStackInfoByLength;
+  masterInfo: TCommonBayInfo;
+  /**
+   * Dictionary: contains information that applies to all stacks by container Length
+   */
+  infoByContLength: TStackInfoByLength;
   /**
    * Dictionary: contains information per Stack number (i.e. "04") like maxTier, minTier, maxWeight...
    */
   perStackInfo?: TBayStackInfo;
   /**
-   * Dictionary: contains information per Tier number (i.e. "78")
+   * Dictionary: contains information per Tier number (i.e. "78").
+   *
+   * This is not present in the final data (as it's converted from **BY_TIER** to **BY_STACK**)
    */
   perTierInfo?: TBayTierInfo;
   /**
@@ -89,15 +95,21 @@ export interface IStackInfoByLength {
 export type TBayStackInfo = {
   [key in IIsoStackTierPattern]: IBayStackInfo;
 };
-export interface IBayStackInfo {
-  isoStack: IIsoStackTierPattern;
-  label?: string;
-  maxHeight?: number;
+
+export interface TCommonBayInfo {
   topIsoTier?: IIsoStackTierPattern;
   bottomIsoTier?: IIsoStackTierPattern;
   bottomBase?: number;
+  maxHeight?: number;
+}
+export interface IBayStackInfo {
+  isoStack: IIsoStackTierPattern;
+  label?: string;
   tcg?: number;
-  hazard?: number;
+  topIsoTier?: IIsoStackTierPattern;
+  bottomIsoTier?: IIsoStackTierPattern;
+  bottomBase?: number;
+  maxHeight?: number;
   /** Overrides general bay LCG and Stack Weight by length */
   stackInfoByLength?: TStackInfoByLength;
 }

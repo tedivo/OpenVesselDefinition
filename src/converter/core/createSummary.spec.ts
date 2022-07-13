@@ -1,13 +1,6 @@
-import {
-  IIsoBayPattern,
-  IJoinedStackTierPattern,
-} from "../../models/base/types/IPositionPatterns";
 import { shipData, shipDataBays } from "../mocks/shipData";
 
-import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import ITierStafData from "../models/ITierStafData";
-import addPerTierInfo from "./addPerTierInfo";
+import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import createSummary from "./createSummary";
 

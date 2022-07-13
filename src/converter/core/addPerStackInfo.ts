@@ -1,12 +1,7 @@
-import IBayLevelData, {
-  IBayLevelDataIntermediate,
-  TStackInfoByLength,
-} from "../../models/v1/parts/IBayLevelData";
-
+import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
 import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
 import IStackStafData from "../models/IStackStafData";
-import { TContainerLengths } from "../../models/v1/parts/Types";
 import { createSlotsFromStack } from "../core/createSlotsFromStacksInfo";
 import sortStacksArray from "../../helpers/sortStacksArray";
 import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
@@ -62,6 +57,7 @@ export default function addPerStackInfo(
           // c. centerLineStack?
           if (sDataK.isoStack === "00") centerLineStack = 1;
         });
+
       if (centerLineStack) bl.centerLineStack = 1;
     }
   });

@@ -1,6 +1,3 @@
-import IShipData, {
-  IShipDataIntermediateStaf,
-} from "../../models/v1/parts/IShipData";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
@@ -11,11 +8,11 @@ import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
+import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
 import ISlotData from "../../models/v1/parts/ISlotData";
 import IStackStafData from "../models/IStackStafData";
 import ITierStafData from "../models/ITierStafData";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
-import { LengthUnitsEnum } from "../../models/base/enums/UnitsEnum";
 import LidConfig from "../sections/LidConfig";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
@@ -129,8 +126,8 @@ describe("for STAF_BAY data", () => {
     expect(row1.maxHeight).toBe(10510);
     expect(row1.bulkhead.fore).toBe(1);
     expect(row1.bulkhead.foreLcg).toBe(-117400);
-    expect(row1.stackInfoByLength[20].lcg).toBe(-114110);
-    expect(row1.stackInfoByLength[20].stackWeight).toBe(96000);
+    expect(row1.infoByContLength[20].lcg).toBe(-114110);
+    expect(row1.infoByContLength[20].stackWeight).toBe(96000);
 
     expect(row2.isoBay).toBe("001");
     expect(row2.level).toBe(BayLevelEnum.ABOVE);
@@ -142,12 +139,12 @@ describe("for STAF_BAY data", () => {
 
     expect(row4.isoBay).toBe("003");
     expect(row4.level).toBe(BayLevelEnum.ABOVE);
-    expect(row4.stackInfoByLength[20].lcg).toBe(-106770);
-    expect(row4.stackInfoByLength[40].lcg).toBe(-108690);
-    expect(row4.stackInfoByLength[45].lcg).toBe(-108690);
-    expect(row4.stackInfoByLength[20].stackWeight).toBe(70000);
-    expect(row4.stackInfoByLength[40].stackWeight).toBe(120000);
-    expect(row4.stackInfoByLength[45].stackWeight).toBe(120000);
+    expect(row4.infoByContLength[20].lcg).toBe(-106770);
+    expect(row4.infoByContLength[40].lcg).toBe(-108690);
+    expect(row4.infoByContLength[45].lcg).toBe(-108690);
+    expect(row4.infoByContLength[20].stackWeight).toBe(70000);
+    expect(row4.infoByContLength[40].stackWeight).toBe(120000);
+    expect(row4.infoByContLength[45].stackWeight).toBe(120000);
   });
 });
 

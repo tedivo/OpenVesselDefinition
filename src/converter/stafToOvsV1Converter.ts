@@ -14,6 +14,7 @@ import addPerTierInfo from "../converter/core/addPerTierInfo";
 import { calculateMasterCGs } from "./core/calculateMasterCGs";
 import { cgsRemap } from "./core/cgsRemap";
 import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
+import createBayMasterInfo from "./core/createBayMasterInfo";
 import { createDictionaryMultiple } from "../helpers/createDictionary";
 import createSummary from "./core/createSummary";
 import { getContainerLengths } from "./core/getContainerLengths";
@@ -123,7 +124,10 @@ export default function stafToOvsV1Converter(
     dataProcessed.shipData.tcgOptions
   );
 
-  // 10. Obtain most repeated CGs in masterCGs
+  // 10. Add `masterInfo` to each bay
+  createBayMasterInfo(dataProcessed.bayLevelData);
+
+  // 11. Obtain most repeated CGs in masterCGs
   shipData.masterCGs = calculateMasterCGs(
     dataProcessed.shipData,
     dataProcessed.bayLevelData

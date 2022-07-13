@@ -1,13 +1,14 @@
-import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import {
   IIsoBayPattern,
   IJoinedStackTierPattern,
 } from "../../models/base/types/IPositionPatterns";
-import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
-import { shipDataBays } from "../mocks/shipData";
+
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
 import IStackStafData from "../models/IStackStafData";
 import addPerStackInfo from "./addPerStackInfo";
+import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
+import { shipDataBays } from "../mocks/shipData";
 
 const mockSlotInfoKeysAbove: IJoinedStackTierPattern[] = ["0080", "0082"];
 const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];

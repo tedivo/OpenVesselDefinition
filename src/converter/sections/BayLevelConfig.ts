@@ -1,5 +1,5 @@
 import {
-  deleteMissingContainerLenghtData,
+  deleteMissingInfoByContLength,
   deleteVerboseOptionalFalsyKeys,
 } from "../../helpers/deleteMissingInfo";
 import safeNumberMtToMm, {
@@ -26,48 +26,48 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataIntermediate> = {
     SL_Hatch: { target: "slHatch", passValue: true, dashIsEmpty: true },
     SL_ForeAft: { target: "slForeAft", passValue: true, dashIsEmpty: true },
     LCG_20: {
-      target: "stackInfoByLength.20.lcg",
+      target: "infoByContLength.20.lcg",
       mapper: safeNumberMtToMm,
       setSelf: ["size", 20],
     },
     LCG_24: {
-      target: "stackInfoByLength.24.lcg",
+      target: "infoByContLength.24.lcg",
       mapper: safeNumberMtToMm,
       setSelf: ["size", 24],
     },
     LCG_40: {
-      target: "stackInfoByLength.40.lcg",
+      target: "infoByContLength.40.lcg",
       mapper: safeNumberMtToMm,
       setSelf: ["size", 40],
     },
     LCG_45: {
-      target: "stackInfoByLength.45.lcg",
+      target: "infoByContLength.45.lcg",
       mapper: safeNumberMtToMm,
       setSelf: ["size", 45],
     },
     LCG_48: {
-      target: "stackInfoByLength.48.lcg",
+      target: "infoByContLength.48.lcg",
       mapper: safeNumberMtToMm,
       setSelf: ["size", 48],
     },
     STACK_WT_20: {
-      target: "stackInfoByLength.20.stackWeight",
+      target: "infoByContLength.20.stackWeight",
       mapper: safeNumberKgToGrams,
     },
     STACK_WT_24: {
-      target: "stackInfoByLength.24.stackWeight",
+      target: "infoByContLength.24.stackWeight",
       mapper: safeNumberKgToGrams,
     },
     STACK_WT_40: {
-      target: "stackInfoByLength.40.stackWeight",
+      target: "infoByContLength.40.stackWeight",
       mapper: safeNumberKgToGrams,
     },
     STACK_WT_45: {
-      target: "stackInfoByLength.45.stackWeight",
+      target: "infoByContLength.45.stackWeight",
       mapper: safeNumberKgToGrams,
     },
     STACK_WT_48: {
-      target: "stackInfoByLength.48.stackWeight",
+      target: "infoByContLength.48.stackWeight",
       mapper: safeNumberKgToGrams,
     },
     MAX_HEIGHT: { target: "maxHeight", mapper: safeNumberMtToMm },
@@ -79,7 +79,7 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataIntermediate> = {
     BULKHEAD_LCG: { target: "bulkhead.foreLcg", mapper: safeNumberMtToMm },
   },
   postProcessors: [
-    deleteMissingContainerLenghtData,
+    deleteMissingInfoByContLength,
     deleteVerboseOptionalFalsyKeys([
       "label20",
       "label40",
