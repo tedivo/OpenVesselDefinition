@@ -96,7 +96,6 @@ describe("for SHIP data", () => {
 
     expect(singleRow.shipName).toBe("OAME");
     expect(singleRow.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);
-    expect(singleRow.fileUnits.lengthUnits).toBe(LengthUnitsEnum.METRIC);
     expect(singleRow.lcgOptions).toBeTruthy();
     expect(singleRow.lcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
     expect(singleRow.lcgOptions.reference).toBe(LcgReferenceEnum.MIDSHIPS);

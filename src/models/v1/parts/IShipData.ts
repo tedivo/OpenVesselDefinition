@@ -50,9 +50,6 @@ interface IShipDataBase {
   /** Note and Revisions history */
   metaInfo: IShipMeta;
 
-  /** The units this file uses for lengths and weights */
-  fileUnits: IFileUnits;
-
   refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
 }
 
@@ -137,10 +134,5 @@ export interface IMasterCGs {
 
 export type IShipDataFromStaf = Pick<
   IShipDataIntermediateStaf,
-  | "shipName"
-  | "fileUnits"
-  | "lcgOptions"
-  | "tcgOptions"
-  | "vcgOptions"
-  | "positionFormat"
+  "shipName" | "lcgOptions" | "tcgOptions" | "vcgOptions" | "positionFormat"
 >;

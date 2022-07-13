@@ -18,10 +18,6 @@ export const shipData: IShipData = {
   stackWeightCalculation: StackWeightCalculationEnum.CONTAINER_LENGTH,
   dynamicStackWeightLimit: 0,
   metaInfo: {},
-  fileUnits: {
-    lengthUnits: LengthUnitsEnum.METRIC,
-    weightUnits: WeightUnitsEnum.KILOGRAMS,
-  },
   lcgOptions: {
     values: ValuesSourceEnum.ESTIMATED,
     lpp: 100000,

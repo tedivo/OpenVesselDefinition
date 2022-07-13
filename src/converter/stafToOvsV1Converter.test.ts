@@ -71,9 +71,6 @@ describe("stafToOvsV1Converter should...", () => {
     expect(shipData.shipName).toBe("OBEI");
     expect(shipData.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);
 
-    expect(shipData.fileUnits).toBeDefined();
-    expect(shipData.fileUnits.lengthUnits).toBe(LengthUnitsEnum.METRIC);
-
     expect(shipData.lcgOptions).toBeDefined();
     expect(shipData.lcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
 
