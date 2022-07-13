@@ -1,13 +1,12 @@
-import { shipData, shipDataBays } from "../mocks/shipData";
-
 import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
-import createBayMasterInfo from "./createBayMasterInfo";
+import calculateBayMasterInfo from "./calculateBayMasterInfo";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
+import { shipDataBays } from "../mocks/shipData";
 
 const mockSlotInfoKeysAbove: IJoinedStackTierPattern[] = ["0080", "0082"];
 const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];
 
-describe("createBayMasterInfo should", () => {
+describe("calculateBayMasterInfo should", () => {
   it("works correctly", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       shipDataBays,
@@ -15,7 +14,7 @@ describe("createBayMasterInfo should", () => {
       mockSlotInfoKeysBelow
     );
 
-    createBayMasterInfo(bayLevelData);
+    calculateBayMasterInfo(bayLevelData);
 
     const [bay001Above] = bayLevelData;
 

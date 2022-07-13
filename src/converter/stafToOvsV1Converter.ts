@@ -11,10 +11,10 @@ import ITierStafData from "./models/ITierStafData";
 import addPerSlotData from "../converter/core/addPerSlotData";
 import addPerStackInfo from "../converter/core/addPerStackInfo";
 import addPerTierInfo from "../converter/core/addPerTierInfo";
+import calculateBayMasterInfo from "./core/calculateBayMasterInfo";
 import { calculateMasterCGs } from "./core/calculateMasterCGs";
 import { cgsRemap } from "./core/cgsRemap";
 import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
-import createBayMasterInfo from "./core/createBayMasterInfo";
 import { createDictionaryMultiple } from "../helpers/createDictionary";
 import createSummary from "./core/createSummary";
 import { getContainerLengths } from "./core/getContainerLengths";
@@ -125,7 +125,7 @@ export default function stafToOvsV1Converter(
   );
 
   // 10. Add `masterInfo` to each bay
-  createBayMasterInfo(dataProcessed.bayLevelData);
+  calculateBayMasterInfo(dataProcessed.bayLevelData);
 
   // 11. Obtain most repeated CGs in masterCGs
   shipData.masterCGs = calculateMasterCGs(

@@ -8,10 +8,10 @@ import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns"
 import { pad2 } from "../../helpers/pad";
 
 /**
- * Add `masterInfo` to the bay
+ * Add `masterInfo` to the bay. Deletes repeated values
  * @param bayLevelData
  */
-export default function createBayMasterInfo(
+export default function calculateBayMasterInfo(
   bayLevelData: IBayLevelDataIntermediate[]
 ): void {
   if (!bayLevelData) {
@@ -33,6 +33,22 @@ export default function createBayMasterInfo(
     });
 
     bl.masterInfo = chooseMostRepeatedValue(masterInfoStats);
+
+    // Clean repeated data
+    stacks.forEach((stack) => {
+      const sDataK = bl.perStackInfo[stack];
+      if (sDataK.bottomBase === bl.masterInfo.bottomBase)
+        sDataK.bottomBase = undefined;
+
+      if (sDataK.bottomIsoTier === bl.masterInfo.bottomIsoTier)
+        sDataK.bottomIsoTier = undefined;
+
+      if (sDataK.topIsoTier === bl.masterInfo.topIsoTier)
+        sDataK.topIsoTier = undefined;
+
+      if (sDataK.maxHeight === bl.masterInfo.maxHeight)
+        sDataK.maxHeight = undefined;
+    });
   });
 }
 
