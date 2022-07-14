@@ -1,4 +1,7 @@
-import { IBayStackInfo } from "../../models/v1/parts/IBayLevelData";
+import {
+  IBayStackInfo,
+  TBayStackInfo,
+} from "../../models/v1/parts/IBayLevelData";
 import createSlotsFromStacksInfo, {
   createSlotsFromStack,
 } from "./createSlotsFromStacksInfo";
@@ -45,9 +48,12 @@ describe("createSlotsFromStack should", () => {
 
 describe("createSlotsFromStacksInfo should", () => {
   it("work correctly", () => {
-    const stacks = {
-      "01": testStack01,
-      "02": testStack02,
+    const stacks: TBayStackInfo = {
+      each: {
+        "01": testStack01,
+        "02": testStack02,
+      },
+      common: {},
     };
     const res = createSlotsFromStacksInfo(stacks, {});
 

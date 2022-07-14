@@ -94,9 +94,10 @@ export function addBayToSummary(
   const stacksFromSlotsInfo = bl.perSlotInfo
     ? Object.keys(bl.perSlotInfo).map((s) => s.substring(0, 2))
     : [];
-  const stacksFromStackInfo = bl.perStackInfo
-    ? Object.keys(bl.perStackInfo)
-    : [];
+  const stacksFromStackInfo =
+    bl.perStackInfo && bl.perStackInfo.each
+      ? Object.keys(bl.perStackInfo.each)
+      : [];
 
   // Concat and unique
   const allStacks = stacksFromSlotsInfo

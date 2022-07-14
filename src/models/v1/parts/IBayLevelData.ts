@@ -47,10 +47,6 @@ export interface IBayLevelDataIntermediate {
   engineRmBulkfore?: TYesNo;
 
   /**
-   * This object contains the common data of `perStackInfo`
-   */
-  masterInfo: TCommonBayInfo;
-  /**
    * Dictionary: contains information that applies to all stacks by container Length
    */
   infoByContLength: TStackInfoByLength;
@@ -75,7 +71,10 @@ export interface IBayLevelDataIntermediate {
   stacksLabelsDictionary?: string;
 }
 
-type IBayLevelData = Omit<IBayLevelDataIntermediate, "perTierInfo">;
+type IBayLevelData = Omit<
+  IBayLevelDataIntermediate,
+  "perTierInfo" | "maxHeight"
+>;
 export default IBayLevelData;
 
 export interface IBaySlotData {
@@ -92,9 +91,12 @@ export interface IStackInfoByLength {
   bottomWeight?: number;
 }
 
-export type TBayStackInfo = {
-  [key in IIsoStackTierPattern]: IBayStackInfo;
-};
+export interface TBayStackInfo {
+  common?: TCommonBayInfo;
+  each?: {
+    [key: IIsoStackTierPattern]: IBayStackInfo;
+  };
+}
 
 export interface TCommonBayInfo {
   topIsoTier?: IIsoStackTierPattern;

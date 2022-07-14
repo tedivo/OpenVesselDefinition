@@ -1,3 +1,6 @@
+import IBayLevelData, {
+  IBayLevelDataIntermediate,
+} from "../../models/v1/parts/IBayLevelData";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
@@ -5,7 +8,6 @@ import ValuesSourceEnum, {
 import BayLevelConfig from "../sections/BayLevelConfig";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
@@ -111,10 +113,11 @@ describe("for STAF_BAY data", () => {
 
     const headerSection = sectionsByName["SECTION"];
 
-    const processed = convertStafObjectToShipOpenSpec<IBayLevelData>(
-      headerSection,
-      BayLevelConfig
-    );
+    const processed =
+      convertStafObjectToShipOpenSpec<IBayLevelDataIntermediate>(
+        headerSection,
+        BayLevelConfig
+      );
 
     expect(processed.length).toBe(4);
     const [row1, row2, row3, row4] = processed;

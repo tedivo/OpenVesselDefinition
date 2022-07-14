@@ -1,6 +1,10 @@
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../models/base/enums/ValuesSourceEnum";
+import {
+  calculateMasterCGs,
+  cleanRepeatedTcgs,
+} from "./core/calculateMasterCGs";
 import mapStafSections, { STAF_MIN_SECTIONS } from "./core/mapStafSections";
 
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
@@ -11,8 +15,7 @@ import ITierStafData from "./models/ITierStafData";
 import addPerSlotData from "../converter/core/addPerSlotData";
 import addPerStackInfo from "../converter/core/addPerStackInfo";
 import addPerTierInfo from "../converter/core/addPerTierInfo";
-import calculateBayMasterInfo from "./core/calculateBayMasterInfo";
-import { calculateMasterCGs } from "./core/calculateMasterCGs";
+import calculateCommonStackInfo from "./core/calculateCommonStackInfo";
 import { cgsRemap } from "./core/cgsRemap";
 import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
 import { createDictionaryMultiple } from "../helpers/createDictionary";
@@ -124,14 +127,17 @@ export default function stafToOvsV1Converter(
     dataProcessed.shipData.tcgOptions
   );
 
-  // 10. Add `masterInfo` to each bay
-  calculateBayMasterInfo(dataProcessed.bayLevelData);
+  // 10. Add `commonStackInfo` to each bay
+  calculateCommonStackInfo(dataProcessed.bayLevelData);
 
   // 11. Obtain most repeated CGs in masterCGs
   shipData.masterCGs = calculateMasterCGs(
     dataProcessed.shipData,
     dataProcessed.bayLevelData
   );
+
+  // 12. cleanRepeatedTcgs
+  cleanRepeatedTcgs(shipData.masterCGs, dataProcessed.bayLevelData);
 
   // OpenShipSpec JSON
   const result: IOpenShipSpecV1 = {

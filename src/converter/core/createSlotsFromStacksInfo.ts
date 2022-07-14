@@ -1,9 +1,10 @@
-import { pad2 } from "../../helpers/pad";
 import {
   IBaySlotData,
   IBayStackInfo,
   TBayStackInfo,
 } from "../../models/v1/parts/IBayLevelData";
+
+import { pad2 } from "../../helpers/pad";
 
 export function createSlotsFromStack(
   stackData: IBayStackInfo,
@@ -37,8 +38,9 @@ export default function createSlotsFromStacksInfo(
   stacksData: TBayStackInfo,
   baySlotData: IBaySlotData
 ): IBaySlotData {
-  Object.keys(stacksData).forEach((stack) => {
-    const stackData = stacksData[stack];
+  const perStackInfoEach = stacksData.each;
+  Object.keys(perStackInfoEach).forEach((stack) => {
+    const stackData = perStackInfoEach[stack];
     baySlotData = createSlotsFromStack(stackData, baySlotData);
   });
   return baySlotData;

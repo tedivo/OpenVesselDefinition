@@ -47,12 +47,12 @@ function remapTcgs(
     tcgOptions.direction === PortStarboardEnum.STARBOARD ? 1 : -1;
 
   bls.forEach((bl) => {
-    const perStackInfo = bl.perStackInfo;
-    const stacks = Object.keys(perStackInfo) as IIsoStackTierPattern[];
+    const perStackInfoEach = bl.perStackInfo.each;
+    const stacks = Object.keys(perStackInfoEach) as IIsoStackTierPattern[];
 
     stacks.forEach((stack) => {
-      const tcg = perStackInfo[stack].tcg;
-      if (tcg !== undefined) perStackInfo[stack].tcg = tcgSignMult * tcg;
+      const tcg = perStackInfoEach[stack].tcg;
+      if (tcg !== undefined) perStackInfoEach[stack].tcg = tcgSignMult * tcg;
     });
   });
 }
@@ -71,16 +71,16 @@ function remapVcgs(
   );
 
   bls.forEach((bl) => {
-    const perStackInfo = bl.perStackInfo;
+    const perStackInfoEach = bl.perStackInfo.each;
     const perTierInfo = bl.perTierInfo;
 
-    const stacks = Object.keys(perStackInfo) as IIsoStackTierPattern[];
+    const stacks = Object.keys(perStackInfoEach) as IIsoStackTierPattern[];
     stacks.forEach((stack) => {
-      const bottomIsoTier = perStackInfo[stack].bottomIsoTier;
+      const bottomIsoTier = perStackInfoEach[stack].bottomIsoTier;
       const vcg = perTierInfo[bottomIsoTier]?.vcg;
       if (vcg !== undefined) {
         const bottomBase = vcg - baseAdjust;
-        perStackInfo[stack].bottomBase = bottomBase;
+        perStackInfoEach[stack].bottomBase = bottomBase;
       }
     });
     // Important: as "perTierInfo" is used many times, cgsRemap should only
@@ -100,15 +100,15 @@ function remapLcgs(
 ) {
   const lpp = lcgOptions.lpp;
 
-  const lcgRebase =
-    lcgOptions.reference === LcgReferenceEnum.FWD_PERSPECTIVE
-      ? -lpp
-      : lcgOptions.reference === LcgReferenceEnum.MIDSHIPS
-      ? -lpp * 0.5
-      : 0;
-
   const lcgSignMult =
     lcgOptions.orientationIncrease === ForeAftEnum.FWD ? 1 : -1;
+
+  const lcgRebase =
+    lcgOptions.reference === LcgReferenceEnum.FWD_PERSPECTIVE
+      ? (lcg: number) => lpp - lcg * lcgSignMult
+      : lcgOptions.reference === LcgReferenceEnum.MIDSHIPS
+      ? (lcg: number) => lpp * 0.5 + lcg * lcgSignMult
+      : (lcg: number) => lcg * lcgSignMult;
 
   bls.forEach((bl) => {
     const infoByContLength = bl.infoByContLength;
@@ -116,11 +116,41 @@ function remapLcgs(
       infoByContLength
     ) as unknown as TContainerLengths[];
 
+    // remap infoByContLength
     contLens.forEach((len) => {
       let lcg = infoByContLength[len].lcg;
       if (lcg !== undefined) {
-        infoByContLength[len].lcg = lcg * lcgSignMult + lcgRebase;
+        infoByContLength[len].lcg = lcgRebase(lcg);
       }
     });
+
+    // remap bulkheads
+    const bulkhead = bl.bulkhead;
+    if (bulkhead) {
+      if (bulkhead.foreLcg !== undefined)
+        bulkhead.foreLcg = lcgRebase(bulkhead.foreLcg);
+      if (bulkhead.aftLcg !== undefined)
+        bulkhead.aftLcg = lcgRebase(bulkhead.aftLcg);
+    }
+
+    // remap  perStackInfo.each.[xx].stackInfoByLength
+    const perStackInfoEach = bl.perStackInfo?.each;
+    if (perStackInfoEach) {
+      const stacks = Object.keys(perStackInfoEach) as IIsoStackTierPattern[];
+      stacks.forEach((stack) => {
+        const stackInfoByLength = perStackInfoEach[stack].stackInfoByLength;
+        if (stackInfoByLength) {
+          const sizes = Object.keys(stackInfoByLength).map(
+            Number
+          ) as TContainerLengths[];
+          sizes.forEach((size) => {
+            const lcg = stackInfoByLength[size].lcg;
+            if (lcg !== undefined) {
+              stackInfoByLength[size].lcg = lcgRebase(lcg);
+            }
+          });
+        }
+      });
+    }
   });
 }

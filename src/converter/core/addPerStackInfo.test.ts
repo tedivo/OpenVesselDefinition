@@ -48,7 +48,7 @@ describe("addPerStackInfo should", () => {
       mockSlotInfoKeysBelow
     );
 
-    const stack03Prev = bayLevelData[0].perStackInfo["03"];
+    const stack03Prev = bayLevelData[0].perStackInfo.each["03"];
     expect(stack03Prev).toBeUndefined();
 
     const stackData: IObjectKeyArray<IStackStafData, string> = {
@@ -77,7 +77,7 @@ describe("addPerStackInfo should", () => {
 
     addPerStackInfo([bayLevelData[0], bayLevelData[1]], stackData);
 
-    const stack03 = bayLevelData[0].perStackInfo["03"];
+    const stack03 = bayLevelData[0].perStackInfo.each["03"];
 
     expect(stack03).toBeDefined();
     expect(stack03.stackInfoByLength).toBeDefined();
@@ -91,7 +91,7 @@ describe("addPerStackInfo should", () => {
     expect(stack03.stackInfoByLength[40].size).toBe(40);
     expect(stack03.stackInfoByLength[53].size).toBe(53);
 
-    const stack03InBayBelow = bayLevelData[1].perStackInfo["03"];
+    const stack03InBayBelow = bayLevelData[1].perStackInfo.each["03"];
     expect(stack03InBayBelow).toBeUndefined();
   });
 });

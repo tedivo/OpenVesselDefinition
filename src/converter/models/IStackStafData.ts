@@ -1,15 +1,15 @@
-import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import { TYesNo } from "../../models/base/types/IPositionPatterns";
 import {
   IBayStackInfo,
   IStackInfoByLength,
 } from "../../models/v1/parts/IBayLevelData";
-import { TContainerLengths } from "../../models/v1/parts/Types";
 
-export type IStackAttributesByContainerLengthWithAcceptsSize =
-  IStackInfoByLength & {
-    acceptsSize: TYesNo;
-  };
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import { TContainerLengths } from "../../models/v1/parts/Types";
+import { TYesNo } from "../../models/base/types/IPositionPatterns";
+
+export type IStackInfoByLengthWithAcceptsSize = IStackInfoByLength & {
+  acceptsSize: TYesNo;
+};
 
 type IStackStafData = {
   /** 3 digits ISO Bay */
@@ -17,7 +17,7 @@ type IStackStafData = {
   /** Above, Below */
   level: BayLevelEnum;
   stackInfoByLength: Partial<{
-    [key in TContainerLengths]: IStackAttributesByContainerLengthWithAcceptsSize;
+    [key in TContainerLengths]: IStackInfoByLengthWithAcceptsSize;
   }>;
 } & Omit<IBayStackInfo, "stackInfoByLength">;
 

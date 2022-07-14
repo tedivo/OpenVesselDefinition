@@ -30,7 +30,7 @@ export default function addPerStackInfo(
 
     const key = `${bl.isoBay}-${bl.level}`;
     const stackDataOfBay = stackDataByBayLevel[key];
-    if (!bl.perStackInfo) bl.perStackInfo = {};
+    if (!bl.perStackInfo) bl.perStackInfo = { each: {}, common: {} };
     if (!bl.perSlotInfo) bl.perSlotInfo = {};
 
     if (stackDataOfBay) {
@@ -51,7 +51,7 @@ export default function addPerStackInfo(
             }
 
           // a. Set perStackInfo
-          bl.perStackInfo[sDataK.isoStack] = sDataK;
+          bl.perStackInfo.each[sDataK.isoStack] = sDataK;
           // b. Set perSlotInfo
           bl.perSlotInfo = createSlotsFromStack(sDataK, bl.perSlotInfo);
           // c. centerLineStack?

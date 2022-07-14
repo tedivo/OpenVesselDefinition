@@ -1,37 +1,46 @@
+import { IStackInfoByLengthWithAcceptsSize } from "../../models/IStackStafData";
 import { TBayStackInfo } from "../../../models/v1/parts/IBayLevelData";
 import { TContainerLengths } from "../../../models/v1/parts/Types";
-import { IStackAttributesByContainerLengthWithAcceptsSize } from "../../models/IStackStafData";
 
 export default function cleanUpPerStackInfo(perStackInfo: TBayStackInfo) {
-  const stacks = Object.keys(perStackInfo);
+  const stacks = Object.keys(perStackInfo.each);
 
   stacks.forEach((stack) => {
-    delete perStackInfo[stack].label;
+    delete perStackInfo.each[stack].label;
 
-    const attrsByLength = perStackInfo[stack].stackInfoByLength;
+    const stackInfoByLength = perStackInfo.each[stack].stackInfoByLength;
 
-    if (attrsByLength) {
-      const sizesKeys = Object.keys(
-        attrsByLength
-      ) as unknown as TContainerLengths[];
+    if (stackInfoByLength) {
+      const sizes = Object.keys(stackInfoByLength).map(
+        Number
+      ) as TContainerLengths[];
 
-      sizesKeys.forEach((size) => {
-        const attrs = attrsByLength[
+      sizes.forEach((size) => {
+        const attrs = stackInfoByLength[
           size
-        ] as IStackAttributesByContainerLengthWithAcceptsSize;
-
-        const keysOfObj = Object.keys(attrs).filter(
-          (o) => o !== "acceptsSize" && attrs[o] !== undefined
-        );
+        ] as IStackInfoByLengthWithAcceptsSize;
 
         // Clean-up "acceptsSize" property
         delete attrs.acceptsSize;
 
+        // Get keys
+        const keysOfObj = Object.keys(attrs).filter(
+          (o) => attrs[o] !== undefined
+        );
+
         // Clean-up all size object if doesn't accepts size
         if (keysOfObj.length <= 1 && attrs.size !== undefined) {
-          delete attrsByLength[size];
+          delete stackInfoByLength[size];
         }
       });
+
+      const keysOfObj = Object.keys(stackInfoByLength).filter(
+        (o) => stackInfoByLength[o] !== undefined
+      );
+
+      if (keysOfObj.length === 0) {
+        delete perStackInfo.each[stack].stackInfoByLength;
+      }
     }
   });
 }

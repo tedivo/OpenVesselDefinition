@@ -8,10 +8,10 @@ import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns"
 import { pad2 } from "../../helpers/pad";
 
 /**
- * Add `masterInfo` to the bay. Deletes repeated values
+ * Add `commonStackInfo` to the bay. Deletes repeated values
  * @param bayLevelData
  */
-export default function calculateBayMasterInfo(
+export default function calculateCommonStackInfo(
   bayLevelData: IBayLevelDataIntermediate[]
 ): void {
   if (!bayLevelData) {
@@ -26,27 +26,32 @@ export default function calculateBayMasterInfo(
       maxHeight: new Map(),
     };
 
-    const stacks = Object.keys(bl.perStackInfo) as IIsoStackTierPattern[];
+    const stacks = Object.keys(bl.perStackInfo.each) as IIsoStackTierPattern[];
     stacks.forEach((stack) => {
-      const sDataK = bl.perStackInfo[stack];
+      const sDataK = bl.perStackInfo.each[stack];
       addToStats(sDataK, masterInfoStats);
     });
 
-    bl.masterInfo = chooseMostRepeatedValue(masterInfoStats);
+    bl.perStackInfo.common = chooseMostRepeatedValue(masterInfoStats);
+
+    bl.perStackInfo.common.maxHeight = bl.maxHeight;
+    delete bl.maxHeight;
 
     // Clean repeated data
     stacks.forEach((stack) => {
-      const sDataK = bl.perStackInfo[stack];
-      if (sDataK.bottomBase === bl.masterInfo.bottomBase)
+      const sDataK = bl.perStackInfo.each[stack];
+      const perStackInfoCommon = bl.perStackInfo.common;
+
+      if (sDataK.bottomBase === perStackInfoCommon.bottomBase)
         sDataK.bottomBase = undefined;
 
-      if (sDataK.bottomIsoTier === bl.masterInfo.bottomIsoTier)
+      if (sDataK.bottomIsoTier === perStackInfoCommon.bottomIsoTier)
         sDataK.bottomIsoTier = undefined;
 
-      if (sDataK.topIsoTier === bl.masterInfo.topIsoTier)
+      if (sDataK.topIsoTier === perStackInfoCommon.topIsoTier)
         sDataK.topIsoTier = undefined;
 
-      if (sDataK.maxHeight === bl.masterInfo.maxHeight)
+      if (sDataK.maxHeight === perStackInfoCommon.maxHeight)
         sDataK.maxHeight = undefined;
     });
   });

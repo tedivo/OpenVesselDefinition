@@ -1,5 +1,5 @@
 import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
-import calculateBayMasterInfo from "./calculateBayMasterInfo";
+import calculateCommonStackInfo from "./calculateCommonStackInfo";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import { shipDataBays } from "../mocks/shipData";
 
@@ -14,14 +14,14 @@ describe("calculateBayMasterInfo should", () => {
       mockSlotInfoKeysBelow
     );
 
-    calculateBayMasterInfo(bayLevelData);
+    calculateCommonStackInfo(bayLevelData);
 
     const [bay001Above] = bayLevelData;
 
-    expect(bay001Above.masterInfo).toBeDefined();
-    expect(bay001Above.masterInfo.topIsoTier).toBe("86");
-    expect(bay001Above.masterInfo.bottomIsoTier).toBe("80");
-    expect(bay001Above.masterInfo.bottomBase).toBe(50000);
-    expect(bay001Above.masterInfo.maxHeight).toBeUndefined();
+    expect(bay001Above.perStackInfo.common).toBeDefined();
+    expect(bay001Above.perStackInfo.common.topIsoTier).toBe("86");
+    expect(bay001Above.perStackInfo.common.bottomIsoTier).toBe("80");
+    expect(bay001Above.perStackInfo.common.bottomBase).toBe(50000);
+    expect(bay001Above.perStackInfo.common.maxHeight).toBeUndefined();
   });
 });

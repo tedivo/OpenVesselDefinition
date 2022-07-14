@@ -1,4 +1,4 @@
-import { IStackAttributesByContainerLengthWithAcceptsSize } from "../converter/models/IStackStafData";
+import { IStackInfoByLengthWithAcceptsSize } from "../converter/models/IStackStafData";
 import { TStackInfoByLength } from "../models/v1/parts/IBayLevelData";
 
 /**
@@ -58,7 +58,7 @@ type TWithStackAttributesByContainerLength<T> = T extends {
   : never;
 
 type TWithStackAttributesByContainerLengthWithAcceptsSize<T> = T extends {
-  stackInfoByLength: IStackAttributesByContainerLengthWithAcceptsSize;
+  stackInfoByLength: IStackInfoByLengthWithAcceptsSize;
 }
   ? T
   : never;

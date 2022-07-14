@@ -1,5 +1,6 @@
 import IBayLevelData, {
   IBayLevelDataIntermediate,
+  IBayStackInfo,
   TBayStackInfo,
   TBayTierInfo,
   TStackInfoByLength,
@@ -30,8 +31,8 @@ const defaultStackAttributesByContainerLength2040: TStackInfoByLength = {
 export const bayLevelData: IBayLevelData = {
   isoBay: "001",
   level: BayLevelEnum.ABOVE,
+  perStackInfo: {},
   infoByContLength: defaultStackAttributesByContainerLength2024,
-  masterInfo: {},
 };
 
 export function createMockedSingleBayLevelData(
@@ -47,21 +48,8 @@ export function createMockedSingleBayLevelData(
     ? defaultStacks
     : defaultStacks.filter((s) => s !== "00");
 
-  return {
-    isoBay,
-    level: isAbove ? BayLevelEnum.ABOVE : BayLevelEnum.BELOW,
-    masterInfo: {},
-    infoByContLength: isFake40
-      ? defaultStackAttributesByContainerLength2040
-      : defaultStackAttributesByContainerLength2024,
-    perTierInfo: (isAbove ? defaultAboveTiers : defaultBelowTiers).reduce(
-      (acc, v) => {
-        acc[v] = { isoTier: v };
-        return acc;
-      },
-      {} as TBayTierInfo
-    ),
-    perStackInfo: stacks.reduce((acc, v) => {
+  const perStackInfoEach: { [key: IIsoStackTierPattern]: IBayStackInfo } =
+    stacks.reduce((acc, v) => {
       acc[v] = {
         isoStack: v,
         bottomBase,
@@ -69,7 +57,27 @@ export function createMockedSingleBayLevelData(
         topIsoTier: isAbove ? defaultAboveTiers[3] : defaultBelowTiers[3],
       };
       return acc;
-    }, {} as TBayStackInfo),
+    }, {});
+
+  const perTierInfo = (isAbove ? defaultAboveTiers : defaultBelowTiers).reduce(
+    (acc, v) => {
+      acc[v] = { isoTier: v };
+      return acc;
+    },
+    {} as TBayTierInfo
+  );
+
+  return {
+    isoBay,
+    level: isAbove ? BayLevelEnum.ABOVE : BayLevelEnum.BELOW,
+    infoByContLength: isFake40
+      ? defaultStackAttributesByContainerLength2040
+      : defaultStackAttributesByContainerLength2024,
+    perTierInfo,
+    perStackInfo: {
+      each: perStackInfoEach,
+      common: {},
+    },
 
     perSlotInfo: perSlotKeys.reduce((acc, v) => {
       acc[v] = isFake40

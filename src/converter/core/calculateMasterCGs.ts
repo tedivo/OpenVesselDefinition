@@ -34,9 +34,11 @@ export function calculateMasterCGs(
 
   bls.forEach((bl) => {
     // A. Stacks
-    const perStackInfo = bl.perStackInfo;
-    if (shouldProcessStacks && perStackInfo !== undefined) {
-      const stacks = Object.keys(perStackInfo) as IIsoStackTierPattern[];
+    const perStackInfoEach = bl.perStackInfo.each;
+    const perStackInfoCommon = bl.perStackInfo.common;
+
+    if (shouldProcessStacks && perStackInfoEach !== undefined) {
+      const stacks = Object.keys(perStackInfoEach) as IIsoStackTierPattern[];
       const extractedTCGs =
         bl.level === BayLevelEnum.ABOVE
           ? extractedAboveTCGs
@@ -47,7 +49,7 @@ export function calculateMasterCGs(
         if (!extractedTCGs[stack])
           extractedTCGs[stack] = new Map<number, number>();
         // Gather TCG value
-        const tcgValue = perStackInfo[stack].tcg;
+        const tcgValue = perStackInfoEach[stack].tcg;
 
         if (tcgValue !== undefined) {
           // Create repetitions counter
@@ -61,9 +63,13 @@ export function calculateMasterCGs(
           );
         }
 
-        const vcgValue = perStackInfo[stack].bottomBase;
+        const vcgValue =
+          perStackInfoEach[stack].bottomBase || perStackInfoCommon.bottomBase;
+
         if (vcgValue !== undefined) {
-          const tier = perStackInfo[stack].bottomIsoTier;
+          const tier =
+            perStackInfoEach[stack].bottomIsoTier ||
+            perStackInfoCommon.bottomIsoTier;
 
           if (!extractedBottomBases[tier])
             extractedBottomBases[tier] = new Map<number, number>();
@@ -148,4 +154,29 @@ function sortResult(
       acc[key] = result[key];
       return acc;
     }, {});
+}
+
+export function cleanRepeatedTcgs(masterCGs: IMasterCGs, bls: IBayLevelData[]) {
+  bls
+    .filter((bl) => !!bl.perStackInfo)
+    .forEach((bl) => {
+      // A. Stacks
+      const perStackInfoEach = bl.perStackInfo.each;
+      const stacks = Object.keys(perStackInfoEach) as IIsoStackTierPattern[];
+      const masterInfoTcgs =
+        bl.level === BayLevelEnum.ABOVE
+          ? masterCGs.aboveTcgs
+          : masterCGs.belowTcgs;
+
+      stacks.forEach((stack) => {
+        const stackInfo = perStackInfoEach[stack];
+
+        if (
+          stackInfo.tcg !== undefined &&
+          stackInfo.tcg === masterInfoTcgs[stack]
+        ) {
+          stackInfo.tcg = undefined;
+        }
+      });
+    });
 }

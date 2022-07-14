@@ -7,6 +7,5 @@ export function cleanUpOVSJson<T>(json: IOpenShipSpecV1) {
   const baylevelData = json.baysData;
   baylevelData.forEach((bl) => {
     cleanupStackInfo(bl.perStackInfo);
-    //cleanUpTierInfo(bl.perTierInfo);
   });
 }

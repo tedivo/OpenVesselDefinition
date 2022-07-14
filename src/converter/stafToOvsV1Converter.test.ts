@@ -173,7 +173,7 @@ describe("stafToOvsV1Converter should...", () => {
       .map((b) => ({
         bay: b.isoBay,
         level: b.level,
-        perStackInfoLength: Object.keys(b.perStackInfo).length,
+        perStackInfoLength: Object.keys(b.perStackInfo.each).length,
       }))
       .reduce((acc, v) => {
         totalStacks += v.perStackInfoLength;
