@@ -31,7 +31,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
     expect(shipData.lcgOptions).toBeDefined();
     expect(shipData.lcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
     expect(shipData.lcgOptions.reference).toBe(
-      LcgReferenceEnum.AFT_PERSPECTIVE
+      LcgReferenceEnum.AFT_PERPENDICULAR
     );
     expect(shipData.lcgOptions.orientationIncrease).toBe(ForeAftEnum.FWD);
 

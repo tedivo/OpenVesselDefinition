@@ -104,7 +104,7 @@ function remapLcgs(
     lcgOptions.orientationIncrease === ForeAftEnum.FWD ? 1 : -1;
 
   const lcgRebase =
-    lcgOptions.reference === LcgReferenceEnum.FWD_PERSPECTIVE
+    lcgOptions.reference === LcgReferenceEnum.FWD_PERPENDICULAR
       ? (lcg: number) => lpp - lcg * lcgSignMult
       : lcgOptions.reference === LcgReferenceEnum.MIDSHIPS
       ? (lcg: number) => lpp * 0.5 + lcg * lcgSignMult
