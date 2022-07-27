@@ -1,3 +1,9 @@
+import {
+  CONTAINER_LENGTHS,
+  TCompatibilityGroups,
+  TContainerLengths,
+  TImdgClasses,
+} from "./models/v1/parts/Types";
 import IBayLevelData, { IBulkheadInfo } from "./models/v1/parts/IBayLevelData";
 import IPositionLabels, {
   ITierStackLabelDictionaries,
@@ -11,11 +17,6 @@ import {
   LengthUnitsEnum,
   WeightUnitsEnum,
 } from "./models/base/enums/UnitsEnum";
-import {
-  TCompatibilityGroups,
-  TContainerLengths,
-  TImdgClasses,
-} from "./models/v1/parts/Types";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "./models/base/enums/ValuesSourceEnum";
@@ -74,4 +75,5 @@ export {
   createMockedSingleBayLevelData,
   createSummary,
   addBayToSummary,
+  CONTAINER_LENGTHS,
 };
