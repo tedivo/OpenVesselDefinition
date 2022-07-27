@@ -93,7 +93,7 @@ describe("for SHIP data", () => {
 
     const singleRow = processed[0];
 
-    expect(singleRow.shipName).toBe("OAME");
+    expect(singleRow.shipClass).toBe("OAME");
     expect(singleRow.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);
     expect(singleRow.lcgOptions).toBeTruthy();
     expect(singleRow.lcgOptions.values).toBe(ValuesSourceEnum.KNOWN);

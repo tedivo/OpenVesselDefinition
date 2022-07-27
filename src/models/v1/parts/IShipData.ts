@@ -33,11 +33,12 @@ export interface IShipDataIntermediateStaf extends IShipDataBase {
 }
 
 interface IShipDataBase {
-  lineOperator: string;
-  shipName: string;
+  lineOperator?: string;
+  shipName?: string;
   lloydsCode?: string;
   callSign?: string;
   imoCode?: string;
+  shipClass: string;
 
   /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
   positionFormat: PositionFormatEnum;
@@ -134,5 +135,5 @@ export interface IMasterCGs {
 
 export type IShipDataFromStaf = Pick<
   IShipDataIntermediateStaf,
-  "shipName" | "lcgOptions" | "tcgOptions" | "vcgOptions" | "positionFormat"
+  "shipClass" | "lcgOptions" | "tcgOptions" | "vcgOptions" | "positionFormat"
 >;

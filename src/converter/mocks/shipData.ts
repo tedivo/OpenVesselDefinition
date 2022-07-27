@@ -12,7 +12,7 @@ export const shipDataBays = 13;
 
 export const shipData: IShipData = {
   lineOperator: "OEM",
-  shipName: "OEM 1",
+  shipClass: "OEM 1",
   positionFormat: PositionFormatEnum.BAY_STACK_TIER,
   containersLengths: [20, 40, 45],
   stackWeightCalculation: StackWeightCalculationEnum.CONTAINER_LENGTH,

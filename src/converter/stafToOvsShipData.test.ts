@@ -25,7 +25,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
   it("make conversion of shipData correctly", () => {
     const shipData = stafToOvsShipData(stafFileContent);
 
-    expect(shipData.shipName).toBe("OBEI");
+    expect(shipData.shipClass).toBe("OBEI");
     expect(shipData.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);
 
     expect(shipData.lcgOptions).toBeDefined();
@@ -46,7 +46,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
   it("test with mocked data of header", () => {
     const shipData = stafToOvsShipData(stafHeaderString);
 
-    expect(shipData.shipName).toBe("OAME");
+    expect(shipData.shipClass).toBe("OAME");
     expect(shipData.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);
     expect(shipData.lcgOptions).toBeTruthy();
     expect(shipData.lcgOptions.values).toBe(ValuesSourceEnum.KNOWN);

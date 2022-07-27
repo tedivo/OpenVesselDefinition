@@ -3,7 +3,10 @@ import IPositionLabels, {
   ITierStackLabelDictionaries,
   ITierStackLabelDictionary,
 } from "./models/v1/parts/IPositionLabels";
-import IShipData, { IMasterCGs } from "./models/v1/parts/IShipData";
+import IShipData, {
+  ILCGOptions,
+  IMasterCGs,
+} from "./models/v1/parts/IShipData";
 import {
   LengthUnitsEnum,
   WeightUnitsEnum,
@@ -47,6 +50,7 @@ export {
   ISlotData,
   ISizeSummary,
   IPositionLabels,
+  ILCGOptions,
   TContainerLengths,
   TImdgClasses,
   TCompatibilityGroups,

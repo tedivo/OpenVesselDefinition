@@ -68,7 +68,7 @@ describe("stafToOvsV1Converter should...", () => {
     const converted = stafToOvsV1Converter(stafFileContent, 0);
     const shipData = converted.shipData;
 
-    expect(shipData.shipName).toBe("OBEI");
+    expect(shipData.shipClass).toBe("OBEI");
     expect(shipData.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);
 
     expect(shipData.lcgOptions).toBeDefined();

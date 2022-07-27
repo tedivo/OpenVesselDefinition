@@ -33,11 +33,11 @@ export default function stafToOvsShipData(
     ShipConfig
   )[0];
 
-  const { shipName, positionFormat, tcgOptions, lcgOptions, vcgOptions } =
+  const { shipClass, positionFormat, tcgOptions, lcgOptions, vcgOptions } =
     shipData;
 
   return {
-    shipName,
+    shipClass,
     positionFormat,
     tcgOptions,
     lcgOptions,

@@ -18,7 +18,7 @@ const ShipConfig: ISectionMapConfig<IShipDataIntermediateStaf> = {
   stafSection: "SHIP",
   singleRow: true,
   mapVars: {
-    CLASS: { target: "shipName", passValue: true, dashIsEmpty: true },
+    CLASS: { target: "shipClass", passValue: true, dashIsEmpty: true },
     LCG_IN_USE: {
       target: "lcgOptions.values",
       mapper: getStafValuesSourceEnumValue,
