@@ -84,5 +84,13 @@ describe("createSummary should", () => {
     expect(summary.minAboveTier).toBe("80");
     expect(summary.maxBelowTier).toBe("08");
     expect(summary.minBelowTier).toBe("02");
+
+    expect(Number(summary.minBelowTier)).toBeLessThan(
+      Number(summary.maxBelowTier)
+    );
+
+    expect(Number(summary.minAboveTier)).toBeLessThan(
+      Number(summary.maxAboveTier)
+    );
   });
 });

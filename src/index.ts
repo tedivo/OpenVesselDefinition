@@ -39,6 +39,7 @@ import PositionFormatEnum from "./models/base/enums/PositionFormatEnum";
 import StackWeightCalculationEnum from "./models/base/enums/StackWeightCalculationEnum";
 import VoidTypesEnum from "./models/base/enums/VoidTypesEnum";
 import destructurePosition from "./converter/core/destructurePosition";
+import { getContainerLengths } from "./converter/core/getContainerLengths";
 import stafToOvsV1Converter from "./converter/stafToOvsV1Converter";
 
 export {
@@ -75,5 +76,6 @@ export {
   createMockedSingleBayLevelData,
   createSummary,
   addBayToSummary,
+  getContainerLengths,
   CONTAINER_LENGTHS,
 };

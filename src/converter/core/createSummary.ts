@@ -2,6 +2,7 @@ import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
 import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import ISizeSummary from "../../models/base/ISizeSummary";
+import { sortNumericAsc } from "../../helpers/sortByMultipleFields";
 
 // Used in case bayLevel data is missing
 const MAX_BELOW_TIER = 66;
@@ -55,7 +56,7 @@ export function addBayToSummary(
   const allTiers = tiersFromSlotsInfo
     .concat(tiersFromTiersInfo)
     .filter((v, idx, arr) => arr.indexOf(v) === idx)
-    .sort() as IIsoStackTierPattern[];
+    .sort(sortNumericAsc) as IIsoStackTierPattern[];
 
   if (bl.level === BayLevelEnum.ABOVE) {
     if (allTiers.length) {
