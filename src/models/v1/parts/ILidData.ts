@@ -1,4 +1,5 @@
-import { IIsoBayPattern } from "../../base/types/IPositionPatterns";
+import { IIsoBayPattern, TYesNo } from "../../base/types/IPositionPatterns";
+
 import BayLevelEnum from "../../base/enums/BayLevelEnum";
 
 export default interface ILidData {
@@ -10,8 +11,8 @@ export default interface ILidData {
   startIsoBay: IIsoBayPattern;
   endIsoBay: IIsoBayPattern;
 
-  overlapPort?: string;
-  overlapStarboard?: string;
+  overlapPort?: TYesNo;
+  overlapStarboard?: TYesNo;
 
   weight?: number;
 }

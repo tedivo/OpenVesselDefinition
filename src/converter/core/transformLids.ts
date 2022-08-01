@@ -1,7 +1,11 @@
-import { pad2 } from "../../helpers/pad";
-import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import { IIsoBayPattern } from "../../models/base/types/IPositionPatterns";
+import {
+  IIsoBayPattern,
+  TYesNo,
+} from "../../models/base/types/IPositionPatterns";
 import ILidData, { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
+
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import { pad2 } from "../../helpers/pad";
 
 export default function transformLids(lidData: ILidDataFromStaf[]): ILidData[] {
   const lidsByLabel: { [name: string]: ILidDataTemp } = {};
@@ -27,8 +31,8 @@ function joinAftFwdLids(
       level: lid.level,
       portIsoStack: lid.portIsoStack,
       starboardIsoStack: lid.starboardIsoStack,
-      overlapPort: lid.overlapPort,
-      overlapStarboard: lid.overlapStarboard,
+      overlapPort: lid.overlapPort ? 1 : (0 as TYesNo),
+      overlapStarboard: lid.overlapStarboard ? 1 : (0 as TYesNo),
       startIsoBay: lid.isoBay,
       endIsoBay: lid.isoBay,
       joinLidFwdLabel: lid.joinLidFwdLabel,
