@@ -9,7 +9,7 @@ export function stringIsTierOrStafNumber(
   if (asNumber !== Math.floor(asNumber)) return false;
 
   if (forceEven) {
-    return asNumber >= 0 && asNumber <= 98 && asNumber % 2 === 0;
+    return asNumber >= 0 && asNumber <= 120 && asNumber % 2 === 0;
   }
 
   return asNumber >= 0 && asNumber <= 99;

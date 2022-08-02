@@ -25,7 +25,7 @@ export default function addPerSlotData(
 
     slotData
       .filter((v) => {
-        const iTIer = Number(v.position.substring(5, 7));
+        const iTIer = Number(v.position.substring(5));
         return (
           v.position.indexOf(isoBay) === 0 &&
           ((bl.level === BayLevelEnum.ABOVE &&
@@ -35,7 +35,7 @@ export default function addPerSlotData(
         );
       })
       .forEach((v) => {
-        const pos = v.position.substring(3, 7) as IJoinedStackTierPattern; // Remove bay
+        const pos = v.position.substring(3) as IJoinedStackTierPattern; // Remove bay
 
         const { position, sizes, ...withoutSizesAndPos } = v;
 
