@@ -23,8 +23,9 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataIntermediate> = {
     LEVEL: { target: "level", mapper: getStafBayLevelEnumValue },
     "20_NAME": { target: "label20", passValue: true, dashIsEmpty: true },
     "40_NAME": { target: "label40", passValue: true, dashIsEmpty: true },
-    SL_Hatch: { target: "slHatch", passValue: true, dashIsEmpty: true },
-    SL_ForeAft: { target: "slForeAft", passValue: true, dashIsEmpty: true },
+    // There is no use for these fields
+    // SL_Hatch: { target: "slHatch", passValue: true, dashIsEmpty: true },
+    // SL_ForeAft: { target: "slForeAft", passValue: true, dashIsEmpty: true },
     LCG_20: {
       target: "infoByContLength.20.lcg",
       mapper: safeNumberMtToMm,
@@ -83,8 +84,6 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataIntermediate> = {
     deleteVerboseOptionalFalsyKeys([
       "label20",
       "label40",
-      "slHatch",
-      "slForeAft",
       "maxHeight",
       "reeferPlugs",
       "doors",
@@ -94,12 +93,10 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataIntermediate> = {
       "athwartShip",
       "foreHatch",
       "ventilated",
-      "nearBow",
-      "nearStern",
       "heatSrcFore",
       "ignitionSrcFore",
       "quartersFore",
-      "engineRmBulkfore",
+      "engineRmBulkFore",
     ]),
   ],
 };

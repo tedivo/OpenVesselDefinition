@@ -23,8 +23,9 @@ export interface IBayLevelDataIntermediate {
   /* AFT attribs */
   label20?: string;
   label40?: string;
-  slHatch?: string;
-  slForeAft?: string;
+  // Unused fields:
+  // slHatch?: string;
+  // slForeAft?: string;
 
   maxHeight?: number;
 
@@ -38,13 +39,12 @@ export interface IBayLevelDataIntermediate {
   centerLineStack?: TYesNo;
   athwartShip?: TYesNo;
   foreHatch?: TYesNo;
+
   ventilated?: TYesNo;
-  nearBow?: TYesNo;
-  nearStern?: TYesNo;
   heatSrcFore?: TYesNo;
   ignitionSrcFore?: TYesNo;
   quartersFore?: TYesNo;
-  engineRmBulkfore?: TYesNo;
+  engineRmBulkFore?: TYesNo;
 
   /**
    * Dictionary: contains information that applies to all stacks by container Length
@@ -73,7 +73,7 @@ export interface IBayLevelDataIntermediate {
 
 type IBayLevelData = Omit<
   IBayLevelDataIntermediate,
-  "perTierInfo" | "maxHeight"
+  "perTierInfo" | "maxHeight" | "slHatch" | "slForeAft"
 >;
 export default IBayLevelData;
 

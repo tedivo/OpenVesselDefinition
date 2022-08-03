@@ -7,6 +7,7 @@ import {
 } from "./core/calculateMasterCGs";
 import mapStafSections, { STAF_MIN_SECTIONS } from "./core/mapStafSections";
 
+import IBayLevelData from "../models/v1/parts/IBayLevelData";
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
 import IShipData from "../models/v1/parts/IShipData";
 import IStackStafData from "./models/IStackStafData";
@@ -145,7 +146,7 @@ export default function stafToOvsV1Converter(
     version: "1.0.0",
     sizeSummary,
     shipData: shipData,
-    baysData: dataProcessed.bayLevelData,
+    baysData: dataProcessed.bayLevelData as IBayLevelData[],
     positionLabels,
     lidData: transformLids(dataProcessed.lidData),
   };
