@@ -25,11 +25,11 @@ describe("createSummary should", () => {
 
     expect(summary.isoBays).toBe(13);
     expect(summary.centerLineStack).toBe(1);
-    expect(summary.maxStack).toBe("02");
-    expect(summary.maxAboveTier).toBe("86");
-    expect(summary.minAboveTier).toBe("80");
-    expect(summary.maxBelowTier).toBe("08");
-    expect(summary.minBelowTier).toBe("02");
+    expect(summary.maxStack).toBe(2);
+    expect(summary.maxAboveTier).toBe(86);
+    expect(summary.minAboveTier).toBe(80);
+    expect(summary.maxBelowTier).toBe(8);
+    expect(summary.minBelowTier).toBe(2);
   });
 
   it("manages inconsistencies in Stack", () => {
@@ -52,11 +52,11 @@ describe("createSummary should", () => {
 
     expect(summary.isoBays).toBe(13);
     expect(summary.centerLineStack).toBe(1);
-    expect(summary.maxStack).toBe("04");
-    expect(summary.maxAboveTier).toBe("86");
-    expect(summary.minAboveTier).toBe("80");
-    expect(summary.maxBelowTier).toBe("08");
-    expect(summary.minBelowTier).toBe("02");
+    expect(summary.maxStack).toBe(4);
+    expect(summary.maxAboveTier).toBe(86);
+    expect(summary.minAboveTier).toBe(80);
+    expect(summary.maxBelowTier).toBe(8);
+    expect(summary.minBelowTier).toBe(2);
   });
 
   it("manages inconsistencies in Tiers", () => {
@@ -79,11 +79,11 @@ describe("createSummary should", () => {
 
     expect(summary.isoBays).toBe(13);
     expect(summary.centerLineStack).toBe(1);
-    expect(summary.maxStack).toBe("02");
-    expect(summary.maxAboveTier).toBe("88");
-    expect(summary.minAboveTier).toBe("80");
-    expect(summary.maxBelowTier).toBe("08");
-    expect(summary.minBelowTier).toBe("02");
+    expect(summary.maxStack).toBe(2);
+    expect(summary.maxAboveTier).toBe(88);
+    expect(summary.minAboveTier).toBe(80);
+    expect(summary.maxBelowTier).toBe(8);
+    expect(summary.minBelowTier).toBe(2);
 
     expect(Number(summary.minBelowTier)).toBeLessThan(
       Number(summary.maxBelowTier)

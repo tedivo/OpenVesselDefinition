@@ -193,11 +193,11 @@ describe("stafToOvsV1Converter should...", () => {
     const summary = converted.sizeSummary;
 
     expect(summary.centerLineStack).toBe(1);
-    expect(summary.maxStack).toBe("16");
-    expect(summary.maxAboveTier).toBe("98");
-    expect(summary.minAboveTier).toBe("82");
-    expect(summary.maxBelowTier).toBe("18");
-    expect(summary.minBelowTier).toBe("02");
+    expect(summary.maxStack).toBe(16);
+    expect(summary.maxAboveTier).toBe(98);
+    expect(summary.minAboveTier).toBe(82);
+    expect(summary.maxBelowTier).toBe(18);
+    expect(summary.minBelowTier).toBe(2);
   });
 
   it("just convert", () => {

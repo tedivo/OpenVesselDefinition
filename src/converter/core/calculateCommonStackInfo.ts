@@ -46,10 +46,10 @@ export default function calculateCommonStackInfo(
         sDataK.bottomBase = undefined;
 
       if (sDataK.bottomIsoTier === perStackInfoCommon.bottomIsoTier)
-        sDataK.bottomIsoTier = undefined;
+        delete (sDataK as any).bottomIsoTier;
 
       if (sDataK.topIsoTier === perStackInfoCommon.topIsoTier)
-        sDataK.topIsoTier = undefined;
+        delete (sDataK as any).topIsoTier;
 
       if (sDataK.maxHeight === perStackInfoCommon.maxHeight)
         sDataK.maxHeight = undefined;

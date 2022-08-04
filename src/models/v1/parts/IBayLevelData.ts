@@ -99,8 +99,8 @@ export interface TBayStackInfo {
 }
 
 export interface TCommonBayInfo {
-  topIsoTier?: IIsoStackTierPattern;
-  bottomIsoTier?: IIsoStackTierPattern;
+  readonly topIsoTier?: IIsoStackTierPattern;
+  readonly bottomIsoTier?: IIsoStackTierPattern;
   bottomBase?: number;
   maxHeight?: number;
 }
@@ -108,8 +108,8 @@ export interface IBayStackInfo {
   isoStack: IIsoStackTierPattern;
   label?: string;
   tcg?: number;
-  topIsoTier?: IIsoStackTierPattern;
-  bottomIsoTier?: IIsoStackTierPattern;
+  readonly topIsoTier?: IIsoStackTierPattern;
+  readonly bottomIsoTier?: IIsoStackTierPattern;
   bottomBase?: number;
   maxHeight?: number;
   /** Overrides general bay LCG and Stack Weight by length */
