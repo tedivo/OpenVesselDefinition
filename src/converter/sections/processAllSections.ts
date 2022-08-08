@@ -1,5 +1,5 @@
 import BayLevelConfig from "../sections/BayLevelConfig";
-import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import { ISectionsByName } from "../models/ISectionContent";
 import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
@@ -22,7 +22,7 @@ export function processAllSections(
       sectionsByName["SHIP"],
       ShipConfig
     )[0],
-    bayLevelData: convertStafObjectToShipOpenSpec<IBayLevelDataIntermediate>(
+    bayLevelData: convertStafObjectToShipOpenSpec<IBayLevelDataStaf>(
       sectionsByName["SECTION"],
       BayLevelConfig
     ),

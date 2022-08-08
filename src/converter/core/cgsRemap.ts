@@ -8,8 +8,8 @@ import ValuesSourceEnum, {
 } from "../../models/base/enums/ValuesSourceEnum";
 
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
-import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
-import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
+import { IIsoStackPattern } from "../../models/base/types/IPositionPatterns";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
@@ -23,7 +23,7 @@ export const ONE_MILLIMETER_IN_FEET = 0.003280839895;
  * @param vcgOptions
  */
 export function cgsRemap(
-  bls: IBayLevelDataIntermediate[],
+  bls: IBayLevelDataStaf[],
   lcgOptions: ILCGOptionsIntermediate,
   vcgOptions: IVGCOptionsIntermediate,
   tcgOptions: ITGCOptionsIntermediate
@@ -41,14 +41,14 @@ export function cgsRemap(
  */
 function remapTcgs(
   tcgOptions: ITGCOptionsIntermediate,
-  bls: IBayLevelDataIntermediate[]
+  bls: IBayLevelDataStaf[]
 ) {
   const tcgSignMult =
     tcgOptions.direction === PortStarboardEnum.STARBOARD ? 1 : -1;
 
   bls.forEach((bl) => {
     const perStackInfoEach = bl.perStackInfo.each;
-    const stacks = Object.keys(perStackInfoEach) as IIsoStackTierPattern[];
+    const stacks = Object.keys(perStackInfoEach) as IIsoStackPattern[];
 
     stacks.forEach((stack) => {
       const tcg = perStackInfoEach[stack].tcg;
@@ -64,7 +64,7 @@ function remapTcgs(
  */
 function remapVcgs(
   vcgOptions: IVGCOptionsIntermediate,
-  bls: IBayLevelDataIntermediate[]
+  bls: IBayLevelDataStaf[]
 ) {
   const baseAdjust = Math.round(
     (8.5 / ONE_MILLIMETER_IN_FEET) * (vcgOptions.heightFactor || 0)
@@ -74,7 +74,7 @@ function remapVcgs(
     const perStackInfoEach = bl.perStackInfo.each;
     const perTierInfo = bl.perTierInfo;
 
-    const stacks = Object.keys(perStackInfoEach) as IIsoStackTierPattern[];
+    const stacks = Object.keys(perStackInfoEach) as IIsoStackPattern[];
     stacks.forEach((stack) => {
       const bottomIsoTier = perStackInfoEach[stack].bottomIsoTier;
       const vcg = perTierInfo[bottomIsoTier]?.vcg;
@@ -96,7 +96,7 @@ function remapVcgs(
  */
 function remapLcgs(
   lcgOptions: ILCGOptionsIntermediate,
-  bls: IBayLevelDataIntermediate[]
+  bls: IBayLevelDataStaf[]
 ) {
   const lpp = lcgOptions.lpp;
 
@@ -136,7 +136,7 @@ function remapLcgs(
     // remap  perStackInfo.each.[xx].stackInfoByLength
     const perStackInfoEach = bl.perStackInfo?.each;
     if (perStackInfoEach) {
-      const stacks = Object.keys(perStackInfoEach) as IIsoStackTierPattern[];
+      const stacks = Object.keys(perStackInfoEach) as IIsoStackPattern[];
       stacks.forEach((stack) => {
         const stackInfoByLength = perStackInfoEach[stack].stackInfoByLength;
         if (stackInfoByLength) {

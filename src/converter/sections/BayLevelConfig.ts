@@ -6,7 +6,7 @@ import safeNumberMtToMm, {
   safeNumberKgToGrams,
 } from "../../helpers/safeNumberMtToMm";
 
-import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
 import { getStafForeAftEnumValue } from "../../models/base/enums/ForeAftEnum";
@@ -16,7 +16,7 @@ import yNToBoolean from "../../helpers/yNToBoolean";
 /**
  * DEFINITION of main Bay
  */
-const BayLevelConfig: ISectionMapConfig<IBayLevelDataIntermediate> = {
+const BayLevelConfig: ISectionMapConfig<IBayLevelDataStaf> = {
   stafSection: "SECTION",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },

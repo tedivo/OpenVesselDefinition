@@ -1,5 +1,5 @@
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import ISlotData from "../../models/v1/parts/ISlotData";
 
@@ -10,7 +10,7 @@ import ISlotData from "../../models/v1/parts/ISlotData";
  * @param preCalculatedMinAboveTier
  */
 export default function addPerSlotData(
-  bayLevelData: IBayLevelDataIntermediate[],
+  bayLevelData: IBayLevelDataStaf[],
   slotData: ISlotData[],
   preCalculatedMinAboveTier: number
 ) {
@@ -42,20 +42,15 @@ export default function addPerSlotData(
         // Create it if it doesn't exist
         if (!bl.perSlotInfo[pos]) bl.perSlotInfo[pos] = { pos, sizes: {} };
 
-        // Existing sizes in BayLevelData
-        const existingSizesInBl = Object.keys(bl.perSlotInfo[pos].sizes).filter(
-          (size) => bl.perSlotInfo[pos].sizes[size] === 1
-        );
-
         // Sizes from slotData
         const existingSizesInSlot = Object.keys(sizes).filter(
           (size) => sizes[size] === 1
         );
 
-        // Concat and unique
-        const allExistingSizes = existingSizesInBl
-          .concat(existingSizesInSlot)
-          .filter((v, idx, arr) => arr.indexOf(v) === idx);
+        // Unique
+        const allExistingSizes = existingSizesInSlot.filter(
+          (v, idx, arr) => arr.indexOf(v) === idx
+        );
 
         if (allExistingSizes.length) {
           // Create object of sizes
@@ -71,7 +66,7 @@ export default function addPerSlotData(
             delete bl.perSlotInfo[pos].reefer;
         } else {
           // If no sizes exist, delete object
-          delete bl.perSlotInfo[pos];
+          bl.perSlotInfo[pos] = { pos, sizes: {}, restricted: 1 };
         }
       });
   });

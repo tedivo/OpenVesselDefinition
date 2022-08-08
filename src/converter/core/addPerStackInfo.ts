@@ -1,5 +1,5 @@
-import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
-import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
+import { IIsoStackPattern } from "../../models/base/types/IPositionPatterns";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
 import IStackStafData from "../models/IStackStafData";
 import { createSlotsFromStack } from "../core/createSlotsFromStacksInfo";
@@ -13,7 +13,7 @@ import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
  * @returns
  */
 export default function addPerStackInfo(
-  bayLevelData: IBayLevelDataIntermediate[],
+  bayLevelData: IBayLevelDataStaf[],
   stackDataByBayLevel: IObjectKeyArray<IStackStafData, string>
 ) {
   if (!bayLevelData) {
@@ -42,7 +42,7 @@ export default function addPerStackInfo(
 
           if (label)
             if (stringIsTierOrStafNumber(label)) {
-              sData.isoStack = label as IIsoStackTierPattern;
+              sData.isoStack = label as IIsoStackPattern;
             } else {
               throw {
                 code: "StackLabelError",

@@ -1,5 +1,5 @@
 import {
-  IBayStackInfo,
+  IBayStackInfoStaf,
   IStackInfoByLength,
 } from "../../models/v1/parts/IBayLevelData";
 
@@ -19,6 +19,6 @@ type IStackStafData = {
   stackInfoByLength: Partial<{
     [key in TContainerLengths]: IStackInfoByLengthWithAcceptsSize;
   }>;
-} & Omit<IBayStackInfo, "stackInfoByLength">;
+} & Omit<IBayStackInfoStaf, "stackInfoByLength">;
 
 export default IStackStafData;

@@ -1,4 +1,4 @@
-import { IIsoStackTierPattern, TYesNo } from "./types/IPositionPatterns";
+import { TYesNo } from "./types/IPositionPatterns";
 
 interface ISizeSummary {
   isoBays: number;

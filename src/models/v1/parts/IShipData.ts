@@ -1,5 +1,6 @@
 import {
-  IIsoStackTierPattern,
+  IIsoStackPattern,
+  IIsoTierPattern,
   TYesNo,
 } from "../../base/types/IPositionPatterns";
 import { LengthUnitsEnum, WeightUnitsEnum } from "../../base/enums/UnitsEnum";
@@ -123,13 +124,13 @@ interface IRefrigeratedContainersOptions {
 
 export interface IMasterCGs {
   aboveTcgs: {
-    [stack: IIsoStackTierPattern]: number;
+    [stack: IIsoStackPattern]: number;
   };
   belowTcgs: {
-    [stack: IIsoStackTierPattern]: number;
+    [stack: IIsoStackPattern]: number;
   };
   bottomBases: {
-    [tier: IIsoStackTierPattern]: number;
+    [tier: IIsoTierPattern]: number;
   };
 }
 

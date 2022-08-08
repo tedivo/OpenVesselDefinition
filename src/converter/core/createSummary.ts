@@ -1,6 +1,5 @@
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
-import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import ISizeSummary from "../../models/base/ISizeSummary";
 import { sortNumericAsc } from "../../helpers/sortByMultipleFields";
 
@@ -16,7 +15,7 @@ export default function createSummary({
   bayLevelData,
 }: {
   isoBays: number;
-  bayLevelData: Array<IBayLevelDataIntermediate>;
+  bayLevelData: Array<IBayLevelDataStaf>;
 }): ISizeSummary {
   const summary: ISizeSummary = {
     isoBays,
@@ -41,10 +40,7 @@ export default function createSummary({
  * @param bl Bay Data
  * @param summary Existing Summart
  */
-export function addBayToSummary(
-  bl: IBayLevelDataIntermediate,
-  summary: ISizeSummary
-) {
+export function addBayToSummary(bl: IBayLevelDataStaf, summary: ISizeSummary) {
   // Tiers obtained from perSlotInfo
   const tiersFromSlotsInfo = bl.perSlotInfo
     ? Object.keys(bl.perSlotInfo).map((s) => s.substring(2))

@@ -7,7 +7,6 @@ import {
 } from "./core/calculateMasterCGs";
 import mapStafSections, { STAF_MIN_SECTIONS } from "./core/mapStafSections";
 
-import IBayLevelData from "../models/v1/parts/IBayLevelData";
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
 import IShipData from "../models/v1/parts/IShipData";
 import IStackStafData from "./models/IStackStafData";
@@ -18,6 +17,7 @@ import addPerStackInfo from "../converter/core/addPerStackInfo";
 import addPerTierInfo from "../converter/core/addPerTierInfo";
 import calculateCommonStackInfo from "./core/calculateCommonStackInfo";
 import { cgsRemap } from "./core/cgsRemap";
+import { cleanBayLevelDataNoStaf } from "./core/cleanBayLevelDataNoStaf";
 import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
 import { createDictionaryMultiple } from "../helpers/createDictionary";
 import createSummary from "./core/createSummary";
@@ -146,7 +146,7 @@ export default function stafToOvsV1Converter(
     version: "1.0.0",
     sizeSummary,
     shipData: shipData,
-    baysData: dataProcessed.bayLevelData as IBayLevelData[],
+    baysData: cleanBayLevelDataNoStaf(dataProcessed.bayLevelData),
     positionLabels,
     lidData: transformLids(dataProcessed.lidData),
   };

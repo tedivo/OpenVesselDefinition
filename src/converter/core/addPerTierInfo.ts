@@ -1,5 +1,5 @@
-import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
-import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
+import { IIsoTierPattern } from "../../models/base/types/IPositionPatterns";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
 import ITierStafData from "../models/ITierStafData";
 import sortByMultipleFields from "../../helpers/sortByMultipleFields";
@@ -11,7 +11,7 @@ import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
  * @param tierDataByBayLevel
  */
 export default function addPerTierInfo(
-  bayLevelData: IBayLevelDataIntermediate[],
+  bayLevelData: IBayLevelDataStaf[],
   tierDataByBayLevel: IObjectKeyArray<ITierStafData, string>
 ) {
   if (!bayLevelData) {
@@ -36,7 +36,7 @@ export default function addPerTierInfo(
 
           if (label)
             if (stringIsTierOrStafNumber(label, true)) {
-              sDataK.isoTier = label as IIsoStackTierPattern;
+              sDataK.isoTier = label as IIsoTierPattern;
             } else {
               throw {
                 code: "TierLabelError",

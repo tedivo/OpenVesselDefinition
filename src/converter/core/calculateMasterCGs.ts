@@ -1,3 +1,10 @@
+import IBayLevelData, {
+  IBayLevelDataStaf,
+} from "../../models/v1/parts/IBayLevelData";
+import {
+  IIsoStackPattern,
+  IIsoTierPattern,
+} from "../../models/base/types/IPositionPatterns";
 import {
   IMasterCGs,
   IShipDataIntermediateStaf,
@@ -7,8 +14,6 @@ import ValuesSourceEnum, {
 } from "../../models/base/enums/ValuesSourceEnum";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
-import { IIsoStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import sortStacksArray from "../../helpers/sortStacksArray";
 
 /**
@@ -16,7 +21,7 @@ import sortStacksArray from "../../helpers/sortStacksArray";
  */
 export function calculateMasterCGs(
   shipData: IShipDataIntermediateStaf,
-  bls: IBayLevelData[]
+  bls: IBayLevelDataStaf[]
 ): IMasterCGs {
   const extractedAboveTCGs: IInventory = {};
   const extractedBelowTCGs: IInventory = {};
@@ -38,7 +43,7 @@ export function calculateMasterCGs(
     const perStackInfoCommon = bl.perStackInfo.common;
 
     if (shouldProcessStacks && perStackInfoEach !== undefined) {
-      const stacks = Object.keys(perStackInfoEach) as IIsoStackTierPattern[];
+      const stacks = Object.keys(perStackInfoEach) as IIsoStackPattern[];
       const extractedTCGs =
         bl.level === BayLevelEnum.ABOVE
           ? extractedAboveTCGs
@@ -110,18 +115,18 @@ export function calculateMasterCGs(
 }
 
 export interface IInventory {
-  [name: IIsoStackTierPattern]: Map<number, number>;
+  [name: IIsoStackPattern | IIsoTierPattern]: Map<number, number>;
 }
 
 export interface ISResult {
-  [name: IIsoStackTierPattern]: number;
+  [name: IIsoStackPattern | IIsoTierPattern]: number;
 }
 
 export function chooseMostRepeatedValue(
   e: IInventory,
   sortKeysFn?: (a: string, b: string) => number
 ): ISResult {
-  const keys = Object.keys(e) as IIsoStackTierPattern[];
+  const keys = Object.keys(e) as IIsoStackPattern[];
   const result: ISResult = {};
 
   keys.forEach((key) => {
@@ -162,7 +167,7 @@ export function cleanRepeatedTcgs(masterCGs: IMasterCGs, bls: IBayLevelData[]) {
     .forEach((bl) => {
       // A. Stacks
       const perStackInfoEach = bl.perStackInfo.each;
-      const stacks = Object.keys(perStackInfoEach) as IIsoStackTierPattern[];
+      const stacks = Object.keys(perStackInfoEach) as IIsoStackPattern[];
       const masterInfoTcgs =
         bl.level === BayLevelEnum.ABOVE
           ? masterCGs.aboveTcgs

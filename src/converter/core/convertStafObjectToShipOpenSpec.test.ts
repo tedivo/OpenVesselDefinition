@@ -1,5 +1,5 @@
 import IBayLevelData, {
-  IBayLevelDataIntermediate,
+  IBayLevelDataStaf,
 } from "../../models/v1/parts/IBayLevelData";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
@@ -113,11 +113,10 @@ describe("for STAF_BAY data", () => {
 
     const headerSection = sectionsByName["SECTION"];
 
-    const processed =
-      convertStafObjectToShipOpenSpec<IBayLevelDataIntermediate>(
-        headerSection,
-        BayLevelConfig
-      );
+    const processed = convertStafObjectToShipOpenSpec<IBayLevelDataStaf>(
+      headerSection,
+      BayLevelConfig
+    );
 
     expect(processed.length).toBe(4);
     const [row1, row2, row3, row4] = processed;

@@ -1,9 +1,9 @@
 import {
   IBayTierInfo,
-  TBayTierInfo,
+  TBayTierInfoStaf,
 } from "../../../models/v1/parts/IBayLevelData";
 
-export default function cleanUpPerTierInfo(perTierInfo: TBayTierInfo) {
+export default function cleanUpPerTierInfo(perTierInfo: TBayTierInfoStaf) {
   const tiers = Object.keys(perTierInfo);
 
   tiers.forEach((tier) => {

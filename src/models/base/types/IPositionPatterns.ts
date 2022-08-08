@@ -1,4 +1,8 @@
-export type IIsoStackTierPattern = `${number}${number}`;
+export type IIsoStackPattern = `${number}${number}`;
+
+export type IIsoTierPattern =
+  | `${number}${number}`
+  | `${number}${number}${number}`;
 
 export type IIsoBayPattern = `${number}${number}${number}`;
 

@@ -4,7 +4,11 @@ import {
   TContainerLengths,
   TImdgClasses,
 } from "./models/v1/parts/Types";
-import IBayLevelData, { IBulkheadInfo } from "./models/v1/parts/IBayLevelData";
+import IBayLevelData, {
+  IBaySlotData,
+  IBulkheadInfo,
+  TBayStackInfo,
+} from "./models/v1/parts/IBayLevelData";
 import IPositionLabels, {
   ITierStackLabelDictionaries,
   ITierStackLabelDictionary,
@@ -53,6 +57,8 @@ export {
   ISizeSummary,
   IPositionLabels,
   ILCGOptions,
+  IBaySlotData,
+  TBayStackInfo,
   TContainerLengths,
   TImdgClasses,
   TCompatibilityGroups,

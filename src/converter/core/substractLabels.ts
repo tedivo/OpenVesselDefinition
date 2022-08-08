@@ -3,14 +3,14 @@ import IPositionLabels, {
   ITierStackLabelDictionary,
 } from "../../models/v1/parts/IPositionLabels";
 
-import { IBayLevelDataIntermediate } from "../../models/v1/parts/IBayLevelData";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { pad3 } from "../../helpers/pad";
 
 /**
  * Obtains a dictionary of labels (for bays, tiers and stacks)
  */
 export default function substractLabels(
-  data: IBayLevelDataIntermediate[]
+  data: IBayLevelDataStaf[]
 ): IPositionLabels {
   const positionLabels: IPositionLabels = {
     bays: {},

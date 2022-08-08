@@ -1,7 +1,7 @@
+import ISectionMapConfig from "../models/ISectionMapConfig";
+import ISlotData from "../../models/v1/parts/ISlotData";
 import { pad7 } from "../../helpers/pad";
 import yNToBoolean from "../../helpers/yNToBoolean";
-import ISlotData from "../../models/v1/parts/ISlotData";
-import ISectionMapConfig from "../models/ISectionMapConfig";
 
 /**
  * DEFINITION of SLOT

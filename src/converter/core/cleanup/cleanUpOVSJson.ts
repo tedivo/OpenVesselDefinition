@@ -3,7 +3,7 @@ import cleanupStackInfo from "./cleanupStackInfo";
 
 // import cleanUpTierInfo from "./cleanUpTierInfo";
 
-export function cleanUpOVSJson<T>(json: IOpenShipSpecV1) {
+export function cleanUpOVSJson(json: IOpenShipSpecV1) {
   const baylevelData = json.baysData;
   baylevelData.forEach((bl) => {
     cleanupStackInfo(bl.perStackInfo);

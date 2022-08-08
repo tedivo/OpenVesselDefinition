@@ -1,22 +1,23 @@
 import IBayLevelData, {
-  IBayLevelDataIntermediate,
+  IBayLevelDataStaf,
   IBayStackInfo,
   TBayStackInfo,
-  TBayTierInfo,
+  TBayTierInfoStaf,
   TStackInfoByLength,
 } from "../../models/v1/parts/IBayLevelData";
 import {
   IIsoBayPattern,
-  IIsoStackTierPattern,
+  IIsoStackPattern,
+  IIsoTierPattern,
   IJoinedStackTierPattern,
 } from "../../models/base/types/IPositionPatterns";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { pad3 } from "../../helpers/pad";
 
-const defaultAboveTiers: IIsoStackTierPattern[] = ["80", "82", "84", "86"];
-const defaultBelowTiers: IIsoStackTierPattern[] = ["02", "04", "06", "08"];
-const defaultStacks: IIsoStackTierPattern[] = ["00", "01", "02"];
+const defaultAboveTiers: IIsoTierPattern[] = ["80", "82", "84", "86"];
+const defaultBelowTiers: IIsoTierPattern[] = ["02", "04", "06", "08"];
+const defaultStacks: IIsoStackPattern[] = ["00", "01", "02"];
 
 const defaultStackAttributesByContainerLength2024: TStackInfoByLength = {
   "20": { size: 20 },
@@ -40,7 +41,7 @@ export function createMockedSingleBayLevelData(
   isAbove: boolean,
   hasZeroStack: boolean,
   perSlotKeys: IJoinedStackTierPattern[]
-): IBayLevelDataIntermediate {
+): IBayLevelDataStaf {
   const isFake40 = (Number(isoBay) % 4) - 2 === 1;
   const bottomBase = isAbove ? 50000 : 0;
 
@@ -48,7 +49,7 @@ export function createMockedSingleBayLevelData(
     ? defaultStacks
     : defaultStacks.filter((s) => s !== "00");
 
-  const perStackInfoEach: { [key: IIsoStackTierPattern]: IBayStackInfo } =
+  const perStackInfoEach: { [key: IIsoStackPattern]: IBayStackInfo } =
     stacks.reduce((acc, v) => {
       acc[v] = {
         isoStack: v,
@@ -64,7 +65,7 @@ export function createMockedSingleBayLevelData(
       acc[v] = { isoTier: v };
       return acc;
     },
-    {} as TBayTierInfo
+    {} as TBayTierInfoStaf
   );
 
   return {
@@ -92,7 +93,7 @@ export function createMockedSimpleBayLevelData(
   isoBays: number | IIsoBayPattern,
   perSlotKeysAbove: IJoinedStackTierPattern[],
   perSlotKeysBelow: IJoinedStackTierPattern[]
-): IBayLevelDataIntermediate[] {
+): IBayLevelDataStaf[] {
   const bays = Number(isoBays);
   const bayLevelDataArray: IBayLevelData[] = [];
 
