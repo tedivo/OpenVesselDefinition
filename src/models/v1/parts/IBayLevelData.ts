@@ -11,7 +11,7 @@ import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import ISlotData from "./ISlotData";
 import { TContainerLengths } from "./Types";
 
-export interface IBayLevelDataStaf {
+interface IBayLevelDataBase {
   /** 3 digits ISO Bay */
   isoBay: IIsoBayPattern;
   /** Above, Below */
@@ -27,8 +27,6 @@ export interface IBayLevelDataStaf {
   // Unused fields:
   // slHatch?: string;
   // slForeAft?: string;
-
-  maxHeight?: number;
 
   reeferPlugs?: ForeAftEnum;
   doors?: ForeAftEnum;
@@ -46,6 +44,10 @@ export interface IBayLevelDataStaf {
   ignitionSrcFore?: TYesNo;
   quartersFore?: TYesNo;
   engineRmBulkFore?: TYesNo;
+}
+
+export interface IBayLevelDataStaf extends IBayLevelDataBase {
+  maxHeight?: number;
 
   /**
    * Dictionary: contains information that applies to all stacks by container Length
@@ -72,14 +74,21 @@ export interface IBayLevelDataStaf {
   stacksLabelsDictionary?: string;
 }
 
-type IBayLevelData = Omit<
-  IBayLevelDataStaf,
-  "perTierInfo" | "maxHeight" | "slHatch" | "slForeAft" | "perStackInfo"
-> & {
+export default interface IBayLevelData extends IBayLevelDataBase {
+  /**
+   * Dictionary: contains information that applies to all stacks by container Length
+   */
+  infoByContLength: TStackInfoByLength;
+  /**
+   * Dictionary: contains information per Stack number (i.e. "04") like maxTier, minTier, maxWeight...
+   */
   perStackInfo?: TBayStackInfo;
-};
 
-export default IBayLevelData;
+  /**
+   * Dictionary: contains information per Slot (i.e. "0078")
+   */
+  perSlotInfo?: IBaySlotData;
+}
 
 export interface IBaySlotData {
   [key: IJoinedStackTierPattern]: ISlotData;

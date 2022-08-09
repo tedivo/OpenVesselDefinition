@@ -22,6 +22,8 @@ export default function calculateCommonStackInfo(
     const masterInfoStats: IInventoryForMasterInfo = {
       bottomBase: new Map(),
       maxHeight: new Map(),
+      topIsoTier: new Map(),
+      bottomIsoTier: new Map(),
     };
 
     const stacks = Object.keys(bl.perStackInfo.each) as IIsoStackPattern[];
@@ -43,9 +45,11 @@ export default function calculateCommonStackInfo(
       if (sDataK.bottomBase === perStackInfoCommon.bottomBase)
         sDataK.bottomBase = undefined;
 
-      delete (sDataK as any).bottomIsoTier;
+      if (sDataK.bottomIsoTier === perStackInfoCommon.bottomIsoTier)
+        delete (sDataK as any).bottomIsoTier;
 
-      delete (sDataK as any).topIsoTier;
+      if (sDataK.topIsoTier === perStackInfoCommon.topIsoTier)
+        delete (sDataK as any).topIsoTier;
 
       if (sDataK.maxHeight === perStackInfoCommon.maxHeight)
         sDataK.maxHeight = undefined;
@@ -60,7 +64,7 @@ function addToStats(
   sData: IBayStackInfoStaf,
   masterInfoStats: IInventoryForMasterInfo
 ) {
-  const { bottomBase, maxHeight } = sData;
+  const { bottomBase, maxHeight, topIsoTier, bottomIsoTier } = sData;
 
   if (bottomBase !== undefined && !masterInfoStats.bottomBase.has(bottomBase))
     masterInfoStats.bottomBase.set(bottomBase, 0);
@@ -77,12 +81,39 @@ function addToStats(
     maxHeight,
     masterInfoStats.maxHeight.get(maxHeight) + 1
   );
+
+  if (
+    topIsoTier !== undefined &&
+    !masterInfoStats.topIsoTier.has(Number(topIsoTier))
+  )
+    masterInfoStats.topIsoTier.set(Number(topIsoTier), 0);
+
+  masterInfoStats.topIsoTier.set(
+    Number(topIsoTier),
+    masterInfoStats.topIsoTier.get(Number(topIsoTier)) + 1
+  );
+
+  if (
+    bottomIsoTier !== undefined &&
+    !masterInfoStats.bottomIsoTier.has(Number(bottomIsoTier))
+  )
+    masterInfoStats.bottomIsoTier.set(Number(bottomIsoTier), 0);
+
+  masterInfoStats.bottomIsoTier.set(
+    Number(bottomIsoTier),
+    masterInfoStats.bottomIsoTier.get(Number(bottomIsoTier)) + 1
+  );
 }
 
 export function chooseMostRepeatedValue(
   e: IInventoryForMasterInfo
 ): TCommonBayInfoStaf {
-  const keys: (keyof TCommonBayInfoStaf)[] = ["bottomBase", "maxHeight"];
+  const keys: (keyof TCommonBayInfoStaf)[] = [
+    "bottomBase",
+    "maxHeight",
+    "topIsoTier",
+    "bottomIsoTier",
+  ];
   const result: { [k in keyof Partial<IInventoryForMasterInfo>]: number } = {};
 
   keys.forEach((key) => {
@@ -103,10 +134,14 @@ export function chooseMostRepeatedValue(
   return {
     bottomBase: result.bottomBase,
     maxHeight: result.maxHeight,
+    topIsoTier: pad2(result.topIsoTier),
+    bottomIsoTier: pad2(result.bottomIsoTier),
   };
 }
 
 interface IInventoryForMasterInfo {
   bottomBase: Map<number, number>;
   maxHeight: Map<number, number>;
+  topIsoTier: Map<number, number>;
+  bottomIsoTier: Map<number, number>;
 }
