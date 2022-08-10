@@ -1,5 +1,5 @@
 import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
-import LidConfig from "../sections/LidConfig";
+import LidConfig from "../sections/stafToOvs/LidConfig";
 import convertStafObjectToOpenVesselSpec from "./convertStafObjectToOpenVesselSpec";
 import getSectionsFromFileContent from "./getSectionsFromFileContent";
 import mapStafSections from "./mapStafSections";

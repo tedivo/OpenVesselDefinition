@@ -1,13 +1,11 @@
-import IBayLevelData, {
-  IBayLevelDataStaf,
-} from "../../models/v1/parts/IBayLevelData";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
 
-import BayLevelConfig from "../sections/BayLevelConfig";
+import BayLevelConfig from "../sections/stafToOvs/BayLevelConfig";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import ISectionMapConfig from "../models/ISectionMapConfig";
 import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
@@ -15,13 +13,13 @@ import ISlotData from "../../models/v1/parts/ISlotData";
 import IStackStafData from "../models/IStackStafData";
 import ITierStafData from "../models/ITierStafData";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
-import LidConfig from "../sections/LidConfig";
+import LidConfig from "../sections/stafToOvs/LidConfig";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
-import ShipConfig from "../sections/ShipConfig";
-import SlotConfig from "../sections/SlotConfig";
-import StackConfig from "../sections/StackConfig";
-import TierConfig from "../sections/TierConfig";
+import ShipConfig from "../sections/stafToOvs/ShipConfig";
+import SlotConfig from "../sections/stafToOvs/SlotConfig";
+import StackConfig from "../sections/stafToOvs/StackConfig";
+import TierConfig from "../sections/stafToOvs/TierConfig";
 import convertStafObjectToOpenVesselSpec from "../core/convertStafObjectToOpenVesselSpec";
 import getSectionsFromFileContent from "../core/getSectionsFromFileContent";
 import mapStafSections from "../core/mapStafSections";
@@ -129,7 +127,7 @@ describe("for STAF_BAY data", () => {
     expect(row1.bulkhead.fore).toBe(1);
     expect(row1.bulkhead.foreLcg).toBe(-117400);
     expect(row1.infoByContLength[20].lcg).toBe(-114110);
-    expect(row1.infoByContLength[20].stackWeight).toBe(96000);
+    expect(row1.infoByContLength[20].stackWeight).toBe(96000000);
 
     expect(row2.isoBay).toBe("001");
     expect(row2.level).toBe(BayLevelEnum.ABOVE);
@@ -144,9 +142,9 @@ describe("for STAF_BAY data", () => {
     expect(row4.infoByContLength[20].lcg).toBe(-106770);
     expect(row4.infoByContLength[40].lcg).toBe(-108690);
     expect(row4.infoByContLength[45].lcg).toBe(-108690);
-    expect(row4.infoByContLength[20].stackWeight).toBe(70000);
-    expect(row4.infoByContLength[40].stackWeight).toBe(120000);
-    expect(row4.infoByContLength[45].stackWeight).toBe(120000);
+    expect(row4.infoByContLength[20].stackWeight).toBe(70000000);
+    expect(row4.infoByContLength[40].stackWeight).toBe(120000000);
+    expect(row4.infoByContLength[45].stackWeight).toBe(120000000);
   });
 });
 

@@ -1,8 +1,8 @@
-import ISectionMapConfig from "../models/ISectionMapConfig";
-import ITierStafData from "../models/ITierStafData";
-import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
-import { pad3 } from "../../helpers/pad";
-import safeNumberMtToMm from "../../helpers/safeNumberMtToMm";
+import ISectionMapConfig from "../../models/ISectionMapConfig";
+import ITierStafData from "../../models/ITierStafData";
+import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
+import { pad3 } from "../../../helpers/pad";
+import { safeNumberMtToMm } from "../../../helpers/safeNumberConversions";
 
 /**
  * DEFINITION of Tier

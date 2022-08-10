@@ -1,13 +1,14 @@
-import { pad2, pad3 } from "../../helpers/pad";
-import safeNumberMtToMm, {
-  safeNumberKgToGrams,
-} from "../../helpers/safeNumberMtToMm";
+import { pad2, pad3 } from "../../../helpers/pad";
+import {
+  safeNumberMtToMm,
+  safeNumberTonsToGrams,
+} from "../../../helpers/safeNumberConversions";
 
-import ISectionMapConfig from "../models/ISectionMapConfig";
-import IStackStafData from "../models/IStackStafData";
-import { deleteMissingStackInfoByLength } from "../../helpers/deleteMissingInfo";
-import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
-import yNToBoolean from "../../helpers/yNToBoolean";
+import ISectionMapConfig from "../../models/ISectionMapConfig";
+import IStackStafData from "../../models/IStackStafData";
+import { deleteMissingStackInfoByLength } from "../../../helpers/deleteMissingInfo";
+import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
+import yNToBoolean from "../../../helpers/yNToBoolean";
 
 /**
  * DEFINITION of a Stack
@@ -55,27 +56,27 @@ const StackConfig: ISectionMapConfig<IStackStafData> = {
     },
     STACK_WT_20: {
       target: "stackInfoByLength.20.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     STACK_WT_24: {
       target: "stackInfoByLength.24.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     STACK_WT_40: {
       target: "stackInfoByLength.40.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     STACK_WT_45: {
       target: "stackInfoByLength.45.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     STACK_WT_48: {
       target: "stackInfoByLength.48.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     STACK_WT_53: {
       target: "stackInfoByLength.53.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     ACCEPTS_20: {
       target: "stackInfoByLength.20.acceptsSize",

@@ -23,7 +23,7 @@ import { createDictionaryMultiple } from "../helpers/createDictionary";
 import createSummary from "./core/createSummary";
 import { getContainerLengths } from "./core/getContainerLengths";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
-import { processAllSections } from "./sections/processAllSections";
+import { processAllSections } from "./sections/stafToOvs/processAllSections";
 import substractLabels from "./core/substractLabels";
 import transformLids from "./core/transformLids";
 

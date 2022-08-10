@@ -3,7 +3,7 @@ import {
   IShipDataIntermediateStaf,
 } from "../models/v1/parts/IShipData";
 
-import ShipConfig from "./sections/ShipConfig";
+import ShipConfig from "./sections/stafToOvs/ShipConfig";
 import convertStafObjectToOpenVesselSpec from "./core/convertStafObjectToOpenVesselSpec";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";

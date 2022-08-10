@@ -1,15 +1,15 @@
 import {
   getStafValuesSourceEnumValue,
   getStafValuesSourceStackTierEnumValue,
-} from "../../models/base/enums/ValuesSourceEnum";
+} from "../../../models/base/enums/ValuesSourceEnum";
 
-import ISectionMapConfig from "../models/ISectionMapConfig";
-import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
-import { getStafForeAftEnumValue } from "../../models/base/enums/ForeAftEnum";
-import { getStafLcgReferenceEnumValue } from "../../models/base/enums/LcgReferenceEnum";
-import { getStafLengthUnitsEnumValue } from "../../models/base/enums/UnitsEnum";
-import { getStafPortStarboardValue } from "../../models/base/enums/PortStarboardEnum";
-import { getStafPositionFormatEnumValue } from "../../models/base/enums/PositionFormatEnum";
+import ISectionMapConfig from "../../models/ISectionMapConfig";
+import { IShipDataIntermediateStaf } from "../../../models/v1/parts/IShipData";
+import { getStafForeAftEnumValue } from "../../../models/base/enums/ForeAftEnum";
+import { getStafLcgReferenceEnumValue } from "../../../models/base/enums/LcgReferenceEnum";
+import { getStafLengthUnitsEnumValue } from "../../../models/base/enums/UnitsEnum";
+import { getStafPortStarboardValue } from "../../../models/base/enums/PortStarboardEnum";
+import { getStafPositionFormatEnumValue } from "../../../models/base/enums/PositionFormatEnum";
 
 /**
  * DEFINITION of main Ship class for the converter

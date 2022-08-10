@@ -1,17 +1,14 @@
 import {
-  deleteMissingInfoByContLength,
-  deleteVerboseOptionalFalsyKeys,
-} from "../../helpers/deleteMissingInfo";
-import safeNumberMtToMm, {
-  safeNumberKgToGrams,
-} from "../../helpers/safeNumberMtToMm";
+  safeNumberMtToMm,
+  safeNumberTonsToGrams,
+} from "../../../helpers/safeNumberConversions";
 
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
-import ISectionMapConfig from "../models/ISectionMapConfig";
-import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
-import { getStafForeAftEnumValue } from "../../models/base/enums/ForeAftEnum";
-import { pad3 } from "../../helpers/pad";
-import yNToBoolean from "../../helpers/yNToBoolean";
+import { IBayLevelDataStaf } from "../../../models/v1/parts/IBayLevelData";
+import ISectionMapConfig from "../../models/ISectionMapConfig";
+import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
+import { getStafForeAftEnumValue } from "../../../models/base/enums/ForeAftEnum";
+import { pad3 } from "../../../helpers/pad";
+import yNToBoolean from "../../../helpers/yNToBoolean";
 
 /**
  * DEFINITION of main Bay
@@ -23,9 +20,6 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataStaf> = {
     LEVEL: { target: "level", mapper: getStafBayLevelEnumValue },
     "20_NAME": { target: "label20", passValue: true, dashIsEmpty: true },
     "40_NAME": { target: "label40", passValue: true, dashIsEmpty: true },
-    // There is no use for these fields
-    // SL_Hatch: { target: "slHatch", passValue: true, dashIsEmpty: true },
-    // SL_ForeAft: { target: "slForeAft", passValue: true, dashIsEmpty: true },
     LCG_20: {
       target: "infoByContLength.20.lcg",
       mapper: safeNumberMtToMm,
@@ -53,23 +47,23 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataStaf> = {
     },
     STACK_WT_20: {
       target: "infoByContLength.20.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     STACK_WT_24: {
       target: "infoByContLength.24.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     STACK_WT_40: {
       target: "infoByContLength.40.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     STACK_WT_45: {
       target: "infoByContLength.45.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     STACK_WT_48: {
       target: "infoByContLength.48.stackWeight",
-      mapper: safeNumberKgToGrams,
+      mapper: safeNumberTonsToGrams,
     },
     MAX_HEIGHT: { target: "maxHeight", mapper: safeNumberMtToMm },
     PAIRED_BAY: { target: "pairedBay", mapper: getStafForeAftEnumValue },
@@ -79,26 +73,7 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataStaf> = {
     BULKHEAD: { target: "bulkhead.fore", mapper: yNToBoolean },
     BULKHEAD_LCG: { target: "bulkhead.foreLcg", mapper: safeNumberMtToMm },
   },
-  postProcessors: [
-    deleteMissingInfoByContLength,
-    deleteVerboseOptionalFalsyKeys([
-      "label20",
-      "label40",
-      "maxHeight",
-      "reeferPlugs",
-      "doors",
-      "pairedBay",
-      "reeferPlugLimit",
-      "centerLineStack",
-      "athwartShip",
-      "foreHatch",
-      "ventilated",
-      "heatSrcFore",
-      "ignitionSrcFore",
-      "quartersFore",
-      "engineRmBulkFore",
-    ]),
-  ],
+  postProcessors: [],
 };
 
 export default BayLevelConfig;
