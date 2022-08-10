@@ -1,7 +1,7 @@
 import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { IIsoStackPattern } from "../../models/base/types/IPositionPatterns";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import IStackStafData from "../models/IStackStafData";
+import IStackStafData from "../types/IStackStafData";
 import { createSlotsFromStack } from "../core/createSlotsFromStacksInfo";
 import sortStacksArray from "../../helpers/sortStacksArray";
 import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";

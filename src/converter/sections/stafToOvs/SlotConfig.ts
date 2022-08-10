@@ -1,4 +1,4 @@
-import ISectionMapConfig from "../../models/ISectionMapConfig";
+import ISectionMapConfig from "../../types/ISectionMapConfig";
 import ISlotData from "../../../models/v1/parts/ISlotData";
 import { pad7 } from "../../../helpers/pad";
 import yNToBoolean from "../../../helpers/yNToBoolean";

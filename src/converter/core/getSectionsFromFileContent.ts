@@ -1,4 +1,4 @@
-import { ISectionContent } from "../models/ISectionContent";
+import { ISectionContent } from "../types/ISectionContent";
 
 /**
  * Gets the content of a file and parses it (string operations)

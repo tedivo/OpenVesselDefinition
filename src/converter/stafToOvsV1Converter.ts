@@ -9,9 +9,9 @@ import mapStafSections, { STAF_MIN_SECTIONS } from "./core/mapStafSections";
 
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
 import IShipData from "../models/v1/parts/IShipData";
-import IStackStafData from "./models/IStackStafData";
-import IStafDataProcessed from "./models/IStafDataProcessed";
-import ITierStafData from "./models/ITierStafData";
+import IStackStafData from "./types/IStackStafData";
+import IStafDataProcessed from "./types/IStafDataProcessed";
+import ITierStafData from "./types/ITierStafData";
 import addPerSlotData from "../converter/core/addPerSlotData";
 import addPerStackInfo from "../converter/core/addPerStackInfo";
 import addPerTierInfo from "../converter/core/addPerTierInfo";

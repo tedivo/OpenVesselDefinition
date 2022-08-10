@@ -1,7 +1,7 @@
 import { pad2, pad3 } from "../../../helpers/pad";
 
 import { ILidDataFromStaf } from "../../../models/v1/parts/ILidData";
-import ISectionMapConfig from "../../models/ISectionMapConfig";
+import ISectionMapConfig from "../../types/ISectionMapConfig";
 import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
 import yNToBooleanLoose from "../../../helpers/yNToBooleanLoose";
 

@@ -1,4 +1,4 @@
-import { IStackInfoByLengthWithAcceptsSize } from "../../models/IStackStafData";
+import { IStackInfoByLengthWithAcceptsSize } from "../../types/IStackStafData";
 import { TBayStackInfo } from "../../../models/v1/parts/IBayLevelData";
 import { TContainerLengths } from "../../../models/v1/parts/Types";
 

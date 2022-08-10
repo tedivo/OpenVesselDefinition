@@ -4,11 +4,26 @@ enum BayLevelEnum {
   "TWINDECK" = 3,
 }
 
-export const getStafBayLevelEnumValue = (s: "A" | "B" | "T"): BayLevelEnum => {
-  if (s === "A") return BayLevelEnum.ABOVE;
-  if (s === "B") return BayLevelEnum.BELOW;
-  if (s === "T") return BayLevelEnum.TWINDECK;
-  return undefined;
+type TStafBayLevel = "A" | "B" | "T";
+
+const BayLevelFromStafMapper = {
+  A: 1,
+  B: 2,
+  T: 3,
+};
+
+const BayLevelToStafMapper: { [key in BayLevelEnum]: TStafBayLevel } = {
+  [BayLevelEnum.ABOVE]: "A",
+  [BayLevelEnum.BELOW]: "B",
+  [BayLevelEnum.TWINDECK]: "T",
+};
+
+export const getStafBayLevelEnumValue = (s: TStafBayLevel): BayLevelEnum => {
+  return BayLevelFromStafMapper[s];
+};
+
+export const getBayLevelEnumValueToStaf = (s: BayLevelEnum): TStafBayLevel => {
+  return BayLevelToStafMapper[s];
 };
 
 export default BayLevelEnum;

@@ -1,78 +1,111 @@
+import { pad2, pad3 } from "../../../helpers/pad";
 import {
-  safeNumberMtToMm,
-  safeNumberTonsToGrams,
+  safeNumberGramsToTons,
+  safeNumberMmToMt,
 } from "../../../helpers/safeNumberConversions";
 
 import { IBayLevelDataStaf } from "../../../models/v1/parts/IBayLevelData";
-import ISectionMapConfig from "../../models/ISectionMapConfig";
-import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
+import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
+import { getBayLevelEnumValueToStaf } from "../../../models/base/enums/BayLevelEnum";
 import { getStafForeAftEnumValue } from "../../../models/base/enums/ForeAftEnum";
-import { pad3 } from "../../../helpers/pad";
 import yNToBoolean from "../../../helpers/yNToBoolean";
 
 /**
+ * FROM OVS TO STAF
  * DEFINITION of main Bay
  */
-const BayLevelConfig: ISectionMapConfig<IBayLevelDataStaf> = {
+const BayLevelConfig: ISectionMapToStafConfig<IBayLevelDataStaf> = {
   stafSection: "SECTION",
-  mapVars: {
-    STAF_BAY: { target: "isoBay", mapper: pad3 },
-    LEVEL: { target: "level", mapper: getStafBayLevelEnumValue },
-    "20_NAME": { target: "label20", passValue: true, dashIsEmpty: true },
-    "40_NAME": { target: "label40", passValue: true, dashIsEmpty: true },
-    LCG_20: {
+  mapVars: [
+    { stafVar: "STAF BAY", target: "isoBay", mapper: pad2 },
+    { stafVar: "LEVEL", target: "level", mapper: getBayLevelEnumValueToStaf },
+    {
+      stafVar: "20_NAME",
+      target: "label20",
+      passValue: true,
+      dashIsEmpty: true,
+    },
+    {
+      stafVar: "40_NAME",
+      target: "label40",
+      passValue: true,
+      dashIsEmpty: true,
+    },
+    {
+      stafVar: "LCG_20",
       target: "infoByContLength.20.lcg",
-      mapper: safeNumberMtToMm,
+      mapper: safeNumberMmToMt,
       setSelf: ["size", 20],
     },
-    LCG_24: {
+    {
+      stafVar: "LCG_24",
       target: "infoByContLength.24.lcg",
-      mapper: safeNumberMtToMm,
+      mapper: safeNumberMmToMt,
       setSelf: ["size", 24],
     },
-    LCG_40: {
+    {
+      stafVar: "LCG_40",
       target: "infoByContLength.40.lcg",
-      mapper: safeNumberMtToMm,
+      mapper: safeNumberMmToMt,
       setSelf: ["size", 40],
     },
-    LCG_45: {
+    {
+      stafVar: "LCG_45",
       target: "infoByContLength.45.lcg",
-      mapper: safeNumberMtToMm,
+      mapper: safeNumberMmToMt,
       setSelf: ["size", 45],
     },
-    LCG_48: {
+    {
+      stafVar: "LCG_48",
       target: "infoByContLength.48.lcg",
-      mapper: safeNumberMtToMm,
+      mapper: safeNumberMmToMt,
       setSelf: ["size", 48],
     },
-    STACK_WT_20: {
+    {
+      stafVar: "STACK_WT_20",
       target: "infoByContLength.20.stackWeight",
-      mapper: safeNumberTonsToGrams,
+      mapper: safeNumberGramsToTons,
     },
-    STACK_WT_24: {
+    {
+      stafVar: "STACK_WT_24",
       target: "infoByContLength.24.stackWeight",
-      mapper: safeNumberTonsToGrams,
+      mapper: safeNumberGramsToTons,
     },
-    STACK_WT_40: {
+    {
+      stafVar: "STACK_WT_40",
       target: "infoByContLength.40.stackWeight",
-      mapper: safeNumberTonsToGrams,
+      mapper: safeNumberGramsToTons,
     },
-    STACK_WT_45: {
+    {
+      stafVar: "STACK_WT_45",
       target: "infoByContLength.45.stackWeight",
-      mapper: safeNumberTonsToGrams,
+      mapper: safeNumberGramsToTons,
     },
-    STACK_WT_48: {
+    {
+      stafVar: "STACK_WT_48",
       target: "infoByContLength.48.stackWeight",
-      mapper: safeNumberTonsToGrams,
+      mapper: safeNumberGramsToTons,
     },
-    MAX_HEIGHT: { target: "maxHeight", mapper: safeNumberMtToMm },
-    PAIRED_BAY: { target: "pairedBay", mapper: getStafForeAftEnumValue },
-    REEFER_PLUGS: { target: "reeferPlugs", mapper: getStafForeAftEnumValue },
-    DOORS: { target: "doors", mapper: getStafForeAftEnumValue },
-    ATHWARTSHIPS: { target: "athwartShip", mapper: yNToBoolean },
-    BULKHEAD: { target: "bulkhead.fore", mapper: yNToBoolean },
-    BULKHEAD_LCG: { target: "bulkhead.foreLcg", mapper: safeNumberMtToMm },
-  },
+    { stafVar: "MAX_HEIGHT", target: "maxHeight", mapper: safeNumberMmToMt },
+    {
+      stafVar: "PAIRED_BAY",
+      target: "pairedBay",
+      mapper: getStafForeAftEnumValue,
+    },
+    {
+      stafVar: "REEFER_PLUGS",
+      target: "reeferPlugs",
+      mapper: getStafForeAftEnumValue,
+    },
+    { stafVar: "DOORS", target: "doors", mapper: getStafForeAftEnumValue },
+    { stafVar: "ATHWARTSHIPS", target: "athwartShip", mapper: yNToBoolean },
+    { stafVar: "BULKHEAD", target: "bulkhead.fore", mapper: yNToBoolean },
+    {
+      stafVar: "BULKHEAD_LCG",
+      target: "bulkhead.foreLcg",
+      mapper: safeNumberMmToMt,
+    },
+  ],
   postProcessors: [],
 };
 

@@ -8,13 +8,14 @@ import {
 } from "../../../helpers/safeNumberConversions";
 
 import { IBayLevelDataStaf } from "../../../models/v1/parts/IBayLevelData";
-import ISectionMapConfig from "../../models/ISectionMapConfig";
+import ISectionMapConfig from "../../types/ISectionMapConfig";
 import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
 import { getStafForeAftEnumValue } from "../../../models/base/enums/ForeAftEnum";
 import { pad3 } from "../../../helpers/pad";
 import yNToBoolean from "../../../helpers/yNToBoolean";
 
 /**
+ * FROM STAF TO OVS
  * DEFINITION of main Bay
  */
 const BayLevelConfig: ISectionMapConfig<IBayLevelDataStaf> = {

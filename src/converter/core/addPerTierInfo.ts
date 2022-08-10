@@ -1,7 +1,7 @@
 import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { IIsoTierPattern } from "../../models/base/types/IPositionPatterns";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import ITierStafData from "../models/ITierStafData";
+import ITierStafData from "../types/ITierStafData";
 import sortByMultipleFields from "../../helpers/sortByMultipleFields";
 import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
 

@@ -5,7 +5,7 @@ import {
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import IStackStafData from "../models/IStackStafData";
+import IStackStafData from "../types/IStackStafData";
 import addPerStackInfo from "./addPerStackInfo";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import { shipDataBays } from "../mocks/shipData";

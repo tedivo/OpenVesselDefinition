@@ -1,4 +1,4 @@
-import { IStackInfoByLengthWithAcceptsSize } from "../converter/models/IStackStafData";
+import { IStackInfoByLengthWithAcceptsSize } from "../converter/types/IStackStafData";
 import { TStackInfoByLength } from "../models/v1/parts/IBayLevelData";
 
 /**

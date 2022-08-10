@@ -1,8 +1,8 @@
 import ISectionMapConfig, {
   IMappedVarConfig,
-} from "../models/ISectionMapConfig";
+} from "../types/ISectionMapConfig";
 
-import { ISectionContentMap } from "../models/ISectionContent";
+import { ISectionContentMap } from "../types/ISectionContent";
 
 function convertStafObjectToOpenVesselSpec<T>(
   sectionArray: ISectionContentMap,

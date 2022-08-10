@@ -3,7 +3,7 @@ import {
   getStafValuesSourceStackTierEnumValue,
 } from "../../../models/base/enums/ValuesSourceEnum";
 
-import ISectionMapConfig from "../../models/ISectionMapConfig";
+import ISectionMapConfig from "../../types/ISectionMapConfig";
 import { IShipDataIntermediateStaf } from "../../../models/v1/parts/IShipData";
 import { getStafForeAftEnumValue } from "../../../models/base/enums/ForeAftEnum";
 import { getStafLcgReferenceEnumValue } from "../../../models/base/enums/LcgReferenceEnum";

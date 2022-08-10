@@ -1,12 +1,12 @@
 import BayLevelConfig from "./BayLevelConfig";
 import { IBayLevelDataStaf } from "../../../models/v1/parts/IBayLevelData";
 import { ILidDataFromStaf } from "../../../models/v1/parts/ILidData";
-import { ISectionsByName } from "../../models/ISectionContent";
+import { ISectionsByName } from "../../types/ISectionContent";
 import { IShipDataIntermediateStaf } from "../../../models/v1/parts/IShipData";
 import ISlotData from "../../../models/v1/parts/ISlotData";
-import IStackStafData from "../../models/IStackStafData";
-import IStafDataProcessed from "../../models/IStafDataProcessed";
-import ITierStafData from "../../models/ITierStafData";
+import IStackStafData from "../../types/IStackStafData";
+import IStafDataProcessed from "../../types/IStafDataProcessed";
+import ITierStafData from "../../types/ITierStafData";
 import LidConfig from "./LidConfig";
 import ShipConfig from "./ShipConfig";
 import SlotConfig from "./SlotConfig";

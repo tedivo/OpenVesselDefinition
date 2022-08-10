@@ -1,5 +1,5 @@
-import ISectionMapConfig from "../../models/ISectionMapConfig";
-import ITierStafData from "../../models/ITierStafData";
+import ISectionMapConfig from "../../types/ISectionMapConfig";
+import ITierStafData from "../../types/ITierStafData";
 import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
 import { pad3 } from "../../../helpers/pad";
 import { safeNumberMtToMm } from "../../../helpers/safeNumberConversions";

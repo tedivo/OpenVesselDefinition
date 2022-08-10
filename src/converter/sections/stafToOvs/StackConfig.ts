@@ -4,8 +4,8 @@ import {
   safeNumberTonsToGrams,
 } from "../../../helpers/safeNumberConversions";
 
-import ISectionMapConfig from "../../models/ISectionMapConfig";
-import IStackStafData from "../../models/IStackStafData";
+import ISectionMapConfig from "../../types/ISectionMapConfig";
+import IStackStafData from "../../types/IStackStafData";
 import { deleteMissingStackInfoByLength } from "../../../helpers/deleteMissingInfo";
 import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
 import yNToBoolean from "../../../helpers/yNToBoolean";
