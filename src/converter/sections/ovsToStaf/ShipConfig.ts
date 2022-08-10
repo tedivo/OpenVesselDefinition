@@ -13,7 +13,7 @@ const ShipConfig: ISectionMapToStafConfig<IShipData> = {
   mapVars: [
     {
       stafVar: "CLASS",
-      target: "shipClass",
+      source: "shipClass",
       passValue: true,
       dashIsEmpty: true,
     },
@@ -23,7 +23,7 @@ const ShipConfig: ISectionMapToStafConfig<IShipData> = {
     },
     {
       stafVar: "LCG IN USE",
-      target: "lcgOptions.values",
+      source: "lcgOptions.values",
       mapper: getValuesSourceEnumValueToStaf,
     },
     {
@@ -40,7 +40,7 @@ const ShipConfig: ISectionMapToStafConfig<IShipData> = {
     },
     {
       stafVar: "TCG IN USE",
-      target: "tcgOptions.values",
+      source: "tcgOptions.values",
       mapper: getValuesSourceEnumValueToStaf,
     },
     {
@@ -49,7 +49,7 @@ const ShipConfig: ISectionMapToStafConfig<IShipData> = {
     },
     {
       stafVar: "POSITION FORMAT",
-      target: "positionFormat",
+      source: "positionFormat",
       mapper: getPositionFormatValueToStaf,
     },
   ],

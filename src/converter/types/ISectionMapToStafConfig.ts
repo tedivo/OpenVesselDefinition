@@ -13,12 +13,12 @@ type IMappedVarStafMasterConfig<T> =
   | {
       stafVar: string;
       fixedValue: string;
-      target?: never;
+      source?: never;
       setSelf?: [string, string | number];
     }
   | ({
       stafVar: string;
-      target: RecursiveKeyOf<T>;
+      source: RecursiveKeyOf<T>;
       setSelf?: [string, string | number];
       fixedValue?: never;
     } & (IMappedVarStafConfigWithMapper | IMappedVarStafConfigWithoutMapper));
