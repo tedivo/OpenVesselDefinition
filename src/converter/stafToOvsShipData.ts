@@ -4,7 +4,7 @@ import {
 } from "../models/v1/parts/IShipData";
 
 import ShipConfig from "./sections/ShipConfig";
-import convertStafObjectToShipOpenSpec from "./core/convertStafObjectToShipOpenSpec";
+import convertStafObjectToOpenVesselSpec from "./core/convertStafObjectToOpenVesselSpec";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
 
@@ -28,7 +28,7 @@ export default function stafToOvsShipData(
     };
   }
 
-  const shipData = convertStafObjectToShipOpenSpec<IShipDataIntermediateStaf>(
+  const shipData = convertStafObjectToOpenVesselSpec<IShipDataIntermediateStaf>(
     sectionsByName["SHIP"],
     ShipConfig
   )[0];

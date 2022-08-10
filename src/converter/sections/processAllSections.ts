@@ -12,33 +12,33 @@ import ShipConfig from "../sections/ShipConfig";
 import SlotConfig from "../sections/SlotConfig";
 import StackConfig from "../sections/StackConfig";
 import TierConfig from "../sections/TierConfig";
-import convertStafObjectToShipOpenSpec from "../core/convertStafObjectToShipOpenSpec";
+import convertStafObjectToOpenVesselSpec from "../core/convertStafObjectToOpenVesselSpec";
 
 export function processAllSections(
   sectionsByName: ISectionsByName
 ): IStafDataProcessed {
   return {
-    shipData: convertStafObjectToShipOpenSpec<IShipDataIntermediateStaf>(
+    shipData: convertStafObjectToOpenVesselSpec<IShipDataIntermediateStaf>(
       sectionsByName["SHIP"],
       ShipConfig
     )[0],
-    bayLevelData: convertStafObjectToShipOpenSpec<IBayLevelDataStaf>(
+    bayLevelData: convertStafObjectToOpenVesselSpec<IBayLevelDataStaf>(
       sectionsByName["SECTION"],
       BayLevelConfig
     ),
-    stackData: convertStafObjectToShipOpenSpec<IStackStafData>(
+    stackData: convertStafObjectToOpenVesselSpec<IStackStafData>(
       sectionsByName["STACK"],
       StackConfig
     ),
-    tierData: convertStafObjectToShipOpenSpec<ITierStafData>(
+    tierData: convertStafObjectToOpenVesselSpec<ITierStafData>(
       sectionsByName["TIER"],
       TierConfig
     ),
-    slotData: convertStafObjectToShipOpenSpec<ISlotData>(
+    slotData: convertStafObjectToOpenVesselSpec<ISlotData>(
       sectionsByName["SLOT"],
       SlotConfig
     ),
-    lidData: convertStafObjectToShipOpenSpec<ILidDataFromStaf>(
+    lidData: convertStafObjectToOpenVesselSpec<ILidDataFromStaf>(
       sectionsByName["LID"],
       LidConfig
     ),

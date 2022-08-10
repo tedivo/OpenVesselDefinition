@@ -1,9 +1,10 @@
-import { ISectionContentMap } from "../models/ISectionContent";
 import ISectionMapConfig, {
   IMappedVarConfig,
 } from "../models/ISectionMapConfig";
 
-function convertStafObjectToShipOpenSpec<T>(
+import { ISectionContentMap } from "../models/ISectionContent";
+
+function convertStafObjectToOpenVesselSpec<T>(
   sectionArray: ISectionContentMap,
   sectionConfig: ISectionMapConfig<T>
 ): T[] {
@@ -57,4 +58,4 @@ function convertStafObjectToShipOpenSpec<T>(
   return rows;
 }
 
-export default convertStafObjectToShipOpenSpec;
+export default convertStafObjectToOpenVesselSpec;
