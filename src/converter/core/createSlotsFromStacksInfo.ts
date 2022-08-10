@@ -27,7 +27,7 @@ export function createSlotsFromStack(
         baySlotData[pos].sizes[size] = 1;
       });
     } else {
-      delete baySlotData[pos];
+      baySlotData[pos].restricted = 1;
     }
   }
 

@@ -8,6 +8,8 @@ import IBayLevelData, {
   IBaySlotData,
   IBulkheadInfo,
   TBayStackInfo,
+  TCommonBayInfo,
+  TStackInfoByLength,
 } from "./models/v1/parts/IBayLevelData";
 import IPositionLabels, {
   ITierStackLabelDictionaries,
@@ -16,6 +18,7 @@ import IPositionLabels, {
 import IShipData, {
   ILCGOptions,
   IMasterCGs,
+  IShipDataFromStaf,
 } from "./models/v1/parts/IShipData";
 import {
   LengthUnitsEnum,
@@ -44,17 +47,19 @@ import StackWeightCalculationEnum from "./models/base/enums/StackWeightCalculati
 import VoidTypesEnum from "./models/base/enums/VoidTypesEnum";
 import destructurePosition from "./converter/core/destructurePosition";
 import { getContainerLengths } from "./converter/core/getContainerLengths";
+import stafToOvsShipData from "./converter/stafToOvsShipData";
 import stafToOvsV1Converter from "./converter/stafToOvsV1Converter";
 
 export {
   OpenShipSpec,
   IOpenShipSpecV1,
   IShipData,
-  IMasterCGs,
-  IBayLevelData,
+  IShipDataFromStaf,
   ILidData,
   ISlotData,
   ISizeSummary,
+  IBayLevelData,
+  IMasterCGs,
   IPositionLabels,
   ILCGOptions,
   IBaySlotData,
@@ -65,6 +70,8 @@ export {
   ITierStackLabelDictionary,
   ITierStackLabelDictionaries,
   IBulkheadInfo,
+  TCommonBayInfo,
+  TStackInfoByLength,
   PositionFormatEnum,
   BayLevelEnum,
   ForeAftEnum,
@@ -77,6 +84,7 @@ export {
   ValuesSourceStackTierEnum,
   VoidTypesEnum,
   stafToOvsV1Converter,
+  stafToOvsShipData,
   destructurePosition,
   createMockedSimpleBayLevelData,
   createMockedSingleBayLevelData,

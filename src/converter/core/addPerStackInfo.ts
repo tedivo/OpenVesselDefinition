@@ -40,7 +40,7 @@ export default function addPerStackInfo(
         .forEach((sData) => {
           const { isoBay, level, label, ...sDataK } = sData;
 
-          if (label)
+          if (label) {
             if (stringIsTierOrStafNumber(label)) {
               sData.isoStack = label as IIsoStackPattern;
             } else {
@@ -49,6 +49,7 @@ export default function addPerStackInfo(
                 message: `Stack label must be a number between 00 and 99: "${label}"`,
               };
             }
+          }
 
           // a. Set perStackInfo
           bl.perStackInfo.each[sDataK.isoStack] = sDataK;
