@@ -1,46 +1,39 @@
 import RecursiveKeyOf from "../../helpers/types/RecursiveKeyOf";
 
-type ISectionMapToStafConfig<T> = ISectionMapToStafConfigArray<T>;
+type ISectionMapToStafConfig<T, U> = ISectionMapToStafConfigArray<T, U>;
 
-export interface ISectionMapToStafConfigArray<T> {
+export interface ISectionMapToStafConfigArray<T, U> {
   stafSection: string;
-  mapVars: IMappedVarStafMasterConfig<T>[];
+  mapVars: IMappedVarStafMasterConfig<T, U>[];
   postProcessors?: Array<(d: T) => void>;
+  preProcessor?: (d: unknown[]) => T[];
   singleRow?: boolean;
 }
 
-type IMappedVarStafMasterConfig<T> =
+type IMappedVarStafMasterConfig<T, U> =
   | {
       stafVar: string;
       fixedValue: string;
       source?: never;
       setSelf?: [string, string | number];
     }
-  | ({
-      stafVar: string;
-      source: RecursiveKeyOf<T>;
-      setSelf?: [string, string | number];
-      fixedValue?: never;
-    } & (IMappedVarStafConfigWithMapper | IMappedVarStafConfigWithoutMapper));
+  | IMappedVarStafConfigWithSource<T, U>;
+
+type IMappedVarStafConfigWithSource<T, U> = {
+  stafVar: string;
+  source: RecursiveKeyOf<U>;
+  setSelf?: [string, string | number];
+  fixedValue?: never;
+} & (IMappedVarStafConfigWithMapper | IMappedVarStafConfigWithoutMapper);
 
 interface IMappedVarStafConfigWithMapper {
-  mapper: (s: string | number) => string | number | boolean | undefined;
+  mapper: (s: string | number) => string | undefined;
   passValue?: never;
-  dashIsEmpty?: never;
 }
 
 interface IMappedVarStafConfigWithoutMapper {
   passValue: true;
-  dashIsEmpty: boolean;
   mapper?: never;
 }
-
-export type IMappedVarStafConfigWithArray<T, U> =
-  IMappedVarStafMasterConfig<T> & {
-    isArray: true;
-    primaryKeyOfObjectInArray: keyof U;
-    targetKeyOfObjectInArray: keyof U;
-    valueOfPkOfObjectInArray: string | number | boolean;
-  };
 
 export default ISectionMapToStafConfig;

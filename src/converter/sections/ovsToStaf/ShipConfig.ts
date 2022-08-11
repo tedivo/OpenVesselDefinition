@@ -1,5 +1,8 @@
+import IShipData, {
+  IShipDataFromStaf,
+} from "../../../models/v1/parts/IShipData";
+
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
-import IShipData from "../../../models/v1/parts/IShipData";
 import { getPositionFormatValueToStaf } from "../../../models/base/enums/PositionFormatEnum";
 import { getValuesSourceEnumValueToStaf } from "../../../models/base/enums/ValuesSourceEnum";
 
@@ -7,7 +10,7 @@ import { getValuesSourceEnumValueToStaf } from "../../../models/base/enums/Value
  * FROM OVS TO STAF
  * DEFINITION of main Ship class for the converter
  */
-const ShipConfig: ISectionMapToStafConfig<IShipData> = {
+const ShipConfig: ISectionMapToStafConfig<IShipDataFromStaf, IShipData> = {
   stafSection: "SHIP",
   singleRow: true,
   mapVars: [
@@ -15,7 +18,6 @@ const ShipConfig: ISectionMapToStafConfig<IShipData> = {
       stafVar: "CLASS",
       source: "shipClass",
       passValue: true,
-      dashIsEmpty: true,
     },
     {
       stafVar: "UNITS",

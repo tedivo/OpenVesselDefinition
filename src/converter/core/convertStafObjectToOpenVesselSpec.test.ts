@@ -30,7 +30,7 @@ import stafSlotString from "../mocks/stafSlotString";
 import stafStackString from "../mocks/stafStackString";
 import stafTierString from "../mocks/stafTierString";
 
-describe("convertStafObjectToShipOpenSpec should", () => {
+describe("convertStafObjectToOpenVesselSpec should", () => {
   interface IDummy {
     var1: string;
     moreVars: {

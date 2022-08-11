@@ -16,7 +16,6 @@ export const shipData: IShipData = {
   positionFormat: PositionFormatEnum.BAY_STACK_TIER,
   containersLengths: [20, 40, 45],
   stackWeightCalculation: StackWeightCalculationEnum.CONTAINER_LENGTH,
-  dynamicStackWeightLimit: 0,
   metaInfo: {},
   lcgOptions: {
     values: ValuesSourceEnum.ESTIMATED,

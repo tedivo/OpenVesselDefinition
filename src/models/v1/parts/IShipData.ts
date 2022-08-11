@@ -3,7 +3,6 @@ import {
   IIsoTierPattern,
   TYesNo,
 } from "../../base/types/IPositionPatterns";
-import { LengthUnitsEnum, WeightUnitsEnum } from "../../base/enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../base/enums/ValuesSourceEnum";
@@ -25,13 +24,21 @@ export default interface IShipData extends IShipDataBase {
 
   /** Calculated most observed CGs */
   masterCGs: IMasterCGs;
+
+  stackWeightCalculation?: StackWeightCalculationEnum;
 }
 
 export interface IShipDataIntermediateStaf extends IShipDataBase {
+  lenghtUnits: "METRIC" | "BRITISH";
   lcgOptions: ILCGOptionsIntermediate;
   vcgOptions: IVGCOptionsIntermediate;
   tcgOptions: ITGCOptionsIntermediate;
 }
+
+export type IShipDataFromStaf = Pick<
+  IShipDataIntermediateStaf,
+  "shipClass" | "lcgOptions" | "tcgOptions" | "vcgOptions" | "positionFormat"
+>;
 
 interface IShipDataBase {
   lineOperator?: string;
@@ -44,28 +51,19 @@ interface IShipDataBase {
   /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
   positionFormat: PositionFormatEnum;
 
-  stackWeightCalculation: StackWeightCalculationEnum;
-  dynamicStackWeightLimit?: TYesNo;
-
-  visibility?: IVisibility;
-
   /** Note and Revisions history */
   metaInfo: IShipMeta;
 
-  refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
+  // UNUSED
+  // refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
+  // dynamicStackWeightLimit?: TYesNo;
+  // visibility?: IVisibility;
 }
 
 interface IHistory {
   personName: string;
   date: Date;
   observations: string;
-}
-
-interface IFileUnits {
-  /** The length units used in this file */
-  lengthUnits: LengthUnitsEnum;
-  /** The weight units used in this file */
-  weightUnits: WeightUnitsEnum;
 }
 
 interface IShipMeta {
@@ -133,8 +131,3 @@ export interface IMasterCGs {
     [tier: IIsoTierPattern]: number;
   };
 }
-
-export type IShipDataFromStaf = Pick<
-  IShipDataIntermediateStaf,
-  "shipClass" | "lcgOptions" | "tcgOptions" | "vcgOptions" | "positionFormat"
->;
