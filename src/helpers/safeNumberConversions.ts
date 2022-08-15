@@ -17,7 +17,7 @@ export function safeNumberTonsToGrams(s: string): number | undefined {
 
 export function safeNumberMmToMt(n: number | undefined): string {
   if (n === undefined || isNaN(n)) return "-";
-  return (Math.round(n / 10) / 100).toString();
+  return (Math.round(n / 10) / 100).toFixed(2);
 }
 
 export function safeNumberGramsToTons(n: number): string {

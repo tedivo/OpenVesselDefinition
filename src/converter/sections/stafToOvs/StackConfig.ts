@@ -14,7 +14,7 @@ import yNToBoolean from "../../../helpers/yNToBoolean";
  * DEFINITION of a Stack
  */
 const StackConfig: ISectionMapConfig<IStackStafData> = {
-  stafSection: "SECTION",
+  stafSection: "STACK",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },
     LEVEL: { target: "level", mapper: getStafBayLevelEnumValue },

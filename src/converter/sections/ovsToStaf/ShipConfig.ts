@@ -12,7 +12,6 @@ import { getValuesSourceEnumValueToStaf } from "../../../models/base/enums/Value
  */
 const ShipConfig: ISectionMapToStafConfig<IShipDataFromStaf, IShipData> = {
   stafSection: "SHIP",
-  singleRow: true,
   mapVars: [
     {
       stafVar: "CLASS",

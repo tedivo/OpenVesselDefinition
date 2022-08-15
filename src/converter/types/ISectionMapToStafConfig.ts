@@ -6,7 +6,7 @@ export interface ISectionMapToStafConfigArray<T, U> {
   stafSection: string;
   mapVars: IMappedVarStafMasterConfig<T, U>[];
   postProcessors?: Array<(d: T) => void>;
-  preProcessor?: (d: unknown[]) => T[];
+  preProcessor?: (d: unknown[], extra?: unknown) => T[];
   singleRow?: boolean;
 }
 
@@ -24,10 +24,10 @@ type IMappedVarStafConfigWithSource<T, U> = {
   source: RecursiveKeyOf<U>;
   setSelf?: [string, string | number];
   fixedValue?: never;
-} & (IMappedVarStafConfigWithMapper | IMappedVarStafConfigWithoutMapper);
+} & (IMappedVarStafConfigWithMapper<U> | IMappedVarStafConfigWithoutMapper);
 
-interface IMappedVarStafConfigWithMapper {
-  mapper: (s: string | number) => string | undefined;
+interface IMappedVarStafConfigWithMapper<U> {
+  mapper: (s: string | number, record?: U) => string | undefined;
   passValue?: never;
 }
 

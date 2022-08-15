@@ -9,7 +9,7 @@ import {
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import { getBayLevelEnumValueToStaf } from "../../../models/base/enums/BayLevelEnum";
 import { getForeAftEnumToStaf } from "../../../models/base/enums/ForeAftEnum";
-import { pad2 } from "../../../helpers/pad";
+import { safePad2 } from "../../../helpers/pad";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
 
 /**
@@ -22,7 +22,7 @@ const BayLevelConfig: ISectionMapToStafConfig<
 > = {
   stafSection: "SECTION",
   mapVars: [
-    { stafVar: "STAF BAY", source: "isoBay", mapper: pad2 },
+    { stafVar: "STAF BAY", source: "isoBay", mapper: safePad2 },
     { stafVar: "LEVEL", source: "level", mapper: getBayLevelEnumValueToStaf },
     {
       stafVar: "20 NAME",

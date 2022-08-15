@@ -2,7 +2,10 @@ import IBayLevelData, {
   IBayLevelDataStaf,
 } from "../../models/v1/parts/IBayLevelData";
 import ILidData, { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
-import IShipData, { IShipDataFromStaf } from "../../models/v1/parts/IShipData";
+import IShipData, {
+  IMasterCGs,
+  IShipDataFromStaf,
+} from "../../models/v1/parts/IShipData";
 import convertOvsToStafObject, {
   getNestedValue,
 } from "../core/convertOvsToStafObject";
@@ -11,10 +14,16 @@ import BayLevelConfig from "../sections/ovsToStaf/BayLevelConfig";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import ISectionMapToStafConfig from "../types/ISectionMapToStafConfig";
+import ISlotData from "../../models/v1/parts/ISlotData";
+import IStackStafData from "../types/IStackStafData";
+import ITierStafData from "../types/ITierStafData";
+import { LINE_SEPARATOR } from "../sections/ovsToStaf/consts";
 import LidConfig from "../sections/ovsToStaf/LidConfig";
 import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
 import ShipConfig from "../sections/ovsToStaf/ShipConfig";
-import { TContainerLengths } from "../../models/v1/parts/Types";
+import SlotConfig from "../sections/ovsToStaf/SlotConfig";
+import StackConfig from "../sections/ovsToStaf/StackConfig";
+import TierConfig from "../sections/ovsToStaf/TierConfig";
 import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 
@@ -133,7 +142,7 @@ describe("for STAF_BAY data", () => {
   it("work ok with mocked data of bays", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       3,
-      ["0282", "0082", "0182", "0284", "0084", "0184"],
+      ["0282", "0082", "0182", "0284", "0084", "0184", "0080"],
       ["0218", "0018", "0118", "0016"]
     );
 
@@ -150,205 +159,232 @@ describe("for STAF_BAY data", () => {
     expect(b003Below.level).toBe(BayLevelEnum.BELOW);
 
     // Modify data to check it in the result
-    b001Above.label20 = "001-Label-20-A";
-    b001Below.label20 = "001-Label-20-B";
-    b001Above.label40 = "001-Label-40-A";
-    b001Below.label40 = "001-Label-40-B";
-
-    b003Above.infoByContLength = {
-      20: { lcg: 100000, size: 20, stackWeight: 2000000 },
-      40: { lcg: 110000, size: 40, stackWeight: 2100000 },
-      45: { lcg: 111000, size: 45, stackWeight: 2200000 },
-      48: { lcg: 112000, size: 48, stackWeight: 2300000 },
-      53: { lcg: 113000, size: 53, stackWeight: 2400000 },
-    };
-    b003Below.infoByContLength = {
-      20: { lcg: 100000, size: 20, stackWeight: 2100000 },
-      24: { lcg: 99000, size: 24, stackWeight: 2900000 },
-    };
-
-    b001Above.pairedBay = ForeAftEnum.AFT;
-    b001Below.pairedBay = ForeAftEnum.AFT;
-    b003Above.pairedBay = ForeAftEnum.FWD;
-    b003Below.pairedBay = ForeAftEnum.FWD;
-
-    b003Above.doors = ForeAftEnum.AFT;
-    b003Below.doors = ForeAftEnum.AFT;
-
-    b001Above.athwartShip = 1;
-
-    b001Below.bulkhead = { fore: 1, foreLcg: 119000 };
-
-    b001Above.perStackInfo = {
-      common: { maxHeight: 5000, bottomBase: 21000 },
-    };
-    b001Below.perStackInfo = {
-      common: { maxHeight: 4500, bottomBase: 17000 },
-    };
-
-    b003Above.perStackInfo = {
-      common: { maxHeight: 5500, bottomBase: 21000 },
-    };
-    b003Below.perStackInfo = {
-      common: { maxHeight: 5200, bottomBase: 17000 },
-    };
+    addMockedAttributes(b001Above, b001Below, b003Above, b003Below);
 
     const processed = convertOvsToStafObject<IBayLevelDataStaf, IBayLevelData>(
       bayLevelData,
       BayLevelConfig
     );
 
-    const processedLines = processed.split("\n");
-    expect(processedLines.length).toBe(6);
+    const processedLines = processed.split(LINE_SEPARATOR);
+    expect(processedLines.length).toBe(1 + 1 + 4);
     expect(processedLines[0]).toBe("*SECTION");
     expect(processedLines[1]).toBe(
       "**STAF BAY\tLEVEL\t20 NAME\t40 NAME\tSL Hatch\tSL ForeAft\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HEIGHT\tPAIRED BAY\tREEFER PLUGS\tDOORS\tATHWARTSHIPS\tBULKHEAD\tBULKHEAD LCG\tLCG 24\tSTACK WT 24"
     );
     expect(processedLines[2]).toBe(
-      "001\tA\t001-Label-20-A\t001-Label-40-A\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5\tA\t-\t-\tY\tN\t-\t-\t-"
+      "01\tA\t001-Label-20-A\t001-Label-40-A\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5\tA\t-\t-\tY\tN\t-\t-\t-"
     );
     expect(processedLines[3]).toBe(
-      "001\tB\t001-Label-20-B\t001-Label-40-B\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.5\tA\t-\t-\tN\tY\t119\t-\t-"
+      "01\tB\t001-Label-20-B\t001-Label-40-B\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.5\tA\t-\t-\tN\tY\t119\t-\t-"
     );
     expect(processedLines[4]).toBe(
-      "003\tA\t-\t-\t-\t-\t100\t110\t111\t112\t2\t2.1\t2.2\t2.3\t5.5\tF\t-\tA\tN\tN\t-\t-\t-"
+      "03\tA\t-\t-\t-\t-\t100\t110\t111\t112\t2\t2.1\t2.2\t2.3\t5.5\tF\t-\tA\tN\tN\t-\t-\t-"
     );
     expect(processedLines[5]).toBe(
-      "003\tB\t-\t-\t-\t-\t100\t-\t-\t-\t2.1\t-\t-\t-\t5.2\tF\t-\tA\tN\tN\t-\t99\t2.9"
+      "03\tB\t-\t-\t-\t-\t100\t-\t-\t-\t2.1\t-\t-\t-\t5.2\tF\t-\tA\tN\tN\t-\t99\t2.9"
     );
   });
 });
 
-// describe("for STACK data", () => {
-//   it("work ok with mocked data of stacks", () => {
-//     const sectionsByName = mapStafSections(
-//       getSectionsFromFileContent(stafStackString)
-//     );
+describe("for STACK data", () => {
+  it("work ok with mocked data of stacks", () => {
+    const bayLevelData = createMockedSimpleBayLevelData(
+      3,
+      ["0282", "0082", "0182", "0284", "0084", "0184"],
+      ["0218", "0018", "0118", "0016"]
+    );
 
-//     const headerSection = sectionsByName["STACK"];
+    const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
+    addMockedAttributes(b001Above, b001Below, b003Above, b003Below);
 
-//     const processed = convertStafObjectToOpenVesselSpec<IStackStafData>(
-//       headerSection,
-//       StackConfig
-//     );
+    const masterCGs: IMasterCGs = {
+      aboveTcgs: { "02": -3000, "00": 0, "01": 3000 },
+      belowTcgs: { "02": -3500, "00": 500, "01": 3500 },
+      bottomBases: {},
+    };
 
-//     expect(processed.length).toBe(30);
-//     const row1 = processed[0];
+    const data = StackConfig.preProcessor(bayLevelData, masterCGs);
 
-//     expect(row1.isoBay).toBe("001");
-//     expect(row1.level).toBe(BayLevelEnum.BELOW);
-//     expect(row1.isoStack).toBe("01");
-//     expect(row1.topIsoTier).toBe("18");
-//     expect(row1.bottomIsoTier).toBe("12");
-//     expect(row1.tcg).toBe(1280);
-//     expect(row1.stackInfoByLength[20]).toBeTruthy();
-//     expect(row1.stackInfoByLength[20].size).toBe(20);
-//     expect(row1.stackInfoByLength[20].acceptsSize).toBe(1);
-//     expect(row1.stackInfoByLength[24]).toBeFalsy();
-//     expect(row1.stackInfoByLength[40]).toBeFalsy();
-//     expect(row1.stackInfoByLength[45]).toBeFalsy();
-//     expect(row1.stackInfoByLength[48]).toBeFalsy();
+    const processed = convertOvsToStafObject<IStackStafData, IStackStafData>(
+      data,
+      StackConfig
+    );
 
-//     const row27 = processed[27];
-//     expect(row27.isoBay).toBe("003");
-//     expect(row27.level).toBe(BayLevelEnum.ABOVE);
-//     expect(row27.isoStack).toBe("10");
-//     expect(row27.topIsoTier).toBe("90");
-//     expect(row27.bottomIsoTier).toBe("82");
-//     expect(row27.tcg).toBe(-11380);
-//     expect(row27.stackInfoByLength[20]).toBeTruthy();
-//     expect(row27.stackInfoByLength[20].size).toBe(20);
-//     expect(row27.stackInfoByLength[20].acceptsSize).toBe(1);
-//     expect(row27.stackInfoByLength[24]).toBeFalsy();
-//     expect(row27.stackInfoByLength[40]).toBeTruthy();
-//     expect(row27.stackInfoByLength[45]).toBeTruthy();
-//     expect(row27.stackInfoByLength[48]).toBeFalsy();
-//   });
-// });
+    const processedLines = processed.split(LINE_SEPARATOR);
+    expect(processedLines.length).toBe(1 + 1 + 12);
+    expect(processedLines[0]).toBe("*STACK");
+    expect(processedLines[1]).toBe(
+      "**STAF BAY\tLEVEL\tISO STACK\tCUSTOM STACK\tTOP TIER\tBOTTOM TIER\tBOTTOM VCG\tTCG\tACCEPTS 20\tACCEPTS 40\tACCEPTS 45\tACCEPTS 48\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HT\tACCEPTS 24\tLCG 24\tSTACK WT 24\t20 ISO STK\t40 ISO STK"
+    );
+    expect(processedLines[2]).toBe(
+      "01\tA\t00\t-\t84\t82\t21.1\t0\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5\tY\t-\t-\t0100\t-"
+    );
+    expect(processedLines[3]).toBe(
+      "01\tA\t01\t-\t84\t82\t21.1\t3\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5\tY\t-\t-\t0101\t-"
+    );
+    expect(processedLines[4]).toBe(
+      "01\tA\t02\t-\t84\t82\t21.1\t-3\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5\tY\t-\t-\t0102\t-"
+    );
+    expect(processedLines[5]).toBe(
+      "01\tB\t00\t-\t18\t16\t15.3\t0.5\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t7\tY\t-\t-\t0100\t-"
+    );
+    expect(processedLines[6]).toBe(
+      "01\tB\t01\t-\t18\t18\t17.2\t3.5\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t4.5\tY\t-\t-\t0101\t-"
+    );
+    expect(processedLines[7]).toBe(
+      "01\tB\t02\t-\t18\t18\t17.2\t-3.5\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t4.5\tY\t-\t-\t0102\t-"
+    );
+    expect(processedLines[8]).toBe(
+      "03\tA\t00\t-\t84\t82\t21.1\t0\tY\tY\tY\tY\t100\t102.5\t107.5\t110\t1.25\t2.25\t2.26\t2.27\t5.5\tY\t105\t1.26\t0300\t0200"
+    );
+    expect(processedLines[9]).toBe(
+      "03\tA\t01\t-\t84\t82\t21.1\t3\tY\tY\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.5\tN\t-\t-\t0301\t0201"
+    );
+    expect(processedLines[10]).toBe(
+      "03\tA\t02\t-\t84\t82\t21.1\t-3\tY\tY\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.5\tN\t-\t-\t0302\t0202"
+    );
+    expect(processedLines[11]).toBe(
+      "03\tB\t00\t-\t18\t16\t15.3\t0.5\tY\tY\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t7\tN\t-\t-\t0300\t0200"
+    );
+    expect(processedLines[12]).toBe(
+      "03\tB\t01\t-\t18\t18\t17.2\t3.5\tY\tY\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.2\tN\t-\t-\t0301\t0201"
+    );
+    expect(processedLines[13]).toBe(
+      "03\tB\t02\t-\t18\t18\t17.2\t-3.5\tY\tY\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.2\tN\t-\t-\t0302\t0202"
+    );
+  });
 
-// describe("for TIER data", () => {
-//   it("work ok with mocked data of tiers", () => {
-//     const sectionsByName = mapStafSections(
-//       getSectionsFromFileContent(stafTierString)
-//     );
+  it("work ok with mocked data of stacks WITH tier < 82", () => {
+    const bayLevelData = createMockedSimpleBayLevelData(
+      3,
+      ["0282", "0082", "0182", "0284", "0084", "0184", "0080"],
+      ["0218", "0018", "0118", "0016"]
+    );
 
-//     const headerSection = sectionsByName["TIER"];
+    const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
+    addMockedAttributes(b001Above, b001Below, b003Above, b003Below);
 
-//     const processed = convertStafObjectToOpenVesselSpec<ITierStafData>(
-//       headerSection,
-//       TierConfig
-//     );
+    const masterCGs: IMasterCGs = {
+      aboveTcgs: { "02": -3000, "00": 0, "01": 3000 },
+      belowTcgs: { "02": -3500, "00": 500, "01": 3500 },
+      bottomBases: {},
+    };
 
-//     expect(processed.length).toBe(15);
-//     const row1 = processed[0];
+    const data = StackConfig.preProcessor(bayLevelData, masterCGs);
 
-//     expect(row1.isoBay).toBe("001");
-//     expect(row1.level).toBe(BayLevelEnum.BELOW);
-//     expect(row1.label).toBe("");
-//     expect(row1.isoTier).toBe("12");
-//     expect(row1.vcg).toBe(16580);
+    const processed = convertOvsToStafObject<IStackStafData, IStackStafData>(
+      data,
+      StackConfig
+    );
 
-//     const row2 = processed[1];
+    const processedLines = processed.split(LINE_SEPARATOR);
+    expect(processedLines.length).toBe(1 + 1 + 12);
 
-//     expect(row2.isoBay).toBe("001");
-//     expect(row2.level).toBe(BayLevelEnum.BELOW);
-//     expect(row2.label).toBe("");
-//     expect(row2.isoTier).toBe("14");
-//     expect(row2.vcg).toBe(19170);
+    // Explanation. Tiers should be from 80 to 84. However, STAF is inconsistent.
+    // It shows +82 in STACK Section, Then the mapping of 82->80 in TIERS Section and uses "80" in SLOTS Section.
+    // Therefore, we look for 86-82 here though it should be 84-80.
+    expect(processedLines[2]).toBe(
+      "01\tA\t00\t-\t86\t82\t21.1\t0\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5\tY\t-\t-\t0100\t-"
+    );
+    expect(processedLines[8]).toBe(
+      "03\tA\t00\t-\t86\t82\t21.1\t0\tY\tY\tY\tY\t100\t102.5\t107.5\t110\t1.25\t2.25\t2.26\t2.27\t5.5\tY\t105\t1.26\t0300\t0200"
+    );
+  });
+});
 
-//     const row14 = processed[14];
+describe("for TIER data", () => {
+  it("work ok with mocked data of tiers WITHOUT < 82", () => {
+    const bayLevelData = createMockedSimpleBayLevelData(
+      3,
+      ["0282", "0082", "0182", "0284", "0084", "0184"],
+      ["0218", "0018", "0118", "0016"]
+    );
 
-//     expect(row14.isoBay).toBe("003");
-//     expect(row14.level).toBe(BayLevelEnum.ABOVE);
-//     expect(row14.label).toBe("");
-//     expect(row14.isoTier).toBe("82");
-//     expect(row14.vcg).toBe(28130);
-//   });
-// });
+    const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
+    addMockedAttributes(b001Above, b001Below, b003Above, b003Below);
 
-// describe("for SLOT data", () => {
-//   it("work ok with mocked data of slots", () => {
-//     const sectionsByName = mapStafSections(
-//       getSectionsFromFileContent(stafSlotString)
-//     );
+    const data = TierConfig.preProcessor(bayLevelData);
 
-//     const headerSection = sectionsByName["SLOT"];
+    const processed = convertOvsToStafObject<ITierStafData, ITierStafData>(
+      data,
+      TierConfig
+    );
 
-//     const processed = convertStafObjectToOpenVesselSpec<ISlotData>(
-//       headerSection,
-//       SlotConfig
-//     );
+    const processedLines = processed.split(LINE_SEPARATOR);
+    expect(processedLines.length).toBe(2);
+  });
 
-//     expect(processed.length).toBe(23);
-//     const row1 = processed[0];
-//     const row2 = processed[1];
-//     const row23 = processed[22];
+  it("work ok with mocked data of tiers WITH < 82", () => {
+    const bayLevelData = createMockedSimpleBayLevelData(
+      3,
+      ["0282", "0082", "0182", "0284", "0084", "0184", "0080"],
+      ["0218", "0018", "0118", "0016"]
+    );
 
-//     expect(row1.position).toBe("0190692");
-//     expect(row1.sizes[20]).toBe(1);
-//     expect(row1.sizes[40]).toBe(1);
-//     expect(row1.sizes[45]).toBe(1);
-//     expect(row1.sizes[24]).toBe(0);
-//     expect(row1.sizes[48]).toBe(0);
-//     expect(row1.reefer).toBe(0);
+    const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
+    addMockedAttributes(b001Above, b001Below, b003Above, b003Below);
 
-//     expect(row2.sizes[20]).toBe(1);
-//     expect(row2.position).toBe("0190782");
-//     expect(row2.sizes[40]).toBe(1);
-//     expect(row2.sizes[45]).toBe(0);
-//     expect(row2.sizes[24]).toBe(0);
-//     expect(row2.sizes[48]).toBe(0);
-//     expect(row2.reefer).toBe(1);
+    const data = TierConfig.preProcessor(bayLevelData);
 
-//     expect(row23.position).toBe("0191088");
-//     expect(row23.sizes[20]).toBe(1);
-//     expect(row23.sizes[40]).toBe(1);
-//     expect(row23.sizes[45]).toBe(1);
-//     expect(row23.sizes[24]).toBe(0);
-//     expect(row23.sizes[48]).toBe(0);
-//     expect(row23.reefer).toBe(0);
-//   });
-// });
+    const processed = convertOvsToStafObject<ITierStafData, ITierStafData>(
+      data,
+      TierConfig
+    );
+
+    const processedLines = processed.split(LINE_SEPARATOR);
+    expect(processedLines.length).toBe(1 + 1 + 6);
+    expect(processedLines[0]).toBe("*TIER");
+    expect(processedLines[1]).toBe(
+      "**STAF BAY\tLEVEL\tISO TIER\tCUSTOM TIER\tTIER VCG"
+    );
+    expect(processedLines[2]).toBe("01\tA\t82\t80\t-");
+    expect(processedLines[3]).toBe("01\tA\t84\t82\t-");
+    expect(processedLines[4]).toBe("01\tA\t86\t84\t-");
+    expect(processedLines[5]).toBe("03\tA\t82\t80\t-");
+    expect(processedLines[6]).toBe("03\tA\t84\t82\t-");
+    expect(processedLines[7]).toBe("03\tA\t86\t84\t-");
+  });
+});
+
+describe("for SLOT data", () => {
+  it("work ok with mocked data of slots", () => {
+    const bayLevelData = createMockedSimpleBayLevelData(
+      3,
+      ["0282", "0082", "0182", "0284", "0084", "0184", "0080"],
+      ["0218", "0018", "0118", "0016"]
+    );
+
+    const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
+    addMockedAttributes(b001Above, b001Below, b003Above, b003Below);
+
+    b001Below.perSlotInfo["0018"].sizes = {};
+    b001Below.perSlotInfo["0118"].reefer = 1;
+    b001Below.perSlotInfo["0218"].reefer = 1;
+    b001Below.perSlotInfo["0018"].restricted = 1;
+
+    const data = SlotConfig.preProcessor(bayLevelData);
+
+    const processed = convertOvsToStafObject<ISlotData, ISlotData>(
+      data,
+      SlotConfig
+    );
+
+    const processedLines = processed.split(LINE_SEPARATOR);
+    expect(processedLines.length).toBe(1 + 1 + 7);
+    expect(processedLines[0]).toBe("*SLOT");
+    expect(processedLines[1]).toBe(
+      "**SLOT\tACCEPTS 20\tACCEPTS 40\tACCEPTS 45\tACCEPTS 48\tREEFER TYPE\tACCEPTS 24"
+    );
+    expect(processedLines[2]).toBe("010082\tY\tN\tN\tN\tN\tY");
+    expect(processedLines[3]).toBe("010018\tN\tN\tN\tN\tN\tN");
+    expect(processedLines[4]).toBe("010118\tY\tN\tN\tN\tI\tY");
+    expect(processedLines[5]).toBe("010218\tY\tN\tN\tN\tI\tY");
+    expect(processedLines[6]).toBe("030082\tY\tY\tN\tN\tN\tN");
+    expect(processedLines[7]).toBe("030084\tY\tY\tN\tN\tN\tN");
+    expect(processedLines[8]).toBe("030086\tY\tY\tN\tN\tN\tN");
+  });
+});
 
 describe("for LID data", () => {
   it("work ok with mocked data of lids (hatch covers)", () => {
@@ -461,6 +497,8 @@ describe("for LID data", () => {
 
     expect(lidData.length).toBe(5);
 
+    console.log(JSON.stringify(lidData, null, 2));
+
     // Test pre-processor
     const data = LidConfig.preProcessor(lidData);
     expect(data.length).toBe(8);
@@ -471,7 +509,7 @@ describe("for LID data", () => {
       ILidDataFromStaf
     >(data, LidConfig);
 
-    const processedLines = processed.split("\n");
+    const processedLines = processed.split(LINE_SEPARATOR);
     expect(processedLines.length).toBe(10);
     expect(processedLines[0]).toBe("*LID");
     expect(processedLines[1]).toBe(
@@ -486,3 +524,73 @@ describe("for LID data", () => {
     expect(processedLines[9]).toBe("D004\t007\tA\t06\t00\tD003\t-\t-\t-");
   });
 });
+
+function addMockedAttributes(
+  b001Above: IBayLevelDataStaf,
+  b001Below: IBayLevelDataStaf,
+  b003Above: IBayLevelDataStaf,
+  b003Below: IBayLevelDataStaf
+) {
+  b001Above.label20 = "001-Label-20-A";
+  b001Below.label20 = "001-Label-20-B";
+  b001Above.label40 = "001-Label-40-A";
+  b001Below.label40 = "001-Label-40-B";
+
+  b003Above.infoByContLength = {
+    20: { lcg: 100000, size: 20, stackWeight: 2000000 },
+    40: { lcg: 110000, size: 40, stackWeight: 2100000 },
+    45: { lcg: 111000, size: 45, stackWeight: 2200000 },
+    48: { lcg: 112000, size: 48, stackWeight: 2300000 },
+    53: { lcg: 113000, size: 53, stackWeight: 2400000 },
+  };
+  b003Below.infoByContLength = {
+    20: { lcg: 100000, size: 20, stackWeight: 2100000 },
+    24: { lcg: 99000, size: 24, stackWeight: 2900000 },
+  };
+
+  b001Above.pairedBay = ForeAftEnum.AFT;
+  b001Below.pairedBay = ForeAftEnum.AFT;
+  b003Above.pairedBay = ForeAftEnum.FWD;
+  b003Below.pairedBay = ForeAftEnum.FWD;
+
+  b003Above.doors = ForeAftEnum.AFT;
+  b003Below.doors = ForeAftEnum.AFT;
+
+  b001Above.athwartShip = 1;
+
+  b001Below.bulkhead = { fore: 1, foreLcg: 119000 };
+
+  b001Above.perStackInfo = {
+    common: { maxHeight: 5000, bottomBase: 21100 },
+  };
+  b001Below.perStackInfo = {
+    each: {
+      "00": {
+        isoStack: "00",
+        bottomBase: 15300,
+        maxHeight: 7000,
+      },
+    },
+    common: { maxHeight: 4500, bottomBase: 17200 },
+  };
+
+  b003Above.perStackInfo = {
+    each: {
+      "00": {
+        isoStack: "00",
+        stackInfoByLength: {
+          "20": { size: 20, stackWeight: 1250000, lcg: 100000 },
+          "40": { size: 40, stackWeight: 2250000, lcg: 102500 },
+          "24": { size: 24, stackWeight: 1260000, lcg: 105000 },
+          "45": { size: 45, stackWeight: 2260000, lcg: 107500 },
+          "48": { size: 48, stackWeight: 2270000, lcg: 110000 },
+        },
+      },
+    },
+    common: { maxHeight: 5500, bottomBase: 21100 },
+  };
+  b003Below.perStackInfo = {
+    each: { "00": { isoStack: "00", bottomBase: 15300, maxHeight: 7000 } },
+    common: { maxHeight: 5200, bottomBase: 17200 },
+  };
+}

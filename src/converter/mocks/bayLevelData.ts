@@ -82,8 +82,8 @@ export function createMockedSingleBayLevelData(
 
     perSlotInfo: perSlotKeys.reduce((acc, v) => {
       acc[v] = isFake40
-        ? { sizes: { 20: 1, 40: 1 } }
-        : { sizes: { 20: 1, 24: 1 } };
+        ? { pos: v, sizes: { 20: 1, 40: 1 } }
+        : { pos: v, sizes: { 20: 1, 24: 1 } };
       return acc;
     }, {}),
   };

@@ -5,13 +5,18 @@ import ILidData, { ILidDataFromStaf } from "../../../models/v1/parts/ILidData";
 import { pad2, pad3 } from "../../../helpers/pad";
 
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
+import sortByMultipleFields from "../../../helpers/sortByMultipleFields";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
 
 const LidConfig: ISectionMapToStafConfig<ILidDataFromStaf, ILidDataFromStaf> = {
   stafSection: "LID",
   mapVars: [
     { stafVar: "LID ID", source: "label", passValue: true },
-    { stafVar: "STAF BAY", source: "isoBay", mapper: pad2 },
+    {
+      stafVar: "STAF BAY",
+      source: "isoBay",
+      mapper: (n: string) => pad2(Number(n)),
+    },
     { stafVar: "LEVEL", source: "level", mapper: getBayLevelEnumValueToStaf },
     { stafVar: "PORT ISO STACK", source: "portIsoStack", mapper: pad2 },
     { stafVar: "STBD ISO STACK", source: "starboardIsoStack", mapper: pad2 },
@@ -56,7 +61,6 @@ function convertLidsFromOvsToStaf(source: ILidData[]): ILidDataFromStaf[] {
       const startBay = Number(lid.startIsoBay);
       const endBay = Number(lid.endIsoBay);
       for (let i = startBay; i <= endBay; i += 2) {
-        const nextLabel = `D${pad3(lastDupLabelSequence)}`;
         const lidClone: ILidDataTemp = { ...lid };
         lidClone.startIsoBay = pad3(i);
         lidClone.endIsoBay = pad3(i);
@@ -75,7 +79,7 @@ function convertLidsFromOvsToStaf(source: ILidData[]): ILidDataFromStaf[] {
     }
   });
 
-  return lidData.map((lidTemp) => ({
+  const lidDataAbove = lidData.map((lidTemp) => ({
     isoBay: lidTemp.startIsoBay,
     level: BayLevelEnum.ABOVE,
     portIsoStack: lidTemp.portIsoStack,
@@ -86,6 +90,13 @@ function convertLidsFromOvsToStaf(source: ILidData[]): ILidDataFromStaf[] {
     overlapPort: lidTemp.overlapPort ? "Y" : undefined,
     overlapStarboard: lidTemp.overlapStarboard ? "Y" : undefined,
   }));
+
+  return lidDataAbove.sort(
+    sortByMultipleFields([
+      { name: "isoBay", ascending: true },
+      { name: "label", ascending: true },
+    ])
+  );
 }
 
 interface ILidDataTemp extends ILidData {

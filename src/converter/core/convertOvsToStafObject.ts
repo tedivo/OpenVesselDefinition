@@ -1,4 +1,5 @@
 import ISectionMapToStafConfig from "../types/ISectionMapToStafConfig";
+import { LINE_SEPARATOR } from "../sections/ovsToStaf/consts";
 import RecursiveKeyOf from "../../helpers/types/RecursiveKeyOf";
 
 export default function convertOvsToStafObject<T, U>(
@@ -29,7 +30,7 @@ export default function convertOvsToStafObject<T, U>(
         line[idx] = cfg.fixedValue;
       } else if ("source" in cfg) {
         if ("mapper" in cfg) {
-          line[idx] = cfg.mapper(getNestedValue(row, cfg.source));
+          line[idx] = cfg.mapper(getNestedValue(row, cfg.source), row);
         } else {
           line[idx] = convertToStafString(getNestedValue(row, cfg.source));
         }
@@ -39,7 +40,7 @@ export default function convertOvsToStafObject<T, U>(
     linesArray[idx + 2] = line.join("\t");
   });
 
-  return linesArray.join("\n");
+  return linesArray.join(LINE_SEPARATOR);
 }
 
 const STAF_UNDEFINED = "-";
