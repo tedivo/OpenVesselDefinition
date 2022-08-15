@@ -205,7 +205,7 @@ export function createStackStafData(
           stackInfoBLWithSize[len] = {
             ...stackInfoByLength[len],
             acceptsSize: 1,
-            bayHasLcg: infoByContLength?.[len].lcg !== undefined ? 1 : 0,
+            bayHasLcg: infoByContLength?.[len]?.lcg !== undefined ? 1 : 0,
           };
           allSizes.push(len);
         });
@@ -226,7 +226,7 @@ export function createStackStafData(
             bl.perStackInfo.each[len].stackInfoByLength;
 
           stackInfoBLWithSizeOfLen.bayHasLcg =
-            infoByContLength?.[len].lcg !== undefined ? 1 : 0;
+            infoByContLength?.[len]?.lcg !== undefined ? 1 : 0;
         });
       }
 
@@ -240,7 +240,7 @@ export function createStackStafData(
             stackInfoBLWithSize[len] = {
               size: len,
               acceptsSize: 1,
-              bayHasLcg: infoByContLength?.[len].lcg !== undefined ? 1 : 0,
+              bayHasLcg: infoByContLength?.[len]?.lcg !== undefined ? 1 : 0,
             };
             allSizes.push(len);
           }

@@ -64,18 +64,18 @@ function createStackTierData(bayData: IBayLevelData[]): ITierStafData[] {
 
         tiersData.push(tData);
       }
-      // Add Empty after
-      for (let t = iMaxTier + 2; t <= iMaxTier + minus; t += 2) {
-        const tData: ITierStafData = {
-          isoBay: bl.isoBay,
-          level: bl.level,
-          isoTier: pad2(t + minus),
-          label: "",
-          vcg: undefined,
-        };
+      // // Add Empty after
+      // for (let t = iMaxTier + 2; t <= iMaxTier + minus; t += 2) {
+      //   const tData: ITierStafData = {
+      //     isoBay: bl.isoBay,
+      //     level: bl.level,
+      //     isoTier: pad2(t + minus),
+      //     label: "",
+      //     vcg: undefined,
+      //   };
 
-        tiersData.push(tData);
-      }
+      //   tiersData.push(tData);
+      // }
     }
   });
 

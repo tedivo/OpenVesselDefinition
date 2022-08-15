@@ -106,8 +106,7 @@ describe("convertOvsToStafObject should", () => {
       sectionConfig
     );
 
-    const expectedRes =
-      "*DUMMY\n**VAR1\tVAR2\tVAR3\tVAR4\tVAR5\tVAR6\tVAR FIXED\nAAA\tBBB\tCCC\tY\t1000\t-\tMETRIC";
+    const expectedRes = `*DUMMY${LINE_SEPARATOR}**VAR1\tVAR2\tVAR3\tVAR4\tVAR5\tVAR6\tVAR FIXED${LINE_SEPARATOR}AAA\tBBB\tCCC\tY\t1000\t-\tMETRIC`;
 
     expect(processed).toBe(expectedRes);
   });
@@ -131,8 +130,7 @@ describe("for SHIP data", () => {
       ShipConfig
     );
 
-    const expectedRes =
-      "*SHIP\n**CLASS\tUNITS\tLCG IN USE\tLCG REF PT\tLCG + DIR\tVCG IN USE\tTCG IN USE\tTCG + DIR\tPOSITION FORMAT\nMY CLASS\tMETRIC\tY\tAP\tF\tSTACK\tN\tSTBD\tBAY-STACK-TIER";
+    const expectedRes = `*SHIP${LINE_SEPARATOR}**CLASS\tUNITS\tLCG IN USE\tLCG REF PT\tLCG + DIR\tVCG IN USE\tTCG IN USE\tTCG + DIR\tPOSITION FORMAT${LINE_SEPARATOR}MY CLASS\tMETRIC\tY\tAP\tF\tSTACK\tN\tSTBD\tBAY-STACK-TIER`;
 
     expect(processed).toBe(expectedRes);
   });
@@ -173,16 +171,16 @@ describe("for STAF_BAY data", () => {
       "**STAF BAY\tLEVEL\t20 NAME\t40 NAME\tSL Hatch\tSL ForeAft\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HEIGHT\tPAIRED BAY\tREEFER PLUGS\tDOORS\tATHWARTSHIPS\tBULKHEAD\tBULKHEAD LCG\tLCG 24\tSTACK WT 24"
     );
     expect(processedLines[2]).toBe(
-      "01\tA\t001-Label-20-A\t001-Label-40-A\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5\tA\t-\t-\tY\tN\t-\t-\t-"
+      "01\tA\t001-Label-20-A\t001-Label-40-A\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tA\t-\t-\tY\tN\t-\t-\t-"
     );
     expect(processedLines[3]).toBe(
-      "01\tB\t001-Label-20-B\t001-Label-40-B\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.5\tA\t-\t-\tN\tY\t119\t-\t-"
+      "01\tB\t001-Label-20-B\t001-Label-40-B\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tA\t-\t-\tN\tY\t119.00\t-\t-"
     );
     expect(processedLines[4]).toBe(
-      "03\tA\t-\t-\t-\t-\t100\t110\t111\t112\t2\t2.1\t2.2\t2.3\t5.5\tF\t-\tA\tN\tN\t-\t-\t-"
+      "03\tA\t-\t-\t-\t-\t100.00\t110.00\t111.00\t112.00\t2\t2.1\t2.2\t2.3\t5.50\tF\t-\tA\tN\tN\t-\t-\t-"
     );
     expect(processedLines[5]).toBe(
-      "03\tB\t-\t-\t-\t-\t100\t-\t-\t-\t2.1\t-\t-\t-\t5.2\tF\t-\tA\tN\tN\t-\t99\t2.9"
+      "03\tB\t-\t-\t-\t-\t100.00\t-\t-\t-\t2.1\t-\t-\t-\t5.20\tF\t-\tA\tN\tN\t-\t99.00\t2.9"
     );
   });
 });
@@ -218,40 +216,40 @@ describe("for STACK data", () => {
       "**STAF BAY\tLEVEL\tISO STACK\tCUSTOM STACK\tTOP TIER\tBOTTOM TIER\tBOTTOM VCG\tTCG\tACCEPTS 20\tACCEPTS 40\tACCEPTS 45\tACCEPTS 48\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HT\tACCEPTS 24\tLCG 24\tSTACK WT 24\t20 ISO STK\t40 ISO STK"
     );
     expect(processedLines[2]).toBe(
-      "01\tA\t00\t-\t84\t82\t21.1\t0\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5\tY\t-\t-\t0100\t-"
+      "01\tA\t00\t-\t84\t82\t21.10\t0.00\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tY\t-\t-\t0100\t-"
     );
     expect(processedLines[3]).toBe(
-      "01\tA\t01\t-\t84\t82\t21.1\t3\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5\tY\t-\t-\t0101\t-"
+      "01\tA\t01\t-\t84\t82\t21.10\t3.00\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tY\t-\t-\t0101\t-"
     );
     expect(processedLines[4]).toBe(
-      "01\tA\t02\t-\t84\t82\t21.1\t-3\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5\tY\t-\t-\t0102\t-"
+      "01\tA\t02\t-\t84\t82\t21.10\t-3.00\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tY\t-\t-\t0102\t-"
     );
     expect(processedLines[5]).toBe(
-      "01\tB\t00\t-\t18\t16\t15.3\t0.5\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t7\tY\t-\t-\t0100\t-"
+      "01\tB\t00\t-\t18\t16\t15.30\t0.50\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t7.00\tY\t-\t-\t0100\t-"
     );
     expect(processedLines[6]).toBe(
-      "01\tB\t01\t-\t18\t18\t17.2\t3.5\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t4.5\tY\t-\t-\t0101\t-"
+      "01\tB\t01\t-\t18\t18\t17.20\t3.50\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tY\t-\t-\t0101\t-"
     );
     expect(processedLines[7]).toBe(
-      "01\tB\t02\t-\t18\t18\t17.2\t-3.5\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t4.5\tY\t-\t-\t0102\t-"
+      "01\tB\t02\t-\t18\t18\t17.20\t-3.50\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tY\t-\t-\t0102\t-"
     );
     expect(processedLines[8]).toBe(
-      "03\tA\t00\t-\t84\t82\t21.1\t0\tY\tY\tY\tY\t100\t102.5\t107.5\t110\t1.25\t2.25\t2.26\t2.27\t5.5\tY\t105\t1.26\t0300\t0200"
+      "03\tA\t00\t-\t84\t82\t21.10\t0.00\tY\tY\tY\tY\t100.00\t102.50\t107.50\t110.00\t1.25\t2.25\t2.26\t2.27\t5.50\tY\t105.00\t1.26\t0300\t0200"
     );
     expect(processedLines[9]).toBe(
-      "03\tA\t01\t-\t84\t82\t21.1\t3\tY\tY\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.5\tN\t-\t-\t0301\t0201"
+      "03\tA\t01\t-\t84\t82\t21.10\t3.00\tY\tY\tN\tN\t%\t%\t-\t-\t-\t-\t-\t-\t5.50\tN\t-\t-\t0301\t0201"
     );
     expect(processedLines[10]).toBe(
-      "03\tA\t02\t-\t84\t82\t21.1\t-3\tY\tY\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.5\tN\t-\t-\t0302\t0202"
+      "03\tA\t02\t-\t84\t82\t21.10\t-3.00\tY\tY\tN\tN\t%\t%\t-\t-\t-\t-\t-\t-\t5.50\tN\t-\t-\t0302\t0202"
     );
     expect(processedLines[11]).toBe(
-      "03\tB\t00\t-\t18\t16\t15.3\t0.5\tY\tY\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t7\tN\t-\t-\t0300\t0200"
+      "03\tB\t00\t-\t18\t16\t15.30\t0.50\tY\tY\tN\tN\t%\t-\t-\t-\t-\t-\t-\t-\t7.00\tN\t-\t-\t0300\t0200"
     );
     expect(processedLines[12]).toBe(
-      "03\tB\t01\t-\t18\t18\t17.2\t3.5\tY\tY\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.2\tN\t-\t-\t0301\t0201"
+      "03\tB\t01\t-\t18\t18\t17.20\t3.50\tY\tY\tN\tN\t%\t-\t-\t-\t-\t-\t-\t-\t5.20\tN\t-\t-\t0301\t0201"
     );
     expect(processedLines[13]).toBe(
-      "03\tB\t02\t-\t18\t18\t17.2\t-3.5\tY\tY\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.2\tN\t-\t-\t0302\t0202"
+      "03\tB\t02\t-\t18\t18\t17.20\t-3.50\tY\tY\tN\tN\t%\t-\t-\t-\t-\t-\t-\t-\t5.20\tN\t-\t-\t0302\t0202"
     );
   });
 
@@ -281,14 +279,11 @@ describe("for STACK data", () => {
     const processedLines = processed.split(LINE_SEPARATOR);
     expect(processedLines.length).toBe(1 + 1 + 12);
 
-    // Explanation. Tiers should be from 80 to 84. However, STAF is inconsistent.
-    // It shows +82 in STACK Section, Then the mapping of 82->80 in TIERS Section and uses "80" in SLOTS Section.
-    // Therefore, we look for 86-82 here though it should be 84-80.
     expect(processedLines[2]).toBe(
-      "01\tA\t00\t-\t86\t82\t21.1\t0\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5\tY\t-\t-\t0100\t-"
+      "01\tA\t00\t-\t84\t80\t21.10\t0.00\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tY\t-\t-\t0100\t-"
     );
     expect(processedLines[8]).toBe(
-      "03\tA\t00\t-\t86\t82\t21.1\t0\tY\tY\tY\tY\t100\t102.5\t107.5\t110\t1.25\t2.25\t2.26\t2.27\t5.5\tY\t105\t1.26\t0300\t0200"
+      "03\tA\t00\t-\t84\t80\t21.10\t0.00\tY\tY\tY\tY\t100.00\t102.50\t107.50\t110.00\t1.25\t2.25\t2.26\t2.27\t5.50\tY\t105.00\t1.26\t0300\t0200"
     );
   });
 });
@@ -371,18 +366,17 @@ describe("for SLOT data", () => {
     );
 
     const processedLines = processed.split(LINE_SEPARATOR);
-    expect(processedLines.length).toBe(1 + 1 + 7);
+    expect(processedLines.length).toBe(1 + 1 + 6);
     expect(processedLines[0]).toBe("*SLOT");
     expect(processedLines[1]).toBe(
       "**SLOT\tACCEPTS 20\tACCEPTS 40\tACCEPTS 45\tACCEPTS 48\tREEFER TYPE\tACCEPTS 24"
     );
-    expect(processedLines[2]).toBe("010082\tY\tN\tN\tN\tN\tY");
-    expect(processedLines[3]).toBe("010018\tN\tN\tN\tN\tN\tN");
-    expect(processedLines[4]).toBe("010118\tY\tN\tN\tN\tI\tY");
-    expect(processedLines[5]).toBe("010218\tY\tN\tN\tN\tI\tY");
+    expect(processedLines[2]).toBe("010018\tN\tN\tN\tN\tN\tN");
+    expect(processedLines[3]).toBe("010118\tY\tN\tN\tN\tI\tY");
+    expect(processedLines[4]).toBe("010218\tY\tN\tN\tN\tI\tY");
+    expect(processedLines[5]).toBe("030080\tY\tY\tN\tN\tN\tN");
     expect(processedLines[6]).toBe("030082\tY\tY\tN\tN\tN\tN");
     expect(processedLines[7]).toBe("030084\tY\tY\tN\tN\tN\tN");
-    expect(processedLines[8]).toBe("030086\tY\tY\tN\tN\tN\tN");
   });
 });
 
@@ -414,7 +408,7 @@ describe("for LID data", () => {
       {
         startIsoBay: "003",
         endIsoBay: "003",
-        portIsoStack: "05",
+        portIsoStack: "01",
         starboardIsoStack: "07",
         label: "3A03",
         overlapPort: 1,
@@ -428,100 +422,48 @@ describe("for LID data", () => {
       },
     ];
 
-    const expectedOutput: ILidDataFromStaf[] = [
-      {
-        isoBay: "001",
-        portIsoStack: "06",
-        starboardIsoStack: "00",
-        label: "D000",
-        level: BayLevelEnum.ABOVE,
-        joinLidAftLabel: "D001",
-      },
-      {
-        isoBay: "003",
-        portIsoStack: "06",
-        starboardIsoStack: "00",
-        label: "D001",
-        level: BayLevelEnum.ABOVE,
-        joinLidFwdLabel: "D000",
-      },
-      {
-        isoBay: "001",
-        portIsoStack: "01",
-        starboardIsoStack: "03",
-        label: "1A02",
-        level: BayLevelEnum.ABOVE,
-        overlapStarboard: "Y",
-      },
-      {
-        isoBay: "001",
-        portIsoStack: "05",
-        starboardIsoStack: "07",
-        label: "1A03",
-        level: BayLevelEnum.ABOVE,
-      },
-      {
-        isoBay: "003",
-        portIsoStack: "05",
-        starboardIsoStack: "07",
-        label: "3A03",
-        level: BayLevelEnum.ABOVE,
-        overlapPort: "Y",
-      },
-      {
-        isoBay: "003",
-        portIsoStack: "06",
-        starboardIsoStack: "00",
-        label: "D002",
-        joinLidAftLabel: "D003",
-        level: BayLevelEnum.ABOVE,
-      },
-      {
-        isoBay: "005",
-        portIsoStack: "06",
-        starboardIsoStack: "00",
-        label: "D003",
-        joinLidFwdLabel: "D002",
-        joinLidAftLabel: "D004",
-        level: BayLevelEnum.ABOVE,
-      },
-      {
-        isoBay: "007",
-        portIsoStack: "06",
-        starboardIsoStack: "00",
-        label: "D004",
-        joinLidFwdLabel: "D003",
-        level: BayLevelEnum.ABOVE,
-      },
-    ];
-
     expect(lidData.length).toBe(5);
-
-    console.log(JSON.stringify(lidData, null, 2));
 
     // Test pre-processor
     const data = LidConfig.preProcessor(lidData);
+
+    // Expect 8: Why?
+    // 1A01 -> 2 lines as it's in 001, 003
+    // 1A02 -> 1 lines 001
+    // 1A03 -> 1 lines 001
+    // 3A03 -> 1 lines 003
+    // 3A04 -> 3 lines 003, 005, 007
     expect(data.length).toBe(8);
-    expect(data).toEqual(expectedOutput);
 
     const processed = convertOvsToStafObject<
       ILidDataFromStaf,
       ILidDataFromStaf
     >(data, LidConfig);
 
-    const processedLines = processed.split(LINE_SEPARATOR);
-    expect(processedLines.length).toBe(10);
-    expect(processedLines[0]).toBe("*LID");
-    expect(processedLines[1]).toBe(
+    const [header, titles, ...processedLines] = processed.split(LINE_SEPARATOR);
+    expect(processedLines.length).toBe(8);
+
+    expect(header).toBe("*LID");
+    expect(titles).toBe(
       "**LID ID\tSTAF BAY\tLEVEL\tPORT ISO STACK\tSTBD ISO STACK\tJOIN LID FWD\tJOIN LID AFT\tOVERLAP PORT\tOVERLAP STBD"
     );
-    expect(processedLines[2]).toBe("D000\t001\tA\t06\t00\t-\tD001\t-\t-");
-    expect(processedLines[3]).toBe("D001\t003\tA\t06\t00\tD000\t-\t-\t-");
-    expect(processedLines[4]).toBe("1A02\t001\tA\t01\t03\t-\t-\t-\tY");
-    expect(processedLines[6]).toBe("3A03\t003\tA\t05\t07\t-\t-\tY\t-");
-    expect(processedLines[7]).toBe("D002\t003\tA\t06\t00\t-\tD003\t-\t-");
-    expect(processedLines[8]).toBe("D003\t005\tA\t06\t00\tD002\tD004\t-\t-");
-    expect(processedLines[9]).toBe("D004\t007\tA\t06\t00\tD003\t-\t-\t-");
+
+    const expectedLines = [
+      "D000\t01\tA\t06\t00\t-\tD001\t-\t-",
+      "D001\t03\tA\t06\t00\tD000\t-\t-\t-",
+      "1A02\t01\tA\t01\t03\t-\t-\t-\tY",
+      "1A03\t01\tA\t05\t07\t-\t-\t-\t-",
+      "3A03\t03\tA\t01\t07\t-\t-\tY\t-",
+      "D002\t03\tA\t06\t00\t-\tD003\t-\t-",
+      "D003\t05\tA\t06\t00\tD002\tD004\t-\t-",
+      "D004\t07\tA\t06\t00\tD003\t-\t-\t-",
+    ].sort();
+
+    const sortedProcLines = processedLines.sort();
+
+    expect(expectedLines.join(LINE_SEPARATOR)).toStrictEqual(
+      sortedProcLines.join(LINE_SEPARATOR)
+    );
   });
 });
 

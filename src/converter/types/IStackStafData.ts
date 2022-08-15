@@ -10,6 +10,7 @@ import { TYesNo } from "../../models/base/types/IPositionPatterns";
 
 export type IStackInfoByLengthWithAcceptsSize = IStackInfoByLength & {
   acceptsSize: TYesNo;
+  /** This one is used to set properly % instead of - when converting back to STAF */
   bayHasLcg?: TYesNo;
 };
 
