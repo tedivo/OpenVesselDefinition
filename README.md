@@ -1,6 +1,6 @@
-# Open Ship Specification
+# Open Vessel Specification
 
-Open Source specification of Ship's characteristics.
+Open Source specification of Vessels's characteristics.
 
 Use our UI tool available at http://tbd
 
