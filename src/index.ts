@@ -47,6 +47,7 @@ import StackWeightCalculationEnum from "./models/base/enums/StackWeightCalculati
 import VoidTypesEnum from "./models/base/enums/VoidTypesEnum";
 import destructurePosition from "./converter/core/destructurePosition";
 import { getContainerLengths } from "./converter/core/getContainerLengths";
+import ovsV1ToStafConverter from "./converter/ovsV1ToStafConverter";
 import stafToOvsShipData from "./converter/stafToOvsShipData";
 import stafToOvsV1Converter from "./converter/stafToOvsV1Converter";
 
@@ -85,6 +86,7 @@ export {
   VoidTypesEnum,
   stafToOvsV1Converter,
   stafToOvsShipData,
+  ovsV1ToStafConverter,
   destructurePosition,
   createMockedSimpleBayLevelData,
   createMockedSingleBayLevelData,
