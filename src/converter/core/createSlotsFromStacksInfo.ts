@@ -1,12 +1,13 @@
-import { pad2 } from "../../helpers/pad";
 import {
   IBaySlotData,
-  IBayStackInfo,
-  TBayStackInfo,
+  IBayStackInfoStaf,
+  TBayStackInfoStaf,
 } from "../../models/v1/parts/IBayLevelData";
 
+import { pad2 } from "../../helpers/pad";
+
 export function createSlotsFromStack(
-  stackData: IBayStackInfo,
+  stackData: IBayStackInfoStaf,
   baySlotData: IBaySlotData
 ): IBaySlotData {
   for (
@@ -19,21 +20,27 @@ export function createSlotsFromStack(
     baySlotData[pos] = { pos };
 
     const sizes = Object.keys(stackData.stackInfoByLength);
-    sizes.forEach((size) => {
-      if (!baySlotData[pos].sizes) baySlotData[pos].sizes = {};
-      baySlotData[pos].sizes[size] = 1;
-    });
+
+    if (sizes.length) {
+      sizes.forEach((size) => {
+        if (!baySlotData[pos].sizes) baySlotData[pos].sizes = {};
+        baySlotData[pos].sizes[size] = 1;
+      });
+    } else {
+      baySlotData[pos].restricted = 1;
+    }
   }
 
   return baySlotData;
 }
 
 export default function createSlotsFromStacksInfo(
-  stacksData: TBayStackInfo,
+  stacksData: TBayStackInfoStaf,
   baySlotData: IBaySlotData
 ): IBaySlotData {
-  Object.keys(stacksData).forEach((stack) => {
-    const stackData = stacksData[stack];
+  const perStackInfoEach = stacksData.each;
+  Object.keys(perStackInfoEach).forEach((stack) => {
+    const stackData = perStackInfoEach[stack];
     baySlotData = createSlotsFromStack(stackData, baySlotData);
   });
   return baySlotData;

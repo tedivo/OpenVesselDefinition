@@ -1,4 +1,4 @@
-import { ISectionContent, ISectionsByName } from "../models/ISectionContent";
+import { ISectionContent, ISectionsByName } from "../types/ISectionContent";
 
 /**
  * Separates each Section and creates Objects using the header var names
@@ -29,3 +29,12 @@ export default function mapStafSections(sections: Array<ISectionContent>) {
   });
   return sectionsByName;
 }
+
+export const STAF_MIN_SECTIONS = [
+  "SHIP",
+  "SECTION",
+  "STACK",
+  "TIER",
+  "SLOT",
+  "END",
+];

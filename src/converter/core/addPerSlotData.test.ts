@@ -1,7 +1,7 @@
 import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
 import ISlotData from "../../models/v1/parts/ISlotData";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
-import { shipData } from "../mocks/shipData";
+import { shipDataBays } from "../mocks/shipData";
 import addPerSlotData from "./addPerSlotData";
 
 const mockSlotInfoKeysAbove: IJoinedStackTierPattern[] = ["0080", "0082"];
@@ -10,7 +10,7 @@ const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];
 describe("addPerSlotData should", () => {
   it("work ok with missing SlotData Info", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );
@@ -20,7 +20,7 @@ describe("addPerSlotData should", () => {
 
   it("used stack-tier data to create slotData", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );
@@ -58,7 +58,7 @@ describe("addPerSlotData should", () => {
 
   it("adds slot data to BayLevel", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );

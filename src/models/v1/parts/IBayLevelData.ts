@@ -1,15 +1,17 @@
 import {
   IIsoBayPattern,
-  IIsoStackTierPattern,
-  ICombinedStackTierPattern,
+  IIsoStackPattern,
+  IIsoTierPattern,
+  IJoinedStackTierPattern,
   TYesNo,
 } from "../../base/types/IPositionPatterns";
+
 import BayLevelEnum from "../../base/enums/BayLevelEnum";
 import ForeAftEnum from "../../base/enums/ForeAftEnum";
-import { TContainerLengths } from "./Types";
 import ISlotData from "./ISlotData";
+import { TContainerLengths } from "./Types";
 
-export default interface IBayLevelData {
+interface IBayLevelDataBase {
   /** 3 digits ISO Bay */
   isoBay: IIsoBayPattern;
   /** Above, Below */
@@ -22,54 +24,74 @@ export default interface IBayLevelData {
   /* AFT attribs */
   label20?: string;
   label40?: string;
-  slHatch?: string;
-  slForeAft?: string;
-
-  maxHeight?: number;
+  // Unused fields:
+  // slHatch?: string;
+  // slForeAft?: string;
 
   reeferPlugs?: ForeAftEnum;
   doors?: ForeAftEnum;
   pairedBay?: ForeAftEnum;
   reeferPlugLimit?: number;
 
-  bulkhead?: {
-    fore: TYesNo;
-    foreLcg: number;
-    aft: TYesNo;
-    aftLcg: number;
-  };
+  bulkhead?: IBulkheadInfo;
 
   centerLineStack?: TYesNo;
   athwartShip?: TYesNo;
   foreHatch?: TYesNo;
+
   ventilated?: TYesNo;
-  nearBow?: TYesNo;
-  nearStern?: TYesNo;
   heatSrcFore?: TYesNo;
   ignitionSrcFore?: TYesNo;
   quartersFore?: TYesNo;
-  engineRmBulkfore?: TYesNo;
+  engineRmBulkFore?: TYesNo;
+}
+
+export interface IBayLevelDataStaf extends IBayLevelDataBase {
+  maxHeight?: number;
 
   /**
-   * Contains information that applies to all stacks
+   * Dictionary: contains information that applies to all stacks by container Length
    */
-  stackInfoByLength: TStackInfoByLength;
+  infoByContLength: TStackInfoByLength;
   /**
-   * Contains information per Stack number (i.e. "04") like maxTier, minTier, maxWeight...
+   * Dictionary: contains information per Stack number (i.e. "04") like maxTier, minTier, maxWeight...
+   */
+  perStackInfo?: TBayStackInfoStaf;
+  /**
+   * Dictionary: contains information per Tier number (i.e. "78").
+   *
+   * This is not present in the final data (as it's converted from **BY_TIER** to **BY_STACK**)
+   */
+  perTierInfo?: TBayTierInfoStaf;
+  /**
+   * Dictionary: contains information per Slot (i.e. "0078")
+   */
+  perSlotInfo?: IBaySlotData;
+
+  /** If Tiers use custom labels, this is the name of the defintion */
+  tiersLabelsDictionary?: string;
+  /** If Stacks use custom labels, this is the name of the defintion */
+  stacksLabelsDictionary?: string;
+}
+
+export default interface IBayLevelData extends IBayLevelDataBase {
+  /**
+   * Dictionary: contains information that applies to all stacks by container Length
+   */
+  infoByContLength: TStackInfoByLength;
+  /**
+   * Dictionary: contains information per Stack number (i.e. "04") like maxTier, minTier, maxWeight...
    */
   perStackInfo?: TBayStackInfo;
+
   /**
-   * Contains information per Tier number (i.e. "78")
-   */
-  perTierInfo?: TBayTierInfo;
-  /**
-   * Contains information per Slot (i.e. "0078")
+   * Dictionary: contains information per Slot (i.e. "0078")
    */
   perSlotInfo?: IBaySlotData;
 }
 
 export interface IBaySlotData {
-  [key: ICombinedStackTierPattern]: ISlotData;
+  [key: IJoinedStackTierPattern]: ISlotData;
 }
 
 export type TStackInfoByLength = Partial<{
@@ -82,27 +104,65 @@ export interface IStackInfoByLength {
   bottomWeight?: number;
 }
 
-export type TBayStackInfo = {
-  [key in IIsoStackTierPattern]: IBayStackInfo;
-};
-export interface IBayStackInfo {
-  isoStack: IIsoStackTierPattern;
-  label?: string;
+export interface TBayStackInfo {
+  common?: TCommonBayInfo;
+  each?: {
+    [key: IIsoStackPattern]: IBayStackInfo;
+  };
+}
+
+export interface TBayStackInfoStaf {
+  common?: TCommonBayInfoStaf;
+  each?: {
+    [key: IIsoStackPattern]: IBayStackInfoStaf;
+  };
+}
+
+export interface TCommonBayInfo {
+  bottomBase?: number;
   maxHeight?: number;
-  topIsoTier?: IIsoStackTierPattern;
-  bottomIsoTier?: IIsoStackTierPattern;
-  bottomVcg?: number;
+}
+
+export interface TCommonBayInfoStaf {
+  topIsoTier?: IIsoTierPattern;
+  bottomIsoTier?: IIsoTierPattern;
+  bottomBase?: number;
+  maxHeight?: number;
+}
+export interface IBayStackInfo {
+  isoStack: IIsoStackPattern;
+  label?: string;
   tcg?: number;
-  hazard?: number;
+  bottomBase?: number;
+  maxHeight?: number;
   /** Overrides general bay LCG and Stack Weight by length */
   stackInfoByLength?: TStackInfoByLength;
 }
 
-export type TBayTierInfo = {
-  [key in IIsoStackTierPattern]: IBayTierInfo;
+export interface IBayStackInfoStaf {
+  isoStack: IIsoStackPattern;
+  label?: string;
+  tcg?: number;
+  topIsoTier?: IIsoTierPattern;
+  bottomIsoTier?: IIsoTierPattern;
+  bottomBase?: number;
+  maxHeight?: number;
+  /** Overrides general bay LCG and Stack Weight by length */
+  stackInfoByLength?: TStackInfoByLength;
+}
+
+export type TBayTierInfoStaf = {
+  [key in IIsoTierPattern]: IBayTierInfo;
 };
 export interface IBayTierInfo {
-  isoTier: IIsoStackTierPattern;
+  isoTier: IIsoTierPattern;
   label?: string;
   vcg?: number;
+}
+
+export interface IBulkheadInfo {
+  fore?: TYesNo;
+  foreLcg?: number;
+  aft?: TYesNo;
+  aftLcg?: number;
 }

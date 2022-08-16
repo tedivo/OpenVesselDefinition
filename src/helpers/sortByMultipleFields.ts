@@ -22,3 +22,17 @@ export interface ISortByField<T> {
   ascending: boolean;
   isNumeric?: boolean;
 }
+
+/**
+ * Sort function for array.sort(), Numeric Ascending
+ */
+export function sortNumericAsc(a: string | number, b: string | number): number {
+  return Number(a) - Number(b);
+}
+
+/**
+ * Sort function for array.sort(), Numeric Descending
+ */
+export function sortNumericDesc(a: string, b: string): number {
+  return Number(b) - Number(a);
+}

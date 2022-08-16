@@ -1,13 +1,14 @@
-import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import {
   IIsoBayPattern,
   IJoinedStackTierPattern,
 } from "../../models/base/types/IPositionPatterns";
-import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
-import { shipData } from "../mocks/shipData";
-import IStackStafData from "../models/IStackStafData";
+
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
+import IStackStafData from "../types/IStackStafData";
 import addPerStackInfo from "./addPerStackInfo";
+import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
+import { shipDataBays } from "../mocks/shipData";
 
 const mockSlotInfoKeysAbove: IJoinedStackTierPattern[] = ["0080", "0082"];
 const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];
@@ -15,7 +16,7 @@ const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];
 describe("addPerStackInfo should", () => {
   it("work ok with missing Stack Info", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );
@@ -30,24 +31,24 @@ describe("addPerStackInfo should", () => {
 
   it("return isoBays correctly", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );
 
     const isoBays = addPerStackInfo(bayLevelData, {});
 
-    expect(isoBays).toBe(11);
+    expect(isoBays).toBe(13);
   });
 
   it("adds stack data to BayLevel", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
-      shipData.isoBays,
+      shipDataBays,
       mockSlotInfoKeysAbove,
       mockSlotInfoKeysBelow
     );
 
-    const stack03Prev = bayLevelData[0].perStackInfo["03"];
+    const stack03Prev = bayLevelData[0].perStackInfo.each["03"];
     expect(stack03Prev).toBeUndefined();
 
     const stackData: IObjectKeyArray<IStackStafData, string> = {
@@ -76,7 +77,7 @@ describe("addPerStackInfo should", () => {
 
     addPerStackInfo([bayLevelData[0], bayLevelData[1]], stackData);
 
-    const stack03 = bayLevelData[0].perStackInfo["03"];
+    const stack03 = bayLevelData[0].perStackInfo.each["03"];
 
     expect(stack03).toBeDefined();
     expect(stack03.stackInfoByLength).toBeDefined();
@@ -90,7 +91,7 @@ describe("addPerStackInfo should", () => {
     expect(stack03.stackInfoByLength[40].size).toBe(40);
     expect(stack03.stackInfoByLength[53].size).toBe(53);
 
-    const stack03InBayBelow = bayLevelData[1].perStackInfo["03"];
+    const stack03InBayBelow = bayLevelData[1].perStackInfo.each["03"];
     expect(stack03InBayBelow).toBeUndefined();
   });
 });

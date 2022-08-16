@@ -1,17 +1,26 @@
-import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
-import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
-import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
-import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
-import { LengthUnitsEnum } from "../../models/base/enums/UnitsEnum";
 import ValuesSourceEnum, {
   ValuesSourceStackTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
-import ILidData from "../../models/v1/parts/ILidData";
-import IShipData from "../../models/v1/parts/IShipData";
+
+import BayLevelConfig from "../sections/stafToOvs/BayLevelConfig";
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
+import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
+import ISectionMapConfig from "../types/ISectionMapConfig";
+import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
 import ISlotData from "../../models/v1/parts/ISlotData";
-import convertStafObjectToShipOpenSpec from "../core/convertStafObjectToShipOpenSpec";
+import IStackStafData from "../types/IStackStafData";
+import ITierStafData from "../types/ITierStafData";
+import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
+import LidConfig from "../sections/stafToOvs/LidConfig";
+import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
+import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
+import ShipConfig from "../sections/stafToOvs/ShipConfig";
+import SlotConfig from "../sections/stafToOvs/SlotConfig";
+import StackConfig from "../sections/stafToOvs/StackConfig";
+import TierConfig from "../sections/stafToOvs/TierConfig";
+import convertStafObjectToOpenVesselSpec from "../core/convertStafObjectToOpenVesselSpec";
 import getSectionsFromFileContent from "../core/getSectionsFromFileContent";
 import mapStafSections from "../core/mapStafSections";
 import stafBayLevelString from "../mocks/stafBayLevelString";
@@ -20,17 +29,8 @@ import stafLidString from "../mocks/stafLidString";
 import stafSlotString from "../mocks/stafSlotString";
 import stafStackString from "../mocks/stafStackString";
 import stafTierString from "../mocks/stafTierString";
-import ISectionMapConfig from "../models/ISectionMapConfig";
-import IStackStafData from "../models/IStackStafData";
-import ITierStafData from "../models/ITierStafData";
-import BayLevelConfig from "../sections/BayLevelConfig";
-import LidConfig from "../sections/LidConfig";
-import ShipConfig from "../sections/ShipConfig";
-import SlotConfig from "../sections/SlotConfig";
-import StackConfig from "../sections/StackConfig";
-import TierConfig from "../sections/TierConfig";
 
-describe("convertStafObjectToShipOpenSpec should", () => {
+describe("convertStafObjectToOpenVesselSpec should", () => {
   interface IDummy {
     var1: string;
     moreVars: {
@@ -57,7 +57,7 @@ describe("convertStafObjectToShipOpenSpec should", () => {
   };
 
   it("applies the mappers correctly", () => {
-    const processed = convertStafObjectToShipOpenSpec<IDummy>(
+    const processed = convertStafObjectToOpenVesselSpec<IDummy>(
       sectionArray,
       sectionConfig
     );
@@ -83,16 +83,16 @@ describe("for SHIP data", () => {
 
     const headerSection = sectionsByName["SHIP"];
 
-    const processed = convertStafObjectToShipOpenSpec<IShipData>(
-      headerSection,
-      ShipConfig
-    );
+    const processed =
+      convertStafObjectToOpenVesselSpec<IShipDataIntermediateStaf>(
+        headerSection,
+        ShipConfig
+      );
 
     const singleRow = processed[0];
 
-    expect(singleRow.shipName).toBe("OAME");
+    expect(singleRow.shipClass).toBe("OAME");
     expect(singleRow.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);
-    expect(singleRow.fileUnits.lengthUnits).toBe(LengthUnitsEnum.METRIC);
     expect(singleRow.lcgOptions).toBeTruthy();
     expect(singleRow.lcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
     expect(singleRow.lcgOptions.reference).toBe(LcgReferenceEnum.MIDSHIPS);
@@ -111,7 +111,7 @@ describe("for STAF_BAY data", () => {
 
     const headerSection = sectionsByName["SECTION"];
 
-    const processed = convertStafObjectToShipOpenSpec<IBayLevelData>(
+    const processed = convertStafObjectToOpenVesselSpec<IBayLevelDataStaf>(
       headerSection,
       BayLevelConfig
     );
@@ -123,15 +123,15 @@ describe("for STAF_BAY data", () => {
     expect(row1.level).toBe(BayLevelEnum.BELOW);
     expect(row1.label20).toBe("label 20 001B");
     expect(row1.label40).toBe("label 40 001B");
-    expect(row1.maxHeight).toBe(10.51);
+    expect(row1.maxHeight).toBe(10510);
     expect(row1.bulkhead.fore).toBe(1);
-    expect(row1.bulkhead.foreLcg).toBe(-117.4);
-    expect(row1.stackInfoByLength[20].lcg).toBe(-114.11);
-    expect(row1.stackInfoByLength[20].stackWeight).toBe(96);
+    expect(row1.bulkhead.foreLcg).toBe(-117400);
+    expect(row1.infoByContLength[20].lcg).toBe(-114110);
+    expect(row1.infoByContLength[20].stackWeight).toBe(96000000);
 
     expect(row2.isoBay).toBe("001");
     expect(row2.level).toBe(BayLevelEnum.ABOVE);
-    expect(row2.maxHeight).toBe(13.1);
+    expect(row2.maxHeight).toBe(13100);
     expect(row2.pairedBay).toBe(ForeAftEnum.AFT);
 
     expect(row3.isoBay).toBe("003");
@@ -139,12 +139,12 @@ describe("for STAF_BAY data", () => {
 
     expect(row4.isoBay).toBe("003");
     expect(row4.level).toBe(BayLevelEnum.ABOVE);
-    expect(row4.stackInfoByLength[20].lcg).toBe(-106.77);
-    expect(row4.stackInfoByLength[40].lcg).toBe(-108.69);
-    expect(row4.stackInfoByLength[45].lcg).toBe(-108.69);
-    expect(row4.stackInfoByLength[20].stackWeight).toBe(70);
-    expect(row4.stackInfoByLength[40].stackWeight).toBe(120);
-    expect(row4.stackInfoByLength[45].stackWeight).toBe(120);
+    expect(row4.infoByContLength[20].lcg).toBe(-106770);
+    expect(row4.infoByContLength[40].lcg).toBe(-108690);
+    expect(row4.infoByContLength[45].lcg).toBe(-108690);
+    expect(row4.infoByContLength[20].stackWeight).toBe(70000000);
+    expect(row4.infoByContLength[40].stackWeight).toBe(120000000);
+    expect(row4.infoByContLength[45].stackWeight).toBe(120000000);
   });
 });
 
@@ -156,7 +156,7 @@ describe("for STACK data", () => {
 
     const headerSection = sectionsByName["STACK"];
 
-    const processed = convertStafObjectToShipOpenSpec<IStackStafData>(
+    const processed = convertStafObjectToOpenVesselSpec<IStackStafData>(
       headerSection,
       StackConfig
     );
@@ -169,7 +169,7 @@ describe("for STACK data", () => {
     expect(row1.isoStack).toBe("01");
     expect(row1.topIsoTier).toBe("18");
     expect(row1.bottomIsoTier).toBe("12");
-    expect(row1.tcg).toBe(1.28);
+    expect(row1.tcg).toBe(1280);
     expect(row1.stackInfoByLength[20]).toBeTruthy();
     expect(row1.stackInfoByLength[20].size).toBe(20);
     expect(row1.stackInfoByLength[20].acceptsSize).toBe(1);
@@ -184,7 +184,7 @@ describe("for STACK data", () => {
     expect(row27.isoStack).toBe("10");
     expect(row27.topIsoTier).toBe("90");
     expect(row27.bottomIsoTier).toBe("82");
-    expect(row27.tcg).toBe(-11.38);
+    expect(row27.tcg).toBe(-11380);
     expect(row27.stackInfoByLength[20]).toBeTruthy();
     expect(row27.stackInfoByLength[20].size).toBe(20);
     expect(row27.stackInfoByLength[20].acceptsSize).toBe(1);
@@ -203,7 +203,7 @@ describe("for TIER data", () => {
 
     const headerSection = sectionsByName["TIER"];
 
-    const processed = convertStafObjectToShipOpenSpec<ITierStafData>(
+    const processed = convertStafObjectToOpenVesselSpec<ITierStafData>(
       headerSection,
       TierConfig
     );
@@ -215,7 +215,7 @@ describe("for TIER data", () => {
     expect(row1.level).toBe(BayLevelEnum.BELOW);
     expect(row1.label).toBe("");
     expect(row1.isoTier).toBe("12");
-    expect(row1.vcg).toBe(16.58);
+    expect(row1.vcg).toBe(16580);
 
     const row2 = processed[1];
 
@@ -223,7 +223,7 @@ describe("for TIER data", () => {
     expect(row2.level).toBe(BayLevelEnum.BELOW);
     expect(row2.label).toBe("");
     expect(row2.isoTier).toBe("14");
-    expect(row2.vcg).toBe(19.17);
+    expect(row2.vcg).toBe(19170);
 
     const row14 = processed[14];
 
@@ -231,7 +231,7 @@ describe("for TIER data", () => {
     expect(row14.level).toBe(BayLevelEnum.ABOVE);
     expect(row14.label).toBe("");
     expect(row14.isoTier).toBe("82");
-    expect(row14.vcg).toBe(28.13);
+    expect(row14.vcg).toBe(28130);
   });
 });
 
@@ -243,7 +243,7 @@ describe("for SLOT data", () => {
 
     const headerSection = sectionsByName["SLOT"];
 
-    const processed = convertStafObjectToShipOpenSpec<ISlotData>(
+    const processed = convertStafObjectToOpenVesselSpec<ISlotData>(
       headerSection,
       SlotConfig
     );
@@ -287,7 +287,7 @@ describe("for LID data", () => {
 
     const headerSection = sectionsByName["LID"];
 
-    const processed = convertStafObjectToShipOpenSpec<ILidData>(
+    const processed = convertStafObjectToOpenVesselSpec<ILidDataFromStaf>(
       headerSection,
       LidConfig
     );
@@ -304,8 +304,8 @@ describe("for LID data", () => {
     expect(row1.starboardIsoStack).toBe("04");
     expect(row1.joinLidFwdLabel).toBe("");
     expect(row1.joinLidAftLabel).toBe("03B1");
-    expect(row1.overlapPort).toBe("");
-    expect(row1.overlapStarboard).toBe("");
+    expect(row1.overlapPort).toBeUndefined();
+    expect(row1.overlapStarboard).toBeUndefined();
 
     expect(row2.label).toBe("XXXX");
     expect(row2.isoBay).toBe("001");
@@ -314,8 +314,8 @@ describe("for LID data", () => {
     expect(row2.starboardIsoStack).toBe("01");
     expect(row2.joinLidFwdLabel).toBe("");
     expect(row2.joinLidAftLabel).toBe("");
-    expect(row2.overlapPort).toBe("");
-    expect(row2.overlapStarboard).toBe("");
+    expect(row2.overlapPort).toBeUndefined();
+    expect(row2.overlapStarboard).toBeUndefined();
 
     expect(row7.label).toBe("03B1");
     expect(row7.isoBay).toBe("003");
@@ -324,7 +324,7 @@ describe("for LID data", () => {
     expect(row7.starboardIsoStack).toBe("04");
     expect(row7.joinLidFwdLabel).toBe("01B1");
     expect(row7.joinLidAftLabel).toBe("");
-    expect(row7.overlapPort).toBe("");
-    expect(row7.overlapStarboard).toBe("");
+    expect(row7.overlapPort).toBeUndefined();
+    expect(row7.overlapStarboard).toBeUndefined();
   });
 });

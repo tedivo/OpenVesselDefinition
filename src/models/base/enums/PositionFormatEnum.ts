@@ -9,15 +9,23 @@ export enum PositionFormatEnum {
 
 export default PositionFormatEnum;
 
+type TStafPositionFormat =
+  | "BAY-STACK-TIER"
+  | "BAY-TIER-STACK"
+  | "STACK-BAY-TIER"
+  | "STACK-TIER-BAY"
+  | "TIER-BAY-STACK"
+  | "TIER-STACK-BAY";
+
 export const getStafPositionFormatEnumValue = (
-  s:
-    | "BAY-STACK-TIER"
-    | "BAY-TIER-STACK"
-    | "STACK-BAY-TIER"
-    | "STACK-TIER-BAY"
-    | "TIER-BAY-STACK"
-    | "TIER-STACK-BAY"
+  s: TStafPositionFormat
 ): PositionFormatEnum => {
   const withLowDash = s.split("-").join("_");
   return PositionFormatEnum[withLowDash];
+};
+
+export const getPositionFormatValueToStaf = (
+  s: PositionFormatEnum
+): TStafPositionFormat => {
+  return PositionFormatEnum[s].split("_").join("-") as TStafPositionFormat;
 };

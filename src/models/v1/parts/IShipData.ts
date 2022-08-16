@@ -1,64 +1,69 @@
+import {
+  IIsoStackPattern,
+  IIsoTierPattern,
+  TYesNo,
+} from "../../base/types/IPositionPatterns";
+import ValuesSourceEnum, {
+  ValuesSourceStackTierEnum,
+} from "../../base/enums/ValuesSourceEnum";
+
 import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import LcgReferenceEnum from "../../base/enums/LcgReferenceEnum";
 import PortStarboardEnum from "../../base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../../base/enums/PositionFormatEnum";
 import StackWeightCalculationEnum from "../../base/enums/StackWeightCalculationEnum";
-import { LengthUnitsEnum, WeightUnitsEnum } from "../../base/enums/UnitsEnum";
-import ValuesSourceEnum, {
-  ValuesSourceStackTierEnum,
-} from "../../base/enums/ValuesSourceEnum";
-import { TYesNo } from "../../base/types/IPositionPatterns";
-import { IDangerousAndHazardous } from "./IDangerousAndHazardous";
-
 import type { TContainerLengths } from "./Types";
 
-export default interface IShipData {
-  lineOperator: string;
-  shipName: string;
-
-  /** Number of ISO Bays in Ship */
-  isoBays: number;
-
-  tweenDecks?: TYesNo;
-  hatchless?: TYesNo;
-
-  /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
-  positionFormat: PositionFormatEnum;
-
-  /** All the available container lengths. 20' and 40' should be available in most of the cases */
-  containersLengths: Array<TContainerLengths>;
-
-  stackWeightCalculation: StackWeightCalculationEnum;
-  dynamicStackWeightLimit?: TYesNo;
-
-  dangerousAndHazardous?: IDangerousAndHazardous;
-
-  visibility?: IVisibility;
-
-  /** Note and Revisions history */
-  metaInfo: IShipMeta;
-
-  /** The units this file uses for lengths and weights */
-  fileUnits: IFileUnits;
-
+export default interface IShipData extends IShipDataBase {
   lcgOptions: ILCGOptions;
   vcgOptions: IVGCOptions;
   tcgOptions: ITGCOptions;
 
-  refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
+  /** All the available container lengths. 20' and 40' should be available in most of the cases */
+  containersLengths: Array<TContainerLengths>;
+
+  /** Calculated most observed CGs */
+  masterCGs: IMasterCGs;
+
+  stackWeightCalculation?: StackWeightCalculationEnum;
+}
+
+export interface IShipDataIntermediateStaf extends IShipDataBase {
+  lenghtUnits: "METRIC" | "BRITISH";
+  lcgOptions: ILCGOptionsIntermediate;
+  vcgOptions: IVGCOptionsIntermediate;
+  tcgOptions: ITGCOptionsIntermediate;
+}
+
+export type IShipDataFromStaf = Pick<
+  IShipDataIntermediateStaf,
+  "shipClass" | "lcgOptions" | "tcgOptions" | "vcgOptions" | "positionFormat"
+>;
+
+interface IShipDataBase {
+  lineOperator?: string;
+  shipName?: string;
+  lloydsCode?: string;
+  callSign?: string;
+  imoCode?: string;
+  shipClass: string;
+
+  /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
+  positionFormat: PositionFormatEnum;
+
+  /** Note and Revisions history */
+  metaInfo: IShipMeta;
+
+  // UNUSED
+  // refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
+  // dynamicStackWeightLimit?: TYesNo;
+  // visibility?: IVisibility;
 }
 
 interface IHistory {
   personName: string;
   date: Date;
   observations: string;
-}
-
-interface IFileUnits {
-  /** The length units used in this file */
-  lengthUnits: LengthUnitsEnum;
-  /** The weight units used in this file */
-  weightUnits: WeightUnitsEnum;
 }
 
 interface IShipMeta {
@@ -76,26 +81,53 @@ interface IVisibility {
   sternLCG: number;
 }
 
-interface ILCGOptions {
+export interface ILCGOptions {
+  values: ValuesSourceEnum;
+  lpp: number;
+}
+
+export interface IVGCOptions {
+  values: ValuesSourceEnum;
+  heightFactor?: number;
+}
+
+export interface ITGCOptions {
+  values: ValuesSourceEnum;
+}
+
+//#region intermediate
+export interface ILCGOptionsIntermediate {
   values: ValuesSourceEnum;
   reference: LcgReferenceEnum;
   /** FWD or AFT */
   orientationIncrease?: ForeAftEnum;
-  /** Array of two values */
-  orientatonRange?: [number, number];
+  lpp: number;
 }
 
-interface IVGCOptions {
+export interface IVGCOptionsIntermediate {
   values: ValuesSourceStackTierEnum;
-  ratio?: number;
+  heightFactor?: number;
 }
 
-interface ITGCOptions {
+export interface ITGCOptionsIntermediate {
   values: ValuesSourceEnum;
   direction?: PortStarboardEnum;
 }
+//#endregion intermediate
 
 interface IRefrigeratedContainersOptions {
   reeferPlugLimit: number;
   copyLimitFwdAft?: TYesNo;
+}
+
+export interface IMasterCGs {
+  aboveTcgs: {
+    [stack: IIsoStackPattern]: number;
+  };
+  belowTcgs: {
+    [stack: IIsoStackPattern]: number;
+  };
+  bottomBases: {
+    [tier: IIsoTierPattern]: number;
+  };
 }

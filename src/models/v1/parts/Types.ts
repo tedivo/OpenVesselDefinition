@@ -1,4 +1,7 @@
 export type TContainerLengths = 20 | 40 | 24 | 45 | 48 | 53;
+export const CONTAINER_LENGTHS: Array<TContainerLengths> = [
+  20, 40, 24, 45, 48, 53,
+];
 
 export type TImdgClasses =
   | "1.1"

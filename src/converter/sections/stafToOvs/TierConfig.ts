@@ -1,8 +1,8 @@
-import { pad3 } from "../../helpers/pad";
-import safeNumber from "../../helpers/safeNumber";
-import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
-import ISectionMapConfig from "../models/ISectionMapConfig";
-import ITierStafData from "../models/ITierStafData";
+import ISectionMapConfig from "../../types/ISectionMapConfig";
+import ITierStafData from "../../types/ITierStafData";
+import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
+import { pad3 } from "../../../helpers/pad";
+import { safeNumberMtToMm } from "../../../helpers/safeNumberConversions";
 
 /**
  * DEFINITION of Tier
@@ -14,7 +14,7 @@ const TierConfig: ISectionMapConfig<ITierStafData> = {
     LEVEL: { target: "level", mapper: getStafBayLevelEnumValue },
     ISO_TIER: { target: "isoTier", passValue: true, dashIsEmpty: false },
     CUSTOM_TIER: { target: "label", passValue: true, dashIsEmpty: true },
-    TIER_VCG: { target: "vcg", mapper: safeNumber },
+    TIER_VCG: { target: "vcg", mapper: safeNumberMtToMm },
   },
 };
 

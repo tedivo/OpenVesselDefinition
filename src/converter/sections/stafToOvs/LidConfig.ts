@@ -1,12 +1,14 @@
-import { pad2, pad3 } from "../../helpers/pad";
-import { getStafBayLevelEnumValue } from "../../models/base/enums/BayLevelEnum";
-import ILidData from "../../models/v1/parts/ILidData";
-import ISectionMapConfig from "../models/ISectionMapConfig";
+import { pad2, pad3 } from "../../../helpers/pad";
+
+import { ILidDataFromStaf } from "../../../models/v1/parts/ILidData";
+import ISectionMapConfig from "../../types/ISectionMapConfig";
+import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
+import yNToBooleanLoose from "../../../helpers/yNToBooleanLoose";
 
 /**
  * DEFINITION of LID
  */
-const SlotConfig: ISectionMapConfig<ILidData> = {
+const SlotConfig: ISectionMapConfig<ILidDataFromStaf> = {
   stafSection: "LID",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },
@@ -28,12 +30,8 @@ const SlotConfig: ISectionMapConfig<ILidData> = {
       passValue: true,
       dashIsEmpty: true,
     },
-    OVERLAP_PORT: { target: "overlapPort", passValue: true, dashIsEmpty: true },
-    OVERLAP_STBD: {
-      target: "overlapStarboard",
-      passValue: true,
-      dashIsEmpty: true,
-    },
+    OVERLAP_PORT: { target: "overlapPort", mapper: yNToBooleanLoose },
+    OVERLAP_STBD: { target: "overlapStarboard", mapper: yNToBooleanLoose },
   },
 };
 

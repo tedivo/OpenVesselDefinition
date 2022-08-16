@@ -1,8 +1,10 @@
-import sortStacksArray from "../../helpers/sortStacksArray";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
+import { IIsoStackPattern } from "../../models/base/types/IPositionPatterns";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
+import IStackStafData from "../types/IStackStafData";
 import { createSlotsFromStack } from "../core/createSlotsFromStacksInfo";
-import IStackStafData from "../models/IStackStafData";
+import sortStacksArray from "../../helpers/sortStacksArray";
+import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
 
 /**
  * Add Stack Info to the Bay
@@ -11,11 +13,11 @@ import IStackStafData from "../models/IStackStafData";
  * @returns
  */
 export default function addPerStackInfo(
-  bayLevelData: IBayLevelData[],
+  bayLevelData: IBayLevelDataStaf[],
   stackDataByBayLevel: IObjectKeyArray<IStackStafData, string>
 ) {
   if (!bayLevelData) {
-    throw new Error("Missing bayLevelData");
+    throw { message: "Missing bayLevelData", code: "MissingBayData" };
   }
 
   if (!stackDataByBayLevel) return 0;
@@ -28,7 +30,7 @@ export default function addPerStackInfo(
 
     const key = `${bl.isoBay}-${bl.level}`;
     const stackDataOfBay = stackDataByBayLevel[key];
-    if (!bl.perStackInfo) bl.perStackInfo = {};
+    if (!bl.perStackInfo) bl.perStackInfo = { each: {}, common: {} };
     if (!bl.perSlotInfo) bl.perSlotInfo = {};
 
     if (stackDataOfBay) {
@@ -36,15 +38,27 @@ export default function addPerStackInfo(
       stackDataOfBay
         .sort((a, b) => sortStacksArray(a.isoStack, b.isoStack))
         .forEach((sData) => {
-          const { isoBay, level, ...sDataK } = sData;
+          const { isoBay, level, label, ...sDataK } = sData;
+
+          if (label) {
+            if (stringIsTierOrStafNumber(label)) {
+              sData.isoStack = label as IIsoStackPattern;
+            } else {
+              throw {
+                code: "StackLabelError",
+                message: `Stack label must be a number between 00 and 99: "${label}"`,
+              };
+            }
+          }
+
           // a. Set perStackInfo
-          bl.perStackInfo[sDataK.isoStack] = sDataK;
+          bl.perStackInfo.each[sDataK.isoStack] = sDataK;
           // b. Set perSlotInfo
           bl.perSlotInfo = createSlotsFromStack(sDataK, bl.perSlotInfo);
           // c. centerLineStack?
           if (sDataK.isoStack === "00") centerLineStack = 1;
-          // d. TODO: Clean perStack redundant sizes
         });
+
       if (centerLineStack) bl.centerLineStack = 1;
     }
   });

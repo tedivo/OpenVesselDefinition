@@ -1,5 +1,5 @@
 export default interface OpenShipSpecVersion {
-  schema: "OpenShipSpec";
+  schema: "OpenVesselSpec";
   version: TVersion;
 }
 

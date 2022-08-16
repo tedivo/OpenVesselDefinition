@@ -1,7 +1,9 @@
-import sortByMultipleFields from "../../helpers/sortByMultipleFields";
+import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
+import { IIsoTierPattern } from "../../models/base/types/IPositionPatterns";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
-import ITierStafData from "../models/ITierStafData";
+import ITierStafData from "../types/ITierStafData";
+import sortByMultipleFields from "../../helpers/sortByMultipleFields";
+import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
 
 /**
  * Adds the Tier info to the Bay
@@ -9,11 +11,11 @@ import ITierStafData from "../models/ITierStafData";
  * @param tierDataByBayLevel
  */
 export default function addPerTierInfo(
-  bayLevelData: IBayLevelData[],
+  bayLevelData: IBayLevelDataStaf[],
   tierDataByBayLevel: IObjectKeyArray<ITierStafData, string>
 ) {
   if (!bayLevelData) {
-    throw new Error("Missing bayLevelData");
+    throw { message: "Missing bayLevelData", code: "MissingBayData" };
   }
 
   if (!tierDataByBayLevel) return;
@@ -30,7 +32,18 @@ export default function addPerTierInfo(
           ])
         )
         .forEach((tData) => {
-          const { isoBay, level, ...sDataK } = tData;
+          const { isoBay, level, label, ...sDataK } = tData;
+
+          if (label)
+            if (stringIsTierOrStafNumber(label, true)) {
+              sDataK.isoTier = label as IIsoTierPattern;
+            } else {
+              throw {
+                code: "TierLabelError",
+                message: `Tier label must be an even number between 00 and 98: "${label}"`,
+              };
+            }
+
           bl.perTierInfo[sDataK.isoTier] = sDataK;
         });
     }
