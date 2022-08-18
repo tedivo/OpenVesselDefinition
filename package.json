@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tedivo/OpenShipSpec.git"
+    "url": "git+https://github.com/tedivo/OpenVesselSpec.git"
   },
   "keywords": [
     "Ship Definition",
@@ -31,7 +31,7 @@
   "author": "Tedivo <github@tedivo.com> (https://tedivo.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tedivo/OpenShipSpec/issues"
+    "url": "https://github.com/tedivo/OpenVesselSpec/issues"
   },
-  "homepage": "https://github.com/tedivo/OpenShipSpec#readme"
+  "homepage": "https://github.com/tedivo/OpenVesselSpec#readme"
 }
