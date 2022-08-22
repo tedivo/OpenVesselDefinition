@@ -193,7 +193,7 @@ describe("stafToOvsV1Converter should...", () => {
     expect(summary.minBelowTier).toBe(2);
   });
 
-  it("just convert", () => {
+  it.skip("just convert", () => {
     const mockedFiles: [string, string, number][] = [
       [
         "./src/converter/mocks/OOL.OBEI.OOCL BEIJING_STAFF2.txt",
