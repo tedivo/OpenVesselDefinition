@@ -422,7 +422,7 @@ const json: IOpenShipSpecV1 = {
 };
 
 describe("ovsV1ToStafConverter should...", () => {
-  it("works ok", () => {
+  it.skip("works ok", () => {
     const processed = ovsV1ToStafConverter(json);
 
     fs.writeFileSync(path.resolve("./examples/dummyStaf.txt"), processed);
