@@ -2,7 +2,7 @@ import { IStackInfoByLengthWithAcceptsSize } from "../../types/IStackStafData";
 import { TBayStackInfo } from "../../../models/v1/parts/IBayLevelData";
 import { TContainerLengths } from "../../../models/v1/parts/Types";
 
-export default function cleanUpPerStackInfo(perStackInfo: TBayStackInfo) {
+export default function cleanUpStackInfo(perStackInfo: TBayStackInfo) {
   const stacks = Object.keys(perStackInfo.each);
 
   stacks.forEach((stack) => {
