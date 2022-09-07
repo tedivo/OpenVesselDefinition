@@ -26,6 +26,12 @@ export default interface IShipData extends IShipDataBase {
   masterCGs: IMasterCGs;
 
   stackWeightCalculation?: StackWeightCalculationEnum;
+
+  /** Restrictions available in slots definitions */
+  restrictions?: {
+    allowCoolStowProhibited: boolean;
+    allowHazardousProhibited: boolean;
+  };
 }
 
 export interface IShipDataIntermediateStaf extends IShipDataBase {
