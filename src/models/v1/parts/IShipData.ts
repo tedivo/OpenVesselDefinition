@@ -1,17 +1,17 @@
 import {
-  IIsoStackPattern,
+  IIsoRowPattern,
   IIsoTierPattern,
   TYesNo,
 } from "../../base/types/IPositionPatterns";
 import ValuesSourceEnum, {
-  ValuesSourceStackTierEnum,
+  ValuesSourceRowTierEnum,
 } from "../../base/enums/ValuesSourceEnum";
 
 import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import LcgReferenceEnum from "../../base/enums/LcgReferenceEnum";
 import PortStarboardEnum from "../../base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../../base/enums/PositionFormatEnum";
-import StackWeightCalculationEnum from "../../base/enums/StackWeightCalculationEnum";
+import RowWeightCalculationEnum from "../../base/enums/RowWeightCalculationEnum";
 import type { TContainerLengths } from "./Types";
 
 export default interface IShipData extends IShipDataBase {
@@ -25,7 +25,7 @@ export default interface IShipData extends IShipDataBase {
   /** Calculated most observed CGs */
   masterCGs: IMasterCGs;
 
-  stackWeightCalculation?: StackWeightCalculationEnum;
+  rowWeightCalculation?: RowWeightCalculationEnum;
 
   /** Restrictions available in slots definitions */
   restrictions?: {
@@ -62,7 +62,7 @@ interface IShipDataBase {
 
   // UNUSED
   // refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
-  // dynamicStackWeightLimit?: TYesNo;
+  // dynamicRowWeightLimit?: TYesNo;
   // visibility?: IVisibility;
 }
 
@@ -111,7 +111,7 @@ export interface ILCGOptionsIntermediate {
 }
 
 export interface IVGCOptionsIntermediate {
-  values: ValuesSourceStackTierEnum;
+  values: ValuesSourceRowTierEnum;
   heightFactor?: number;
 }
 
@@ -128,10 +128,10 @@ interface IRefrigeratedContainersOptions {
 
 export interface IMasterCGs {
   aboveTcgs: {
-    [stack: IIsoStackPattern]: number;
+    [row: IIsoRowPattern]: number;
   };
   belowTcgs: {
-    [stack: IIsoStackPattern]: number;
+    [row: IIsoRowPattern]: number;
   };
   bottomBases: {
     [tier: IIsoTierPattern]: number;

@@ -1,16 +1,16 @@
 import BayLevelConfig from "./BayLevelConfig";
 import { IBayLevelDataStaf } from "../../../models/v1/parts/IBayLevelData";
 import { ILidDataFromStaf } from "../../../models/v1/parts/ILidData";
+import IRowStafData from "../../types/IRowStafData";
 import { ISectionsByName } from "../../types/ISectionContent";
 import { IShipDataIntermediateStaf } from "../../../models/v1/parts/IShipData";
 import ISlotData from "../../../models/v1/parts/ISlotData";
-import IStackStafData from "../../types/IStackStafData";
 import IStafDataProcessed from "../../types/IStafDataProcessed";
 import ITierStafData from "../../types/ITierStafData";
 import LidConfig from "./LidConfig";
+import RowConfig from "./RowConfig";
 import ShipConfig from "./ShipConfig";
 import SlotConfig from "./SlotConfig";
-import StackConfig from "./StackConfig";
 import TierConfig from "./TierConfig";
 import convertStafObjectToOpenVesselSpec from "../../core/convertStafObjectToOpenVesselSpec";
 
@@ -26,9 +26,9 @@ export function processAllSections(
       sectionsByName["SECTION"],
       BayLevelConfig
     ),
-    stackData: convertStafObjectToOpenVesselSpec<IStackStafData>(
+    rowData: convertStafObjectToOpenVesselSpec<IRowStafData>(
       sectionsByName["STACK"],
-      StackConfig
+      RowConfig
     ),
     tierData: convertStafObjectToOpenVesselSpec<ITierStafData>(
       sectionsByName["TIER"],

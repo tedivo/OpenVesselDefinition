@@ -4,12 +4,12 @@ import {
   IVGCOptionsIntermediate,
 } from "../../models/v1/parts/IShipData";
 import ValuesSourceEnum, {
-  ValuesSourceStackTierEnum,
+  ValuesSourceRowTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
 
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
-import { IIsoStackPattern } from "../../models/base/types/IPositionPatterns";
+import { IIsoRowPattern } from "../../models/base/types/IPositionPatterns";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
@@ -29,7 +29,7 @@ export function cgsRemap(
   tcgOptions: ITGCOptionsIntermediate
 ) {
   if (lcgOptions.values === ValuesSourceEnum.KNOWN) remapLcgs(lcgOptions, bls);
-  if (vcgOptions.values === ValuesSourceStackTierEnum.BY_TIER)
+  if (vcgOptions.values === ValuesSourceRowTierEnum.BY_TIER)
     remapVcgs(vcgOptions, bls);
   if (tcgOptions.values === ValuesSourceEnum.KNOWN) remapTcgs(tcgOptions, bls);
 }
@@ -47,12 +47,12 @@ function remapTcgs(
     tcgOptions.direction === PortStarboardEnum.STARBOARD ? 1 : -1;
 
   bls.forEach((bl) => {
-    const perStackInfoEach = bl.perStackInfo.each;
-    const stacks = Object.keys(perStackInfoEach) as IIsoStackPattern[];
+    const perRowInfoEach = bl.perRowInfo.each;
+    const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
 
-    stacks.forEach((stack) => {
-      const tcg = perStackInfoEach[stack].tcg;
-      if (tcg !== undefined) perStackInfoEach[stack].tcg = tcgSignMult * tcg;
+    rows.forEach((row) => {
+      const tcg = perRowInfoEach[row].tcg;
+      if (tcg !== undefined) perRowInfoEach[row].tcg = tcgSignMult * tcg;
     });
   });
 }
@@ -71,16 +71,16 @@ function remapVcgs(
   );
 
   bls.forEach((bl) => {
-    const perStackInfoEach = bl.perStackInfo.each;
+    const perRowInfoEach = bl.perRowInfo.each;
     const perTierInfo = bl.perTierInfo;
 
-    const stacks = Object.keys(perStackInfoEach) as IIsoStackPattern[];
-    stacks.forEach((stack) => {
-      const bottomIsoTier = perStackInfoEach[stack].bottomIsoTier;
+    const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
+    rows.forEach((row) => {
+      const bottomIsoTier = perRowInfoEach[row].bottomIsoTier;
       const vcg = perTierInfo[bottomIsoTier]?.vcg;
       if (vcg !== undefined) {
         const bottomBase = vcg - baseAdjust;
-        perStackInfoEach[stack].bottomBase = bottomBase;
+        perRowInfoEach[row].bottomBase = bottomBase;
       }
     });
     // Important: as "perTierInfo" is used many times, cgsRemap should only
@@ -133,20 +133,20 @@ function remapLcgs(
         bulkhead.aftLcg = lcgRebase(bulkhead.aftLcg);
     }
 
-    // remap  perStackInfo.each.[xx].stackInfoByLength
-    const perStackInfoEach = bl.perStackInfo?.each;
-    if (perStackInfoEach) {
-      const stacks = Object.keys(perStackInfoEach) as IIsoStackPattern[];
-      stacks.forEach((stack) => {
-        const stackInfoByLength = perStackInfoEach[stack].stackInfoByLength;
-        if (stackInfoByLength) {
-          const sizes = Object.keys(stackInfoByLength).map(
+    // remap  perRowInfo.each.[xx].rowInfoByLength
+    const perRowInfoEach = bl.perRowInfo?.each;
+    if (perRowInfoEach) {
+      const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
+      rows.forEach((row) => {
+        const rowInfoByLength = perRowInfoEach[row].rowInfoByLength;
+        if (rowInfoByLength) {
+          const sizes = Object.keys(rowInfoByLength).map(
             Number
           ) as TContainerLengths[];
           sizes.forEach((size) => {
-            const lcg = stackInfoByLength[size].lcg;
+            const lcg = rowInfoByLength[size].lcg;
             if (lcg !== undefined) {
-              stackInfoByLength[size].lcg = lcgRebase(lcg);
+              rowInfoByLength[size].lcg = lcgRebase(lcg);
             }
           });
         }

@@ -1,5 +1,5 @@
 import ValuesSourceEnum, {
-  ValuesSourceStackTierEnum,
+  ValuesSourceRowTierEnum,
 } from "../models/base/enums/ValuesSourceEnum";
 
 import ForeAftEnum from "../models/base/enums/ForeAftEnum";
@@ -36,7 +36,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
     expect(shipData.lcgOptions.orientationIncrease).toBe(ForeAftEnum.FWD);
 
     expect(shipData.vcgOptions).toBeDefined();
-    expect(shipData.vcgOptions.values).toBe(ValuesSourceStackTierEnum.BY_TIER);
+    expect(shipData.vcgOptions.values).toBe(ValuesSourceRowTierEnum.BY_TIER);
 
     expect(shipData.tcgOptions).toBeDefined();
     expect(shipData.tcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
@@ -52,7 +52,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
     expect(shipData.lcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
     expect(shipData.lcgOptions.reference).toBe(LcgReferenceEnum.MIDSHIPS);
     expect(shipData.lcgOptions.orientationIncrease).toBe(ForeAftEnum.AFT);
-    expect(shipData.vcgOptions.values).toBe(ValuesSourceStackTierEnum.BY_TIER);
+    expect(shipData.vcgOptions.values).toBe(ValuesSourceRowTierEnum.BY_TIER);
     expect(shipData.tcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
     expect(shipData.tcgOptions.direction).toBe(PortStarboardEnum.STARBOARD);
   });

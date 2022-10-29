@@ -1,12 +1,12 @@
-import { IStackInfoByLengthWithAcceptsSize } from "../converter/types/IStackStafData";
-import { TStackInfoByLength } from "../models/v1/parts/IBayLevelData";
+import { IRowInfoByLengthWithAcceptsSize } from "../converter/types/IRowStafData";
+import { TRowInfoByLength } from "../models/v1/parts/IBayLevelData";
 
 /**
  * Mutates the object deleting TContainerLenghts without data
  * @param obj
  */
 export function deleteMissingInfoByContLength<T>(
-  obj: TWithStackAttributesByContainerLength<T>
+  obj: TWithRowAttributesByContainerLength<T>
 ): void {
   const sizes = Object.keys(obj.infoByContLength);
 
@@ -21,13 +21,13 @@ export function deleteMissingInfoByContLength<T>(
   });
 }
 
-export function deleteMissingStackInfoByLength<T>(
-  obj: TWithStackAttributesByContainerLengthWithAcceptsSize<T>
+export function deleteMissingRowInfoByLength<T>(
+  obj: TWithRowAttributesByContainerLengthWithAcceptsSize<T>
 ): void {
-  const sizes = Object.keys(obj.stackInfoByLength);
+  const sizes = Object.keys(obj.rowInfoByLength);
 
   sizes.forEach((size) => {
-    const objBySize = obj.stackInfoByLength[size];
+    const objBySize = obj.rowInfoByLength[size];
     const keysOfObj = Object.keys(objBySize).filter(
       (o) => objBySize[o] !== undefined
     );
@@ -38,7 +38,7 @@ export function deleteMissingStackInfoByLength<T>(
       objBySize.size !== undefined &&
       !objBySize.acceptsSize
     ) {
-      delete obj.stackInfoByLength[size];
+      delete obj.rowInfoByLength[size];
     }
   });
 }
@@ -51,14 +51,14 @@ export function deleteVerboseOptionalFalsyKeys<T>(keys: (keyof T)[]) {
   };
 }
 
-type TWithStackAttributesByContainerLength<T> = T extends {
-  infoByContLength: TStackInfoByLength;
+type TWithRowAttributesByContainerLength<T> = T extends {
+  infoByContLength: TRowInfoByLength;
 }
   ? T
   : never;
 
-type TWithStackAttributesByContainerLengthWithAcceptsSize<T> = T extends {
-  stackInfoByLength: IStackInfoByLengthWithAcceptsSize;
+type TWithRowAttributesByContainerLengthWithAcceptsSize<T> = T extends {
+  rowInfoByLength: IRowInfoByLengthWithAcceptsSize;
 }
   ? T
   : never;

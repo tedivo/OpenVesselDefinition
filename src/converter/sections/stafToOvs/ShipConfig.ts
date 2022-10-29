@@ -1,6 +1,6 @@
 import {
   getStafValuesSourceEnumValue,
-  getStafValuesSourceStackTierEnumValue,
+  getStafValuesSourceRowTierEnumValue,
 } from "../../../models/base/enums/ValuesSourceEnum";
 
 import ISectionMapConfig from "../../types/ISectionMapConfig";
@@ -33,7 +33,7 @@ const ShipConfig: ISectionMapConfig<IShipDataIntermediateStaf> = {
     },
     VCG_IN_USE: {
       target: "vcgOptions.values",
-      mapper: getStafValuesSourceStackTierEnumValue,
+      mapper: getStafValuesSourceRowTierEnumValue,
     },
     TCG_IN_USE: {
       target: "tcgOptions.values",

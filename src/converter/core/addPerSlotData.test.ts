@@ -1,11 +1,11 @@
-import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
+import { IJoinedRowTierPattern } from "../../models/base/types/IPositionPatterns";
 import ISlotData from "../../models/v1/parts/ISlotData";
+import addPerSlotData from "./addPerSlotData";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import { shipDataBays } from "../mocks/shipData";
-import addPerSlotData from "./addPerSlotData";
 
-const mockSlotInfoKeysAbove: IJoinedStackTierPattern[] = ["0080", "0082"];
-const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];
+const mockSlotInfoKeysAbove: IJoinedRowTierPattern[] = ["0080", "0082"];
+const mockSlotInfoKeysBelow: IJoinedRowTierPattern[] = ["0002", "0004"];
 
 describe("addPerSlotData should", () => {
   it("work ok with missing SlotData Info", () => {
@@ -18,7 +18,7 @@ describe("addPerSlotData should", () => {
     addPerSlotData(bayLevelData, undefined as ISlotData[], 80);
   });
 
-  it("used stack-tier data to create slotData", () => {
+  it("used row-tier data to create slotData", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       shipDataBays,
       mockSlotInfoKeysAbove,
@@ -63,8 +63,8 @@ describe("addPerSlotData should", () => {
       mockSlotInfoKeysBelow
     );
 
-    const stack03Prev = bayLevelData[0].perStackInfo["03"];
-    expect(stack03Prev).toBeUndefined();
+    const row03Prev = bayLevelData[0].perRowInfo["03"];
+    expect(row03Prev).toBeUndefined();
 
     const slotData: ISlotData[] = [
       { position: "0010380", pos: "0380", sizes: { 20: 1, 24: 1 } },

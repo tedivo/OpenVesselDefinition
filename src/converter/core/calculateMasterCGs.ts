@@ -2,7 +2,7 @@ import IBayLevelData, {
   IBayLevelDataStaf,
 } from "../../models/v1/parts/IBayLevelData";
 import {
-  IIsoStackPattern,
+  IIsoRowPattern,
   IIsoTierPattern,
 } from "../../models/base/types/IPositionPatterns";
 import {
@@ -10,11 +10,11 @@ import {
   IShipDataIntermediateStaf,
 } from "../../models/v1/parts/IShipData";
 import ValuesSourceEnum, {
-  ValuesSourceStackTierEnum,
+  ValuesSourceRowTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import sortStacksArray from "../../helpers/sortStacksArray";
+import sortRowsArray from "../../helpers/sortRowsArray";
 
 /**
  * Extract main TCGs and VCGs. Once extracted, delete repetitions
@@ -28,53 +28,51 @@ export function calculateMasterCGs(
   const extractedBottomBases: IInventory = {};
   const result: IMasterCGs = { aboveTcgs: {}, belowTcgs: {}, bottomBases: {} };
 
-  const shouldProcessStacks =
+  const shouldProcessRows =
     shipData.tcgOptions.values !== ValuesSourceEnum.ESTIMATED;
   const shouldProcessTiers =
-    shipData.vcgOptions.values !== ValuesSourceStackTierEnum.ESTIMATED;
+    shipData.vcgOptions.values !== ValuesSourceRowTierEnum.ESTIMATED;
 
-  if (!shouldProcessStacks && !shouldProcessTiers) {
+  if (!shouldProcessRows && !shouldProcessTiers) {
     return result;
   }
 
   bls.forEach((bl) => {
-    // A. Stacks
-    const perStackInfoEach = bl.perStackInfo.each;
-    const perStackInfoCommon = bl.perStackInfo.common;
+    // A. Rows
+    const perRowInfoEach = bl.perRowInfo.each;
+    const perRowInfoCommon = bl.perRowInfo.common;
 
-    if (shouldProcessStacks && perStackInfoEach !== undefined) {
-      const stacks = Object.keys(perStackInfoEach) as IIsoStackPattern[];
+    if (shouldProcessRows && perRowInfoEach !== undefined) {
+      const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
       const extractedTCGs =
         bl.level === BayLevelEnum.ABOVE
           ? extractedAboveTCGs
           : extractedBelowTCGs;
 
-      stacks.forEach((stack) => {
-        // Create dictionary for this stack if it doesn't exist
-        if (!extractedTCGs[stack])
-          extractedTCGs[stack] = new Map<number, number>();
+      rows.forEach((row) => {
+        // Create dictionary for this row if it doesn't exist
+        if (!extractedTCGs[row]) extractedTCGs[row] = new Map<number, number>();
         // Gather TCG value
-        const tcgValue = perStackInfoEach[stack].tcg;
+        const tcgValue = perRowInfoEach[row].tcg;
 
         if (tcgValue !== undefined) {
           // Create repetitions counter
-          if (!extractedTCGs[stack].has(tcgValue)) {
-            extractedTCGs[stack].set(tcgValue, 0);
+          if (!extractedTCGs[row].has(tcgValue)) {
+            extractedTCGs[row].set(tcgValue, 0);
           }
           // Annotate repetition
-          extractedTCGs[stack].set(
+          extractedTCGs[row].set(
             tcgValue,
-            extractedTCGs[stack].get(tcgValue) + 1
+            extractedTCGs[row].get(tcgValue) + 1
           );
         }
 
         const vcgValue =
-          perStackInfoEach[stack].bottomBase || perStackInfoCommon.bottomBase;
+          perRowInfoEach[row].bottomBase || perRowInfoCommon.bottomBase;
 
         if (vcgValue !== undefined) {
           const tier =
-            perStackInfoEach[stack].bottomIsoTier ||
-            perStackInfoCommon.bottomIsoTier;
+            perRowInfoEach[row].bottomIsoTier || perRowInfoCommon.bottomIsoTier;
 
           if (!extractedBottomBases[tier])
             extractedBottomBases[tier] = new Map<number, number>();
@@ -94,15 +92,9 @@ export function calculateMasterCGs(
     }
   });
 
-  result.aboveTcgs = chooseMostRepeatedValue(
-    extractedAboveTCGs,
-    sortStacksArray
-  );
+  result.aboveTcgs = chooseMostRepeatedValue(extractedAboveTCGs, sortRowsArray);
 
-  result.belowTcgs = chooseMostRepeatedValue(
-    extractedBelowTCGs,
-    sortStacksArray
-  );
+  result.belowTcgs = chooseMostRepeatedValue(extractedBelowTCGs, sortRowsArray);
 
   result.bottomBases = chooseMostRepeatedValue(
     extractedBottomBases,
@@ -115,18 +107,18 @@ export function calculateMasterCGs(
 }
 
 export interface IInventory {
-  [name: IIsoStackPattern | IIsoTierPattern]: Map<number, number>;
+  [name: IIsoRowPattern | IIsoTierPattern]: Map<number, number>;
 }
 
 export interface ISResult {
-  [name: IIsoStackPattern | IIsoTierPattern]: number;
+  [name: IIsoRowPattern | IIsoTierPattern]: number;
 }
 
 export function chooseMostRepeatedValue(
   e: IInventory,
   sortKeysFn?: (a: string, b: string) => number
 ): ISResult {
-  const keys = Object.keys(e) as IIsoStackPattern[];
+  const keys = Object.keys(e) as IIsoRowPattern[];
   const result: ISResult = {};
 
   keys.forEach((key) => {
@@ -163,24 +155,21 @@ function sortResult(
 
 export function cleanRepeatedTcgs(masterCGs: IMasterCGs, bls: IBayLevelData[]) {
   bls
-    .filter((bl) => !!bl.perStackInfo)
+    .filter((bl) => !!bl.perRowInfo)
     .forEach((bl) => {
-      // A. Stacks
-      const perStackInfoEach = bl.perStackInfo.each;
-      const stacks = Object.keys(perStackInfoEach) as IIsoStackPattern[];
+      // A. Rows
+      const perRowInfoEach = bl.perRowInfo.each;
+      const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
       const masterInfoTcgs =
         bl.level === BayLevelEnum.ABOVE
           ? masterCGs.aboveTcgs
           : masterCGs.belowTcgs;
 
-      stacks.forEach((stack) => {
-        const stackInfo = perStackInfoEach[stack];
+      rows.forEach((row) => {
+        const rowInfo = perRowInfoEach[row];
 
-        if (
-          stackInfo.tcg !== undefined &&
-          stackInfo.tcg === masterInfoTcgs[stack]
-        ) {
-          stackInfo.tcg = undefined;
+        if (rowInfo.tcg !== undefined && rowInfo.tcg === masterInfoTcgs[row]) {
+          rowInfo.tcg = undefined;
         }
       });
     });

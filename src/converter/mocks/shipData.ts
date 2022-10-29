@@ -5,7 +5,7 @@ import {
 
 import IShipData from "../../models/v1/parts/IShipData";
 import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
-import StackWeightCalculationEnum from "../../models/base/enums/StackWeightCalculationEnum";
+import RowWeightCalculationEnum from "../../models/base/enums/RowWeightCalculationEnum";
 import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
 
 export const shipDataBays = 13;
@@ -15,7 +15,7 @@ export const shipData: IShipData = {
   shipClass: "OEM 1",
   positionFormat: PositionFormatEnum.BAY_STACK_TIER,
   containersLengths: [20, 40, 45],
-  stackWeightCalculation: StackWeightCalculationEnum.CONTAINER_LENGTH,
+  rowWeightCalculation: RowWeightCalculationEnum.CONTAINER_LENGTH,
   metaInfo: {},
   lcgOptions: {
     values: ValuesSourceEnum.ESTIMATED,

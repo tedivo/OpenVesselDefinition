@@ -8,12 +8,12 @@ describe("destructurePosition should", () => {
 
     expect(desPos.bay).toBe("001");
     expect(desPos.tier).toBe("18");
-    expect(desPos.stack).toBe("10");
+    expect(desPos.row).toBe("10");
     expect(desPos.oddBay).toBe("001");
 
     expect(desPos.iBay).toBe(1);
     expect(desPos.iTier).toBe(18);
-    expect(desPos.iStack).toBe(10);
+    expect(desPos.iRow).toBe(10);
     expect(desPos.iOddBay).toBe(1);
   });
 
@@ -24,12 +24,12 @@ describe("destructurePosition should", () => {
 
     expect(desPos.bay).toBe("004");
     expect(desPos.tier).toBe("82");
-    expect(desPos.stack).toBe("00");
+    expect(desPos.row).toBe("00");
     expect(desPos.oddBay).toBe("003");
 
     expect(desPos.iBay).toBe(4);
     expect(desPos.iTier).toBe(82);
-    expect(desPos.iStack).toBe(0);
+    expect(desPos.iRow).toBe(0);
     expect(desPos.iOddBay).toBe(3);
   });
 

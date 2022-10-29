@@ -64,27 +64,27 @@ const BayLevelConfig: ISectionMapToStafConfig<
     },
     {
       stafVar: "STACK WT 20",
-      source: "infoByContLength.20.stackWeight",
+      source: "infoByContLength.20.rowWeight",
       mapper: safeNumberGramsToTons,
     },
     {
       stafVar: "STACK WT 40",
-      source: "infoByContLength.40.stackWeight",
+      source: "infoByContLength.40.rowWeight",
       mapper: safeNumberGramsToTons,
     },
     {
       stafVar: "STACK WT 45",
-      source: "infoByContLength.45.stackWeight",
+      source: "infoByContLength.45.rowWeight",
       mapper: safeNumberGramsToTons,
     },
     {
       stafVar: "STACK WT 48",
-      source: "infoByContLength.48.stackWeight",
+      source: "infoByContLength.48.rowWeight",
       mapper: safeNumberGramsToTons,
     },
     {
       stafVar: "MAX HEIGHT",
-      source: "perStackInfo.common.maxHeight",
+      source: "perRowInfo.common.maxHeight",
       mapper: safeNumberMmToMt,
     },
     {
@@ -111,7 +111,7 @@ const BayLevelConfig: ISectionMapToStafConfig<
     },
     {
       stafVar: "STACK WT 24",
-      source: "infoByContLength.24.stackWeight",
+      source: "infoByContLength.24.rowWeight",
       mapper: safeNumberGramsToTons,
     },
   ],

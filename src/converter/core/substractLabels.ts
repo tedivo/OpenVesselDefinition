@@ -1,13 +1,13 @@
 import IPositionLabels, {
-  ITierStackLabelDictionaries,
-  ITierStackLabelDictionary,
+  ITierRowLabelDictionaries,
+  ITierRowLabelDictionary,
 } from "../../models/v1/parts/IPositionLabels";
 
 import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { pad3 } from "../../helpers/pad";
 
 /**
- * Obtains a dictionary of labels (for bays, tiers and stacks)
+ * Obtains a dictionary of labels (for bays, tiers and rows)
  */
 export default function substractLabels(
   data: IBayLevelDataStaf[]
@@ -43,7 +43,7 @@ export default function substractLabels(
  * Calculates a dictionary hash for comparison
  * @returns hash
  */
-export function dictionaryHash(dict: ITierStackLabelDictionary): string {
+export function dictionaryHash(dict: ITierRowLabelDictionary): string {
   return Object.keys(dict)
     .sort()
     .filter((key) => dict[key] !== undefined)
@@ -58,8 +58,8 @@ export function dictionaryHash(dict: ITierStackLabelDictionary): string {
  * @returns the name of the dictionary (if exists only)
  */
 export function getExistingDictionaryLabelsName(
-  dictToCompare: ITierStackLabelDictionary,
-  existingDictionaries: ITierStackLabelDictionaries
+  dictToCompare: ITierRowLabelDictionary,
+  existingDictionaries: ITierRowLabelDictionaries
 ): string {
   const dictToCompareHash = dictionaryHash(dictToCompare);
   const dictNames = Object.keys(existingDictionaries);

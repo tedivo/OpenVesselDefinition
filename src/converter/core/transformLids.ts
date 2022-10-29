@@ -29,8 +29,8 @@ function joinAftFwdLids(
     const newLid = {
       label,
       level: lid.level,
-      portIsoStack: lid.portIsoStack,
-      starboardIsoStack: lid.starboardIsoStack,
+      portIsoRow: lid.portIsoRow,
+      starboardIsoRow: lid.starboardIsoRow,
       overlapPort: lid.overlapPort ? 1 : (0 as TYesNo),
       overlapStarboard: lid.overlapStarboard ? 1 : (0 as TYesNo),
       startIsoBay: lid.isoBay,
@@ -77,7 +77,7 @@ function joinAftFwdLids(
   const hashes: Set<string> = new Set();
   Object.keys(lidsByLabel).forEach((label) => {
     const obj = lidsByLabel[label];
-    const hash = `${obj.startIsoBay}/${obj.endIsoBay}/${obj.level}/${obj.portIsoStack}/${obj.starboardIsoStack}`;
+    const hash = `${obj.startIsoBay}/${obj.endIsoBay}/${obj.level}/${obj.portIsoRow}/${obj.starboardIsoRow}`;
     obj.hash = hash;
     hashes.add(hash);
   });

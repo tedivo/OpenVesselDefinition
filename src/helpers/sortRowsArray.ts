@@ -1,4 +1,4 @@
-export default function sortStacksArray(
+export default function sortRowsArray(
   a: `${number}${number}`,
   b: `${number}${number}`
 ): number {

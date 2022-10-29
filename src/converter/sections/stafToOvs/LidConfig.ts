@@ -18,8 +18,8 @@ const SlotConfig: ISectionMapConfig<ILidDataFromStaf> = {
       passValue: true,
       dashIsEmpty: false,
     },
-    PORT_ISO_STACK: { target: "portIsoStack", mapper: pad2 },
-    STBD_ISO_STACK: { target: "starboardIsoStack", mapper: pad2 },
+    PORT_ISO_STACK: { target: "portIsoRow", mapper: pad2 },
+    STBD_ISO_STACK: { target: "starboardIsoRow", mapper: pad2 },
     JOIN_LID_FWD: {
       target: "joinLidFwdLabel",
       passValue: true,

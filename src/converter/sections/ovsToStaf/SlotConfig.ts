@@ -1,8 +1,8 @@
 import {
   IIsoBayPattern,
   IIsoPositionPattern,
-  IIsoStackPattern,
-  IJoinedStackTierPattern,
+  IIsoRowPattern,
+  IJoinedRowTierPattern,
   TYesNo,
 } from "../../../models/base/types/IPositionPatterns";
 import { pad2, safePad6 } from "../../../helpers/pad";
@@ -10,12 +10,12 @@ import { pad2, safePad6 } from "../../../helpers/pad";
 import BayLevelEnum from "../../../models/base/enums/BayLevelEnum";
 import IBayLevelData from "../../../models/v1/parts/IBayLevelData";
 import { IMasterCGs } from "../../../models/v1/parts/IShipData";
+import IRowStafData from "../../types/IRowStafData";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import ISlotData from "../../../models/v1/parts/ISlotData";
-import IStackStafData from "../../types/IStackStafData";
 import { SHIP_EDITOR_MIN_TIER } from "./consts";
-import { createStackStafData } from "./StackConfig";
-import { getStackAndTiersFromSlotKeys } from "../../../helpers/getStackAndTiersFromSlotKeys";
+import { createRowStafData } from "./RowConfig";
+import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
 import { sortNumericAsc } from "../../../helpers/sortByMultipleFields";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
 
@@ -58,23 +58,21 @@ function createSlotData(bayData: IBayLevelData[]): ISlotData[] {
     const perSlotInfo = bl.perSlotInfo;
     if (perSlotInfo) {
       const slotsDataBL: ISlotData[] = [];
-      const stackData = createStackStafData([bl], dummyMasterCGs);
-      const stackDataByStack = stackData.reduce((acc, sData) => {
-        acc[sData.isoStack] = sData;
+      const rowData = createRowStafData([bl], dummyMasterCGs);
+      const rowDataByRow = rowData.reduce((acc, sData) => {
+        acc[sData.isoRow] = sData;
         return acc;
-      }, {} as { [stack: IIsoStackPattern]: IStackStafData });
+      }, {} as { [row: IIsoRowPattern]: IRowStafData });
 
-      const slotsKeys = Object.keys(perSlotInfo) as IJoinedStackTierPattern[];
-      const { minTier } = getStackAndTiersFromSlotKeys(slotsKeys);
+      const slotsKeys = Object.keys(perSlotInfo) as IJoinedRowTierPattern[];
+      const { minTier } = getRowsAndTiersFromSlotKeys(slotsKeys);
 
       slotsKeys.forEach((slotKey) => {
-        const slotStack = slotKey.substring(0, 2);
-        if (stackDataByStack[slotStack]) {
-          const stackDataOfStack: IStackStafData = stackDataByStack[slotStack];
+        const slotRow = slotKey.substring(0, 2);
+        if (rowDataByRow[slotRow]) {
+          const rowDataOfRow: IRowStafData = rowDataByRow[slotRow];
           // If not contained, add it
-          if (
-            !slotIsContainedInStackData(stackDataOfStack, perSlotInfo[slotKey])
-          ) {
+          if (!slotIsContainedInRowData(rowDataOfRow, perSlotInfo[slotKey])) {
             slotsDataBL.push({
               ...perSlotInfo[slotKey],
               position: generatePositionForStaf(
@@ -112,7 +110,7 @@ function createSlotData(bayData: IBayLevelData[]): ISlotData[] {
   function generatePositionForStaf(
     isoBay: IIsoBayPattern,
     level: BayLevelEnum,
-    slotKey: IJoinedStackTierPattern,
+    slotKey: IJoinedRowTierPattern,
     minTierOfBay: number
   ): SixDigitPos {
     const slotTier = Number(slotKey.substring(2));
@@ -123,8 +121,8 @@ function createSlotData(bayData: IBayLevelData[]): ISlotData[] {
 
     // if (level === BayLevelEnum.ABOVE && minTierOfBay < SHIP_EDITOR_MIN_TIER) {
     //   const newTier = slotTier + (SHIP_EDITOR_MIN_TIER - minTierOfBay);
-    //   const stack = slotKey.substring(0, 2);
-    //   return `${bay}${stack}${pad2(newTier)}` as SixDigitPos;
+    //   const row = slotKey.substring(0, 2);
+    //   return `${bay}${row}${pad2(newTier)}` as SixDigitPos;
     // } else {
     //   return `${bay}${slotKey}` as SixDigitPos;
     // }
@@ -132,18 +130,18 @@ function createSlotData(bayData: IBayLevelData[]): ISlotData[] {
 
   type SixDigitPos = `${number}${number}${number}${number}${number}${number}`;
 
-  function slotIsContainedInStackData(
-    stackDataOfStack: IStackStafData,
+  function slotIsContainedInRowData(
+    rowDataOfRow: IRowStafData,
     slotData: ISlotData
   ): boolean {
     const slotDataTier = Number(slotData.pos.substring(2));
 
     if (
       !slotData.reefer &&
-      slotDataTier >= Number(stackDataOfStack.bottomIsoTier) &&
-      slotDataTier <= Number(stackDataOfStack.topIsoTier)
+      slotDataTier >= Number(rowDataOfRow.bottomIsoTier) &&
+      slotDataTier <= Number(rowDataOfRow.topIsoTier)
     ) {
-      const hashSizesStack = Object.keys(stackDataOfStack.stackInfoByLength)
+      const hashSizesRow = Object.keys(rowDataOfRow.rowInfoByLength)
         .sort(sortNumericAsc)
         .join("#");
 
@@ -151,7 +149,7 @@ function createSlotData(bayData: IBayLevelData[]): ISlotData[] {
         .sort(sortNumericAsc)
         .join("#");
 
-      return hashSizesStack === hashSizesSlot;
+      return hashSizesRow === hashSizesSlot;
     }
     return false;
   }

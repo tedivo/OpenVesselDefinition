@@ -2,8 +2,8 @@ import { TYesNo } from "./types/IPositionPatterns";
 
 interface ISizeSummary {
   isoBays: number;
-  centerLineStack: TYesNo;
-  maxStack?: number;
+  centerLineRow: TYesNo;
+  maxRow?: number;
   maxAboveTier?: number;
   minAboveTier?: number;
   maxBelowTier?: number;

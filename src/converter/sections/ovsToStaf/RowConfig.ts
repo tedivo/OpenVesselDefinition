@@ -2,11 +2,11 @@ import BayLevelEnum, {
   getBayLevelEnumValueToStaf,
 } from "../../../models/base/enums/BayLevelEnum";
 import IBayLevelData, {
-  IBayStackInfo,
+  IBayRowInfo,
 } from "../../../models/v1/parts/IBayLevelData";
-import IStackStafData, {
-  IStackInfoByLengthWithAcceptsSize,
-} from "../../types/IStackStafData";
+import IRowStafData, {
+  IRowInfoByLengthWithAcceptsSize,
+} from "../../types/IRowStafData";
 import pad, { pad2, safePad2 } from "../../../helpers/pad";
 import {
   safeNumberGramsToTons,
@@ -17,24 +17,24 @@ import sortByMultipleFields, {
 } from "../../../helpers/sortByMultipleFields";
 
 import ForeAftEnum from "../../../models/base/enums/ForeAftEnum";
-import { IJoinedStackTierPattern } from "../../../models/base/types/IPositionPatterns";
+import { IJoinedRowTierPattern } from "../../../models/base/types/IPositionPatterns";
 import { IMasterCGs } from "../../../models/v1/parts/IShipData";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import { SHIP_EDITOR_MIN_TIER } from "./consts";
 import { TContainerLengths } from "../../../models/v1/parts/Types";
-import { getStackAndTiersFromSlotKeys } from "../../../helpers/getStackAndTiersFromSlotKeys";
+import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
 
 /**
  * FROM OVS TO STAF
- * DEFINITION of a Stack
+ * DEFINITION of a Row
  */
-const StackConfig: ISectionMapToStafConfig<IStackStafData, IStackStafData> = {
+const RowConfig: ISectionMapToStafConfig<IRowStafData, IRowStafData> = {
   stafSection: "STACK",
   mapVars: [
     { stafVar: "STAF BAY", source: "isoBay", mapper: safePad2 },
     { stafVar: "LEVEL", source: "level", mapper: getBayLevelEnumValueToStaf },
-    { stafVar: "ISO STACK", source: "isoStack", mapper: safePad2 },
+    { stafVar: "ISO STACK", source: "isoRow", mapper: safePad2 },
     { stafVar: "CUSTOM STACK", fixedValue: "-" },
     { stafVar: "TOP TIER", source: "topIsoTier", mapper: safePad2 },
     { stafVar: "BOTTOM TIER", source: "bottomIsoTier", mapper: safePad2 },
@@ -42,113 +42,113 @@ const StackConfig: ISectionMapToStafConfig<IStackStafData, IStackStafData> = {
     { stafVar: "TCG", source: "tcg", mapper: safeNumberMmToMt },
     {
       stafVar: "ACCEPTS 20",
-      source: "stackInfoByLength.20.acceptsSize",
+      source: "rowInfoByLength.20.acceptsSize",
       mapper: yNToStaf,
     },
 
     {
       stafVar: "ACCEPTS 40",
-      source: "stackInfoByLength.40.acceptsSize",
+      source: "rowInfoByLength.40.acceptsSize",
       mapper: yNToStaf,
     },
     {
       stafVar: "ACCEPTS 45",
-      source: "stackInfoByLength.45.acceptsSize",
+      source: "rowInfoByLength.45.acceptsSize",
       mapper: yNToStaf,
     },
     {
       stafVar: "ACCEPTS 48",
-      source: "stackInfoByLength.48.acceptsSize",
+      source: "rowInfoByLength.48.acceptsSize",
       mapper: yNToStaf,
     },
     // {
     //   stafVar: "ACCEPTS 53",
-    //   source: "stackInfoByLength.53.acceptsSize",
+    //   source: "rowInfoByLength.53.acceptsSize",
     //   mapper: yNToStaf,
     // },
     {
       stafVar: "LCG 20",
-      source: "stackInfoByLength.20.lcg",
-      mapper: (n: number, record: IStackStafData) =>
+      source: "rowInfoByLength.20.lcg",
+      mapper: (n: number, record: IRowStafData) =>
         createSafeNumberMmToMtOrPercentageBySize(n, record, 20),
     },
     {
       stafVar: "LCG 40",
-      source: "stackInfoByLength.40.lcg",
-      mapper: (n: number, record: IStackStafData) =>
+      source: "rowInfoByLength.40.lcg",
+      mapper: (n: number, record: IRowStafData) =>
         createSafeNumberMmToMtOrPercentageBySize(n, record, 40),
     },
     {
       stafVar: "LCG 45",
-      source: "stackInfoByLength.45.lcg",
-      mapper: (n: number, record: IStackStafData) =>
+      source: "rowInfoByLength.45.lcg",
+      mapper: (n: number, record: IRowStafData) =>
         createSafeNumberMmToMtOrPercentageBySize(n, record, 45),
     },
     {
       stafVar: "LCG 48",
-      source: "stackInfoByLength.48.lcg",
-      mapper: (n: number, record: IStackStafData) =>
+      source: "rowInfoByLength.48.lcg",
+      mapper: (n: number, record: IRowStafData) =>
         createSafeNumberMmToMtOrPercentageBySize(n, record, 48),
     },
     // {
     //   stafVar: "LCG 53",
-    //   source: "stackInfoByLength.53.lcg",
+    //   source: "rowInfoByLength.53.lcg",
     //   mapper: safeNumberMmToMt,
     // },
     {
       stafVar: "STACK WT 20",
-      source: "stackInfoByLength.20.stackWeight",
+      source: "rowInfoByLength.20.rowWeight",
       mapper: safeNumberGramsToTons,
     },
     {
       stafVar: "STACK WT 40",
-      source: "stackInfoByLength.40.stackWeight",
+      source: "rowInfoByLength.40.rowWeight",
       mapper: safeNumberGramsToTons,
     },
     {
       stafVar: "STACK WT 45",
-      source: "stackInfoByLength.45.stackWeight",
+      source: "rowInfoByLength.45.rowWeight",
       mapper: safeNumberGramsToTons,
     },
     {
       stafVar: "STACK WT 48",
-      source: "stackInfoByLength.48.stackWeight",
+      source: "rowInfoByLength.48.rowWeight",
       mapper: safeNumberGramsToTons,
     },
     // {
     //   stafVar: "STACK WT 53",
-    //   source: "stackInfoByLength.53.stackWeight",
+    //   source: "rowInfoByLength.53.rowWeight",
     //   mapper: safeNumberGramsToTons,
     // },
     { stafVar: "MAX HT", source: "maxHeight", mapper: safeNumberMmToMt },
     {
       stafVar: "ACCEPTS 24",
-      source: "stackInfoByLength.24.acceptsSize",
+      source: "rowInfoByLength.24.acceptsSize",
       mapper: yNToStaf,
     },
     {
       stafVar: "LCG 24",
-      source: "stackInfoByLength.24.lcg",
-      mapper: (n: number, record: IStackStafData) =>
+      source: "rowInfoByLength.24.lcg",
+      mapper: (n: number, record: IRowStafData) =>
         createSafeNumberMmToMtOrPercentageBySize(n, record, 24),
     },
     {
       stafVar: "STACK WT 24",
-      source: "stackInfoByLength.24.stackWeight",
+      source: "rowInfoByLength.24.rowWeight",
       mapper: safeNumberGramsToTons,
     },
     {
       stafVar: "20 ISO STK",
-      source: "isoStack20",
+      source: "isoRow20",
       mapper: pad4,
     },
     {
       stafVar: "40 ISO STK",
-      source: "isoStack40",
+      source: "isoRow40",
       mapper: pad4,
     },
   ],
-  preProcessor: createStackStafData,
+  preProcessor: createRowStafData,
 };
 
 function pad4(num: string) {
@@ -158,19 +158,19 @@ function pad4(num: string) {
 
 function createSafeNumberMmToMtOrPercentageBySize(
   n: number,
-  record: IStackStafData,
+  record: IRowStafData,
   size: TContainerLengths
 ): string {
-  const hasSize = record.stackInfoByLength?.[size];
+  const hasSize = record.rowInfoByLength?.[size];
 
   if (n === undefined || isNaN(n)) return hasSize?.bayHasLcg ? "%" : "-";
   return safeNumberMmToMt(n);
 }
 
-export function createStackStafData(
+export function createRowStafData(
   bayData: IBayLevelData[],
   masterCGs: IMasterCGs
-): IStackStafData[] {
+): IRowStafData[] {
   const bls = bayData.slice().sort(
     sortByMultipleFields([
       { name: "isoBay", ascending: true },
@@ -178,32 +178,32 @@ export function createStackStafData(
     ])
   );
 
-  const resp: IStackStafData[] = [];
+  const resp: IRowStafData[] = [];
 
   bls.forEach((bl) => {
     const slotKeys = bl.perSlotInfo
-      ? (Object.keys(bl.perSlotInfo) as IJoinedStackTierPattern[])
+      ? (Object.keys(bl.perSlotInfo) as IJoinedRowTierPattern[])
       : [];
 
-    const perStackInfo = bl.perStackInfo;
+    const perRowInfo = bl.perRowInfo;
     const infoByContLength = bl.infoByContLength;
 
-    const { stacks, tiersByStack } = getStackAndTiersFromSlotKeys(slotKeys);
+    const { rows, tiersByRow } = getRowsAndTiersFromSlotKeys(slotKeys);
     let allSizes: TContainerLengths[] = [];
 
-    stacks.sort(sortNumericAsc).forEach((stack) => {
-      const stackInfoByLength = perStackInfo?.each?.[stack]?.stackInfoByLength;
+    rows.sort(sortNumericAsc).forEach((row) => {
+      const rowInfoByLength = perRowInfo?.each?.[row]?.rowInfoByLength;
 
-      const stackInfoBLWithSize: Partial<{
-        [key in TContainerLengths]: IStackInfoByLengthWithAcceptsSize;
+      const rowInfoBLWithSize: Partial<{
+        [key in TContainerLengths]: IRowInfoByLengthWithAcceptsSize;
       }> = {};
 
-      if (stackInfoByLength) {
+      if (rowInfoByLength) {
         (
-          Object.keys(stackInfoByLength).map(Number) as TContainerLengths[]
+          Object.keys(rowInfoByLength).map(Number) as TContainerLengths[]
         ).forEach((len) => {
-          stackInfoBLWithSize[len] = {
-            ...stackInfoByLength[len],
+          rowInfoBLWithSize[len] = {
+            ...rowInfoByLength[len],
             acceptsSize: 1,
             bayHasLcg: infoByContLength?.[len]?.lcg !== undefined ? 1 : 0,
           };
@@ -213,19 +213,19 @@ export function createStackStafData(
         const sizesInBay = Object.keys(infoByContLength).map(
           Number
         ) as TContainerLengths[];
-        if (!bl.perStackInfo) bl.perStackInfo = { each: {}, common: {} };
-        if (!bl.perStackInfo.each) bl.perStackInfo.each = {};
+        if (!bl.perRowInfo) bl.perRowInfo = { each: {}, common: {} };
+        if (!bl.perRowInfo.each) bl.perRowInfo.each = {};
         sizesInBay.forEach((len) => {
-          if (bl.perStackInfo.each[len] === undefined)
-            bl.perStackInfo.each[len] = {} as IBayStackInfo;
-          if (!bl.perStackInfo.each[len].stackInfoByLength)
-            bl.perStackInfo.each[len].stackInfoByLength =
-              {} as IStackInfoByLengthWithAcceptsSize;
+          if (bl.perRowInfo.each[len] === undefined)
+            bl.perRowInfo.each[len] = {} as IBayRowInfo;
+          if (!bl.perRowInfo.each[len].rowInfoByLength)
+            bl.perRowInfo.each[len].rowInfoByLength =
+              {} as IRowInfoByLengthWithAcceptsSize;
 
-          const stackInfoBLWithSizeOfLen: IStackInfoByLengthWithAcceptsSize =
-            bl.perStackInfo.each[len].stackInfoByLength;
+          const rowInfoBLWithSizeOfLen: IRowInfoByLengthWithAcceptsSize =
+            bl.perRowInfo.each[len].rowInfoByLength;
 
-          stackInfoBLWithSizeOfLen.bayHasLcg =
+          rowInfoBLWithSizeOfLen.bayHasLcg =
             infoByContLength?.[len]?.lcg !== undefined ? 1 : 0;
         });
       }
@@ -236,8 +236,8 @@ export function createStackStafData(
           Number
         ) as TContainerLengths[];
         sizes.forEach((len) => {
-          if (!stackInfoBLWithSize[len]) {
-            stackInfoBLWithSize[len] = {
+          if (!rowInfoBLWithSize[len]) {
+            rowInfoBLWithSize[len] = {
               size: len,
               acceptsSize: 1,
               bayHasLcg: infoByContLength?.[len]?.lcg !== undefined ? 1 : 0,
@@ -250,49 +250,48 @@ export function createStackStafData(
       // Sizes
       allSizes = allSizes.filter((v, i, arr) => arr.indexOf(v) === i);
 
-      const isoStack20 = allSizes.some((v) => v < 40)
-        ? `${safePad2(bl.isoBay)}${stack}`
+      const isoRow20 = allSizes.some((v) => v < 40)
+        ? `${safePad2(bl.isoBay)}${row}`
         : "-";
 
-      const isoStack40 = allSizes.some(
+      const isoRow40 = allSizes.some(
         (v) => v >= 40 && bl.pairedBay !== undefined
       )
         ? `${safePad2(
             Number(bl.isoBay) + (bl.pairedBay === ForeAftEnum.FWD ? -1 : 1)
-          )}${stack}`
+          )}${row}`
         : "-";
 
-      const topIsoTier = pad2(tiersByStack[stack].maxTier);
-      const bottomIsoTier = pad2(tiersByStack[stack].minTier);
+      const topIsoTier = pad2(tiersByRow[row].maxTier);
+      const bottomIsoTier = pad2(tiersByRow[row].minTier);
 
-      const stackData: IStackStafData = {
+      const rowData: IRowStafData = {
         isoBay: bl.isoBay,
         level: bl.level,
-        isoStack: stack,
+        isoRow: row,
         topIsoTier: topIsoTier,
         bottomIsoTier: bottomIsoTier,
         bottomBase:
-          perStackInfo?.each?.[stack]?.bottomBase ??
-          perStackInfo?.common?.bottomBase ??
+          perRowInfo?.each?.[row]?.bottomBase ??
+          perRowInfo?.common?.bottomBase ??
           (bottomIsoTier ? masterCGs.bottomBases[bottomIsoTier] : undefined),
         maxHeight:
-          perStackInfo?.each?.[stack]?.maxHeight ??
-          perStackInfo?.common?.maxHeight,
+          perRowInfo?.each?.[row]?.maxHeight ?? perRowInfo?.common?.maxHeight,
         tcg:
-          perStackInfo?.each?.[stack]?.tcg ??
+          perRowInfo?.each?.[row]?.tcg ??
           (bl.level === BayLevelEnum.ABOVE
-            ? masterCGs.aboveTcgs[stack]
-            : masterCGs.belowTcgs[stack]),
-        stackInfoByLength: stackInfoBLWithSize,
-        isoStack20,
-        isoStack40,
+            ? masterCGs.aboveTcgs[row]
+            : masterCGs.belowTcgs[row]),
+        rowInfoByLength: rowInfoBLWithSize,
+        isoRow20,
+        isoRow40,
       };
 
-      resp.push(stackData);
+      resp.push(rowData);
     });
   });
 
   return resp;
 }
 
-export default StackConfig;
+export default RowConfig;

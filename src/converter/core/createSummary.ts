@@ -7,8 +7,8 @@ import { sortNumericAsc } from "../../helpers/sortByMultipleFields";
 const MAX_BELOW_TIER = 66;
 
 /**
- * Examines the data to return a summary (bays, max/min tiers and stacks)
- * @returns Object { isoBays, centerLineStack, maxStack, maxAboveTier, minAboveTier, maxBelowTier, minBelowTier,}
+ * Examines the data to return a summary (bays, max/min tiers and rows)
+ * @returns Object { isoBays, centerLineRow, maxRow, maxAboveTier, minAboveTier, maxBelowTier, minBelowTier,}
  */
 export default function createSummary({
   isoBays,
@@ -19,8 +19,8 @@ export default function createSummary({
 }): ISizeSummary {
   const summary: ISizeSummary = {
     isoBays,
-    centerLineStack: 0,
-    maxStack: undefined,
+    centerLineRow: 0,
+    maxRow: undefined,
     maxAboveTier: undefined,
     minAboveTier: undefined,
     maxBelowTier: undefined,
@@ -72,32 +72,29 @@ export function addBayToSummary(bl: IBayLevelDataStaf, summary: ISizeSummary) {
     }
   }
 
-  const stacksFromSlotsInfo = bl.perSlotInfo
+  const rowsFromSlotsInfo = bl.perSlotInfo
     ? Object.keys(bl.perSlotInfo).map((s) => s.substring(0, 2))
     : [];
-  const stacksFromStackInfo =
-    bl.perStackInfo && bl.perStackInfo.each
-      ? Object.keys(bl.perStackInfo.each)
-      : [];
+  const rowsFromRowInfo =
+    bl.perRowInfo && bl.perRowInfo.each ? Object.keys(bl.perRowInfo.each) : [];
 
   // Concat and unique
-  const allStacks = stacksFromSlotsInfo
-    .concat(stacksFromStackInfo)
+  const allRows = rowsFromSlotsInfo
+    .concat(rowsFromRowInfo)
     .filter((v, idx, arr) => arr.indexOf(v) === idx)
     .sort()
     .map(Number);
 
-  const bayMaxStack = allStacks[allStacks.length - 1];
-  const bayMinStack = allStacks[0];
+  const bayMaxRow = allRows[allRows.length - 1];
+  const bayMinRow = allRows[0];
 
-  // Centerline stack, through stack definitions
-  if (!summary.centerLineStack && bayMinStack === 0)
-    summary.centerLineStack = 1;
+  // Centerline row, through row definitions
+  if (!summary.centerLineRow && bayMinRow === 0) summary.centerLineRow = 1;
 
-  // Max stack, through stack definitions
+  // Max row, through row definitions
   if (
-    bayMaxStack !== undefined &&
-    (summary.maxStack === undefined || summary.maxStack < bayMaxStack)
+    bayMaxRow !== undefined &&
+    (summary.maxRow === undefined || summary.maxRow < bayMaxRow)
   )
-    summary.maxStack = bayMaxStack;
+    summary.maxRow = bayMaxRow;
 }

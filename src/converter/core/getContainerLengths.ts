@@ -1,9 +1,10 @@
-import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
-import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import {
-  TContainerLengths,
   CONTAINER_LENGTHS,
+  TContainerLengths,
 } from "../../models/v1/parts/Types";
+
+import IBayLevelData from "../../models/v1/parts/IBayLevelData";
+import { IJoinedRowTierPattern } from "../../models/base/types/IPositionPatterns";
 
 export function getContainerLengths(
   bls: IBayLevelData[]
@@ -13,9 +14,7 @@ export function getContainerLengths(
     .filter((bl) => !!bl.perSlotInfo)
     .forEach((bl) => {
       const perSlotInfo = bl.perSlotInfo;
-      const slotDataKeys = Object.keys(
-        perSlotInfo
-      ) as IJoinedStackTierPattern[];
+      const slotDataKeys = Object.keys(perSlotInfo) as IJoinedRowTierPattern[];
 
       slotDataKeys.forEach((key) => {
         const slotData = perSlotInfo[key];

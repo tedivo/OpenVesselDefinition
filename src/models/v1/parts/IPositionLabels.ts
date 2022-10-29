@@ -1,6 +1,6 @@
 import {
   IIsoBayPattern,
-  IIsoStackPattern,
+  IIsoRowPattern,
   IIsoTierPattern,
 } from "../../base/types/IPositionPatterns";
 
@@ -10,10 +10,10 @@ export default interface IPositionLabels {
   };
 }
 
-export interface ITierStackLabelDictionary {
-  [stack: IIsoStackPattern]: string;
+export interface ITierRowLabelDictionary {
+  [row: IIsoRowPattern]: string;
 }
 
-export interface ITierStackLabelDictionaries {
+export interface ITierRowLabelDictionaries {
   [name: string]: { [isoTier: IIsoTierPattern]: string };
 }

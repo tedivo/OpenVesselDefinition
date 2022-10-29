@@ -1,17 +1,17 @@
 import {
   IBayLevelDataStaf,
-  IBayStackInfoStaf,
+  IBayRowInfoStaf,
   TCommonBayInfoStaf,
 } from "../../models/v1/parts/IBayLevelData";
 
-import { IIsoStackPattern } from "../../models/base/types/IPositionPatterns";
+import { IIsoRowPattern } from "../../models/base/types/IPositionPatterns";
 import { pad2 } from "../../helpers/pad";
 
 /**
- * Add `commonStackInfo` to the bay. Deletes repeated values
+ * Add `commonRowInfo` to the bay. Deletes repeated values
  * @param bayLevelData
  */
-export default function calculateCommonStackInfo(
+export default function calculateCommonRowInfo(
   bayLevelData: IBayLevelDataStaf[]
 ): void {
   if (!bayLevelData) {
@@ -26,32 +26,32 @@ export default function calculateCommonStackInfo(
       bottomIsoTier: new Map(),
     };
 
-    const stacks = Object.keys(bl.perStackInfo.each) as IIsoStackPattern[];
-    stacks.forEach((stack) => {
-      const sDataK = bl.perStackInfo.each[stack];
+    const rows = Object.keys(bl.perRowInfo.each) as IIsoRowPattern[];
+    rows.forEach((row) => {
+      const sDataK = bl.perRowInfo.each[row];
       addToStats(sDataK, masterInfoStats);
     });
 
-    bl.perStackInfo.common = chooseMostRepeatedValue(masterInfoStats);
+    bl.perRowInfo.common = chooseMostRepeatedValue(masterInfoStats);
 
-    bl.perStackInfo.common.maxHeight = bl.maxHeight;
+    bl.perRowInfo.common.maxHeight = bl.maxHeight;
     delete bl.maxHeight;
 
     // Clean repeated data
-    stacks.forEach((stack) => {
-      const sDataK = bl.perStackInfo.each[stack];
-      const perStackInfoCommon = bl.perStackInfo.common;
+    rows.forEach((row) => {
+      const sDataK = bl.perRowInfo.each[row];
+      const perRowInfoCommon = bl.perRowInfo.common;
 
-      if (sDataK.bottomBase === perStackInfoCommon.bottomBase)
+      if (sDataK.bottomBase === perRowInfoCommon.bottomBase)
         sDataK.bottomBase = undefined;
 
-      if (sDataK.bottomIsoTier === perStackInfoCommon.bottomIsoTier)
+      if (sDataK.bottomIsoTier === perRowInfoCommon.bottomIsoTier)
         delete (sDataK as any).bottomIsoTier;
 
-      if (sDataK.topIsoTier === perStackInfoCommon.topIsoTier)
+      if (sDataK.topIsoTier === perRowInfoCommon.topIsoTier)
         delete (sDataK as any).topIsoTier;
 
-      if (sDataK.maxHeight === perStackInfoCommon.maxHeight)
+      if (sDataK.maxHeight === perRowInfoCommon.maxHeight)
         sDataK.maxHeight = undefined;
     });
   });
@@ -61,7 +61,7 @@ export default function calculateCommonStackInfo(
  * Generates maps of most repeated values
  */
 function addToStats(
-  sData: IBayStackInfoStaf,
+  sData: IBayRowInfoStaf,
   masterInfoStats: IInventoryForMasterInfo
 ) {
   const { bottomBase, maxHeight, topIsoTier, bottomIsoTier } = sData;

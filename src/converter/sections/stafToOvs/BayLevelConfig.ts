@@ -54,23 +54,23 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataStaf> = {
       setSelf: ["size", 48],
     },
     STACK_WT_20: {
-      target: "infoByContLength.20.stackWeight",
+      target: "infoByContLength.20.rowWeight",
       mapper: safeNumberTonsToGrams,
     },
     STACK_WT_24: {
-      target: "infoByContLength.24.stackWeight",
+      target: "infoByContLength.24.rowWeight",
       mapper: safeNumberTonsToGrams,
     },
     STACK_WT_40: {
-      target: "infoByContLength.40.stackWeight",
+      target: "infoByContLength.40.rowWeight",
       mapper: safeNumberTonsToGrams,
     },
     STACK_WT_45: {
-      target: "infoByContLength.45.stackWeight",
+      target: "infoByContLength.45.rowWeight",
       mapper: safeNumberTonsToGrams,
     },
     STACK_WT_48: {
-      target: "infoByContLength.48.stackWeight",
+      target: "infoByContLength.48.rowWeight",
       mapper: safeNumberTonsToGrams,
     },
     MAX_HEIGHT: { target: "maxHeight", mapper: safeNumberMtToMm },
@@ -91,7 +91,7 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataStaf> = {
       "doors",
       "pairedBay",
       "reeferPlugLimit",
-      "centerLineStack",
+      "centerLineRow",
       "athwartShip",
       "foreHatch",
       "ventilated",

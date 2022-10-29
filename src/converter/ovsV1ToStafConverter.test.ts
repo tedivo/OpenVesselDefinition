@@ -8,8 +8,8 @@ const json: IOpenShipSpecV1 = {
   version: "1.0.0",
   sizeSummary: {
     isoBays: 3,
-    centerLineStack: 1,
-    maxStack: 2,
+    centerLineRow: 1,
+    maxRow: 2,
     maxAboveTier: 84,
     minAboveTier: 80,
     maxBelowTier: 18,
@@ -97,21 +97,21 @@ const json: IOpenShipSpecV1 = {
           reefer: 1,
         },
       },
-      centerLineStack: 1,
-      perStackInfo: {
+      centerLineRow: 1,
+      perRowInfo: {
         each: {
           "02": {
-            isoStack: "02",
+            isoRow: "02",
             tcg: -3000,
           },
           "00": {
-            isoStack: "00",
+            isoRow: "00",
             bottomBase: 18500,
             tcg: 0,
             maxHeight: 8200,
           },
           "01": {
-            isoStack: "01",
+            isoRow: "01",
             tcg: 3000,
           },
         },
@@ -162,21 +162,21 @@ const json: IOpenShipSpecV1 = {
           reefer: 1,
         },
       },
-      centerLineStack: 1,
-      perStackInfo: {
+      centerLineRow: 1,
+      perRowInfo: {
         each: {
           "02": {
-            isoStack: "02",
+            isoRow: "02",
             tcg: -3500,
           },
           "00": {
-            isoStack: "00",
+            isoRow: "00",
             bottomBase: 11600,
             tcg: 500,
             maxHeight: 7000,
           },
           "01": {
-            isoStack: "01",
+            isoRow: "01",
             tcg: 3500,
           },
         },
@@ -193,12 +193,12 @@ const json: IOpenShipSpecV1 = {
         "20": {
           lcg: 113000,
           size: 20,
-          stackWeight: 2000000,
+          rowWeight: 2000000,
         },
         "40": {
           lcg: 116500,
           size: 40,
-          stackWeight: 2100000,
+          rowWeight: 2100000,
         },
       },
       pairedBay: 1,
@@ -259,33 +259,33 @@ const json: IOpenShipSpecV1 = {
           reefer: 1,
         },
       },
-      centerLineStack: 1,
-      perStackInfo: {
+      centerLineRow: 1,
+      perRowInfo: {
         each: {
           "02": {
-            isoStack: "02",
+            isoRow: "02",
             tcg: -3000,
           },
           "00": {
-            isoStack: "00",
+            isoRow: "00",
             bottomBase: 18500,
             tcg: 0,
-            stackInfoByLength: {
+            rowInfoByLength: {
               "20": {
                 lcg: 115500,
                 size: 20,
-                stackWeight: 1250000,
+                rowWeight: 1250000,
               },
               "40": {
                 lcg: 110500,
                 size: 40,
-                stackWeight: 2250000,
+                rowWeight: 2250000,
               },
             },
             maxHeight: 8200,
           },
           "01": {
-            isoStack: "01",
+            isoRow: "01",
             tcg: 3000,
           },
         },
@@ -302,12 +302,12 @@ const json: IOpenShipSpecV1 = {
         "20": {
           lcg: 113000,
           size: 20,
-          stackWeight: 2000000,
+          rowWeight: 2000000,
         },
         "40": {
           lcg: 116500,
           size: 40,
-          stackWeight: 2100000,
+          rowWeight: 2100000,
         },
       },
       pairedBay: 1,
@@ -345,21 +345,21 @@ const json: IOpenShipSpecV1 = {
           },
         },
       },
-      centerLineStack: 1,
-      perStackInfo: {
+      centerLineRow: 1,
+      perRowInfo: {
         each: {
           "02": {
-            isoStack: "02",
+            isoRow: "02",
             tcg: -3500,
           },
           "00": {
-            isoStack: "00",
+            isoRow: "00",
             bottomBase: 11600,
             tcg: 500,
             maxHeight: 7000,
           },
           "01": {
-            isoStack: "01",
+            isoRow: "01",
             tcg: 3500,
           },
         },
@@ -373,15 +373,15 @@ const json: IOpenShipSpecV1 = {
   lidData: [
     {
       label: "1A02",
-      portIsoStack: "02",
-      starboardIsoStack: "02",
+      portIsoRow: "02",
+      starboardIsoRow: "02",
       startIsoBay: "001",
       endIsoBay: "001",
     },
     {
       label: "1A00",
-      portIsoStack: "00",
-      starboardIsoStack: "00",
+      portIsoRow: "00",
+      starboardIsoRow: "00",
       startIsoBay: "001",
       endIsoBay: "001",
       overlapPort: 1,
@@ -389,31 +389,31 @@ const json: IOpenShipSpecV1 = {
     },
     {
       label: "1A01",
-      portIsoStack: "01",
-      starboardIsoStack: "01",
+      portIsoRow: "01",
+      starboardIsoRow: "01",
       startIsoBay: "001",
       endIsoBay: "001",
     },
 
     {
       label: "3A02",
-      portIsoStack: "02",
-      starboardIsoStack: "02",
+      portIsoRow: "02",
+      starboardIsoRow: "02",
       startIsoBay: "003",
       endIsoBay: "003",
       overlapStarboard: 1,
     },
     {
       label: "3A00",
-      portIsoStack: "00",
-      starboardIsoStack: "00",
+      portIsoRow: "00",
+      starboardIsoRow: "00",
       startIsoBay: "003",
       endIsoBay: "003",
     },
     {
       label: "3A01",
-      portIsoStack: "01",
-      starboardIsoStack: "01",
+      portIsoRow: "01",
+      starboardIsoRow: "01",
       startIsoBay: "003",
       endIsoBay: "003",
       overlapPort: 1,
