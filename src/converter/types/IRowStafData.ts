@@ -1,29 +1,28 @@
 import {
-  IBayStackInfoStaf,
-  IStackInfoByLength,
+  IBayRowInfoStaf,
+  IRowInfoByLength,
 } from "../../models/v1/parts/IBayLevelData";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
 import { TYesNo } from "../../models/base/types/IPositionPatterns";
 
-export type IStackInfoByLengthWithAcceptsSize = IStackInfoByLength & {
+export type IRowInfoByLengthWithAcceptsSize = IRowInfoByLength & {
   acceptsSize: TYesNo;
   /** This one is used to set properly % instead of - when converting back to STAF */
   bayHasLcg?: TYesNo;
 };
 
-type IStackStafData = {
+type IRowStafData = {
   /** 3 digits ISO Bay */
   isoBay: `${number}${number}${number}`;
   /** Above, Below */
   level: BayLevelEnum;
-  isoStack20?: string;
-  isoStack40?: string;
-  stackInfoByLength: Partial<{
-    [key in TContainerLengths]: IStackInfoByLengthWithAcceptsSize;
+  isoRow20?: string;
+  isoRow40?: string;
+  rowInfoByLength: Partial<{
+    [key in TContainerLengths]: IRowInfoByLengthWithAcceptsSize;
   }>;
-} & Omit<IBayStackInfoStaf, "stackInfoByLength">;
+} & Omit<IBayRowInfoStaf, "rowInfoByLength">;
 
-export default IStackStafData;
+export default IRowStafData;

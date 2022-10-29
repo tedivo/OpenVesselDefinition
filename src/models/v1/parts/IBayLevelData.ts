@@ -1,8 +1,8 @@
 import {
   IIsoBayPattern,
-  IIsoStackPattern,
+  IIsoRowPattern,
   IIsoTierPattern,
-  IJoinedStackTierPattern,
+  IJoinedRowTierPattern,
   TYesNo,
 } from "../../base/types/IPositionPatterns";
 
@@ -35,7 +35,7 @@ interface IBayLevelDataBase {
 
   bulkhead?: IBulkheadInfo;
 
-  centerLineStack?: TYesNo;
+  centerLineRow?: TYesNo;
   athwartShip?: TYesNo;
   foreHatch?: TYesNo;
 
@@ -50,13 +50,13 @@ export interface IBayLevelDataStaf extends IBayLevelDataBase {
   maxHeight?: number;
 
   /**
-   * Dictionary: contains information that applies to all stacks by container Length
+   * Dictionary: contains information that applies to all rows by container Length
    */
-  infoByContLength: TStackInfoByLength;
+  infoByContLength: TRowInfoByLength;
   /**
-   * Dictionary: contains information per Stack number (i.e. "04") like maxTier, minTier, maxWeight...
+   * Dictionary: contains information per Row number (i.e. "04") like maxTier, minTier, maxWeight...
    */
-  perStackInfo?: TBayStackInfoStaf;
+  perRowInfo?: TBayRowInfoStaf;
   /**
    * Dictionary: contains information per Tier number (i.e. "78").
    *
@@ -70,19 +70,19 @@ export interface IBayLevelDataStaf extends IBayLevelDataBase {
 
   /** If Tiers use custom labels, this is the name of the defintion */
   tiersLabelsDictionary?: string;
-  /** If Stacks use custom labels, this is the name of the defintion */
-  stacksLabelsDictionary?: string;
+  /** If Rows use custom labels, this is the name of the defintion */
+  rowsLabelsDictionary?: string;
 }
 
 export default interface IBayLevelData extends IBayLevelDataBase {
   /**
-   * Dictionary: contains information that applies to all stacks by container Length
+   * Dictionary: contains information that applies to all rows by container Length
    */
-  infoByContLength: TStackInfoByLength;
+  infoByContLength: TRowInfoByLength;
   /**
-   * Dictionary: contains information per Stack number (i.e. "04") like maxTier, minTier, maxWeight...
+   * Dictionary: contains information per Row number (i.e. "04") like maxTier, minTier, maxWeight...
    */
-  perStackInfo?: TBayStackInfo;
+  perRowInfo?: TBayRowInfo;
 
   /**
    * Dictionary: contains information per Slot (i.e. "0078")
@@ -91,30 +91,30 @@ export default interface IBayLevelData extends IBayLevelDataBase {
 }
 
 export interface IBaySlotData {
-  [key: IJoinedStackTierPattern]: ISlotData;
+  [key: IJoinedRowTierPattern]: ISlotData;
 }
 
-export type TStackInfoByLength = Partial<{
-  [key in TContainerLengths]: IStackInfoByLength;
+export type TRowInfoByLength = Partial<{
+  [key in TContainerLengths]: IRowInfoByLength;
 }>;
-export interface IStackInfoByLength {
+export interface IRowInfoByLength {
   size: TContainerLengths;
   lcg?: number;
-  stackWeight?: number;
+  rowWeight?: number;
   bottomWeight?: number;
 }
 
-export interface TBayStackInfo {
+export interface TBayRowInfo {
   common?: TCommonBayInfo;
   each?: {
-    [key: IIsoStackPattern]: IBayStackInfo;
+    [key: IIsoRowPattern]: IBayRowInfo;
   };
 }
 
-export interface TBayStackInfoStaf {
+export interface TBayRowInfoStaf {
   common?: TCommonBayInfoStaf;
   each?: {
-    [key: IIsoStackPattern]: IBayStackInfoStaf;
+    [key: IIsoRowPattern]: IBayRowInfoStaf;
   };
 }
 
@@ -129,26 +129,26 @@ export interface TCommonBayInfoStaf {
   bottomBase?: number;
   maxHeight?: number;
 }
-export interface IBayStackInfo {
-  isoStack: IIsoStackPattern;
+export interface IBayRowInfo {
+  isoRow: IIsoRowPattern;
   label?: string;
   tcg?: number;
   bottomBase?: number;
   maxHeight?: number;
-  /** Overrides general bay LCG and Stack Weight by length */
-  stackInfoByLength?: TStackInfoByLength;
+  /** Overrides general bay LCG and Row Weight by length */
+  rowInfoByLength?: TRowInfoByLength;
 }
 
-export interface IBayStackInfoStaf {
-  isoStack: IIsoStackPattern;
+export interface IBayRowInfoStaf {
+  isoRow: IIsoRowPattern;
   label?: string;
   tcg?: number;
   topIsoTier?: IIsoTierPattern;
   bottomIsoTier?: IIsoTierPattern;
   bottomBase?: number;
   maxHeight?: number;
-  /** Overrides general bay LCG and Stack Weight by length */
-  stackInfoByLength?: TStackInfoByLength;
+  /** Overrides general bay LCG and Row Weight by length */
+  rowInfoByLength?: TRowInfoByLength;
 }
 
 export type TBayTierInfoStaf = {

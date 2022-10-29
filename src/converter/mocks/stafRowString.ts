@@ -1,4 +1,4 @@
-const stafStackString = `
+const stafRowString = `
 *STACK
 **STAF BAY	LEVEL	ISO STACK	CUSTOM STACK	TOP TIER	BOTTOM TIER	BOTTOM VCG	TCG	ACCEPTS 20	ACCEPTS 40	ACCEPTS 45	ACCEPTS 48	LCG 20	LCG 40	LCG 45	LCG 48	STACK WT 20	STACK WT 40	STACK WT 45	STACK WT 48	MAX HT	ACCEPTS 24	LCG 24	STACK WT 24	20 ISO STK	40 ISO STK
 01	B	01	-	18	12	-	1.28	Y	N	N	N	%	-	-	-	%	-	-	-	%	N	-	-	0101	-
@@ -33,4 +33,4 @@ const stafStackString = `
 03	A	12	-	90	82	-	-13.84	Y	N	N	N	%	%	%	-	%	%	%	-	-	N	-	-	0312	-
 `;
 
-export default stafStackString;
+export default stafRowString;

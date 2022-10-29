@@ -1,5 +1,5 @@
 import ValuesSourceEnum, {
-  ValuesSourceStackTierEnum,
+  ValuesSourceRowTierEnum,
 } from "../models/base/enums/ValuesSourceEnum";
 import {
   calculateMasterCGs,
@@ -8,14 +8,14 @@ import {
 import mapStafSections, { STAF_MIN_SECTIONS } from "./core/mapStafSections";
 
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
+import IRowStafData from "./types/IRowStafData";
 import IShipData from "../models/v1/parts/IShipData";
-import IStackStafData from "./types/IStackStafData";
 import IStafDataProcessed from "./types/IStafDataProcessed";
 import ITierStafData from "./types/ITierStafData";
+import addPerRowInfo from "../converter/core/addPerRowInfo";
 import addPerSlotData from "../converter/core/addPerSlotData";
-import addPerStackInfo from "../converter/core/addPerStackInfo";
 import addPerTierInfo from "../converter/core/addPerTierInfo";
-import calculateCommonStackInfo from "./core/calculateCommonStackInfo";
+import calculateCommonRowInfo from "./core/calculateCommonRowInfo";
 import { cgsRemap } from "./core/cgsRemap";
 import { cleanBayLevelDataNoStaf } from "./core/cleanBayLevelDataNoStaf";
 import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
@@ -55,8 +55,8 @@ export default function stafToOvsV1Converter(
   dataProcessed.shipData.vcgOptions.heightFactor = vgcHeightFactor;
 
   // 1. Create dictionaries
-  const stackDataByBayLevel = createDictionaryMultiple<IStackStafData, string>(
-      dataProcessed.stackData,
+  const rowDataByBayLevel = createDictionaryMultiple<IRowStafData, string>(
+      dataProcessed.rowData,
       (d) => `${d.isoBay}-${d.level}`
     ),
     tierDataByBayLevel = createDictionaryMultiple<ITierStafData, string>(
@@ -64,11 +64,8 @@ export default function stafToOvsV1Converter(
       (d) => `${d.isoBay}-${d.level}`
     );
 
-  // 2. Add stacks info to BayLevel.perStackInfo and get bays number
-  const isoBays = addPerStackInfo(
-    dataProcessed.bayLevelData,
-    stackDataByBayLevel
-  );
+  // 2. Add rows info to BayLevel.perRowInfo and get bays number
+  const isoBays = addPerRowInfo(dataProcessed.bayLevelData, rowDataByBayLevel);
 
   // 3. Add tiers info to BayLevel.perTierInfo. Temporary, it will be deleted later
   addPerTierInfo(dataProcessed.bayLevelData, tierDataByBayLevel);
@@ -105,7 +102,7 @@ export default function stafToOvsV1Converter(
     },
     vcgOptions: {
       values:
-        vcgOptions.values !== ValuesSourceStackTierEnum.ESTIMATED
+        vcgOptions.values !== ValuesSourceRowTierEnum.ESTIMATED
           ? ValuesSourceEnum.KNOWN
           : ValuesSourceEnum.ESTIMATED,
       heightFactor: vcgOptions.heightFactor,
@@ -128,8 +125,8 @@ export default function stafToOvsV1Converter(
     dataProcessed.shipData.tcgOptions
   );
 
-  // 10. Add `commonStackInfo` to each bay
-  calculateCommonStackInfo(dataProcessed.bayLevelData);
+  // 10. Add `commonRowInfo` to each bay
+  calculateCommonRowInfo(dataProcessed.bayLevelData);
 
   // 11. Obtain most repeated CGs in masterCGs
   shipData.masterCGs = calculateMasterCGs(

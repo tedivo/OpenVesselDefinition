@@ -1,6 +1,6 @@
 import {
   IIsoBayPattern,
-  IJoinedStackTierPattern,
+  IJoinedRowTierPattern,
 } from "../../models/base/types/IPositionPatterns";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
@@ -10,8 +10,8 @@ import addPerTierInfo from "./addPerTierInfo";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import { shipDataBays } from "../mocks/shipData";
 
-const mockSlotInfoKeysAbove: IJoinedStackTierPattern[] = ["0080", "0082"];
-const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];
+const mockSlotInfoKeysAbove: IJoinedRowTierPattern[] = ["0080", "0082"];
+const mockSlotInfoKeysBelow: IJoinedRowTierPattern[] = ["0002", "0004"];
 
 describe("addPerTierInfo should", () => {
   it("work ok with missing Tier Info", () => {

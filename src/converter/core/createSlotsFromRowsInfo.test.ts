@@ -1,34 +1,34 @@
 import {
-  IBayStackInfoStaf,
-  TBayStackInfo,
+  IBayRowInfoStaf,
+  TBayRowInfo,
 } from "../../models/v1/parts/IBayLevelData";
-import createSlotsFromStacksInfo, {
-  createSlotsFromStack,
-} from "./createSlotsFromStacksInfo";
+import createSlotsFromRowsInfo, {
+  createSlotsFromRow,
+} from "./createSlotsFromRowsInfo";
 
-const testStack01: IBayStackInfoStaf = {
-  isoStack: "01",
+const testRow01: IBayRowInfoStaf = {
+  isoRow: "01",
   topIsoTier: "80",
   bottomIsoTier: "72",
-  stackInfoByLength: {
+  rowInfoByLength: {
     20: { size: 20 },
     40: { size: 40 },
     48: { size: 48 },
   },
 };
 
-const testStack02: IBayStackInfoStaf = {
-  isoStack: "02",
+const testRow02: IBayRowInfoStaf = {
+  isoRow: "02",
   topIsoTier: "76",
   bottomIsoTier: "72",
-  stackInfoByLength: {
+  rowInfoByLength: {
     20: { size: 20 },
   },
 };
 
-describe("createSlotsFromStack should", () => {
+describe("createSlotsFromRow should", () => {
   it("work correctly", () => {
-    const res = createSlotsFromStack(testStack01, {});
+    const res = createSlotsFromRow(testRow01, {});
 
     const keys = Object.keys(res);
     expect(keys.length).toBe(5); // 72-74-76-78-80
@@ -46,16 +46,16 @@ describe("createSlotsFromStack should", () => {
   });
 });
 
-describe("createSlotsFromStacksInfo should", () => {
+describe("createSlotsFromRowsInfo should", () => {
   it("work correctly", () => {
-    const stacks: TBayStackInfo = {
+    const rows: TBayRowInfo = {
       each: {
-        "01": testStack01,
-        "02": testStack02,
+        "01": testRow01,
+        "02": testRow02,
       },
       common: {},
     };
-    const res = createSlotsFromStacksInfo(stacks, {});
+    const res = createSlotsFromRowsInfo(rows, {});
 
     const keys = Object.keys(res);
     expect(keys.length).toBe(8); // 72-74-76-78-80 & 72-74-76

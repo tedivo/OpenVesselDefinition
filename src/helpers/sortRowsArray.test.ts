@@ -1,5 +1,5 @@
 import { pad2 } from "./pad";
-import sortStacksArray from "./sortStacksArray";
+import sortRowsArray from "./sortRowsArray";
 
 describe("sortCellsArray should", () => {
   it("sort properly without 00", () => {
@@ -8,7 +8,7 @@ describe("sortCellsArray should", () => {
       .map((_, idx) => pad2(idx + 1))
       .sort();
 
-    expect(cells.sort(sortStacksArray)).toStrictEqual([
+    expect(cells.sort(sortRowsArray)).toStrictEqual([
       "16",
       "14",
       "12",
@@ -34,7 +34,7 @@ describe("sortCellsArray should", () => {
       .map((_, idx) => pad2(idx))
       .sort();
 
-    expect(cells.sort(sortStacksArray)).toStrictEqual([
+    expect(cells.sort(sortRowsArray)).toStrictEqual([
       "10",
       "08",
       "06",

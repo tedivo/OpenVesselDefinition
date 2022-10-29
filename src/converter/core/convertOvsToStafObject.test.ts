@@ -13,16 +13,16 @@ import convertOvsToStafObject, {
 import BayLevelConfig from "../sections/ovsToStaf/BayLevelConfig";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
+import IRowStafData from "../types/IRowStafData";
 import ISectionMapToStafConfig from "../types/ISectionMapToStafConfig";
 import ISlotData from "../../models/v1/parts/ISlotData";
-import IStackStafData from "../types/IStackStafData";
 import ITierStafData from "../types/ITierStafData";
 import { LINE_SEPARATOR } from "../sections/ovsToStaf/consts";
 import LidConfig from "../sections/ovsToStaf/LidConfig";
 import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
+import RowConfig from "../sections/ovsToStaf/RowConfig";
 import ShipConfig from "../sections/ovsToStaf/ShipConfig";
 import SlotConfig from "../sections/ovsToStaf/SlotConfig";
-import StackConfig from "../sections/ovsToStaf/StackConfig";
 import TierConfig from "../sections/ovsToStaf/TierConfig";
 import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
@@ -186,7 +186,7 @@ describe("for STAF_BAY data", () => {
 });
 
 describe("for STACK data", () => {
-  it("work ok with mocked data of stacks", () => {
+  it("work ok with mocked data of rows", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       3,
       ["0282", "0082", "0182", "0284", "0084", "0184"],
@@ -202,11 +202,11 @@ describe("for STACK data", () => {
       bottomBases: {},
     };
 
-    const data = StackConfig.preProcessor(bayLevelData, masterCGs);
+    const data = RowConfig.preProcessor(bayLevelData, masterCGs);
 
-    const processed = convertOvsToStafObject<IStackStafData, IStackStafData>(
+    const processed = convertOvsToStafObject<IRowStafData, IRowStafData>(
       data,
-      StackConfig
+      RowConfig
     );
 
     const processedLines = processed.split(LINE_SEPARATOR);
@@ -253,7 +253,7 @@ describe("for STACK data", () => {
     );
   });
 
-  it("work ok with mocked data of stacks WITH tier < 82", () => {
+  it("work ok with mocked data of rows WITH tier < 82", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       3,
       ["0282", "0082", "0182", "0284", "0084", "0184", "0080"],
@@ -269,11 +269,11 @@ describe("for STACK data", () => {
       bottomBases: {},
     };
 
-    const data = StackConfig.preProcessor(bayLevelData, masterCGs);
+    const data = RowConfig.preProcessor(bayLevelData, masterCGs);
 
-    const processed = convertOvsToStafObject<IStackStafData, IStackStafData>(
+    const processed = convertOvsToStafObject<IRowStafData, IRowStafData>(
       data,
-      StackConfig
+      RowConfig
     );
 
     const processedLines = processed.split(LINE_SEPARATOR);
@@ -386,38 +386,38 @@ describe("for LID data", () => {
       {
         startIsoBay: "001",
         endIsoBay: "003",
-        portIsoStack: "06",
-        starboardIsoStack: "00",
+        portIsoRow: "06",
+        starboardIsoRow: "00",
         label: "1A01",
       },
       {
         startIsoBay: "001",
         endIsoBay: "001",
-        portIsoStack: "01",
-        starboardIsoStack: "03",
+        portIsoRow: "01",
+        starboardIsoRow: "03",
         label: "1A02",
         overlapStarboard: 1,
       },
       {
         startIsoBay: "001",
         endIsoBay: "001",
-        portIsoStack: "05",
-        starboardIsoStack: "07",
+        portIsoRow: "05",
+        starboardIsoRow: "07",
         label: "1A03",
       },
       {
         startIsoBay: "003",
         endIsoBay: "003",
-        portIsoStack: "01",
-        starboardIsoStack: "07",
+        portIsoRow: "01",
+        starboardIsoRow: "07",
         label: "3A03",
         overlapPort: 1,
       },
       {
         startIsoBay: "003",
         endIsoBay: "007",
-        portIsoStack: "06",
-        starboardIsoStack: "00",
+        portIsoRow: "06",
+        starboardIsoRow: "00",
         label: "3A04",
       },
     ];
@@ -479,15 +479,15 @@ function addMockedAttributes(
   b001Below.label40 = "001-Label-40-B";
 
   b003Above.infoByContLength = {
-    20: { lcg: 100000, size: 20, stackWeight: 2000000 },
-    40: { lcg: 110000, size: 40, stackWeight: 2100000 },
-    45: { lcg: 111000, size: 45, stackWeight: 2200000 },
-    48: { lcg: 112000, size: 48, stackWeight: 2300000 },
-    53: { lcg: 113000, size: 53, stackWeight: 2400000 },
+    20: { lcg: 100000, size: 20, rowWeight: 2000000 },
+    40: { lcg: 110000, size: 40, rowWeight: 2100000 },
+    45: { lcg: 111000, size: 45, rowWeight: 2200000 },
+    48: { lcg: 112000, size: 48, rowWeight: 2300000 },
+    53: { lcg: 113000, size: 53, rowWeight: 2400000 },
   };
   b003Below.infoByContLength = {
-    20: { lcg: 100000, size: 20, stackWeight: 2100000 },
-    24: { lcg: 99000, size: 24, stackWeight: 2900000 },
+    20: { lcg: 100000, size: 20, rowWeight: 2100000 },
+    24: { lcg: 99000, size: 24, rowWeight: 2900000 },
   };
 
   b001Above.pairedBay = ForeAftEnum.AFT;
@@ -502,13 +502,13 @@ function addMockedAttributes(
 
   b001Below.bulkhead = { fore: 1, foreLcg: 119000 };
 
-  b001Above.perStackInfo = {
+  b001Above.perRowInfo = {
     common: { maxHeight: 5000, bottomBase: 21100 },
   };
-  b001Below.perStackInfo = {
+  b001Below.perRowInfo = {
     each: {
       "00": {
-        isoStack: "00",
+        isoRow: "00",
         bottomBase: 15300,
         maxHeight: 7000,
       },
@@ -516,23 +516,23 @@ function addMockedAttributes(
     common: { maxHeight: 4500, bottomBase: 17200 },
   };
 
-  b003Above.perStackInfo = {
+  b003Above.perRowInfo = {
     each: {
       "00": {
-        isoStack: "00",
-        stackInfoByLength: {
-          "20": { size: 20, stackWeight: 1250000, lcg: 100000 },
-          "40": { size: 40, stackWeight: 2250000, lcg: 102500 },
-          "24": { size: 24, stackWeight: 1260000, lcg: 105000 },
-          "45": { size: 45, stackWeight: 2260000, lcg: 107500 },
-          "48": { size: 48, stackWeight: 2270000, lcg: 110000 },
+        isoRow: "00",
+        rowInfoByLength: {
+          "20": { size: 20, rowWeight: 1250000, lcg: 100000 },
+          "40": { size: 40, rowWeight: 2250000, lcg: 102500 },
+          "24": { size: 24, rowWeight: 1260000, lcg: 105000 },
+          "45": { size: 45, rowWeight: 2260000, lcg: 107500 },
+          "48": { size: 48, rowWeight: 2270000, lcg: 110000 },
         },
       },
     },
     common: { maxHeight: 5500, bottomBase: 21100 },
   };
-  b003Below.perStackInfo = {
-    each: { "00": { isoStack: "00", bottomBase: 15300, maxHeight: 7000 } },
+  b003Below.perRowInfo = {
+    each: { "00": { isoRow: "00", bottomBase: 15300, maxHeight: 7000 } },
     common: { maxHeight: 5200, bottomBase: 17200 },
   };
 }

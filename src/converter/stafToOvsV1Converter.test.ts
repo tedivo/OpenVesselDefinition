@@ -79,8 +79,8 @@ describe("stafToOvsV1Converter should...", () => {
     expect(converted.baysData.length).toBe(sectionsExpected[1][1]);
   });
 
-  it("make conversion of perStack correctly", () => {
-    const perStackInfoKeysLenght = {
+  it("make conversion of perRow correctly", () => {
+    const perRowInfoKeysLenght = {
       "001-2": 9,
       "001-1": 11,
       "003-2": 9,
@@ -161,32 +161,32 @@ describe("stafToOvsV1Converter should...", () => {
     };
     const converted = stafToOvsV1Converter(stafFileContent, 0);
 
-    let totalStacks = 0;
+    let totalRows = 0;
     const blDict = converted.baysData
       .map((b) => ({
         bay: b.isoBay,
         level: b.level,
-        perStackInfoLength: Object.keys(b.perStackInfo.each).length,
+        perRowInfoLength: Object.keys(b.perRowInfo.each).length,
       }))
       .reduce((acc, v) => {
-        totalStacks += v.perStackInfoLength;
-        acc[`${v.bay}-${v.level}`] = v.perStackInfoLength;
+        totalRows += v.perRowInfoLength;
+        acc[`${v.bay}-${v.level}`] = v.perRowInfoLength;
         return acc;
       }, {});
 
     Object.keys(blDict).forEach((k) => {
-      expect(blDict[k]).toBe(perStackInfoKeysLenght[k]);
+      expect(blDict[k]).toBe(perRowInfoKeysLenght[k]);
     });
 
-    expect(totalStacks).toBe(sectionsExpected[2][1]);
+    expect(totalRows).toBe(sectionsExpected[2][1]);
   });
 
   it("creates sizeSummary correctly", () => {
     const converted = stafToOvsV1Converter(stafFileContent, 0);
     const summary = converted.sizeSummary;
 
-    expect(summary.centerLineStack).toBe(1);
-    expect(summary.maxStack).toBe(16);
+    expect(summary.centerLineRow).toBe(1);
+    expect(summary.maxRow).toBe(16);
     expect(summary.maxAboveTier).toBe(98);
     expect(summary.minAboveTier).toBe(82);
     expect(summary.maxBelowTier).toBe(18);

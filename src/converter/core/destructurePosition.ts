@@ -1,7 +1,7 @@
 import {
   IIsoBayPattern,
   IIsoPositionPattern,
-  IIsoStackPattern,
+  IIsoRowPattern,
   IIsoTierPattern,
 } from "../../models/base/types/IPositionPatterns";
 
@@ -10,11 +10,11 @@ import { pad3 } from "../../helpers/pad";
 export interface IDestructuredPosition {
   bay: IIsoBayPattern;
   oddBay: IIsoBayPattern;
-  stack: IIsoStackPattern;
+  row: IIsoRowPattern;
   tier: IIsoTierPattern;
   iBay: number;
   iOddBay: number;
-  iStack: number;
+  iRow: number;
   iTier: number;
 }
 
@@ -30,23 +30,23 @@ export default function destructurePosition(
   if (isNaN(iPosition)) return null;
 
   const bay = position.substring(0, 3) as IIsoBayPattern;
-  const stack = position.substring(3, 5) as IIsoStackPattern;
+  const row = position.substring(3, 5) as IIsoRowPattern;
   const tier = position.substring(5) as IIsoTierPattern;
 
   const iBay = Number(bay);
   const oddBay = iBay & 1 ? bay : pad3(iBay - 1);
   const iTier = Number(tier);
-  const iStack = Number(stack);
+  const iRow = Number(row);
   const iOddBay = Number(oddBay);
 
   return {
     bay,
     oddBay,
-    stack,
+    row,
     tier,
     iBay,
     iOddBay,
     iTier,
-    iStack,
+    iRow,
   };
 }

@@ -6,14 +6,14 @@ import IShipData, { IShipDataFromStaf } from "../models/v1/parts/IShipData";
 import BayLevelConfig from "./sections/ovsToStaf/BayLevelConfig";
 import { ILidDataFromStaf } from "../models/v1/parts/ILidData";
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
+import IRowStafData from "./types/IRowStafData";
 import ISlotData from "../models/v1/parts/ISlotData";
-import IStackStafData from "./types/IStackStafData";
 import ITierStafData from "./types/ITierStafData";
 import { LINE_SEPARATOR } from "./sections/ovsToStaf/consts";
 import LidConfig from "./sections/ovsToStaf/LidConfig";
+import RowConfig from "./sections/ovsToStaf/RowConfig";
 import ShipConfig from "./sections/ovsToStaf/ShipConfig";
 import SlotConfig from "./sections/ovsToStaf/SlotConfig";
-import StackConfig from "./sections/ovsToStaf/StackConfig";
 import TierConfig from "./sections/ovsToStaf/TierConfig";
 import convertOvsToStafObject from "./core/convertOvsToStafObject";
 
@@ -34,16 +34,13 @@ export default function ovsV1ToStafConverter(json: IOpenShipSpecV1): string {
     )
   );
 
-  const dataForStacks = StackConfig.preProcessor(
+  const dataForRows = RowConfig.preProcessor(
     json.baysData,
     json.shipData.masterCGs
   );
 
   stafParts.push(
-    convertOvsToStafObject<IStackStafData, IStackStafData>(
-      dataForStacks,
-      StackConfig
-    )
+    convertOvsToStafObject<IRowStafData, IRowStafData>(dataForRows, RowConfig)
   );
 
   const dataForTiers = TierConfig.preProcessor(json.baysData);

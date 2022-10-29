@@ -5,8 +5,8 @@ import BayLevelEnum from "../../base/enums/BayLevelEnum";
 export default interface ILidData {
   label: string;
 
-  portIsoStack: `${number}${number}`;
-  starboardIsoStack: `${number}${number}`;
+  portIsoRow: `${number}${number}`;
+  starboardIsoRow: `${number}${number}`;
 
   startIsoBay: IIsoBayPattern;
   endIsoBay: IIsoBayPattern;
@@ -25,8 +25,8 @@ export interface ILidDataFromStaf {
 
   label: string;
 
-  portIsoStack: `${number}${number}`;
-  starboardIsoStack: `${number}${number}`;
+  portIsoRow: `${number}${number}`;
+  starboardIsoRow: `${number}${number}`;
 
   joinLidFwdLabel?: string;
   joinLidAftLabel?: string;

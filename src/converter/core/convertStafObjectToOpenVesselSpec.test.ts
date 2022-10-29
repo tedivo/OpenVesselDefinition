@@ -1,5 +1,5 @@
 import ValuesSourceEnum, {
-  ValuesSourceStackTierEnum,
+  ValuesSourceRowTierEnum,
 } from "../../models/base/enums/ValuesSourceEnum";
 
 import BayLevelConfig from "../sections/stafToOvs/BayLevelConfig";
@@ -7,18 +7,18 @@ import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
+import IRowStafData from "../types/IRowStafData";
 import ISectionMapConfig from "../types/ISectionMapConfig";
 import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
 import ISlotData from "../../models/v1/parts/ISlotData";
-import IStackStafData from "../types/IStackStafData";
 import ITierStafData from "../types/ITierStafData";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import LidConfig from "../sections/stafToOvs/LidConfig";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
+import RowConfig from "../sections/stafToOvs/RowConfig";
 import ShipConfig from "../sections/stafToOvs/ShipConfig";
 import SlotConfig from "../sections/stafToOvs/SlotConfig";
-import StackConfig from "../sections/stafToOvs/StackConfig";
 import TierConfig from "../sections/stafToOvs/TierConfig";
 import convertStafObjectToOpenVesselSpec from "../core/convertStafObjectToOpenVesselSpec";
 import getSectionsFromFileContent from "../core/getSectionsFromFileContent";
@@ -26,8 +26,8 @@ import mapStafSections from "../core/mapStafSections";
 import stafBayLevelString from "../mocks/stafBayLevelString";
 import stafHeaderString from "../mocks/stafHeaderString";
 import stafLidString from "../mocks/stafLidString";
+import stafRowString from "../mocks/stafRowString";
 import stafSlotString from "../mocks/stafSlotString";
-import stafStackString from "../mocks/stafStackString";
 import stafTierString from "../mocks/stafTierString";
 
 describe("convertStafObjectToOpenVesselSpec should", () => {
@@ -97,7 +97,7 @@ describe("for SHIP data", () => {
     expect(singleRow.lcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
     expect(singleRow.lcgOptions.reference).toBe(LcgReferenceEnum.MIDSHIPS);
     expect(singleRow.lcgOptions.orientationIncrease).toBe(ForeAftEnum.AFT);
-    expect(singleRow.vcgOptions.values).toBe(ValuesSourceStackTierEnum.BY_TIER);
+    expect(singleRow.vcgOptions.values).toBe(ValuesSourceRowTierEnum.BY_TIER);
     expect(singleRow.tcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
     expect(singleRow.tcgOptions.direction).toBe(PortStarboardEnum.STARBOARD);
   });
@@ -127,7 +127,7 @@ describe("for STAF_BAY data", () => {
     expect(row1.bulkhead.fore).toBe(1);
     expect(row1.bulkhead.foreLcg).toBe(-117400);
     expect(row1.infoByContLength[20].lcg).toBe(-114110);
-    expect(row1.infoByContLength[20].stackWeight).toBe(96000000);
+    expect(row1.infoByContLength[20].rowWeight).toBe(96000000);
 
     expect(row2.isoBay).toBe("001");
     expect(row2.level).toBe(BayLevelEnum.ABOVE);
@@ -142,23 +142,23 @@ describe("for STAF_BAY data", () => {
     expect(row4.infoByContLength[20].lcg).toBe(-106770);
     expect(row4.infoByContLength[40].lcg).toBe(-108690);
     expect(row4.infoByContLength[45].lcg).toBe(-108690);
-    expect(row4.infoByContLength[20].stackWeight).toBe(70000000);
-    expect(row4.infoByContLength[40].stackWeight).toBe(120000000);
-    expect(row4.infoByContLength[45].stackWeight).toBe(120000000);
+    expect(row4.infoByContLength[20].rowWeight).toBe(70000000);
+    expect(row4.infoByContLength[40].rowWeight).toBe(120000000);
+    expect(row4.infoByContLength[45].rowWeight).toBe(120000000);
   });
 });
 
 describe("for STACK data", () => {
-  it("work ok with mocked data of stacks", () => {
+  it("work ok with mocked data of rows", () => {
     const sectionsByName = mapStafSections(
-      getSectionsFromFileContent(stafStackString)
+      getSectionsFromFileContent(stafRowString)
     );
 
     const headerSection = sectionsByName["STACK"];
 
-    const processed = convertStafObjectToOpenVesselSpec<IStackStafData>(
+    const processed = convertStafObjectToOpenVesselSpec<IRowStafData>(
       headerSection,
-      StackConfig
+      RowConfig
     );
 
     expect(processed.length).toBe(30);
@@ -166,32 +166,32 @@ describe("for STACK data", () => {
 
     expect(row1.isoBay).toBe("001");
     expect(row1.level).toBe(BayLevelEnum.BELOW);
-    expect(row1.isoStack).toBe("01");
+    expect(row1.isoRow).toBe("01");
     expect(row1.topIsoTier).toBe("18");
     expect(row1.bottomIsoTier).toBe("12");
     expect(row1.tcg).toBe(1280);
-    expect(row1.stackInfoByLength[20]).toBeTruthy();
-    expect(row1.stackInfoByLength[20].size).toBe(20);
-    expect(row1.stackInfoByLength[20].acceptsSize).toBe(1);
-    expect(row1.stackInfoByLength[24]).toBeFalsy();
-    expect(row1.stackInfoByLength[40]).toBeFalsy();
-    expect(row1.stackInfoByLength[45]).toBeFalsy();
-    expect(row1.stackInfoByLength[48]).toBeFalsy();
+    expect(row1.rowInfoByLength[20]).toBeTruthy();
+    expect(row1.rowInfoByLength[20].size).toBe(20);
+    expect(row1.rowInfoByLength[20].acceptsSize).toBe(1);
+    expect(row1.rowInfoByLength[24]).toBeFalsy();
+    expect(row1.rowInfoByLength[40]).toBeFalsy();
+    expect(row1.rowInfoByLength[45]).toBeFalsy();
+    expect(row1.rowInfoByLength[48]).toBeFalsy();
 
     const row27 = processed[27];
     expect(row27.isoBay).toBe("003");
     expect(row27.level).toBe(BayLevelEnum.ABOVE);
-    expect(row27.isoStack).toBe("10");
+    expect(row27.isoRow).toBe("10");
     expect(row27.topIsoTier).toBe("90");
     expect(row27.bottomIsoTier).toBe("82");
     expect(row27.tcg).toBe(-11380);
-    expect(row27.stackInfoByLength[20]).toBeTruthy();
-    expect(row27.stackInfoByLength[20].size).toBe(20);
-    expect(row27.stackInfoByLength[20].acceptsSize).toBe(1);
-    expect(row27.stackInfoByLength[24]).toBeFalsy();
-    expect(row27.stackInfoByLength[40]).toBeTruthy();
-    expect(row27.stackInfoByLength[45]).toBeTruthy();
-    expect(row27.stackInfoByLength[48]).toBeFalsy();
+    expect(row27.rowInfoByLength[20]).toBeTruthy();
+    expect(row27.rowInfoByLength[20].size).toBe(20);
+    expect(row27.rowInfoByLength[20].acceptsSize).toBe(1);
+    expect(row27.rowInfoByLength[24]).toBeFalsy();
+    expect(row27.rowInfoByLength[40]).toBeTruthy();
+    expect(row27.rowInfoByLength[45]).toBeTruthy();
+    expect(row27.rowInfoByLength[48]).toBeFalsy();
   });
 });
 
@@ -300,8 +300,8 @@ describe("for LID data", () => {
     expect(row1.label).toBe("01B1");
     expect(row1.isoBay).toBe("001");
     expect(row1.level).toBe(BayLevelEnum.BELOW);
-    expect(row1.portIsoStack).toBe("08");
-    expect(row1.starboardIsoStack).toBe("04");
+    expect(row1.portIsoRow).toBe("08");
+    expect(row1.starboardIsoRow).toBe("04");
     expect(row1.joinLidFwdLabel).toBe("");
     expect(row1.joinLidAftLabel).toBe("03B1");
     expect(row1.overlapPort).toBeUndefined();
@@ -310,8 +310,8 @@ describe("for LID data", () => {
     expect(row2.label).toBe("XXXX");
     expect(row2.isoBay).toBe("001");
     expect(row2.level).toBe(BayLevelEnum.BELOW);
-    expect(row2.portIsoStack).toBe("02");
-    expect(row2.starboardIsoStack).toBe("01");
+    expect(row2.portIsoRow).toBe("02");
+    expect(row2.starboardIsoRow).toBe("01");
     expect(row2.joinLidFwdLabel).toBe("");
     expect(row2.joinLidAftLabel).toBe("");
     expect(row2.overlapPort).toBeUndefined();
@@ -320,8 +320,8 @@ describe("for LID data", () => {
     expect(row7.label).toBe("03B1");
     expect(row7.isoBay).toBe("003");
     expect(row7.level).toBe(BayLevelEnum.BELOW);
-    expect(row7.portIsoStack).toBe("08");
-    expect(row7.starboardIsoStack).toBe("04");
+    expect(row7.portIsoRow).toBe("08");
+    expect(row7.starboardIsoRow).toBe("04");
     expect(row7.joinLidFwdLabel).toBe("01B1");
     expect(row7.joinLidAftLabel).toBe("");
     expect(row7.overlapPort).toBeUndefined();

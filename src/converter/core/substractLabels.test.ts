@@ -1,13 +1,14 @@
-import { createMockedSimpleBayLevelData } from "../../converter/mocks/bayLevelData";
-import { IJoinedStackTierPattern } from "../../models/base/types/IPositionPatterns";
-import { ITierStackLabelDictionaries } from "../../models/v1/parts/IPositionLabels";
 import substractLabels, {
   dictionaryHash,
   getExistingDictionaryLabelsName,
 } from "./substractLabels";
 
-const mockSlotInfoKeysAbove: IJoinedStackTierPattern[] = ["0080", "0082"];
-const mockSlotInfoKeysBelow: IJoinedStackTierPattern[] = ["0002", "0004"];
+import { IJoinedRowTierPattern } from "../../models/base/types/IPositionPatterns";
+import { ITierRowLabelDictionaries } from "../../models/v1/parts/IPositionLabels";
+import { createMockedSimpleBayLevelData } from "../../converter/mocks/bayLevelData";
+
+const mockSlotInfoKeysAbove: IJoinedRowTierPattern[] = ["0080", "0082"];
+const mockSlotInfoKeysBelow: IJoinedRowTierPattern[] = ["0002", "0004"];
 
 describe("dictionaryHash should", () => {
   it("calculate hash correctly", () => {
@@ -32,7 +33,7 @@ describe("dictionaryHash should", () => {
 });
 
 describe("getExistingDictionaryLabelsName should", () => {
-  const dicts: ITierStackLabelDictionaries = {};
+  const dicts: ITierRowLabelDictionaries = {};
   beforeAll(() => {
     dicts["dict-1"] = { "10": "Diez", "11": "Once" };
     dicts["dict-2"] = { "10": "Diez", "12": "Doce" };

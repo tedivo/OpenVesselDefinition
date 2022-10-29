@@ -1,15 +1,15 @@
 import IBayLevelData, {
   IBayLevelDataStaf,
-  IBayStackInfo,
-  TBayStackInfo,
+  IBayRowInfo,
+  TBayRowInfo,
   TBayTierInfoStaf,
-  TStackInfoByLength,
+  TRowInfoByLength,
 } from "../../models/v1/parts/IBayLevelData";
 import {
   IIsoBayPattern,
-  IIsoStackPattern,
+  IIsoRowPattern,
   IIsoTierPattern,
-  IJoinedStackTierPattern,
+  IJoinedRowTierPattern,
 } from "../../models/base/types/IPositionPatterns";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
@@ -17,14 +17,14 @@ import { pad3 } from "../../helpers/pad";
 
 const defaultAboveTiers: IIsoTierPattern[] = ["80", "82", "84", "86"];
 const defaultBelowTiers: IIsoTierPattern[] = ["02", "04", "06", "08"];
-const defaultStacks: IIsoStackPattern[] = ["00", "01", "02"];
+const defaultRows: IIsoRowPattern[] = ["00", "01", "02"];
 
-const defaultStackAttributesByContainerLength2024: TStackInfoByLength = {
+const defaultRowAttributesByContainerLength2024: TRowInfoByLength = {
   "20": { size: 20 },
   "24": { size: 24 },
 };
 
-const defaultStackAttributesByContainerLength2040: TStackInfoByLength = {
+const defaultRowAttributesByContainerLength2040: TRowInfoByLength = {
   "20": { size: 20 },
   "40": { size: 40 },
 };
@@ -32,33 +32,33 @@ const defaultStackAttributesByContainerLength2040: TStackInfoByLength = {
 export const bayLevelData: IBayLevelData = {
   isoBay: "001",
   level: BayLevelEnum.ABOVE,
-  perStackInfo: {},
-  infoByContLength: defaultStackAttributesByContainerLength2024,
+  perRowInfo: {},
+  infoByContLength: defaultRowAttributesByContainerLength2024,
 };
 
 export function createMockedSingleBayLevelData(
   isoBay: IIsoBayPattern,
   isAbove: boolean,
-  hasZeroStack: boolean,
-  perSlotKeys: IJoinedStackTierPattern[]
+  hasZeroRow: boolean,
+  perSlotKeys: IJoinedRowTierPattern[]
 ): IBayLevelDataStaf {
   const isFake40 = (Number(isoBay) % 4) - 2 === 1;
   const bottomBase = isAbove ? 50000 : 0;
 
-  const stacks = hasZeroStack
-    ? defaultStacks
-    : defaultStacks.filter((s) => s !== "00");
+  const rows = hasZeroRow ? defaultRows : defaultRows.filter((s) => s !== "00");
 
-  const perStackInfoEach: { [key: IIsoStackPattern]: IBayStackInfo } =
-    stacks.reduce((acc, v) => {
+  const perRowInfoEach: { [key: IIsoRowPattern]: IBayRowInfo } = rows.reduce(
+    (acc, v) => {
       acc[v] = {
-        isoStack: v,
+        isoRow: v,
         bottomBase,
         bottomIsoTier: isAbove ? defaultAboveTiers[0] : defaultBelowTiers[0],
         topIsoTier: isAbove ? defaultAboveTiers[3] : defaultBelowTiers[3],
       };
       return acc;
-    }, {});
+    },
+    {}
+  );
 
   const perTierInfo = (isAbove ? defaultAboveTiers : defaultBelowTiers).reduce(
     (acc, v) => {
@@ -72,11 +72,11 @@ export function createMockedSingleBayLevelData(
     isoBay,
     level: isAbove ? BayLevelEnum.ABOVE : BayLevelEnum.BELOW,
     infoByContLength: isFake40
-      ? defaultStackAttributesByContainerLength2040
-      : defaultStackAttributesByContainerLength2024,
+      ? defaultRowAttributesByContainerLength2040
+      : defaultRowAttributesByContainerLength2024,
     perTierInfo,
-    perStackInfo: {
-      each: perStackInfoEach,
+    perRowInfo: {
+      each: perRowInfoEach,
       common: {},
     },
 
@@ -91,8 +91,8 @@ export function createMockedSingleBayLevelData(
 
 export function createMockedSimpleBayLevelData(
   isoBays: number | IIsoBayPattern,
-  perSlotKeysAbove: IJoinedStackTierPattern[],
-  perSlotKeysBelow: IJoinedStackTierPattern[]
+  perSlotKeysAbove: IJoinedRowTierPattern[],
+  perSlotKeysBelow: IJoinedRowTierPattern[]
 ): IBayLevelDataStaf[] {
   const bays = Number(isoBays);
   const bayLevelDataArray: IBayLevelData[] = [];

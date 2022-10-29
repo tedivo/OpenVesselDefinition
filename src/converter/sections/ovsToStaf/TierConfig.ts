@@ -4,11 +4,11 @@ import BayLevelEnum, {
 import { pad2, safePad2 } from "../../../helpers/pad";
 
 import IBayLevelData from "../../../models/v1/parts/IBayLevelData";
-import { IJoinedStackTierPattern } from "../../../models/base/types/IPositionPatterns";
+import { IJoinedRowTierPattern } from "../../../models/base/types/IPositionPatterns";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import ITierStafData from "../../types/ITierStafData";
 import { SHIP_EDITOR_MIN_TIER } from "./consts";
-import { getStackAndTiersFromSlotKeys } from "../../../helpers/getStackAndTiersFromSlotKeys";
+import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
 import sortByMultipleFields from "../../../helpers/sortByMultipleFields";
 
 /**
@@ -23,12 +23,12 @@ const TierConfig: ISectionMapToStafConfig<ITierStafData, ITierStafData> = {
     { stafVar: "CUSTOM TIER", source: "label", mapper: (s: string) => s },
     { stafVar: "TIER VCG", fixedValue: "-" },
   ],
-  preProcessor: createStackTierData,
+  preProcessor: createRowTierData,
 };
 
 export default TierConfig;
 
-function createStackTierData(bayData: IBayLevelData[]): ITierStafData[] {
+function createRowTierData(bayData: IBayLevelData[]): ITierStafData[] {
   const bls = bayData.slice().sort(
     sortByMultipleFields([
       { name: "isoBay", ascending: true },
@@ -40,10 +40,10 @@ function createStackTierData(bayData: IBayLevelData[]): ITierStafData[] {
 
   bls.forEach((bl) => {
     const slotKeys = bl.perSlotInfo
-      ? (Object.keys(bl.perSlotInfo) as IJoinedStackTierPattern[])
+      ? (Object.keys(bl.perSlotInfo) as IJoinedRowTierPattern[])
       : [];
 
-    const { minTier, maxTier } = getStackAndTiersFromSlotKeys(slotKeys);
+    const { minTier, maxTier } = getRowsAndTiersFromSlotKeys(slotKeys);
     const iMinTier = minTier ? Number(minTier) : undefined;
 
     if (

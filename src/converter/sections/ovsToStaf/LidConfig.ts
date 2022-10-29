@@ -18,8 +18,8 @@ const LidConfig: ISectionMapToStafConfig<ILidDataFromStaf, ILidDataFromStaf> = {
       mapper: (n: string) => pad2(Number(n)),
     },
     { stafVar: "LEVEL", source: "level", mapper: getBayLevelEnumValueToStaf },
-    { stafVar: "PORT ISO STACK", source: "portIsoStack", mapper: pad2 },
-    { stafVar: "STBD ISO STACK", source: "starboardIsoStack", mapper: pad2 },
+    { stafVar: "PORT ISO STACK", source: "portIsoRow", mapper: pad2 },
+    { stafVar: "STBD ISO STACK", source: "starboardIsoRow", mapper: pad2 },
     {
       stafVar: "JOIN LID FWD",
       source: "joinLidFwdLabel",
@@ -82,8 +82,8 @@ function convertLidsFromOvsToStaf(source: ILidData[]): ILidDataFromStaf[] {
   const lidDataAbove = lidData.map((lidTemp) => ({
     isoBay: lidTemp.startIsoBay,
     level: BayLevelEnum.ABOVE,
-    portIsoStack: lidTemp.portIsoStack,
-    starboardIsoStack: lidTemp.starboardIsoStack,
+    portIsoRow: lidTemp.portIsoRow,
+    starboardIsoRow: lidTemp.starboardIsoRow,
     label: lidTemp.label,
     joinLidAftLabel: lidTemp.joinLidAftLabel,
     joinLidFwdLabel: lidTemp.joinLidFwdLabel,

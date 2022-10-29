@@ -7,13 +7,13 @@ import {
 import IBayLevelData, {
   IBaySlotData,
   IBulkheadInfo,
-  TBayStackInfo,
+  TBayRowInfo,
   TCommonBayInfo,
-  TStackInfoByLength,
+  TRowInfoByLength,
 } from "./models/v1/parts/IBayLevelData";
 import IPositionLabels, {
-  ITierStackLabelDictionaries,
-  ITierStackLabelDictionary,
+  ITierRowLabelDictionaries,
+  ITierRowLabelDictionary,
 } from "./models/v1/parts/IPositionLabels";
 import IShipData, {
   ILCGOptions,
@@ -25,7 +25,7 @@ import {
   WeightUnitsEnum,
 } from "./models/base/enums/UnitsEnum";
 import ValuesSourceEnum, {
-  ValuesSourceStackTierEnum,
+  ValuesSourceRowTierEnum,
 } from "./models/base/enums/ValuesSourceEnum";
 import {
   createMockedSimpleBayLevelData,
@@ -43,7 +43,7 @@ import LcgReferenceEnum from "./models/base/enums/LcgReferenceEnum";
 import OpenShipSpec from "./models/OpenShipSpec";
 import PortStarboardEnum from "./models/base/enums/PortStarboardEnum";
 import PositionFormatEnum from "./models/base/enums/PositionFormatEnum";
-import StackWeightCalculationEnum from "./models/base/enums/StackWeightCalculationEnum";
+import RowWeightCalculationEnum from "./models/base/enums/RowWeightCalculationEnum";
 import VoidTypesEnum from "./models/base/enums/VoidTypesEnum";
 import destructurePosition from "./converter/core/destructurePosition";
 import { getContainerLengths } from "./converter/core/getContainerLengths";
@@ -64,25 +64,25 @@ export {
   IPositionLabels,
   ILCGOptions,
   IBaySlotData,
-  TBayStackInfo,
+  TBayRowInfo,
   TContainerLengths,
   TImdgClasses,
   TCompatibilityGroups,
-  ITierStackLabelDictionary,
-  ITierStackLabelDictionaries,
+  ITierRowLabelDictionary,
+  ITierRowLabelDictionaries,
   IBulkheadInfo,
   TCommonBayInfo,
-  TStackInfoByLength,
+  TRowInfoByLength,
   PositionFormatEnum,
   BayLevelEnum,
   ForeAftEnum,
   LcgReferenceEnum,
   PortStarboardEnum,
-  StackWeightCalculationEnum,
+  RowWeightCalculationEnum,
   WeightUnitsEnum,
   LengthUnitsEnum,
   ValuesSourceEnum,
-  ValuesSourceStackTierEnum,
+  ValuesSourceRowTierEnum,
   VoidTypesEnum,
   stafToOvsV1Converter,
   stafToOvsShipData,
