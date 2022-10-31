@@ -24,13 +24,15 @@ import createSummary from "./core/createSummary";
 import { getContainerLengths } from "./core/getContainerLengths";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import { processAllSections } from "./sections/stafToOvs/processAllSections";
+import { stafTiersRemap } from "./core/stafTiersRemap";
 import substractLabels from "./core/substractLabels";
 import transformLids from "./core/transformLids";
 
 export default function stafToOvsV1Converter(
   fileContent: string,
   lpp: number,
-  vgcHeightFactor = 0.45
+  vgcHeightFactor = 0.45,
+  tier82is = 82
 ): IOpenShipSpecV1 {
   const sectionsByName = mapStafSections(
     getSectionsFromFileContent(fileContent)
@@ -137,13 +139,21 @@ export default function stafToOvsV1Converter(
   // 12. cleanRepeatedTcgs
   cleanRepeatedTcgs(shipData.masterCGs, dataProcessed.bayLevelData);
 
+  // 13. Re-map tiers
+  const { sizeSummary: sizeSummaryTiersRemapped, bls: baysDataTiersRemapped } =
+    stafTiersRemap(
+      sizeSummary,
+      cleanBayLevelDataNoStaf(dataProcessed.bayLevelData),
+      tier82is
+    );
+
   // OpenShipSpec JSON
   const result: IOpenShipSpecV1 = {
     schema: "OpenVesselSpec",
     version: "1.0.0",
-    sizeSummary,
     shipData: shipData,
-    baysData: cleanBayLevelDataNoStaf(dataProcessed.bayLevelData),
+    sizeSummary: sizeSummaryTiersRemapped,
+    baysData: baysDataTiersRemapped,
     positionLabels,
     lidData: transformLids(dataProcessed.lidData),
   };

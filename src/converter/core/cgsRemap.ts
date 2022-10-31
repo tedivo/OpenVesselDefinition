@@ -3,9 +3,6 @@ import {
   ITGCOptionsIntermediate,
   IVGCOptionsIntermediate,
 } from "../../models/v1/parts/IShipData";
-import ValuesSourceEnum, {
-  ValuesSourceRowTierEnum,
-} from "../../models/base/enums/ValuesSourceEnum";
 
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
@@ -13,6 +10,7 @@ import { IIsoRowPattern } from "../../models/base/types/IPositionPatterns";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
+import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceEnum";
 
 export const ONE_MILLIMETER_IN_FEET = 0.003280839895;
 
@@ -28,14 +26,13 @@ export function cgsRemap(
   vcgOptions: IVGCOptionsIntermediate,
   tcgOptions: ITGCOptionsIntermediate
 ) {
-  if (lcgOptions.values === ValuesSourceEnum.KNOWN) remapLcgs(lcgOptions, bls);
-  if (vcgOptions.values === ValuesSourceRowTierEnum.BY_TIER)
-    remapVcgs(vcgOptions, bls);
-  if (tcgOptions.values === ValuesSourceEnum.KNOWN) remapTcgs(tcgOptions, bls);
+  remapLcgs(lcgOptions, bls);
+  remapVcgs(vcgOptions, bls);
+  remapTcgs(tcgOptions, bls);
 }
 
 /**
- * Remaps VCGs from BY_TIER to BY_STACK. Mutates the object.
+ * Remaps TCGs. Mutates the object.
  * @param tcgOptions
  * @param bls
  */
@@ -58,7 +55,7 @@ function remapTcgs(
 }
 
 /**
- * Remaps VCGs from BY_TIER to BY_STACK. Mutates the object.
+ * Remaps VCGs. Mutates the object.
  * @param vcgOptions
  * @param bls
  */
@@ -66,6 +63,9 @@ function remapVcgs(
   vcgOptions: IVGCOptionsIntermediate,
   bls: IBayLevelDataStaf[]
 ) {
+  const isByTier = vcgOptions.values === ValuesSourceRowTierEnum.BY_TIER,
+    isByStack = ValuesSourceRowTierEnum.BY_STACK;
+
   const baseAdjust = Math.round(
     (8.5 / ONE_MILLIMETER_IN_FEET) * (vcgOptions.heightFactor || 0)
   );
@@ -77,10 +77,20 @@ function remapVcgs(
     const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
     rows.forEach((row) => {
       const bottomIsoTier = perRowInfoEach[row].bottomIsoTier;
-      const vcg = perTierInfo[bottomIsoTier]?.vcg;
+
+      let vcg: number | undefined = undefined;
+
+      if (isByTier) {
+        // If BY_TIER, get the perTierInfo of bottom Tier's VCG
+        vcg = perTierInfo[bottomIsoTier]?.vcg;
+      } else if (isByStack) {
+        // If BY_STACK, just get the bottomBase
+        vcg = perRowInfoEach[row].bottomBase;
+      }
+
+      // Adjust using vcgOptions.heightFactor
       if (vcg !== undefined) {
-        const bottomBase = vcg - baseAdjust;
-        perRowInfoEach[row].bottomBase = bottomBase;
+        perRowInfoEach[row].bottomBase = vcg - baseAdjust;
       }
     });
     // Important: as "perTierInfo" is used many times, cgsRemap should only
