@@ -3,9 +3,6 @@ import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import ISizeSummary from "../../models/base/ISizeSummary";
 import { sortNumericAsc } from "../../helpers/sortByMultipleFields";
 
-// Used in case bayLevel data is missing
-const MAX_BELOW_TIER = 66;
-
 /**
  * Examines the data to return a summary (bays, max/min tiers and rows)
  * @returns Object { isoBays, centerLineRow, maxRow, maxAboveTier, minAboveTier, maxBelowTier, minBelowTier,}
