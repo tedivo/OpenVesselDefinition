@@ -91,6 +91,7 @@ function remapVcgs(
       // Adjust using vcgOptions.heightFactor
       if (vcg !== undefined) {
         perRowInfoEach[row].bottomBase = vcg - baseAdjust;
+
       }
     });
     // Important: as "perTierInfo" is used many times, cgsRemap should only
