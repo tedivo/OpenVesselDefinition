@@ -120,7 +120,7 @@ export default function stafToOvsV1Converter(
   });
 
   // 9. Change LCG, TCG & VCG references. Deletes perTierInfo
-  cgsRemap(
+  dataProcessed.bayLevelData = cgsRemap(
     dataProcessed.bayLevelData,
     dataProcessed.shipData.lcgOptions,
     dataProcessed.shipData.vcgOptions,

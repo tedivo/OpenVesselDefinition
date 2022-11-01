@@ -26,9 +26,11 @@ export function cgsRemap(
   vcgOptions: IVGCOptionsIntermediate,
   tcgOptions: ITGCOptionsIntermediate
 ) {
-  remapLcgs(lcgOptions, bls);
-  remapVcgs(vcgOptions, bls);
-  remapTcgs(tcgOptions, bls);
+  const clonedBls = bls.slice().map((bl) => JSON.parse(JSON.stringify(bl)));
+  remapLcgs(lcgOptions, clonedBls);
+  remapVcgs(vcgOptions, clonedBls);
+  remapTcgs(tcgOptions, clonedBls);
+  return clonedBls;
 }
 
 /**
@@ -91,7 +93,6 @@ function remapVcgs(
       // Adjust using vcgOptions.heightFactor
       if (vcg !== undefined) {
         perRowInfoEach[row].bottomBase = vcg - baseAdjust;
-
       }
     });
     // Important: as "perTierInfo" is used many times, cgsRemap should only
@@ -116,7 +117,7 @@ function remapLcgs(
 
   const lcgRebase =
     lcgOptions.reference === LcgReferenceEnum.FWD_PERPENDICULAR
-      ? (lcg: number) => lpp - lcg * lcgSignMult
+      ? (lcg: number) => lpp + lcg * lcgSignMult
       : lcgOptions.reference === LcgReferenceEnum.MIDSHIPS
       ? (lcg: number) => lpp * 0.5 + lcg * lcgSignMult
       : (lcg: number) => lcg * lcgSignMult;
@@ -129,7 +130,7 @@ function remapLcgs(
 
     // remap infoByContLength
     contLens.forEach((len) => {
-      let lcg = infoByContLength[len].lcg;
+      let lcg = infoByContLength[len]?.lcg;
       if (lcg !== undefined) {
         infoByContLength[len].lcg = lcgRebase(lcg);
       }
