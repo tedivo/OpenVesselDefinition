@@ -145,9 +145,9 @@ function createSlotData(bayData: IBayLevelData[]): ISlotData[] {
         .sort(sortNumericAsc)
         .join("#");
 
-      const hashSizesSlot = Object.keys(slotData.sizes)
-        .sort(sortNumericAsc)
-        .join("#");
+      const hashSizesSlot = slotData.sizes
+        ? Object.keys(slotData.sizes).sort(sortNumericAsc).join("#")
+        : "";
 
       return hashSizesRow === hashSizesSlot;
     }
