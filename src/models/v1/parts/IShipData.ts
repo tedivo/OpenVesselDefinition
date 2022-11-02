@@ -90,6 +90,8 @@ interface IVisibility {
 export interface ILCGOptions {
   values: ValuesSourceEnum;
   lpp: number;
+  reference?: LcgReferenceEnum;
+  orientationIncrease?: ForeAftEnum;
 }
 
 export interface IVGCOptions {
@@ -99,6 +101,7 @@ export interface IVGCOptions {
 
 export interface ITGCOptions {
   values: ValuesSourceEnum;
+  direction?: PortStarboardEnum;
 }
 
 //#region intermediate

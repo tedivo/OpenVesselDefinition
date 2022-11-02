@@ -38,8 +38,6 @@ export default function ovsV1ToStafConverter(
   // Use copy
   const json = JSON.parse(JSON.stringify(originalJson)) as IOpenShipSpecV1;
 
-  console.log("SSS", cgOptions);
-
   // Translate CGs
   if (
     cgOptions &&
@@ -57,6 +55,10 @@ export default function ovsV1ToStafConverter(
 
     json.shipData.masterCGs = mCGs;
     json.baysData = bls;
+
+    // Update CG OPtions. VCG aren't needed because it's calculated and no header in STAF is needed
+    json.shipData.lcgOptions = cgOptions.lcgOptions;
+    json.shipData.tcgOptions = cgOptions.tcgOptions;
   }
 
   // Remap Tiers

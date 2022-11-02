@@ -18,7 +18,9 @@ import ISectionMapToStafConfig from "../types/ISectionMapToStafConfig";
 import ISlotData from "../../models/v1/parts/ISlotData";
 import ITierStafData from "../types/ITierStafData";
 import { LINE_SEPARATOR } from "../sections/ovsToStaf/consts";
+import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import LidConfig from "../sections/ovsToStaf/LidConfig";
+import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
 import RowConfig from "../sections/ovsToStaf/RowConfig";
 import ShipConfig from "../sections/ovsToStaf/ShipConfig";
@@ -117,8 +119,16 @@ describe("for SHIP data", () => {
     const shipData: IShipData = {
       shipClass: "MY CLASS",
       containersLengths: [],
-      lcgOptions: { values: ValuesSourceEnum.KNOWN, lpp: 200 },
-      tcgOptions: { values: ValuesSourceEnum.ESTIMATED },
+      lcgOptions: {
+        values: ValuesSourceEnum.KNOWN,
+        lpp: 200,
+        reference: LcgReferenceEnum.AFT_PERPENDICULAR,
+        orientationIncrease: ForeAftEnum.FWD,
+      },
+      tcgOptions: {
+        values: ValuesSourceEnum.ESTIMATED,
+        direction: PortStarboardEnum.STARBOARD,
+      },
       vcgOptions: { values: ValuesSourceEnum.ESTIMATED },
       positionFormat: PositionFormatEnum.BAY_STACK_TIER,
       metaInfo: {},

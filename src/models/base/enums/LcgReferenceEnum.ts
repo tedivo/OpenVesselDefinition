@@ -14,3 +14,12 @@ export const getStafLcgReferenceEnumValue = (
   if (s === "FP") return LcgReferenceEnum.FWD_PERPENDICULAR;
   return undefined;
 };
+
+export const getLcgReferenceEnumValueToStaf = (
+  v: LcgReferenceEnum
+): "MS" | "AP" | "FP" | undefined => {
+  if (v === LcgReferenceEnum.MIDSHIPS) return "MS";
+  if (v === LcgReferenceEnum.AFT_PERPENDICULAR) return "AP";
+  if (v === LcgReferenceEnum.FWD_PERPENDICULAR) return "FP";
+  return undefined;
+};

@@ -11,3 +11,10 @@ export const getStafPortStarboardValue = (
   if (s === "PORT") return PortStarboardEnum.PORT;
   return PortStarboardEnum.STARBOARD;
 };
+
+export const getPortStarboardValueToStaf = (
+  v: PortStarboardEnum
+): "PORT" | "STBD" => {
+  if (v === PortStarboardEnum.PORT) return "PORT";
+  return "STBD";
+};

@@ -3,6 +3,9 @@ import IShipData, {
 } from "../../../models/v1/parts/IShipData";
 
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
+import { getForeAftEnumToStaf } from "../../../models/base/enums/ForeAftEnum";
+import { getLcgReferenceEnumValueToStaf } from "../../../models/base/enums/LcgReferenceEnum";
+import { getPortStarboardValueToStaf } from "../../../models/base/enums/PortStarboardEnum";
 import { getPositionFormatValueToStaf } from "../../../models/base/enums/PositionFormatEnum";
 import { getValuesSourceEnumValueToStaf } from "../../../models/base/enums/ValuesSourceEnum";
 
@@ -29,11 +32,13 @@ const ShipConfig: ISectionMapToStafConfig<IShipDataFromStaf, IShipData> = {
     },
     {
       stafVar: "LCG REF PT",
-      fixedValue: "AP",
+      source: "lcgOptions.reference",
+      mapper: getLcgReferenceEnumValueToStaf,
     },
     {
       stafVar: "LCG + DIR",
-      fixedValue: "F",
+      source: "lcgOptions.orientationIncrease",
+      mapper: getForeAftEnumToStaf,
     },
     {
       stafVar: "VCG IN USE",
@@ -46,7 +51,8 @@ const ShipConfig: ISectionMapToStafConfig<IShipDataFromStaf, IShipData> = {
     },
     {
       stafVar: "TCG + DIR",
-      fixedValue: "STBD",
+      source: "tcgOptions.direction",
+      mapper: getPortStarboardValueToStaf,
     },
     {
       stafVar: "POSITION FORMAT",
