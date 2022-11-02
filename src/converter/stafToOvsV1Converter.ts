@@ -149,7 +149,6 @@ export default function stafToOvsV1Converter(
     masterCGs: shipData.masterCGs,
     bls: cleanBayLevelDataNoStaf(dataProcessed.bayLevelData),
     tier82is,
-    mapFromStafToOvs: true,
   });
 
   // OpenShipSpec JSON

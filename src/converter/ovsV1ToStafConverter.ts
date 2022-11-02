@@ -38,6 +38,8 @@ export default function ovsV1ToStafConverter(
   // Use copy
   const json = JSON.parse(JSON.stringify(originalJson)) as IOpenShipSpecV1;
 
+  console.log("SSS", cgOptions);
+
   // Translate CGs
   if (
     cgOptions &&
@@ -67,7 +69,6 @@ export default function ovsV1ToStafConverter(
     masterCGs: json.shipData.masterCGs,
     bls: json.baysData,
     tier82is,
-    mapFromStafToOvs: false, // because it's from OVS to STAF
   });
 
   json.sizeSummary = sizeSummary;

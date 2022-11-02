@@ -22,13 +22,11 @@ export function tiersRemap({
   masterCGs,
   bls,
   tier82is,
-  mapFromStafToOvs,
 }: {
   sizeSummary: ISizeSummary;
   masterCGs: IMasterCGs;
   bls: IBayLevelData[];
   tier82is: number;
-  mapFromStafToOvs: boolean;
 }): { bls: IBayLevelData[]; sizeSummary: ISizeSummary; masterCGs: IMasterCGs } {
   if (
     tier82is === undefined ||
@@ -43,7 +41,7 @@ export function tiersRemap({
       masterCGs,
     };
 
-  const aboveTierDiff = (82 - tier82is) * (mapFromStafToOvs ? 1 : -1);
+  const aboveTierDiff = 82 - tier82is;
   const newBls: IBayLevelData[] = new Array(bls.length);
 
   // Size Summary

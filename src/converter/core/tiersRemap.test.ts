@@ -79,7 +79,6 @@ describe("stafTiersRemap should", () => {
       masterCGs,
       bls: bayLevelData,
       tier82is: 82,
-      mapFromStafToOvs: true,
     });
 
     expect(sizeSummary.maxAboveTier).toBe(86);
@@ -124,7 +123,6 @@ describe("stafTiersRemap should", () => {
       masterCGs,
       bls: bayLevelData,
       tier82is: 72,
-      mapFromStafToOvs: true,
     });
 
     expect(sizeSummary.maxAboveTier).toBe(76);
@@ -168,8 +166,7 @@ describe("stafTiersRemap should", () => {
       sizeSummary: summary,
       masterCGs,
       bls: bayLevelData,
-      tier82is: 72,
-      mapFromStafToOvs: false,
+      tier82is: 92,
     });
 
     expect(sizeSummary.maxAboveTier).toBe(96);

@@ -1,6 +1,10 @@
+import IBayLevelData, {
+  IBayLevelDataStaf,
+} from "../../models/v1/parts/IBayLevelData";
 import {
   IIsoRowPattern,
   IIsoTierPattern,
+  IJoinedRowTierPattern,
 } from "../../models/base/types/IPositionPatterns";
 import {
   ILCGOptionsIntermediate,
@@ -10,12 +14,12 @@ import {
 } from "../../models/v1/parts/IShipData";
 
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import { ONE_MILLIMETER_IN_FEET } from "../consts";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
-import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceEnum";
+import { getRowsAndTiersFromSlotKeys } from "../../helpers/getRowsAndTiersFromSlotKeys";
+import { pad2 } from "../../helpers/pad";
 
 /**
  * Remaps OVS CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase) to other CGSs references
@@ -54,7 +58,7 @@ export function cgsRemapOvsToStaf(
  */
 function remapTcgs(
   tcgOptions: ITGCOptionsIntermediate,
-  bls: IBayLevelDataStaf[],
+  bls: IBayLevelData[],
   masterCGs: IMasterCGs
 ) {
   if (tcgOptions.direction === PortStarboardEnum.STARBOARD) return;
@@ -88,43 +92,42 @@ function remapTcgs(
  */
 function remapVcgs(
   vcgOptions: IVGCOptionsIntermediate,
-  bls: IBayLevelDataStaf[],
+  bls: IBayLevelData[],
   masterCGs: IMasterCGs
 ) {
-  const isByTier = vcgOptions.values === ValuesSourceRowTierEnum.BY_TIER,
-    isByStack = ValuesSourceRowTierEnum.BY_STACK;
-
   const baseAdjust = Math.round(
     (8.5 / ONE_MILLIMETER_IN_FEET) * (vcgOptions.heightFactor || 0)
   );
 
-  (Object.keys(masterCGs.bottomBases) as IIsoTierPattern[]).forEach((tier) => {
-    masterCGs.bottomBases[tier] = masterCGs.bottomBases[tier] + baseAdjust;
-  });
-
   bls.forEach((bl) => {
     const perRowInfoEach = bl.perRowInfo.each;
-    const perTierInfo = bl.perTierInfo;
+
+    const { tiersByRow } = getRowsAndTiersFromSlotKeys(
+      bl.perSlotInfo
+        ? (Object.keys(bl.perSlotInfo) as IJoinedRowTierPattern[])
+        : undefined
+    );
 
     const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
     rows.forEach((row) => {
-      const bottomIsoTier = perRowInfoEach[row].bottomIsoTier;
+      const bottomIsoTier = tiersByRow[row]?.minTier
+        ? pad2(tiersByRow[row]?.minTier)
+        : "";
 
       let vcg: number | undefined = undefined;
 
-      if (isByTier) {
-        // If BY_TIER, get the perTierInfo of bottom Tier's VCG
-        vcg = perTierInfo[bottomIsoTier]?.vcg;
-      } else if (isByStack) {
-        // If BY_STACK, just get the bottomBase
-        vcg = perRowInfoEach[row].bottomBase;
-      }
+      vcg =
+        perRowInfoEach[row].bottomBase ?? masterCGs.bottomBases[bottomIsoTier];
 
       // Adjust using vcgOptions.heightFactor
       if (vcg !== undefined) {
         perRowInfoEach[row].bottomBase = vcg + baseAdjust;
       }
     });
+  });
+
+  (Object.keys(masterCGs.bottomBases) as IIsoTierPattern[]).forEach((tier) => {
+    masterCGs.bottomBases[tier] = masterCGs.bottomBases[tier] + baseAdjust;
   });
 }
 
@@ -133,10 +136,7 @@ function remapVcgs(
  * @param lcgOptions
  * @param bls
  */
-function remapLcgs(
-  lcgOptions: ILCGOptionsIntermediate,
-  bls: IBayLevelDataStaf[]
-) {
+function remapLcgs(lcgOptions: ILCGOptionsIntermediate, bls: IBayLevelData[]) {
   const lpp = lcgOptions.lpp;
 
   const lcgSignMult =
