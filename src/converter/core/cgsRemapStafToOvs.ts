@@ -8,19 +8,19 @@ import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { IIsoRowPattern } from "../../models/base/types/IPositionPatterns";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
+import { ONE_MILLIMETER_IN_FEET } from "../consts";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
 import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceEnum";
 
-export const ONE_MILLIMETER_IN_FEET = 0.003280839895;
-
 /**
- * Remaps LCG to AFT Perp
+ * Remaps STAF file CGs to OVS CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase)
  * @param bls
- * @param lcgOptions
- * @param vcgOptions
+ * @param lcgOptions STAF file's LCG options
+ * @param vcgOptions STAF file's VCG options
+ * @param tcgOptions STAF file's TCG options
  */
-export function cgsRemap(
+export function cgsRemapStafToOvs(
   bls: IBayLevelDataStaf[],
   lcgOptions: ILCGOptionsIntermediate,
   vcgOptions: IVGCOptionsIntermediate,

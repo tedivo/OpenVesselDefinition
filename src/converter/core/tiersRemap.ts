@@ -1,24 +1,35 @@
 import IBayLevelData, {
   IBaySlotData,
 } from "../../models/v1/parts/IBayLevelData";
+import {
+  IIsoRowPattern,
+  IIsoTierPattern,
+  IJoinedRowTierPattern,
+} from "../../models/base/types/IPositionPatterns";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import { IJoinedRowTierPattern } from "../../models/base/types/IPositionPatterns";
+import { IMasterCGs } from "../../models/v1/parts/IShipData";
 import ISizeSummary from "../../models/base/ISizeSummary";
 import { pad2 } from "../../helpers/pad";
 
 const MAX_BELOW_TIER = 66;
 
 /**
- * If tier82is !== 82, it remaps all above tiers
- * @param bls
- * @param tier82is
+ * Remaps above tiers numbers STAF <-> OVS.
  */
-export function stafTiersRemap(
-  sizeSummary: ISizeSummary,
-  bls: IBayLevelData[],
-  tier82is: number
-): { bls: IBayLevelData[]; sizeSummary: ISizeSummary } {
+export function tiersRemap({
+  sizeSummary,
+  masterCGs,
+  bls,
+  tier82is,
+  mapFromStafToOvs,
+}: {
+  sizeSummary: ISizeSummary;
+  masterCGs: IMasterCGs;
+  bls: IBayLevelData[];
+  tier82is: number;
+  mapFromStafToOvs: boolean;
+}): { bls: IBayLevelData[]; sizeSummary: ISizeSummary; masterCGs: IMasterCGs } {
   if (
     tier82is === undefined ||
     sizeSummary.maxAboveTier === undefined ||
@@ -29,15 +40,25 @@ export function stafTiersRemap(
     return {
       bls,
       sizeSummary,
+      masterCGs,
     };
 
-  const aboveTierDiff = 82 - tier82is;
+  const aboveTierDiff = (82 - tier82is) * (mapFromStafToOvs ? 1 : -1);
   const newBls: IBayLevelData[] = new Array(bls.length);
 
+  // Size Summary
   const newSizeSummary = { ...sizeSummary };
   newSizeSummary.maxAboveTier = sizeSummary.maxAboveTier - aboveTierDiff;
   newSizeSummary.minAboveTier = sizeSummary.minAboveTier - aboveTierDiff;
 
+  // Master CGs
+  const newMCGs: IMasterCGs = JSON.parse(JSON.stringify(masterCGs));
+  (Object.keys(masterCGs.bottomBases) as IIsoTierPattern[]).forEach((tier) => {
+    newMCGs.bottomBases[pad2(Number(tier) - aboveTierDiff)] =
+      newMCGs.bottomBases[tier];
+  });
+
+  // Bays data
   bls.forEach((bl, arrIdx) => {
     if (bl.level === BayLevelEnum.ABOVE) {
       const { perSlotInfo, ...blBase } = bl;
@@ -77,5 +98,6 @@ export function stafTiersRemap(
   return {
     bls: newBls,
     sizeSummary: newSizeSummary,
+    masterCGs: newMCGs,
   };
 }

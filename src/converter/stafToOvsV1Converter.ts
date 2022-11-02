@@ -16,7 +16,7 @@ import addPerRowInfo from "../converter/core/addPerRowInfo";
 import addPerSlotData from "../converter/core/addPerSlotData";
 import addPerTierInfo from "../converter/core/addPerTierInfo";
 import calculateCommonRowInfo from "./core/calculateCommonRowInfo";
-import { cgsRemap } from "./core/cgsRemap";
+import { cgsRemapStafToOvs } from "./core/cgsRemapStafToOvs";
 import { cleanBayLevelDataNoStaf } from "./core/cleanBayLevelDataNoStaf";
 import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
 import { createDictionaryMultiple } from "../helpers/createDictionary";
@@ -24,8 +24,8 @@ import createSummary from "./core/createSummary";
 import { getContainerLengths } from "./core/getContainerLengths";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import { processAllSections } from "./sections/stafToOvs/processAllSections";
-import { stafTiersRemap } from "./core/stafTiersRemap";
 import substractLabels from "./core/substractLabels";
+import { tiersRemap } from "./core/tiersRemap";
 import transformLids from "./core/transformLids";
 
 export default function stafToOvsV1Converter(
@@ -120,7 +120,7 @@ export default function stafToOvsV1Converter(
   });
 
   // 9. Change LCG, TCG & VCG references. Deletes perTierInfo
-  dataProcessed.bayLevelData = cgsRemap(
+  dataProcessed.bayLevelData = cgsRemapStafToOvs(
     dataProcessed.bayLevelData,
     dataProcessed.shipData.lcgOptions,
     dataProcessed.shipData.vcgOptions,
@@ -140,18 +140,23 @@ export default function stafToOvsV1Converter(
   cleanRepeatedTcgs(shipData.masterCGs, dataProcessed.bayLevelData);
 
   // 13. Re-map tiers
-  const { sizeSummary: sizeSummaryTiersRemapped, bls: baysDataTiersRemapped } =
-    stafTiersRemap(
-      sizeSummary,
-      cleanBayLevelDataNoStaf(dataProcessed.bayLevelData),
-      tier82is
-    );
+  const {
+    sizeSummary: sizeSummaryTiersRemapped,
+    bls: baysDataTiersRemapped,
+    masterCGs: masterCGsTiersRemapped,
+  } = tiersRemap({
+    sizeSummary,
+    masterCGs: shipData.masterCGs,
+    bls: cleanBayLevelDataNoStaf(dataProcessed.bayLevelData),
+    tier82is,
+    mapFromStafToOvs: true,
+  });
 
   // OpenShipSpec JSON
   const result: IOpenShipSpecV1 = {
     schema: "OpenVesselSpec",
     version: "1.0.0",
-    shipData: shipData,
+    shipData: { ...shipData, masterCGs: masterCGsTiersRemapped },
     sizeSummary: sizeSummaryTiersRemapped,
     baysData: baysDataTiersRemapped,
     positionLabels,

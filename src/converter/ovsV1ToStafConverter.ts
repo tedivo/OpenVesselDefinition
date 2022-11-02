@@ -1,7 +1,12 @@
 import IBayLevelData, {
   IBayLevelDataStaf,
 } from "../models/v1/parts/IBayLevelData";
-import IShipData, { IShipDataFromStaf } from "../models/v1/parts/IShipData";
+import IShipData, {
+  ILCGOptionsIntermediate,
+  IShipDataFromStaf,
+  ITGCOptionsIntermediate,
+  IVGCOptionsIntermediate,
+} from "../models/v1/parts/IShipData";
 
 import BayLevelConfig from "./sections/ovsToStaf/BayLevelConfig";
 import { ILidDataFromStaf } from "../models/v1/parts/ILidData";
@@ -15,10 +20,59 @@ import RowConfig from "./sections/ovsToStaf/RowConfig";
 import ShipConfig from "./sections/ovsToStaf/ShipConfig";
 import SlotConfig from "./sections/ovsToStaf/SlotConfig";
 import TierConfig from "./sections/ovsToStaf/TierConfig";
+import { cgsRemapOvsToStaf } from "./core/cgsRemapOvsToStaf";
 import convertOvsToStafObject from "./core/convertOvsToStafObject";
+import { tiersRemap } from "./core/tiersRemap";
 
-export default function ovsV1ToStafConverter(json: IOpenShipSpecV1): string {
+export default function ovsV1ToStafConverter(
+  originalJson: IOpenShipSpecV1,
+  cgOptions?: {
+    lcgOptions: ILCGOptionsIntermediate;
+    vcgOptions: IVGCOptionsIntermediate;
+    tcgOptions: ITGCOptionsIntermediate;
+  },
+  tier82is = 82
+): string {
   const stafParts: string[] = [];
+
+  // Use copy
+  const json = JSON.parse(JSON.stringify(originalJson)) as IOpenShipSpecV1;
+
+  // Translate CGs
+  if (
+    cgOptions &&
+    cgOptions.lcgOptions &&
+    cgOptions.vcgOptions &&
+    cgOptions.tcgOptions
+  ) {
+    const { bls, mCGs } = cgsRemapOvsToStaf(
+      json.baysData,
+      json.shipData.masterCGs,
+      cgOptions.lcgOptions,
+      cgOptions.vcgOptions,
+      cgOptions.tcgOptions
+    );
+
+    json.shipData.masterCGs = mCGs;
+    json.baysData = bls;
+  }
+
+  // Remap Tiers
+  const {
+    sizeSummary,
+    bls,
+    masterCGs: newMasterCGs,
+  } = tiersRemap({
+    sizeSummary: json.sizeSummary,
+    masterCGs: json.shipData.masterCGs,
+    bls: json.baysData,
+    tier82is,
+    mapFromStafToOvs: false, // because it's from OVS to STAF
+  });
+
+  json.sizeSummary = sizeSummary;
+  json.baysData = bls;
+  json.shipData.masterCGs = newMasterCGs;
 
   stafParts.push(
     convertOvsToStafObject<IShipData, IShipDataFromStaf>(

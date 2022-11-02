@@ -44,6 +44,8 @@ interface IBayLevelDataBase {
   ignitionSrcFore?: TYesNo;
   quartersFore?: TYesNo;
   engineRmBulkFore?: TYesNo;
+
+  telescoping?: TYesNo;
 }
 
 export interface IBayLevelDataStaf extends IBayLevelDataBase {

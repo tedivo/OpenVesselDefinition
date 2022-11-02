@@ -13,7 +13,7 @@ import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import { IJoinedRowTierPattern } from "../../models/base/types/IPositionPatterns";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
-import { cgsRemap } from "./cgsRemap";
+import { cgsRemapStafToOvs } from "./cgsRemapStafToOvs";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import createSummary from "./createSummary";
 
@@ -84,47 +84,52 @@ function createMockedBl() {
   };
 }
 
-describe("cgsRemap should ...", () => {
+describe("cgsRemapStafToOvs should ...", () => {
   it("Remap nothing", () => {
     const { bayLevelData, baseLcgOptions, baseVcgOptions, baseTcgOptions } =
       createMockedBl();
 
-    cgsRemap(bayLevelData, baseLcgOptions, baseVcgOptions, baseTcgOptions);
+    const newBayLevelData = cgsRemapStafToOvs(
+      bayLevelData,
+      baseLcgOptions,
+      baseVcgOptions,
+      baseTcgOptions
+    );
 
-    expect(bayLevelData[0].infoByContLength[20].lcg).toBe(100000);
-    expect(bayLevelData[0].infoByContLength[24].lcg).toBe(99000);
-    expect(bayLevelData[1].infoByContLength[20].lcg).toBe(100000);
-    expect(bayLevelData[1].infoByContLength[24].lcg).toBe(99000);
-    expect(bayLevelData[2].infoByContLength[20].lcg).toBe(80000);
-    expect(bayLevelData[2].infoByContLength[40].lcg).toBe(72000);
-    expect(bayLevelData[3].infoByContLength[20].lcg).toBe(80000);
-    expect(bayLevelData[3].infoByContLength[40].lcg).toBe(72000);
+    expect(newBayLevelData[0].infoByContLength[20].lcg).toBe(100000);
+    expect(newBayLevelData[0].infoByContLength[24].lcg).toBe(99000);
+    expect(newBayLevelData[1].infoByContLength[20].lcg).toBe(100000);
+    expect(newBayLevelData[1].infoByContLength[24].lcg).toBe(99000);
+    expect(newBayLevelData[2].infoByContLength[20].lcg).toBe(80000);
+    expect(newBayLevelData[2].infoByContLength[40].lcg).toBe(72000);
+    expect(newBayLevelData[3].infoByContLength[20].lcg).toBe(80000);
+    expect(newBayLevelData[3].infoByContLength[40].lcg).toBe(72000);
 
-    expect(bayLevelData[0].perRowInfo.each["00"].tcg).toBe(10);
-    expect(bayLevelData[0].perRowInfo.each["01"].tcg).toBe(2610);
-    expect(bayLevelData[0].perRowInfo.each["02"].tcg).toBe(-2590);
-    expect(bayLevelData[1].perRowInfo.each["00"].tcg).toBe(10);
-    expect(bayLevelData[1].perRowInfo.each["01"].tcg).toBe(2610);
-    expect(bayLevelData[1].perRowInfo.each["02"].tcg).toBe(-2590);
-    expect(bayLevelData[2].perRowInfo.each["00"].tcg).toBe(10);
-    expect(bayLevelData[2].perRowInfo.each["01"].tcg).toBe(2610);
-    expect(bayLevelData[2].perRowInfo.each["02"].tcg).toBe(-2590);
-    expect(bayLevelData[3].perRowInfo.each["00"].tcg).toBe(10);
-    expect(bayLevelData[3].perRowInfo.each["01"].tcg).toBe(2610);
-    expect(bayLevelData[3].perRowInfo.each["02"].tcg).toBe(-2590);
+    expect(newBayLevelData[0].perRowInfo.each["00"].tcg).toBe(10);
+    expect(newBayLevelData[0].perRowInfo.each["01"].tcg).toBe(2610);
+    expect(newBayLevelData[0].perRowInfo.each["02"].tcg).toBe(-2590);
+    expect(newBayLevelData[1].perRowInfo.each["00"].tcg).toBe(10);
+    expect(newBayLevelData[1].perRowInfo.each["01"].tcg).toBe(2610);
+    expect(newBayLevelData[1].perRowInfo.each["02"].tcg).toBe(-2590);
+    expect(newBayLevelData[2].perRowInfo.each["00"].tcg).toBe(10);
+    expect(newBayLevelData[2].perRowInfo.each["01"].tcg).toBe(2610);
+    expect(newBayLevelData[2].perRowInfo.each["02"].tcg).toBe(-2590);
+    expect(newBayLevelData[3].perRowInfo.each["00"].tcg).toBe(10);
+    expect(newBayLevelData[3].perRowInfo.each["01"].tcg).toBe(2610);
+    expect(newBayLevelData[3].perRowInfo.each["02"].tcg).toBe(-2590);
 
-    expect(bayLevelData[0].perRowInfo.each["00"].bottomBase).toBe(20000);
-    expect(bayLevelData[0].perRowInfo.each["01"].bottomBase).toBe(20000);
-    expect(bayLevelData[0].perRowInfo.each["02"].bottomBase).toBe(20000);
-    expect(bayLevelData[1].perRowInfo.each["00"].bottomBase).toBe(1000);
-    expect(bayLevelData[1].perRowInfo.each["01"].bottomBase).toBe(1000);
-    expect(bayLevelData[1].perRowInfo.each["02"].bottomBase).toBe(1000);
-    expect(bayLevelData[2].perRowInfo.each["00"].bottomBase).toBe(20000);
-    expect(bayLevelData[2].perRowInfo.each["01"].bottomBase).toBe(20000);
-    expect(bayLevelData[2].perRowInfo.each["02"].bottomBase).toBe(20000);
-    expect(bayLevelData[3].perRowInfo.each["00"].bottomBase).toBe(1000);
-    expect(bayLevelData[3].perRowInfo.each["01"].bottomBase).toBe(1000);
-    expect(bayLevelData[3].perRowInfo.each["02"].bottomBase).toBe(1000);
+    expect(newBayLevelData[0].perRowInfo.each["00"].bottomBase).toBe(20000);
+    expect(newBayLevelData[0].perRowInfo.each["01"].bottomBase).toBe(20000);
+    expect(newBayLevelData[0].perRowInfo.each["02"].bottomBase).toBe(20000);
+    expect(newBayLevelData[1].perRowInfo.each["00"].bottomBase).toBe(1000);
+    expect(newBayLevelData[1].perRowInfo.each["01"].bottomBase).toBe(1000);
+    expect(newBayLevelData[1].perRowInfo.each["02"].bottomBase).toBe(1000);
+    expect(newBayLevelData[2].perRowInfo.each["00"].bottomBase).toBe(20000);
+    expect(newBayLevelData[2].perRowInfo.each["01"].bottomBase).toBe(20000);
+    expect(newBayLevelData[2].perRowInfo.each["02"].bottomBase).toBe(20000);
+    expect(newBayLevelData[3].perRowInfo.each["00"].bottomBase).toBe(1000);
+    expect(newBayLevelData[3].perRowInfo.each["01"].bottomBase).toBe(1000);
+    expect(newBayLevelData[3].perRowInfo.each["02"].bottomBase).toBe(1000);
   });
 
   it("Remap LCG, from FWD-perp to AFT-perp", () => {
@@ -140,7 +145,7 @@ describe("cgsRemap should ...", () => {
     bayLevelData[3].infoByContLength[20].lcg = 20000;
     bayLevelData[3].infoByContLength[40].lcg = 28000;
 
-    const newBayLevelData = cgsRemap(
+    const newBayLevelData = cgsRemapStafToOvs(
       bayLevelData,
       {
         ...baseLcgOptions,
@@ -201,7 +206,7 @@ describe("cgsRemap should ...", () => {
     bayLevelData[3].infoByContLength[20].lcg = 30000;
     bayLevelData[3].infoByContLength[40].lcg = 22000;
 
-    const newBayLevelData = cgsRemap(
+    const newBayLevelData = cgsRemapStafToOvs(
       bayLevelData,
       {
         ...baseLcgOptions,
@@ -262,7 +267,7 @@ describe("cgsRemap should ...", () => {
     bayLevelData[3].infoByContLength[20].lcg = -30000;
     bayLevelData[3].infoByContLength[40].lcg = -22000;
 
-    const newBayLevelData = cgsRemap(
+    const newBayLevelData = cgsRemapStafToOvs(
       bayLevelData,
       {
         ...baseLcgOptions,
@@ -320,7 +325,7 @@ describe("cgsRemap should ...", () => {
       bl.perRowInfo.each["02"].tcg = 2590;
     });
 
-    const newBayLevelData = cgsRemap(
+    const newBayLevelData = cgsRemapStafToOvs(
       bayLevelData,
       baseLcgOptions,
       baseVcgOptions,
@@ -382,7 +387,7 @@ describe("cgsRemap should ...", () => {
         (bl.level === BayLevelEnum.ABOVE ? 20000 : 1000) + ADDED_VCG;
     });
 
-    const newBayLevelData = cgsRemap(
+    const newBayLevelData = cgsRemapStafToOvs(
       bayLevelData,
       baseLcgOptions,
       {
