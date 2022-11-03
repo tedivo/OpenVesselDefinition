@@ -7,15 +7,21 @@ import IShipData, {
   ITGCOptionsIntermediate,
   IVGCOptionsIntermediate,
 } from "../models/v1/parts/IShipData";
+import ValuesSourceEnum, {
+  ValuesSourceRowTierEnum,
+} from "../models/base/enums/ValuesSourceEnum";
 
 import BayLevelConfig from "./sections/ovsToStaf/BayLevelConfig";
+import ForeAftEnum from "../models/base/enums/ForeAftEnum";
 import { ILidDataFromStaf } from "../models/v1/parts/ILidData";
 import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
 import IRowStafData from "./types/IRowStafData";
 import ISlotData from "../models/v1/parts/ISlotData";
 import ITierStafData from "./types/ITierStafData";
 import { LINE_SEPARATOR } from "./sections/ovsToStaf/consts";
+import LcgReferenceEnum from "../models/base/enums/LcgReferenceEnum";
 import LidConfig from "./sections/ovsToStaf/LidConfig";
+import PortStarboardEnum from "../models/base/enums/PortStarboardEnum";
 import RowConfig from "./sections/ovsToStaf/RowConfig";
 import ShipConfig from "./sections/ovsToStaf/ShipConfig";
 import SlotConfig from "./sections/ovsToStaf/SlotConfig";
@@ -27,9 +33,9 @@ import { tiersRemap } from "./core/tiersRemap";
 export default function ovsV1ToStafConverter(
   originalJson: IOpenShipSpecV1,
   cgOptions?: {
-    lcgOptions: ILCGOptionsIntermediate;
-    vcgOptions: IVGCOptionsIntermediate;
-    tcgOptions: ITGCOptionsIntermediate;
+    lcgOptions?: ILCGOptionsIntermediate;
+    vcgOptions?: IVGCOptionsIntermediate;
+    tcgOptions?: ITGCOptionsIntermediate;
   },
   tier82is = 82
 ): string {
@@ -38,28 +44,46 @@ export default function ovsV1ToStafConverter(
   // Use copy
   const json = JSON.parse(JSON.stringify(originalJson)) as IOpenShipSpecV1;
 
-  // Translate CGs
-  if (
-    cgOptions &&
-    cgOptions.lcgOptions &&
-    cgOptions.vcgOptions &&
-    cgOptions.tcgOptions
-  ) {
+  // Create safe lcgOptions
+  const lpp = cgOptions?.lcgOptions?.lpp || 0;
+  const lcgOptions: ILCGOptionsIntermediate = {
+    reference: lpp
+      ? cgOptions?.lcgOptions?.reference || LcgReferenceEnum.AFT_PERPENDICULAR
+      : LcgReferenceEnum.AFT_PERPENDICULAR,
+    orientationIncrease: lpp
+      ? cgOptions?.lcgOptions?.orientationIncrease || ForeAftEnum.FWD
+      : ForeAftEnum.FWD,
+    values: cgOptions?.lcgOptions?.values || ValuesSourceEnum.KNOWN,
+    lpp,
+  };
+
+  const vcgOptions: IVGCOptionsIntermediate = {
+    values: cgOptions?.vcgOptions?.values || ValuesSourceRowTierEnum.BY_STACK,
+    heightFactor: cgOptions?.vcgOptions?.heightFactor || 0,
+  };
+
+  const tcgOptions: ITGCOptionsIntermediate = {
+    values: cgOptions?.tcgOptions?.values || ValuesSourceEnum.KNOWN,
+    direction: cgOptions?.tcgOptions?.direction || PortStarboardEnum.STARBOARD,
+  };
+
+  // Do CGs remapping given the safe cgOptions
+  if (cgOptions) {
     const { bls, mCGs } = cgsRemapOvsToStaf(
       json.baysData,
       json.shipData.masterCGs,
-      cgOptions.lcgOptions,
-      cgOptions.vcgOptions,
-      cgOptions.tcgOptions
+      lcgOptions,
+      vcgOptions,
+      tcgOptions
     );
 
     json.shipData.masterCGs = mCGs;
     json.baysData = bls;
-
-    // Update CG OPtions. VCG aren't needed because it's calculated and no header in STAF is needed
-    json.shipData.lcgOptions = cgOptions.lcgOptions;
-    json.shipData.tcgOptions = cgOptions.tcgOptions;
   }
+
+  // Update CG OPtions. VCG aren't needed because it's calculated and no header in STAF is needed
+  json.shipData.lcgOptions = lcgOptions;
+  json.shipData.tcgOptions = tcgOptions;
 
   // Remap Tiers
   const {

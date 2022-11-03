@@ -139,6 +139,14 @@ function remapVcgs(
 function remapLcgs(lcgOptions: ILCGOptionsIntermediate, bls: IBayLevelData[]) {
   const lpp = lcgOptions.lpp;
 
+  if (
+    (lcgOptions.reference === LcgReferenceEnum.AFT_PERPENDICULAR &&
+      lcgOptions.orientationIncrease === ForeAftEnum.FWD) ||
+    lpp === 0
+  ) {
+    return;
+  }
+
   const lcgSignMult =
     lcgOptions.orientationIncrease === ForeAftEnum.FWD ? 1 : -1;
 
