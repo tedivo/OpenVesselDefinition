@@ -27,10 +27,12 @@ export default interface IShipData extends IShipDataBase {
 
   rowWeightCalculation?: RowWeightCalculationEnum;
 
-  /** Restrictions available in slots definitions */
-  restrictions?: {
-    allowCoolStowProhibited: boolean;
-    allowHazardousProhibited: boolean;
+  /** Features allowed in slot or bay definitions */
+  featuresAllowed?: {
+    slotCoolStowProhibited: boolean;
+    slotHazardousProhibited: boolean;
+    slotConeRequired: boolean;
+    bayTelescoping: boolean;
   };
 }
 
