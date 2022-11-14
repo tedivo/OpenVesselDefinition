@@ -16,6 +16,7 @@ import IPositionLabels, {
   ITierRowLabelDictionary,
 } from "./models/v1/parts/IPositionLabels";
 import IShipData, {
+  IFeaturesAllowed,
   ILCGOptions,
   IMasterCGs,
   IShipDataFromStaf,
@@ -56,6 +57,7 @@ export {
   IOpenShipSpecV1,
   IShipData,
   IShipDataFromStaf,
+  IFeaturesAllowed,
   ILidData,
   ISlotData,
   ISizeSummary,

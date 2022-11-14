@@ -28,12 +28,7 @@ export default interface IShipData extends IShipDataBase {
   rowWeightCalculation?: RowWeightCalculationEnum;
 
   /** Features allowed in slot or bay definitions */
-  featuresAllowed?: {
-    slotCoolStowProhibited: boolean;
-    slotHazardousProhibited: boolean;
-    slotConeRequired: boolean;
-    bayTelescoping: boolean;
-  };
+  featuresAllowed?: IFeaturesAllowed;
 }
 
 export interface IShipDataIntermediateStaf extends IShipDataBase {
@@ -87,6 +82,12 @@ interface IVisibility {
   bowLCG: number;
   bowVCG: number;
   sternLCG: number;
+}
+
+export interface IFeaturesAllowed {
+  slotCoolStowProhibited: boolean;
+  slotHazardousProhibited: boolean;
+  slotConeRequired: boolean;
 }
 
 export interface ILCGOptions {
