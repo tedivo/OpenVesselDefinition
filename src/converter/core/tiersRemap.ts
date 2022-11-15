@@ -2,7 +2,6 @@ import IBayLevelData, {
   IBaySlotData,
 } from "../../models/v1/parts/IBayLevelData";
 import {
-  IIsoRowPattern,
   IIsoTierPattern,
   IJoinedRowTierPattern,
 } from "../../models/base/types/IPositionPatterns";

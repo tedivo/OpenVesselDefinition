@@ -4,6 +4,7 @@ import {
   TBayRowInfoStaf,
 } from "../../models/v1/parts/IBayLevelData";
 
+import { IRowInfoByLengthWithAcceptsSize } from "../types/IRowStafData";
 import { pad2 } from "../../helpers/pad";
 
 export function createSlotsFromRow(
@@ -19,13 +20,20 @@ export function createSlotsFromRow(
 
     baySlotData[pos] = { pos };
 
-    const sizes = Object.keys(rowData.rowInfoByLength);
+    const rowInfoByLength = rowData.rowInfoByLength;
+    const sizes = Object.keys(rowInfoByLength);
 
     if (sizes.length) {
-      sizes.forEach((size) => {
-        if (!baySlotData[pos].sizes) baySlotData[pos].sizes = {};
-        baySlotData[pos].sizes[size] = 1;
-      });
+      sizes
+        .filter(
+          (size) =>
+            (rowInfoByLength[size] as IRowInfoByLengthWithAcceptsSize)
+              .acceptsSize === 1
+        )
+        .forEach((size) => {
+          if (!baySlotData[pos].sizes) baySlotData[pos].sizes = {};
+          baySlotData[pos].sizes[size] = 1;
+        });
     } else {
       baySlotData[pos].restricted = 1;
     }

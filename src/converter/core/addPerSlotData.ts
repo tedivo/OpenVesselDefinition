@@ -24,20 +24,22 @@ export default function addPerSlotData(
     const isoBay = bl.isoBay;
 
     slotData
-      .filter((v) => {
-        const iTIer = Number(v.position.substring(5));
+      .filter((slotData) => {
+        const position: string = (slotData as any).position;
+        const iTier = Number(position.substring(5));
         return (
-          v.position.indexOf(isoBay) === 0 &&
+          position.indexOf(isoBay) === 0 &&
           ((bl.level === BayLevelEnum.ABOVE &&
-            iTIer >= preCalculatedMinAboveTier) ||
+            iTier >= preCalculatedMinAboveTier) ||
             (bl.level === BayLevelEnum.BELOW &&
-              iTIer < preCalculatedMinAboveTier))
+              iTier < preCalculatedMinAboveTier))
         );
       })
-      .forEach((v) => {
-        const pos = v.position.substring(3) as IJoinedRowTierPattern; // Remove bay
+      .forEach((slotData) => {
+        const ps: string = (slotData as any).position;
+        const pos = ps.substring(3) as IJoinedRowTierPattern; // Remove bay
 
-        const { position, sizes, ...withoutSizesAndPos } = v;
+        const { position, sizes, ...withoutSizesAndPos } = slotData;
 
         // Create it if it doesn't exist
         if (!bl.perSlotInfo[pos]) bl.perSlotInfo[pos] = { pos, sizes: {} };
