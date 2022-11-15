@@ -76,7 +76,7 @@ describe("stafToOvsV1Converter should...", () => {
 
   it("make conversion of bays correctly", () => {
     const converted = stafToOvsV1Converter(stafFileContent, 0);
-    expect(converted.baysData.length).toBe(sectionsExpected[1][1]);
+    expect(converted.baysData.length).toBe(sectionsExpected[1][1] + 3); //+3 Missing data in bays
   });
 
   it("make conversion of perRow correctly", () => {
@@ -157,7 +157,10 @@ describe("stafToOvsV1Converter should...", () => {
       "073-1": 17,
       "075-2": 15,
       "075-1": 17,
+      "077-2": 0, // Added missing bay (from STAF)
+      "077-1": 0, // Added missing bay (from STAF)
       "079-1": 17,
+      "079-2": 0, // Added missing bay (from STAF)
     };
     const converted = stafToOvsV1Converter(stafFileContent, 0);
 

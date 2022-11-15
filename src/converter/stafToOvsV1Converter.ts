@@ -12,6 +12,7 @@ import IRowStafData from "./types/IRowStafData";
 import IShipData from "../models/v1/parts/IShipData";
 import IStafDataProcessed from "./types/IStafDataProcessed";
 import ITierStafData from "./types/ITierStafData";
+import { addMissingBays } from "./core/addMissingBays";
 import addPerRowInfo from "../converter/core/addPerRowInfo";
 import addPerSlotData from "../converter/core/addPerSlotData";
 import addPerTierInfo from "../converter/core/addPerTierInfo";
@@ -77,6 +78,11 @@ export default function stafToOvsV1Converter(
     isoBays,
     bayLevelData: dataProcessed.bayLevelData,
   });
+
+  dataProcessed.bayLevelData = addMissingBays(
+    dataProcessed.bayLevelData,
+    preSizeSummary
+  );
 
   // 4. Add slotsData to BayLevel.perSlotInfo
   addPerSlotData(
