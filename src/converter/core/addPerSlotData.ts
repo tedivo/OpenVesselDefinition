@@ -67,7 +67,7 @@ export default function addPerSlotData(
           if (bl.perSlotInfo[pos].reefer === 0)
             delete bl.perSlotInfo[pos].reefer;
         } else {
-          // If no sizes exist, delete object
+          // If no sizes exist, create as restricted
           bl.perSlotInfo[pos] = { pos, sizes: {}, restricted: 1 };
         }
       });

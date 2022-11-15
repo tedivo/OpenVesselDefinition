@@ -5,6 +5,7 @@ import {
 } from "../../models/v1/parts/IBayLevelData";
 
 import { IRowInfoByLengthWithAcceptsSize } from "../types/IRowStafData";
+import ISlotData from "../../models/v1/parts/ISlotData";
 import { pad2 } from "../../helpers/pad";
 
 export function createSlotsFromRow(
@@ -18,22 +19,22 @@ export function createSlotsFromRow(
   ) {
     const pos = `${rowData.isoRow}${pad2(iTier)}`;
 
-    baySlotData[pos] = { pos };
+    baySlotData[pos] = { pos, sizes: {} } as ISlotData;
 
     const rowInfoByLength = rowData.rowInfoByLength;
-    const sizes = Object.keys(rowInfoByLength);
+    const sizesFromRowInfoByLength = Object.keys(rowInfoByLength);
 
-    if (sizes.length) {
-      sizes
-        .filter(
-          (size) =>
-            (rowInfoByLength[size] as IRowInfoByLengthWithAcceptsSize)
-              .acceptsSize === 1
-        )
-        .forEach((size) => {
-          if (!baySlotData[pos].sizes) baySlotData[pos].sizes = {};
-          baySlotData[pos].sizes[size] = 1;
-        });
+    if (sizesFromRowInfoByLength.length) {
+      sizesFromRowInfoByLength.forEach((size) => {
+        const acceptsSize = (
+          rowInfoByLength[size] as IRowInfoByLengthWithAcceptsSize
+        ).acceptsSize;
+
+        if (acceptsSize) baySlotData[pos].sizes[size] = 1;
+      });
+
+      if (Object.keys(baySlotData[pos].sizes).length === 0)
+        baySlotData[pos].restricted = 1;
     } else {
       baySlotData[pos].restricted = 1;
     }
