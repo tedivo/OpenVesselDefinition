@@ -29,6 +29,11 @@ export default interface IShipData extends IShipDataBase {
 
   /** Features allowed in slot or bay definitions */
   featuresAllowed?: IFeaturesAllowed;
+
+  /** LOA: Lenght Overall */
+  loa?: number;
+  /** Distance from Ster to After Perpendicular */
+  sternToAftPp?: number;
 }
 
 export interface IShipDataIntermediateStaf extends IShipDataBase {
