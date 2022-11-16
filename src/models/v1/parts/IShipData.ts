@@ -51,7 +51,6 @@ export type IShipDataFromStaf = Pick<
 interface IShipDataBase {
   lineOperator?: string;
   shipName?: string;
-  lloydsCode?: string;
   callSign?: string;
   imoCode?: string;
   shipClass: string;
