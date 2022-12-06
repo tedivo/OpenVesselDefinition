@@ -54,6 +54,7 @@ interface IShipDataBase {
   callSign?: string;
   imoCode?: string;
   shipClass: string;
+  yearBuilt?: number;
 
   /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
   positionFormat: PositionFormatEnum;
