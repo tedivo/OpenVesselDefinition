@@ -32,7 +32,7 @@ export default interface IShipData extends IShipDataBase {
 
   /** LOA: Lenght Overall */
   loa?: number;
-  /** Distance from Ster to After Perpendicular */
+  /** Distance from Ster to Aft Perpendicular */
   sternToAftPp?: number;
 }
 

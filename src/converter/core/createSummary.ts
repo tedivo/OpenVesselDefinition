@@ -33,7 +33,7 @@ export default function createSummary({
 }
 
 /**
- * Mutates the summary with the maximum dimensions after checking the bl
+ * Mutates the summary with the maximum dimensions after checking the Bay-Level Data
  * @param bl Bay Data
  * @param summary Existing Summart
  */
