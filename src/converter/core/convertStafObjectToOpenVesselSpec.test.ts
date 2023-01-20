@@ -173,6 +173,7 @@ describe("for STACK data", () => {
     expect(row1.rowInfoByLength[20]).toBeTruthy();
     expect(row1.rowInfoByLength[20].size).toBe(20);
     expect(row1.rowInfoByLength[20].acceptsSize).toBe(1);
+    expect(row1.rowInfoByLength[20].rowWeight).toBe(20000000);
     expect(row1.rowInfoByLength[24]).toBeFalsy();
     expect(row1.rowInfoByLength[40]).toBeFalsy();
     expect(row1.rowInfoByLength[45]).toBeFalsy();

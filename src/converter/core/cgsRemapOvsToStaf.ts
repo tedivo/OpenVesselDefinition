@@ -100,30 +100,32 @@ function remapVcgs(
   );
 
   bls.forEach((bl) => {
-    const perRowInfoEach = bl.perRowInfo.each;
+    const perRowInfoEach = bl.perRowInfo?.each;
+    if (perRowInfoEach) {
+      const { tiersByRow } = getRowsAndTiersFromSlotKeys(
+        bl.perSlotInfo
+          ? (Object.keys(bl.perSlotInfo) as IJoinedRowTierPattern[])
+          : undefined
+      );
 
-    const { tiersByRow } = getRowsAndTiersFromSlotKeys(
-      bl.perSlotInfo
-        ? (Object.keys(bl.perSlotInfo) as IJoinedRowTierPattern[])
-        : undefined
-    );
+      const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
+      rows.forEach((row) => {
+        const bottomIsoTier = tiersByRow[row]?.minTier
+          ? pad2(tiersByRow[row]?.minTier)
+          : "";
 
-    const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
-    rows.forEach((row) => {
-      const bottomIsoTier = tiersByRow[row]?.minTier
-        ? pad2(tiersByRow[row]?.minTier)
-        : "";
+        let vcg: number | undefined = undefined;
 
-      let vcg: number | undefined = undefined;
+        vcg =
+          perRowInfoEach[row].bottomBase ??
+          masterCGs.bottomBases[bottomIsoTier];
 
-      vcg =
-        perRowInfoEach[row].bottomBase ?? masterCGs.bottomBases[bottomIsoTier];
-
-      // Adjust using vcgOptions.heightFactor
-      if (vcg !== undefined) {
-        perRowInfoEach[row].bottomBase = vcg + baseAdjust;
-      }
-    });
+        // Adjust using vcgOptions.heightFactor
+        if (vcg !== undefined) {
+          perRowInfoEach[row].bottomBase = vcg + baseAdjust;
+        }
+      });
+    }
   });
 
   (Object.keys(masterCGs.bottomBases) as IIsoTierPattern[]).forEach((tier) => {
