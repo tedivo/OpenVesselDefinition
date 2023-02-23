@@ -8,7 +8,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es5",
+    "target": "ES6",
     "module": "commonjs",
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
