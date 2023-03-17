@@ -104,6 +104,10 @@ export default function stafToOvsV1Converter(
     lcgOptions: {
       values: lcgOptions.values,
       lpp: lcgOptions.lpp,
+      originalDataSource: {
+        reference: lcgOptions.reference,
+        orientationIncrease: lcgOptions.orientationIncrease,
+      },
     },
     tcgOptions: {
       values: tcgOptions.values,

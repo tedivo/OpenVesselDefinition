@@ -1,3 +1,5 @@
+import ForeAftEnum from "../models/base/enums/ForeAftEnum";
+import LcgReferenceEnum from "../models/base/enums/LcgReferenceEnum";
 import PositionFormatEnum from "../models/base/enums/PositionFormatEnum";
 import ValuesSourceEnum from "../models/base/enums/ValuesSourceEnum";
 import fs from "fs";
@@ -66,6 +68,12 @@ describe("stafToOvsV1Converter should...", () => {
 
     expect(shipData.lcgOptions).toBeDefined();
     expect(shipData.lcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
+    expect(shipData.lcgOptions.originalDataSource.reference).toBe(
+      LcgReferenceEnum.AFT_PERPENDICULAR
+    );
+    expect(shipData.lcgOptions.originalDataSource.orientationIncrease).toBe(
+      ForeAftEnum.FWD
+    );
 
     expect(shipData.vcgOptions).toBeDefined();
     expect(shipData.vcgOptions.values).toBe(ValuesSourceEnum.KNOWN);

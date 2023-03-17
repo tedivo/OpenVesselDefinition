@@ -115,7 +115,7 @@ describe("convertOvsToStafObject should", () => {
 });
 
 describe("for SHIP data", () => {
-  it("work ok with mocked data of header", () => {
+  it("work ok with mocked data of header, VCG Estimated", () => {
     const shipData: IShipData = {
       shipClass: "MY CLASS",
       containersLengths: [],
@@ -130,6 +130,36 @@ describe("for SHIP data", () => {
         direction: PortStarboardEnum.STARBOARD,
       },
       vcgOptions: { values: ValuesSourceEnum.ESTIMATED },
+      positionFormat: PositionFormatEnum.BAY_STACK_TIER,
+      metaInfo: {},
+      masterCGs: { aboveTcgs: {}, belowTcgs: {}, bottomBases: {} },
+    };
+
+    const processed = convertOvsToStafObject<IShipData, IShipDataFromStaf>(
+      [shipData],
+      ShipConfig
+    );
+
+    const expectedRes = `*SHIP${LINE_SEPARATOR}**CLASS\tUNITS\tLCG IN USE\tLCG REF PT\tLCG + DIR\tVCG IN USE\tTCG IN USE\tTCG + DIR\tPOSITION FORMAT${LINE_SEPARATOR}MY CLASS\tMETRIC\tY\tAP\tF\tESTIMATED\tN\tSTBD\tBAY-STACK-TIER`;
+
+    expect(processed).toBe(expectedRes);
+  });
+
+  it("work ok with mocked data of header, VCG Known", () => {
+    const shipData: IShipData = {
+      shipClass: "MY CLASS",
+      containersLengths: [],
+      lcgOptions: {
+        values: ValuesSourceEnum.KNOWN,
+        lpp: 200,
+        reference: LcgReferenceEnum.AFT_PERPENDICULAR,
+        orientationIncrease: ForeAftEnum.FWD,
+      },
+      tcgOptions: {
+        values: ValuesSourceEnum.ESTIMATED,
+        direction: PortStarboardEnum.STARBOARD,
+      },
+      vcgOptions: { values: ValuesSourceEnum.KNOWN },
       positionFormat: PositionFormatEnum.BAY_STACK_TIER,
       metaInfo: {},
       masterCGs: { aboveTcgs: {}, belowTcgs: {}, bottomBases: {} },
@@ -155,6 +185,8 @@ describe("for STAF_BAY data", () => {
     );
 
     const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
+    b001Above.reeferPlugs = ForeAftEnum.AFT;
+    b003Above.reeferPlugs = ForeAftEnum.FWD;
 
     // Check that MOCKED data is ok, to be sure further data modifications are correct
     expect(b001Above.isoBay).toBe("001");
@@ -181,13 +213,13 @@ describe("for STAF_BAY data", () => {
       "**STAF BAY\tLEVEL\t20 NAME\t40 NAME\tSL Hatch\tSL ForeAft\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HEIGHT\tPAIRED BAY\tREEFER PLUGS\tDOORS\tATHWARTSHIPS\tBULKHEAD\tBULKHEAD LCG\tLCG 24\tSTACK WT 24"
     );
     expect(processedLines[2]).toBe(
-      "01\tA\t001-Label-20-A\t001-Label-40-A\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tA\t-\t-\tY\tN\t-\t-\t-"
+      "01\tA\t001-Label-20-A\t001-Label-40-A\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tA\tA\t-\tY\tN\t-\t-\t-"
     );
     expect(processedLines[3]).toBe(
       "01\tB\t001-Label-20-B\t001-Label-40-B\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tA\t-\t-\tN\tY\t119.00\t-\t-"
     );
     expect(processedLines[4]).toBe(
-      "03\tA\t-\t-\t-\t-\t100.00\t110.00\t111.00\t112.00\t2\t2.1\t2.2\t2.3\t5.50\tF\t-\tA\tN\tN\t-\t-\t-"
+      "03\tA\t-\t-\t-\t-\t100.00\t110.00\t111.00\t112.00\t2\t2.1\t2.2\t2.3\t5.50\tF\tF\tA\tN\tN\t-\t-\t-"
     );
     expect(processedLines[5]).toBe(
       "03\tB\t-\t-\t-\t-\t100.00\t-\t-\t-\t2.1\t-\t-\t-\t5.20\tF\t-\tA\tN\tN\t-\t99.00\t2.9"

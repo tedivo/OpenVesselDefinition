@@ -100,6 +100,10 @@ export interface ILCGOptions {
   lpp: number;
   reference?: LcgReferenceEnum;
   orientationIncrease?: ForeAftEnum;
+  originalDataSource?: {
+    reference?: LcgReferenceEnum;
+    orientationIncrease?: ForeAftEnum;
+  };
 }
 
 export interface IVGCOptions {

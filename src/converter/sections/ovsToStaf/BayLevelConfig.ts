@@ -94,7 +94,8 @@ const BayLevelConfig: ISectionMapToStafConfig<
     },
     {
       stafVar: "REEFER PLUGS",
-      fixedValue: "-",
+      source: "reeferPlugs",
+      mapper: getForeAftEnumToStaf,
     },
     { stafVar: "DOORS", source: "doors", mapper: getForeAftEnumToStaf },
     { stafVar: "ATHWARTSHIPS", source: "athwartShip", mapper: yNToStaf },

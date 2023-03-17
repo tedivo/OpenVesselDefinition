@@ -34,4 +34,11 @@ export const getStafValuesSourceRowTierEnumValue = (
   return ValuesSourceRowTierEnum.ESTIMATED;
 };
 
+export const getValuesSourceRowTierEnumValueToStaf = (
+  s: ValuesSourceRowTierEnum
+): TStafValuesSourceRowTier => {
+  if (s === ValuesSourceRowTierEnum.ESTIMATED) return "ESTIMATED";
+  return "STACK";
+};
+
 export default ValuesSourceEnum;

@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "sourceMap": true,
+    "inlineSources": true,
     "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
@@ -13,10 +14,9 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    // "baseUrl": ".",
     "esModuleInterop": true,
-    //"isolatedModules": true,
     "paths": {},
+    "forceConsistentCasingInFileNames": true,
     "outDir": "build"
   },
   "include": ["src"],
