@@ -1,6 +1,6 @@
 import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
-import LidConfig from "../sections/stafToOvs/LidConfig";
-import convertStafObjectToOpenVesselSpec from "./convertStafObjectToOpenVesselSpec";
+import LidConfig from "../sections/stafToOvd/LidConfig";
+import convertStafObjectToOpenVesselDefinition from "./convertStafObjectToOpenVesselDefinition";
 import getSectionsFromFileContent from "./getSectionsFromFileContent";
 import mapStafSections from "./mapStafSections";
 import stafLidString from "../mocks/stafLidString";
@@ -13,7 +13,7 @@ describe("transformLids should...", () => {
     );
     const lidSection = sectionsByName["LID"];
 
-    const processed = convertStafObjectToOpenVesselSpec<ILidDataFromStaf>(
+    const processed = convertStafObjectToOpenVesselDefinition<ILidDataFromStaf>(
       lidSection,
       LidConfig
     );

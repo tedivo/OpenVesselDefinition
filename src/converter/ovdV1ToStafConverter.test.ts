@@ -1,10 +1,10 @@
-import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
+import IOpenVesselDefinitionV1 from "../models/v1/IOpenVesselDefinitionV1";
 import fs from "fs";
-import ovsV1ToStafConverter from "./ovsV1ToStafConverter";
+import ovdV1ToStafConverter from "./ovdV1ToStafConverter";
 import path from "path";
 
-const json: IOpenShipSpecV1 = {
-  schema: "OpenVesselSpec",
+const json: IOpenVesselDefinitionV1 = {
+  schema: "OpenVesselDefinition",
   version: "1.0.0",
   sizeSummary: {
     isoBays: 3,
@@ -421,9 +421,9 @@ const json: IOpenShipSpecV1 = {
   ],
 };
 
-describe("ovsV1ToStafConverter should...", () => {
+describe("ovdV1ToStafConverter should...", () => {
   it.skip("works ok", () => {
-    const processed = ovsV1ToStafConverter(json);
+    const processed = ovdV1ToStafConverter(json);
 
     fs.writeFileSync(path.resolve("./examples/dummyStaf.txt"), processed);
   });

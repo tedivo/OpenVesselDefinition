@@ -11,27 +11,27 @@ import ValuesSourceEnum, {
   ValuesSourceRowTierEnum,
 } from "../models/base/enums/ValuesSourceEnum";
 
-import BayLevelConfig from "./sections/ovsToStaf/BayLevelConfig";
+import BayLevelConfig from "./sections/ovdToStaf/BayLevelConfig";
 import ForeAftEnum from "../models/base/enums/ForeAftEnum";
 import { ILidDataFromStaf } from "../models/v1/parts/ILidData";
-import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
+import IOpenVesselDefinitionV1 from "../models/v1/IOpenVesselDefinitionV1";
 import IRowStafData from "./types/IRowStafData";
 import ISlotData from "../models/v1/parts/ISlotData";
 import ITierStafData from "./types/ITierStafData";
-import { LINE_SEPARATOR } from "./sections/ovsToStaf/consts";
+import { LINE_SEPARATOR } from "./sections/ovdToStaf/consts";
 import LcgReferenceEnum from "../models/base/enums/LcgReferenceEnum";
-import LidConfig from "./sections/ovsToStaf/LidConfig";
+import LidConfig from "./sections/ovdToStaf/LidConfig";
 import PortStarboardEnum from "../models/base/enums/PortStarboardEnum";
-import RowConfig from "./sections/ovsToStaf/RowConfig";
-import ShipConfig from "./sections/ovsToStaf/ShipConfig";
-import SlotConfig from "./sections/ovsToStaf/SlotConfig";
-import TierConfig from "./sections/ovsToStaf/TierConfig";
-import { cgsRemapOvsToStaf } from "./core/cgsRemapOvsToStaf";
-import convertOvsToStafObject from "./core/convertOvsToStafObject";
+import RowConfig from "./sections/ovdToStaf/RowConfig";
+import ShipConfig from "./sections/ovdToStaf/ShipConfig";
+import SlotConfig from "./sections/ovdToStaf/SlotConfig";
+import TierConfig from "./sections/ovdToStaf/TierConfig";
+import { cgsRemapOvdToStaf } from "./core/cgsRemapOvdToStaf";
+import convertOvdToStafObject from "./core/convertOvdToStafObject";
 import { tiersRemap } from "./core/tiersRemap";
 
 export default function ovsV1ToStafConverter(
-  originalJson: IOpenShipSpecV1,
+  originalJson: IOpenVesselDefinitionV1,
   cgOptions?: {
     lcgOptions?: ILCGOptionsIntermediate;
     vcgOptions?: IVGCOptionsIntermediate;
@@ -42,7 +42,9 @@ export default function ovsV1ToStafConverter(
   const stafParts: string[] = [];
 
   // Use copy
-  const json = JSON.parse(JSON.stringify(originalJson)) as IOpenShipSpecV1;
+  const json = JSON.parse(
+    JSON.stringify(originalJson)
+  ) as IOpenVesselDefinitionV1;
 
   // Create safe lcgOptions
   const lpp = cgOptions?.lcgOptions?.lpp || 0;
@@ -69,7 +71,7 @@ export default function ovsV1ToStafConverter(
 
   // Do CGs remapping given the safe cgOptions
   if (cgOptions) {
-    const { bls, mCGs } = cgsRemapOvsToStaf(
+    const { bls, mCGs } = cgsRemapOvdToStaf(
       json.baysData,
       json.shipData.masterCGs,
       lcgOptions,
@@ -102,14 +104,14 @@ export default function ovsV1ToStafConverter(
   json.shipData.masterCGs = newMasterCGs;
 
   stafParts.push(
-    convertOvsToStafObject<IShipData, IShipDataFromStaf>(
+    convertOvdToStafObject<IShipData, IShipDataFromStaf>(
       [json.shipData],
       ShipConfig
     )
   );
 
   stafParts.push(
-    convertOvsToStafObject<IBayLevelDataStaf, IBayLevelData>(
+    convertOvdToStafObject<IBayLevelDataStaf, IBayLevelData>(
       json.baysData,
       BayLevelConfig
     )
@@ -121,13 +123,13 @@ export default function ovsV1ToStafConverter(
   );
 
   stafParts.push(
-    convertOvsToStafObject<IRowStafData, IRowStafData>(dataForRows, RowConfig)
+    convertOvdToStafObject<IRowStafData, IRowStafData>(dataForRows, RowConfig)
   );
 
   const dataForTiers = TierConfig.preProcessor(json.baysData);
 
   stafParts.push(
-    convertOvsToStafObject<ITierStafData, ITierStafData>(
+    convertOvdToStafObject<ITierStafData, ITierStafData>(
       dataForTiers,
       TierConfig
     )
@@ -136,13 +138,13 @@ export default function ovsV1ToStafConverter(
   const dataForSlots = SlotConfig.preProcessor(json.baysData);
 
   stafParts.push(
-    convertOvsToStafObject<ISlotData, ISlotData>(dataForSlots, SlotConfig)
+    convertOvdToStafObject<ISlotData, ISlotData>(dataForSlots, SlotConfig)
   );
 
   const dataForLids = LidConfig.preProcessor(json.lidData);
 
   stafParts.push(
-    convertOvsToStafObject<ILidDataFromStaf, ILidDataFromStaf>(
+    convertOvdToStafObject<ILidDataFromStaf, ILidDataFromStaf>(
       dataForLids,
       LidConfig
     )

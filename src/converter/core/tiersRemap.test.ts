@@ -101,7 +101,7 @@ describe("stafTiersRemap should", () => {
     expect(newMCGs.bottomBases["02"]).toBe(1000);
   });
 
-  it("Translate tiers when tier82is !== 82, STAF->OVS", () => {
+  it("Translate tiers when tier82is !== 82, STAF->OVD", () => {
     const { bayLevelData, summary, masterCGs } = createMockedBl();
 
     expect(summary.maxAboveTier).toBe(86);
@@ -145,7 +145,7 @@ describe("stafTiersRemap should", () => {
     expect(newMCGs.bottomBases["02"]).toBe(1000);
   });
 
-  it("Translate tiers when tier82is !== 82, OVS->STAF", () => {
+  it("Translate tiers when tier82is !== 82, OVD->STAF", () => {
     const { bayLevelData, summary, masterCGs } = createMockedBl();
 
     expect(summary.maxAboveTier).toBe(86);

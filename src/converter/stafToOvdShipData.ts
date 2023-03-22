@@ -3,8 +3,8 @@ import {
   IShipDataIntermediateStaf,
 } from "../models/v1/parts/IShipData";
 
-import ShipConfig from "./sections/stafToOvs/ShipConfig";
-import convertStafObjectToOpenVesselSpec from "./core/convertStafObjectToOpenVesselSpec";
+import ShipConfig from "./sections/stafToOvd/ShipConfig";
+import convertStafObjectToOpenVesselDefinition from "./core/convertStafObjectToOpenVesselDefinition";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
 
@@ -13,7 +13,7 @@ import mapStafSections from "./core/mapStafSections";
  * @param fileContent STAF string
  * @returns IShipDataFromStaf
  */
-export default function stafToOvsShipData(
+export default function stafToOvdShipData(
   fileContent: string
 ): IShipDataFromStaf {
   const sectionsByName = mapStafSections(
@@ -28,10 +28,11 @@ export default function stafToOvsShipData(
     };
   }
 
-  const shipData = convertStafObjectToOpenVesselSpec<IShipDataIntermediateStaf>(
-    sectionsByName["SHIP"],
-    ShipConfig
-  )[0];
+  const shipData =
+    convertStafObjectToOpenVesselDefinition<IShipDataIntermediateStaf>(
+      sectionsByName["SHIP"],
+      ShipConfig
+    )[0];
 
   const { shipClass, positionFormat, tcgOptions, lcgOptions, vcgOptions } =
     shipData;

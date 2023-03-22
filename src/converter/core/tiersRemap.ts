@@ -14,7 +14,7 @@ import { pad2 } from "../../helpers/pad";
 const MAX_BELOW_TIER = 66;
 
 /**
- * Remaps above tiers numbers STAF <-> OVS.
+ * Remaps above tiers numbers STAF <-> OVD.
  */
 export function tiersRemap({
   sizeSummary,

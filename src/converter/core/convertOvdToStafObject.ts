@@ -1,8 +1,8 @@
 import ISectionMapToStafConfig from "../types/ISectionMapToStafConfig";
-import { LINE_SEPARATOR } from "../sections/ovsToStaf/consts";
+import { LINE_SEPARATOR } from "../sections/ovdToStaf/consts";
 import RecursiveKeyOf from "../../helpers/types/RecursiveKeyOf";
 
-export default function convertOvsToStafObject<T, U>(
+export default function convertOvdToStafObject<T, U>(
   data: T[],
   sectionConfig: ISectionMapToStafConfig<U, T>
 ): string {

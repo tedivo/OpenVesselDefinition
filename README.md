@@ -1,10 +1,10 @@
-# Open Vessel Specification
+# Open Vessel Definition
 
-Open Source specification of Vessels's characteristics.
+Open Source definition / schema / specification of Cargo Vessels's characteristics.
 
-[![Tests](https://github.com/tedivo/OpenVesselSpec/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/tedivo/OpenVesselSpec/actions/workflows/main.yml)
+[![Tests](https://github.com/tedivo/OpenVesselDefinition/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/tedivo/OpenVesselDefinition/actions/workflows/main.yml)
 
-Use the Vessel Designer at https://designer.tedivo.com
+Use an interactive Vessel Designer at https://designer.tedivo.com
 
 ## License
 

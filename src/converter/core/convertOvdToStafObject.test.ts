@@ -6,26 +6,26 @@ import IShipData, {
   IMasterCGs,
   IShipDataFromStaf,
 } from "../../models/v1/parts/IShipData";
-import convertOvsToStafObject, {
+import convertOvdToStafObject, {
   getNestedValue,
-} from "../core/convertOvsToStafObject";
+} from "../core/convertOvdToStafObject";
 
-import BayLevelConfig from "../sections/ovsToStaf/BayLevelConfig";
+import BayLevelConfig from "../sections/ovdToStaf/BayLevelConfig";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import IRowStafData from "../types/IRowStafData";
 import ISectionMapToStafConfig from "../types/ISectionMapToStafConfig";
 import ISlotData from "../../models/v1/parts/ISlotData";
 import ITierStafData from "../types/ITierStafData";
-import { LINE_SEPARATOR } from "../sections/ovsToStaf/consts";
+import { LINE_SEPARATOR } from "../sections/ovdToStaf/consts";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
-import LidConfig from "../sections/ovsToStaf/LidConfig";
+import LidConfig from "../sections/ovdToStaf/LidConfig";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../../models/base/enums/PositionFormatEnum";
-import RowConfig from "../sections/ovsToStaf/RowConfig";
-import ShipConfig from "../sections/ovsToStaf/ShipConfig";
-import SlotConfig from "../sections/ovsToStaf/SlotConfig";
-import TierConfig from "../sections/ovsToStaf/TierConfig";
+import RowConfig from "../sections/ovdToStaf/RowConfig";
+import ShipConfig from "../sections/ovdToStaf/ShipConfig";
+import SlotConfig from "../sections/ovdToStaf/SlotConfig";
+import TierConfig from "../sections/ovdToStaf/TierConfig";
 import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 
@@ -69,7 +69,7 @@ describe("getNestedValue should...", () => {
   });
 });
 
-describe("convertOvsToStafObject should", () => {
+describe("convertOvdToStafObject should", () => {
   const sectionConfig: ISectionMapToStafConfig<IDummy, IDummy> = {
     stafSection: "DUMMY",
     mapVars: [
@@ -103,7 +103,7 @@ describe("convertOvsToStafObject should", () => {
   };
 
   it("applies the mappers correctly", () => {
-    const processed = convertOvsToStafObject<IDummy, IDummy>(
+    const processed = convertOvdToStafObject<IDummy, IDummy>(
       [dummyData],
       sectionConfig
     );
@@ -135,7 +135,7 @@ describe("for SHIP data", () => {
       masterCGs: { aboveTcgs: {}, belowTcgs: {}, bottomBases: {} },
     };
 
-    const processed = convertOvsToStafObject<IShipData, IShipDataFromStaf>(
+    const processed = convertOvdToStafObject<IShipData, IShipDataFromStaf>(
       [shipData],
       ShipConfig
     );
@@ -165,7 +165,7 @@ describe("for SHIP data", () => {
       masterCGs: { aboveTcgs: {}, belowTcgs: {}, bottomBases: {} },
     };
 
-    const processed = convertOvsToStafObject<IShipData, IShipDataFromStaf>(
+    const processed = convertOvdToStafObject<IShipData, IShipDataFromStaf>(
       [shipData],
       ShipConfig
     );
@@ -201,7 +201,7 @@ describe("for STAF_BAY data", () => {
     // Modify data to check it in the result
     addMockedAttributes(b001Above, b001Below, b003Above, b003Below);
 
-    const processed = convertOvsToStafObject<IBayLevelDataStaf, IBayLevelData>(
+    const processed = convertOvdToStafObject<IBayLevelDataStaf, IBayLevelData>(
       bayLevelData,
       BayLevelConfig
     );
@@ -246,7 +246,7 @@ describe("for STACK data", () => {
 
     const data = RowConfig.preProcessor(bayLevelData, masterCGs);
 
-    const processed = convertOvsToStafObject<IRowStafData, IRowStafData>(
+    const processed = convertOvdToStafObject<IRowStafData, IRowStafData>(
       data,
       RowConfig
     );
@@ -313,7 +313,7 @@ describe("for STACK data", () => {
 
     const data = RowConfig.preProcessor(bayLevelData, masterCGs);
 
-    const processed = convertOvsToStafObject<IRowStafData, IRowStafData>(
+    const processed = convertOvdToStafObject<IRowStafData, IRowStafData>(
       data,
       RowConfig
     );
@@ -343,7 +343,7 @@ describe("for TIER data", () => {
 
     const data = TierConfig.preProcessor(bayLevelData);
 
-    const processed = convertOvsToStafObject<ITierStafData, ITierStafData>(
+    const processed = convertOvdToStafObject<ITierStafData, ITierStafData>(
       data,
       TierConfig
     );
@@ -364,7 +364,7 @@ describe("for TIER data", () => {
 
     const data = TierConfig.preProcessor(bayLevelData);
 
-    const processed = convertOvsToStafObject<ITierStafData, ITierStafData>(
+    const processed = convertOvdToStafObject<ITierStafData, ITierStafData>(
       data,
       TierConfig
     );
@@ -402,7 +402,7 @@ describe("for SLOT data", () => {
 
     const data = SlotConfig.preProcessor(bayLevelData);
 
-    const processed = convertOvsToStafObject<ISlotData, ISlotData>(
+    const processed = convertOvdToStafObject<ISlotData, ISlotData>(
       data,
       SlotConfig
     );
@@ -477,7 +477,7 @@ describe("for LID data", () => {
     // 3A04 -> 3 lines 003, 005, 007
     expect(data.length).toBe(8);
 
-    const processed = convertOvsToStafObject<
+    const processed = convertOvdToStafObject<
       ILidDataFromStaf,
       ILidDataFromStaf
     >(data, LidConfig);

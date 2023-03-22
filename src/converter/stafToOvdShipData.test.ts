@@ -10,11 +10,11 @@ import PositionFormatEnum from "../models/base/enums/PositionFormatEnum";
 import fs from "fs";
 import path from "path";
 import stafHeaderString from "./mocks/stafHeaderString";
-import stafToOvsShipData from "./stafToOvsShipData";
+import stafToOvdShipData from "./stafToOvdShipData";
 
 let stafFileContent: string;
 
-describe("stafToShipInfoSpecConverter should...", () => {
+describe("stafToShipInfoDefinitionConverter should...", () => {
   beforeAll(() => {
     stafFileContent = fs.readFileSync(
       path.resolve("./src/converter/mocks/OOL.OBEI.OOCL BEIJING_STAFF2.txt"),
@@ -23,7 +23,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
   });
 
   it("make conversion of shipData correctly", () => {
-    const shipData = stafToOvsShipData(stafFileContent);
+    const shipData = stafToOvdShipData(stafFileContent);
 
     expect(shipData.shipClass).toBe("OBEI");
     expect(shipData.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);
@@ -44,7 +44,7 @@ describe("stafToShipInfoSpecConverter should...", () => {
   });
 
   it("test with mocked data of header", () => {
-    const shipData = stafToOvsShipData(stafHeaderString);
+    const shipData = stafToOvdShipData(stafHeaderString);
 
     expect(shipData.shipClass).toBe("OAME");
     expect(shipData.positionFormat).toBe(PositionFormatEnum.BAY_STACK_TIER);

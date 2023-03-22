@@ -12,33 +12,34 @@ import RowConfig from "./RowConfig";
 import ShipConfig from "./ShipConfig";
 import SlotConfig from "./SlotConfig";
 import TierConfig from "./TierConfig";
-import convertStafObjectToOpenVesselSpec from "../../core/convertStafObjectToOpenVesselSpec";
+import convertStafObjectToOpenVesselDefinition from "../../core/convertStafObjectToOpenVesselDefinition";
 
 export function processAllSections(
   sectionsByName: ISectionsByName
 ): IStafDataProcessed {
   return {
-    shipData: convertStafObjectToOpenVesselSpec<IShipDataIntermediateStaf>(
-      sectionsByName["SHIP"],
-      ShipConfig
-    )[0],
-    bayLevelData: convertStafObjectToOpenVesselSpec<IBayLevelDataStaf>(
+    shipData:
+      convertStafObjectToOpenVesselDefinition<IShipDataIntermediateStaf>(
+        sectionsByName["SHIP"],
+        ShipConfig
+      )[0],
+    bayLevelData: convertStafObjectToOpenVesselDefinition<IBayLevelDataStaf>(
       sectionsByName["SECTION"],
       BayLevelConfig
     ),
-    rowData: convertStafObjectToOpenVesselSpec<IRowStafData>(
+    rowData: convertStafObjectToOpenVesselDefinition<IRowStafData>(
       sectionsByName["STACK"],
       RowConfig
     ),
-    tierData: convertStafObjectToOpenVesselSpec<ITierStafData>(
+    tierData: convertStafObjectToOpenVesselDefinition<ITierStafData>(
       sectionsByName["TIER"],
       TierConfig
     ),
-    slotData: convertStafObjectToOpenVesselSpec<ISlotData>(
+    slotData: convertStafObjectToOpenVesselDefinition<ISlotData>(
       sectionsByName["SLOT"],
       SlotConfig
     ),
-    lidData: convertStafObjectToOpenVesselSpec<ILidDataFromStaf>(
+    lidData: convertStafObjectToOpenVesselDefinition<ILidDataFromStaf>(
       sectionsByName["LID"],
       LidConfig
     ),

@@ -6,7 +6,7 @@ import fs from "fs";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
 import path from "path";
-import stafToOvsV1Converter from "./stafToOvsV1Converter";
+import stafToOvsV1Converter from "./stafToOvdV1Converter";
 
 let stafFileContent: string;
 

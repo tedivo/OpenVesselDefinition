@@ -7,7 +7,7 @@ import {
 } from "./core/calculateMasterCGs";
 import mapStafSections, { STAF_MIN_SECTIONS } from "./core/mapStafSections";
 
-import IOpenShipSpecV1 from "../models/v1/IOpenShipSpecV1";
+import IOpenVesselDefinitionV1 from "../models/v1/IOpenVesselDefinitionV1";
 import IRowStafData from "./types/IRowStafData";
 import IShipData from "../models/v1/parts/IShipData";
 import IStafDataProcessed from "./types/IStafDataProcessed";
@@ -17,14 +17,14 @@ import addPerRowInfo from "../converter/core/addPerRowInfo";
 import addPerSlotData from "../converter/core/addPerSlotData";
 import addPerTierInfo from "../converter/core/addPerTierInfo";
 import calculateCommonRowInfo from "./core/calculateCommonRowInfo";
-import { cgsRemapStafToOvs } from "./core/cgsRemapStafToOvs";
+import { cgsRemapStafToOvd } from "./core/cgsRemapStafToOvd";
 import { cleanBayLevelDataNoStaf } from "./core/cleanBayLevelDataNoStaf";
-import { cleanUpOVSJson } from "./core/cleanup/cleanUpOVSJson";
+import { cleanUpOvdJson } from "./core/cleanup/cleanUpOvdJson";
 import { createDictionaryMultiple } from "../helpers/createDictionary";
 import createSummary from "./core/createSummary";
 import { getContainerLengths } from "./core/getContainerLengths";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
-import { processAllSections } from "./sections/stafToOvs/processAllSections";
+import { processAllSections } from "./sections/stafToOvd/processAllSections";
 import substractLabels from "./core/substractLabels";
 import { tiersRemap } from "./core/tiersRemap";
 import transformLids from "./core/transformLids";
@@ -34,7 +34,7 @@ export default function stafToOvsV1Converter(
   lpp: number,
   vgcHeightFactor = 0.45,
   tier82is = 82
-): IOpenShipSpecV1 {
+): IOpenVesselDefinitionV1 {
   const sectionsByName = mapStafSections(
     getSectionsFromFileContent(fileContent)
   );
@@ -130,7 +130,7 @@ export default function stafToOvsV1Converter(
   });
 
   // 9. Change LCG, TCG & VCG references. Deletes perTierInfo
-  dataProcessed.bayLevelData = cgsRemapStafToOvs(
+  dataProcessed.bayLevelData = cgsRemapStafToOvd(
     dataProcessed.bayLevelData,
     dataProcessed.shipData.lcgOptions,
     dataProcessed.shipData.vcgOptions,
@@ -161,9 +161,9 @@ export default function stafToOvsV1Converter(
     tier82is,
   });
 
-  // OpenShipSpec JSON
-  const result: IOpenShipSpecV1 = {
-    schema: "OpenVesselSpec",
+  // OpenVesselDefinition JSON
+  const result: IOpenVesselDefinitionV1 = {
+    schema: "OpenVesselDefinition",
     version: "1.0.0",
     shipData: { ...shipData, masterCGs: masterCGsTiersRemapped },
     sizeSummary: sizeSummaryTiersRemapped,
@@ -173,7 +173,7 @@ export default function stafToOvsV1Converter(
   };
 
   // Final Clean-Up
-  cleanUpOVSJson(result);
+  cleanUpOvdJson(result);
 
   return result;
 }

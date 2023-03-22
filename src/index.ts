@@ -37,24 +37,24 @@ import createSummary, { addBayToSummary } from "./converter/core/createSummary";
 import BayLevelEnum from "./models/base/enums/BayLevelEnum";
 import ForeAftEnum from "./models/base/enums/ForeAftEnum";
 import ILidData from "./models/v1/parts/ILidData";
-import IOpenShipSpecV1 from "./models/v1/IOpenShipSpecV1";
+import IOpenVesselDefinitionV1 from "./models/v1/IOpenVesselDefinitionV1";
 import ISizeSummary from "./models/base/ISizeSummary";
 import ISlotData from "./models/v1/parts/ISlotData";
 import LcgReferenceEnum from "./models/base/enums/LcgReferenceEnum";
-import OpenShipSpec from "./models/OpenShipSpec";
+import OpenVesselDefinition from "./models/OpenVesselDefinition";
 import PortStarboardEnum from "./models/base/enums/PortStarboardEnum";
 import PositionFormatEnum from "./models/base/enums/PositionFormatEnum";
 import RowWeightCalculationEnum from "./models/base/enums/RowWeightCalculationEnum";
 import VoidTypesEnum from "./models/base/enums/VoidTypesEnum";
 import destructurePosition from "./converter/core/destructurePosition";
 import { getContainerLengths } from "./converter/core/getContainerLengths";
-import ovsV1ToStafConverter from "./converter/ovsV1ToStafConverter";
-import stafToOvsShipData from "./converter/stafToOvsShipData";
-import stafToOvsV1Converter from "./converter/stafToOvsV1Converter";
+import ovdV1ToStafConverter from "./converter/ovdV1ToStafConverter";
+import stafToOvdShipData from "./converter/stafToOvdShipData";
+import stafToOvdV1Converter from "./converter/stafToOvdV1Converter";
 
 export {
-  OpenShipSpec,
-  IOpenShipSpecV1,
+  OpenVesselDefinition,
+  IOpenVesselDefinitionV1,
   IShipData,
   IShipDataFromStaf,
   IFeaturesAllowed,
@@ -86,9 +86,9 @@ export {
   ValuesSourceEnum,
   ValuesSourceRowTierEnum,
   VoidTypesEnum,
-  stafToOvsV1Converter,
-  stafToOvsShipData,
-  ovsV1ToStafConverter,
+  stafToOvdV1Converter,
+  stafToOvdShipData,
+  ovdV1ToStafConverter,
   destructurePosition,
   createMockedSimpleBayLevelData,
   createMockedSingleBayLevelData,
