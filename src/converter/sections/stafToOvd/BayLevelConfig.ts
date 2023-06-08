@@ -15,7 +15,7 @@ import { pad3 } from "../../../helpers/pad";
 import yNToBoolean from "../../../helpers/yNToBoolean";
 
 /**
- * FROM STAF TO OVS
+ * FROM STAF TO OVD
  * DEFINITION of main Bay
  */
 const BayLevelConfig: ISectionMapConfig<IBayLevelDataStaf> = {

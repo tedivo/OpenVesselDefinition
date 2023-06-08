@@ -17,10 +17,14 @@ export function safeNumberTonsToGrams(s: string): number | undefined {
 
 export function safeNumberMmToMt(n: number | undefined): string {
   if (n === undefined || isNaN(n)) return "-";
-  return (Math.round(n / 10) / 100).toFixed(2);
+  const s = (Math.round(n / 10) / 100).toFixed(2);
+  if (s.endsWith(".00")) return s.substring(0, s.length - 1);
+  return s;
 }
 
 export function safeNumberGramsToTons(n: number): string {
   if (n === undefined || isNaN(n)) return "-";
-  return (Math.round(n / 10000) / 100).toString();
+  const s = (Math.round(n / 10000) / 100).toFixed(2);
+  if (s.endsWith(".00")) return s.substring(0, s.length - 1);
+  return s;
 }

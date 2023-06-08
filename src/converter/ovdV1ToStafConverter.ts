@@ -30,7 +30,7 @@ import { cgsRemapOvdToStaf } from "./core/cgsRemapOvdToStaf";
 import convertOvdToStafObject from "./core/convertOvdToStafObject";
 import { tiersRemap } from "./core/tiersRemap";
 
-export default function ovsV1ToStafConverter(
+export default function ovdV1ToStafConverter(
   originalJson: IOpenVesselDefinitionV1,
   cgOptions?: {
     lcgOptions?: ILCGOptionsIntermediate;
@@ -110,9 +110,11 @@ export default function ovsV1ToStafConverter(
     )
   );
 
+  const dataForBLs = BayLevelConfig.preProcessor(json.baysData);
+
   stafParts.push(
     convertOvdToStafObject<IBayLevelDataStaf, IBayLevelData>(
-      json.baysData,
+      dataForBLs,
       BayLevelConfig
     )
   );

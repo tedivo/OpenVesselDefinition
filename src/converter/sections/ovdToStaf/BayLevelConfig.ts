@@ -13,7 +13,7 @@ import { safePad2 } from "../../../helpers/pad";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
 
 /**
- * FROM OVS TO STAF
+ * FROM OVD TO STAF
  * DEFINITION of main Bay
  */
 const BayLevelConfig: ISectionMapToStafConfig<
@@ -117,6 +117,14 @@ const BayLevelConfig: ISectionMapToStafConfig<
     },
   ],
   postProcessors: [],
+  preProcessor: cleanBayLevelData,
 };
 
 export default BayLevelConfig;
+
+function cleanBayLevelData(bls: IBayLevelDataStaf[]): IBayLevelDataStaf[] {
+  return bls.filter((bl) => {
+    const slotsData = Object.keys(bl.perSlotInfo);
+    return slotsData.length > 0;
+  });
+}

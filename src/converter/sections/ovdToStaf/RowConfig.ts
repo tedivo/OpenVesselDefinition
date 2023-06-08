@@ -1,6 +1,10 @@
 import BayLevelEnum, {
   getBayLevelEnumValueToStaf,
 } from "../../../models/base/enums/BayLevelEnum";
+import {
+  CONTAINER_LENGTHS,
+  TContainerLengths,
+} from "../../../models/v1/parts/Types";
 import IBayLevelData, {
   IBayRowInfo,
 } from "../../../models/v1/parts/IBayLevelData";
@@ -21,15 +25,14 @@ import { IJoinedRowTierPattern } from "../../../models/base/types/IPositionPatte
 import { IMasterCGs } from "../../../models/v1/parts/IShipData";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import { SHIP_EDITOR_MIN_TIER } from "./consts";
-import { TContainerLengths } from "../../../models/v1/parts/Types";
 import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
 
 /**
- * FROM OVS TO STAF
+ * FROM OVD TO STAF
  * DEFINITION of a Row
  */
-const RowConfig: ISectionMapToStafConfig<IRowStafData, IRowStafData> = {
+const RowConfig: ISectionMapToStafConfig<IRowStafDataTemp, IRowStafData> = {
   stafSection: "STACK",
   mapVars: [
     { stafVar: "STAF BAY", source: "isoBay", mapper: safePad2 },
@@ -69,25 +72,25 @@ const RowConfig: ISectionMapToStafConfig<IRowStafData, IRowStafData> = {
     {
       stafVar: "LCG 20",
       source: "rowInfoByLength.20.lcg",
-      mapper: (n: number, record: IRowStafData) =>
+      mapper: (n: number, record: IRowStafDataTemp) =>
         createSafeNumberMmToMtOrPercentageBySize(n, record, 20),
     },
     {
       stafVar: "LCG 40",
       source: "rowInfoByLength.40.lcg",
-      mapper: (n: number, record: IRowStafData) =>
+      mapper: (n: number, record: IRowStafDataTemp) =>
         createSafeNumberMmToMtOrPercentageBySize(n, record, 40),
     },
     {
       stafVar: "LCG 45",
       source: "rowInfoByLength.45.lcg",
-      mapper: (n: number, record: IRowStafData) =>
+      mapper: (n: number, record: IRowStafDataTemp) =>
         createSafeNumberMmToMtOrPercentageBySize(n, record, 45),
     },
     {
       stafVar: "LCG 48",
       source: "rowInfoByLength.48.lcg",
-      mapper: (n: number, record: IRowStafData) =>
+      mapper: (n: number, record: IRowStafDataTemp) =>
         createSafeNumberMmToMtOrPercentageBySize(n, record, 48),
     },
     // {
@@ -98,22 +101,26 @@ const RowConfig: ISectionMapToStafConfig<IRowStafData, IRowStafData> = {
     {
       stafVar: "STACK WT 20",
       source: "rowInfoByLength.20.rowWeight",
-      mapper: safeNumberGramsToTons,
+      mapper: (n: number, record: IRowStafDataTemp) =>
+        createSafeNumberGramsToTonsOrPercentageBySize(n, record, 20),
     },
     {
       stafVar: "STACK WT 40",
       source: "rowInfoByLength.40.rowWeight",
-      mapper: safeNumberGramsToTons,
+      mapper: (n: number, record: IRowStafDataTemp) =>
+        createSafeNumberGramsToTonsOrPercentageBySize(n, record, 40),
     },
     {
       stafVar: "STACK WT 45",
       source: "rowInfoByLength.45.rowWeight",
-      mapper: safeNumberGramsToTons,
+      mapper: (n: number, record: IRowStafDataTemp) =>
+        createSafeNumberGramsToTonsOrPercentageBySize(n, record, 45),
     },
     {
       stafVar: "STACK WT 48",
       source: "rowInfoByLength.48.rowWeight",
-      mapper: safeNumberGramsToTons,
+      mapper: (n: number, record: IRowStafDataTemp) =>
+        createSafeNumberGramsToTonsOrPercentageBySize(n, record, 48),
     },
     // {
     //   stafVar: "STACK WT 53",
@@ -129,13 +136,14 @@ const RowConfig: ISectionMapToStafConfig<IRowStafData, IRowStafData> = {
     {
       stafVar: "LCG 24",
       source: "rowInfoByLength.24.lcg",
-      mapper: (n: number, record: IRowStafData) =>
+      mapper: (n: number, record: IRowStafDataTemp) =>
         createSafeNumberMmToMtOrPercentageBySize(n, record, 24),
     },
     {
       stafVar: "STACK WT 24",
       source: "rowInfoByLength.24.rowWeight",
-      mapper: safeNumberGramsToTons,
+      mapper: (n: number, record: IRowStafDataTemp) =>
+        createSafeNumberGramsToTonsOrPercentageBySize(n, record, 24),
     },
     {
       stafVar: "20 ISO STK",
@@ -158,19 +166,35 @@ function pad4(num: string) {
 
 function createSafeNumberMmToMtOrPercentageBySize(
   n: number,
-  record: IRowStafData,
+  record: IRowStafDataTemp,
   size: TContainerLengths
 ): string {
-  const hasSize = record.rowInfoByLength?.[size];
+  const hasSize = record.sizesInBayAndShip.indexOf(size) >= 0;
 
-  if (n === undefined || isNaN(n)) return hasSize?.bayHasLcg ? "%" : "-";
+  if (n === undefined || isNaN(n)) return hasSize ? "%" : "-";
   return safeNumberMmToMt(n);
+}
+
+function createSafeNumberGramsToTonsOrPercentageBySize(
+  n: number,
+  record: IRowStafDataTemp,
+  size: TContainerLengths
+): string {
+  const hasSize = record.sizesInBayAndLevel.indexOf(size) >= 0;
+
+  if (n === undefined || isNaN(n)) return hasSize ? "%" : "-";
+  return safeNumberGramsToTons(n);
+}
+
+interface IRowStafDataTemp extends IRowStafData {
+  sizesInBayAndShip: TContainerLengths[];
+  sizesInBayAndLevel: TContainerLengths[];
 }
 
 export function createRowStafData(
   bayData: IBayLevelData[],
   masterCGs: IMasterCGs
-): IRowStafData[] {
+): IRowStafDataTemp[] {
   const bls = bayData.slice().sort(
     sortByMultipleFields([
       { name: "isoBay", ascending: true },
@@ -178,7 +202,12 @@ export function createRowStafData(
     ])
   );
 
-  const resp: IRowStafData[] = [];
+  const allSizesByBay: { [key: string]: Set<TContainerLengths> } = {};
+  const allSizesByBayAndLevel: { [key: string]: Set<TContainerLengths> } = {};
+  let maxSize20InVessel = 0 as TContainerLengths;
+  let maxSize40InVessel = 0 as TContainerLengths;
+
+  const resp: IRowStafDataTemp[] = [];
 
   bls.forEach((bl) => {
     const slotKeys = bl.perSlotInfo
@@ -265,7 +294,26 @@ export function createRowStafData(
       const topIsoTier = pad2(tiersByRow[row].maxTier);
       const bottomIsoTier = pad2(tiersByRow[row].minTier);
 
-      const rowData: IRowStafData = {
+      maxSize20InVessel = Math.max(
+        ...allSizes.filter((s) => s < 40),
+        maxSize20InVessel
+      ) as TContainerLengths;
+
+      maxSize40InVessel = Math.max(
+        ...allSizes.filter((s) => s >= 40),
+        maxSize40InVessel
+      ) as TContainerLengths;
+
+      if (!allSizesByBay[bl.isoBay]) allSizesByBay[bl.isoBay] = new Set();
+      if (!allSizesByBayAndLevel[`${bl.isoBay}-${bl.level}`])
+        allSizesByBayAndLevel[`${bl.isoBay}-${bl.level}`] = new Set();
+
+      allSizes.forEach((size) => {
+        allSizesByBay[bl.isoBay].add(size);
+        allSizesByBayAndLevel[`${bl.isoBay}-${bl.level}`].add(size);
+      });
+
+      const rowData: IRowStafDataTemp = {
         isoBay: bl.isoBay,
         level: bl.level,
         isoRow: row,
@@ -285,11 +333,41 @@ export function createRowStafData(
         rowInfoByLength: rowInfoBLWithSize,
         isoRow20,
         isoRow40,
+        sizesInBayAndLevel: [],
+        sizesInBayAndShip: [],
       };
 
       resp.push(rowData);
     });
   });
+
+  const sizesInArrayOnly20s = CONTAINER_LENGTHS.filter(
+    (v) => v <= maxSize20InVessel
+  );
+
+  const sizesInArrayOnly40s = CONTAINER_LENGTHS.filter(
+    (v) => v >= 40 && v <= maxSize40InVessel
+  );
+
+  for (let i = 0; i < resp.length; i++) {
+    const row = resp[i];
+    const isoBay = row.isoBay;
+
+    row.sizesInBayAndShip = [
+      ...(allSizesByBay[isoBay].has(20) || allSizesByBay[isoBay].has(24)
+        ? sizesInArrayOnly20s
+        : []),
+      ...(allSizesByBay[isoBay].has(40) ||
+      allSizesByBay[isoBay].has(45) ||
+      allSizesByBay[isoBay].has(48)
+        ? sizesInArrayOnly40s
+        : []),
+    ];
+
+    row.sizesInBayAndLevel = Array.from(
+      allSizesByBayAndLevel[`${isoBay}-${row.level}`]
+    );
+  }
 
   return resp;
 }

@@ -423,8 +423,18 @@ const json: IOpenVesselDefinitionV1 = {
 
 describe("ovdV1ToStafConverter should...", () => {
   it.skip("works ok", () => {
+    const jsonFileContent = fs.readFileSync(
+      path.resolve("./examples/northern-priority.json"),
+      "utf8"
+    );
+
+    const json = JSON.parse(jsonFileContent) as IOpenVesselDefinitionV1;
+
     const processed = ovdV1ToStafConverter(json);
 
-    fs.writeFileSync(path.resolve("./examples/dummyStaf.txt"), processed);
+    fs.writeFileSync(
+      path.resolve("./examples/northern-priority.txt"),
+      processed
+    );
   });
 });
