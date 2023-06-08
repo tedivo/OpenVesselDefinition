@@ -5,7 +5,6 @@ import {
   IJoinedRowTierPattern,
   TYesNo,
 } from "../../../models/base/types/IPositionPatterns";
-import { pad2, safePad6 } from "../../../helpers/pad";
 
 import BayLevelEnum from "../../../models/base/enums/BayLevelEnum";
 import IBayLevelData from "../../../models/v1/parts/IBayLevelData";
@@ -13,9 +12,9 @@ import { IMasterCGs } from "../../../models/v1/parts/IShipData";
 import IRowStafData from "../../types/IRowStafData";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import ISlotData from "../../../models/v1/parts/ISlotData";
-import { SHIP_EDITOR_MIN_TIER } from "./consts";
 import { createRowStafData } from "./RowConfig";
 import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
+import { pad2 } from "../../../helpers/pad";
 import { sortNumericAsc } from "../../../helpers/sortByMultipleFields";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
 

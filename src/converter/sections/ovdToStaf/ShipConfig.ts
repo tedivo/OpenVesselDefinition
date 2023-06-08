@@ -13,7 +13,7 @@ import { getPortStarboardValueToStaf } from "../../../models/base/enums/PortStar
 import { getPositionFormatValueToStaf } from "../../../models/base/enums/PositionFormatEnum";
 
 /**
- * FROM OVS TO STAF
+ * FROM OVD TO STAF
  * DEFINITION of main Ship class for the converter
  */
 const ShipConfig: ISectionMapToStafConfig<IShipDataFromStaf, IShipData> = {

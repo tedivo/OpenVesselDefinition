@@ -14,7 +14,7 @@ import { TContainerLengths } from "../../models/v1/parts/Types";
 import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceEnum";
 
 /**
- * Remaps STAF file CGs to OVS CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase)
+ * Remaps STAF file CGs to OVD CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase)
  * @param bls
  * @param lcgOptions STAF file's LCG options
  * @param vcgOptions STAF file's VCG options

@@ -29,7 +29,7 @@ import substractLabels from "./core/substractLabels";
 import { tiersRemap } from "./core/tiersRemap";
 import transformLids from "./core/transformLids";
 
-export default function stafToOvsV1Converter(
+export default function stafToOvdV1Converter(
   fileContent: string,
   lpp: number,
   vgcHeightFactor = 0.45,

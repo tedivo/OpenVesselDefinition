@@ -6,7 +6,7 @@ import fs from "fs";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
 import path from "path";
-import stafToOvsV1Converter from "./stafToOvdV1Converter";
+import stafToOvdV1Converter from "./stafToOvdV1Converter";
 
 let stafFileContent: string;
 
@@ -51,7 +51,7 @@ describe("Test Data is as expected...", () => {
   });
 });
 
-describe("stafToOvsV1Converter should...", () => {
+describe("stafToOvdV1Converter should...", () => {
   beforeAll(() => {
     stafFileContent = fs.readFileSync(
       path.resolve("./src/converter/mocks/OOL.OBEI.OOCL BEIJING_STAFF2.txt"),
@@ -60,7 +60,7 @@ describe("stafToOvsV1Converter should...", () => {
   });
 
   it("make conversion of shipData correctly", () => {
-    const converted = stafToOvsV1Converter(stafFileContent, 0);
+    const converted = stafToOvdV1Converter(stafFileContent, 0);
     const shipData = converted.shipData;
 
     expect(shipData.shipClass).toBe("OBEI");
@@ -83,7 +83,7 @@ describe("stafToOvsV1Converter should...", () => {
   });
 
   it("make conversion of bays correctly", () => {
-    const converted = stafToOvsV1Converter(stafFileContent, 0);
+    const converted = stafToOvdV1Converter(stafFileContent, 0);
     expect(converted.baysData.length).toBe(sectionsExpected[1][1] + 3); //+3 Missing data in bays
   });
 
@@ -170,7 +170,7 @@ describe("stafToOvsV1Converter should...", () => {
       "079-1": 17,
       "079-2": 0, // Added missing bay (from STAF)
     };
-    const converted = stafToOvsV1Converter(stafFileContent, 0);
+    const converted = stafToOvdV1Converter(stafFileContent, 0);
 
     let totalRows = 0;
     const blDict = converted.baysData
@@ -193,7 +193,7 @@ describe("stafToOvsV1Converter should...", () => {
   });
 
   it("creates sizeSummary correctly", () => {
-    const converted = stafToOvsV1Converter(stafFileContent, 0);
+    const converted = stafToOvdV1Converter(stafFileContent, 0);
     const summary = converted.sizeSummary;
 
     expect(summary.centerLineRow).toBe(1);
@@ -219,7 +219,7 @@ describe("stafToOvsV1Converter should...", () => {
     ];
 
     mockedFiles.forEach(([inputFileName, outputFileName, blp]) => {
-      const converted = stafToOvsV1Converter(
+      const converted = stafToOvdV1Converter(
         fs.readFileSync(path.resolve(inputFileName), "utf8"),
         blp
       );

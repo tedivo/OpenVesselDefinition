@@ -42,12 +42,12 @@ const LidConfig: ISectionMapToStafConfig<ILidDataFromStaf, ILidDataFromStaf> = {
     },
   ],
   postProcessors: [],
-  preProcessor: convertLidsFromOvsToStaf,
+  preProcessor: convertLidsFromOvdToStaf,
 };
 
 export default LidConfig;
 
-function convertLidsFromOvsToStaf(source: ILidData[]): ILidDataFromStaf[] {
+function convertLidsFromOvdToStaf(source: ILidData[]): ILidDataFromStaf[] {
   const lidData: ILidDataTemp[] = [];
   let lastDupLabelSequence = 0;
 

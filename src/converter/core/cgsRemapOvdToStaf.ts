@@ -22,7 +22,7 @@ import { getRowsAndTiersFromSlotKeys } from "../../helpers/getRowsAndTiersFromSl
 import { pad2 } from "../../helpers/pad";
 
 /**
- * Remaps OVS CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase) to other CGSs references
+ * Remaps D CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase) to other CGSs references
  * @param bls
  * @param masterCGs
  * @param lcgOptions new LCG options

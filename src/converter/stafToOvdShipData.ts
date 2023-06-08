@@ -9,7 +9,7 @@ import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
 
 /**
- * This function only converts the SHIP section to OVS. Use `stafToOvsV1Converter` to do a full conversion.
+ * This function only converts the SHIP section to OVD. Use `stafToOvdV1Converter` to do a full conversion.
  * @param fileContent STAF string
  * @returns IShipDataFromStaf
  */
