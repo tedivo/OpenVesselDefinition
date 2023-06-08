@@ -213,16 +213,16 @@ describe("for STAF_BAY data", () => {
       "**STAF BAY\tLEVEL\t20 NAME\t40 NAME\tSL Hatch\tSL ForeAft\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HEIGHT\tPAIRED BAY\tREEFER PLUGS\tDOORS\tATHWARTSHIPS\tBULKHEAD\tBULKHEAD LCG\tLCG 24\tSTACK WT 24"
     );
     expect(processedLines[2]).toBe(
-      "01\tA\t001-Label-20-A\t001-Label-40-A\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tA\tA\t-\tY\tN\t-\t-\t-"
+      "01\tA\t001-Label-20-A\t001-Label-40-A\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5.0\tA\tA\t-\tY\tN\t-\t-\t-"
     );
     expect(processedLines[3]).toBe(
-      "01\tB\t001-Label-20-B\t001-Label-40-B\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tA\t-\t-\tN\tY\t119.00\t-\t-"
+      "01\tB\t001-Label-20-B\t001-Label-40-B\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tA\t-\t-\tN\tY\t119.0\t-\t-"
     );
     expect(processedLines[4]).toBe(
-      "03\tA\t-\t-\t-\t-\t100.00\t110.00\t111.00\t112.00\t2\t2.1\t2.2\t2.3\t5.50\tF\tF\tA\tN\tN\t-\t-\t-"
+      "03\tA\t-\t-\t-\t-\t100.0\t110.0\t111.0\t112.0\t2.0\t2.10\t2.20\t2.30\t5.50\tF\tF\tA\tN\tN\t-\t-\t-"
     );
     expect(processedLines[5]).toBe(
-      "03\tB\t-\t-\t-\t-\t100.00\t-\t-\t-\t2.1\t-\t-\t-\t5.20\tF\t-\tA\tN\tN\t-\t99.00\t2.9"
+      "03\tB\t-\t-\t-\t-\t100.0\t-\t-\t-\t2.10\t-\t-\t-\t5.20\tF\t-\tA\tN\tN\t-\t99.0\t2.90"
     );
   });
 });
@@ -258,40 +258,40 @@ describe("for STACK data", () => {
       "**STAF BAY\tLEVEL\tISO STACK\tCUSTOM STACK\tTOP TIER\tBOTTOM TIER\tBOTTOM VCG\tTCG\tACCEPTS 20\tACCEPTS 40\tACCEPTS 45\tACCEPTS 48\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HT\tACCEPTS 24\tLCG 24\tSTACK WT 24\t20 ISO STK\t40 ISO STK"
     );
     expect(processedLines[2]).toBe(
-      "01\tA\t00\t-\t84\t82\t21.10\t0.00\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tY\t-\t-\t0100\t-"
+      "01\tA\t00\t-\t84\t82\t21.10\t0.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0100\t-"
     );
     expect(processedLines[3]).toBe(
-      "01\tA\t01\t-\t84\t82\t21.10\t3.00\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tY\t-\t-\t0101\t-"
+      "01\tA\t01\t-\t84\t82\t21.10\t3.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0101\t-"
     );
     expect(processedLines[4]).toBe(
-      "01\tA\t02\t-\t84\t82\t21.10\t-3.00\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tY\t-\t-\t0102\t-"
+      "01\tA\t02\t-\t84\t82\t21.10\t-3.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0102\t-"
     );
     expect(processedLines[5]).toBe(
-      "01\tB\t00\t-\t18\t16\t15.30\t0.50\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t7.00\tY\t-\t-\t0100\t-"
+      "01\tB\t00\t-\t18\t16\t15.30\t0.50\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t7.0\tY\t%\t%\t0100\t-"
     );
     expect(processedLines[6]).toBe(
-      "01\tB\t01\t-\t18\t18\t17.20\t3.50\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tY\t-\t-\t0101\t-"
+      "01\tB\t01\t-\t18\t18\t17.20\t3.50\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t4.50\tY\t%\t%\t0101\t-"
     );
     expect(processedLines[7]).toBe(
-      "01\tB\t02\t-\t18\t18\t17.20\t-3.50\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tY\t-\t-\t0102\t-"
+      "01\tB\t02\t-\t18\t18\t17.20\t-3.50\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t4.50\tY\t%\t%\t0102\t-"
     );
     expect(processedLines[8]).toBe(
-      "03\tA\t00\t-\t84\t82\t21.10\t0.00\tY\tY\tY\tY\t100.00\t102.50\t107.50\t110.00\t1.25\t2.25\t2.26\t2.27\t5.50\tY\t105.00\t1.26\t0300\t0200"
+      "03\tA\t00\t-\t84\t82\t21.10\t0.0\tY\tY\tY\tY\t100.0\t102.50\t107.50\t110.0\t1.25\t2.25\t2.26\t2.27\t5.50\tY\t105.0\t1.26\t0300\t0200"
     );
     expect(processedLines[9]).toBe(
-      "03\tA\t01\t-\t84\t82\t21.10\t3.00\tY\tY\tN\tN\t%\t%\t-\t-\t-\t-\t-\t-\t5.50\tN\t-\t-\t0301\t0201"
+      "03\tA\t01\t-\t84\t82\t21.10\t3.0\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t%\t%\t5.50\tN\t%\t%\t0301\t0201"
     );
     expect(processedLines[10]).toBe(
-      "03\tA\t02\t-\t84\t82\t21.10\t-3.00\tY\tY\tN\tN\t%\t%\t-\t-\t-\t-\t-\t-\t5.50\tN\t-\t-\t0302\t0202"
+      "03\tA\t02\t-\t84\t82\t21.10\t-3.0\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t%\t%\t5.50\tN\t%\t%\t0302\t0202"
     );
     expect(processedLines[11]).toBe(
-      "03\tB\t00\t-\t18\t16\t15.30\t0.50\tY\tY\tN\tN\t%\t-\t-\t-\t-\t-\t-\t-\t7.00\tN\t-\t-\t0300\t0200"
+      "03\tB\t00\t-\t18\t16\t15.30\t0.50\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t-\t-\t7.0\tN\t%\t-\t0300\t0200"
     );
     expect(processedLines[12]).toBe(
-      "03\tB\t01\t-\t18\t18\t17.20\t3.50\tY\tY\tN\tN\t%\t-\t-\t-\t-\t-\t-\t-\t5.20\tN\t-\t-\t0301\t0201"
+      "03\tB\t01\t-\t18\t18\t17.20\t3.50\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t-\t-\t5.20\tN\t%\t-\t0301\t0201"
     );
     expect(processedLines[13]).toBe(
-      "03\tB\t02\t-\t18\t18\t17.20\t-3.50\tY\tY\tN\tN\t%\t-\t-\t-\t-\t-\t-\t-\t5.20\tN\t-\t-\t0302\t0202"
+      "03\tB\t02\t-\t18\t18\t17.20\t-3.50\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t-\t-\t5.20\tN\t%\t-\t0302\t0202"
     );
   });
 
@@ -322,10 +322,10 @@ describe("for STACK data", () => {
     expect(processedLines.length).toBe(1 + 1 + 12);
 
     expect(processedLines[2]).toBe(
-      "01\tA\t00\t-\t84\t80\t21.10\t0.00\tY\tN\tN\tN\t-\t-\t-\t-\t-\t-\t-\t-\t5.00\tY\t-\t-\t0100\t-"
+      "01\tA\t00\t-\t84\t80\t21.10\t0.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0100\t-"
     );
     expect(processedLines[8]).toBe(
-      "03\tA\t00\t-\t84\t80\t21.10\t0.00\tY\tY\tY\tY\t100.00\t102.50\t107.50\t110.00\t1.25\t2.25\t2.26\t2.27\t5.50\tY\t105.00\t1.26\t0300\t0200"
+      "03\tA\t00\t-\t84\t80\t21.10\t0.0\tY\tY\tY\tY\t100.0\t102.50\t107.50\t110.0\t1.25\t2.25\t2.26\t2.27\t5.50\tY\t105.0\t1.26\t0300\t0200"
     );
   });
 });
