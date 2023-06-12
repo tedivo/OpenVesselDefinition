@@ -74,10 +74,10 @@ describe("substractLabels should", () => {
     expect(Object.keys(substractedLabels.bays).length).toBe(2);
 
     expect(substractedLabels.bays["001"]).toBeDefined();
-    expect(substractedLabels.bays["001"].label20).toBe("001");
-    expect(substractedLabels.bays["001"].label40).toBe("002");
+    expect(substractedLabels.bays["001"].label20).toBe("01");
+    expect(substractedLabels.bays["001"].label40).toBe("02");
     expect(substractedLabels.bays["003"]).toBeDefined();
-    expect(substractedLabels.bays["003"].label20).toBe("003");
-    expect(substractedLabels.bays["003"].label40).toBe("004");
+    expect(substractedLabels.bays["003"].label20).toBe("03");
+    expect(substractedLabels.bays["003"].label40).toBe("04");
   });
 });

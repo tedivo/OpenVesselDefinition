@@ -140,7 +140,7 @@ describe("for SHIP data", () => {
       ShipConfig
     );
 
-    const expectedRes = `*SHIP${LINE_SEPARATOR}**CLASS\tUNITS\tLCG IN USE\tLCG REF PT\tLCG + DIR\tVCG IN USE\tTCG IN USE\tTCG + DIR\tPOSITION FORMAT${LINE_SEPARATOR}MY CLASS\tMETRIC\tY\tAP\tF\tESTIMATED\tN\tSTBD\tBAY-STACK-TIER`;
+    const expectedRes = `*SHIP${LINE_SEPARATOR}**CLASS\tUNITS\tLCG IN USE\tLCG REF PT\tLCG + DIR\tVCG IN USE\tTCG IN USE\tTCG + DIR\tPOSITION FORMAT${LINE_SEPARATOR}MY CLASS\tMETRIC\tY\tAP\tF\tN\tN\tSTBD\tBAY-STACK-TIER`;
 
     expect(processed).toBe(expectedRes);
   });
@@ -213,10 +213,10 @@ describe("for STAF_BAY data", () => {
       "**STAF BAY\tLEVEL\t20 NAME\t40 NAME\tSL Hatch\tSL ForeAft\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HEIGHT\tPAIRED BAY\tREEFER PLUGS\tDOORS\tATHWARTSHIPS\tBULKHEAD\tBULKHEAD LCG\tLCG 24\tSTACK WT 24"
     );
     expect(processedLines[2]).toBe(
-      "01\tA\t001-Label-20-A\t001-Label-40-A\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5.0\tA\tA\t-\tY\tN\t-\t-\t-"
+      "01\tA\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5.0\tA\tA\t-\tY\tN\t-\t-\t-"
     );
     expect(processedLines[3]).toBe(
-      "01\tB\t001-Label-20-B\t001-Label-40-B\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tA\t-\t-\tN\tY\t119.0\t-\t-"
+      "01\tB\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tA\t-\t-\tN\tY\t119.0\t-\t-"
     );
     expect(processedLines[4]).toBe(
       "03\tA\t-\t-\t-\t-\t100.0\t110.0\t111.0\t112.0\t2.0\t2.10\t2.20\t2.30\t5.50\tF\tF\tA\tN\tN\t-\t-\t-"
@@ -244,7 +244,12 @@ describe("for STACK data", () => {
       bottomBases: {},
     };
 
-    const data = RowConfig.preProcessor(bayLevelData, masterCGs);
+    const shipData = {
+      masterCGs,
+      lcgOptions: { values: ValuesSourceEnum.KNOWN } as IShipData["lcgOptions"],
+    } as IShipData;
+
+    const data = RowConfig.preProcessor(bayLevelData, shipData);
 
     const processed = convertOvdToStafObject<IRowStafData, IRowStafData>(
       data,
@@ -311,7 +316,12 @@ describe("for STACK data", () => {
       bottomBases: {},
     };
 
-    const data = RowConfig.preProcessor(bayLevelData, masterCGs);
+    const shipData = {
+      masterCGs,
+      lcgOptions: { values: ValuesSourceEnum.KNOWN } as IShipData["lcgOptions"],
+    } as IShipData;
+
+    const data = RowConfig.preProcessor(bayLevelData, shipData);
 
     const processed = convertOvdToStafObject<IRowStafData, IRowStafData>(
       data,

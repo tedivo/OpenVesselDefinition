@@ -24,7 +24,9 @@ export default function substractLabels(
     if (bayLevelData.label20) {
       positionLabels.bays[bayLevelData.isoBay].label20 = bayLevelData.label20;
     } else {
-      positionLabels.bays[bayLevelData.isoBay].label20 = bayLevelData.isoBay;
+      positionLabels.bays[bayLevelData.isoBay].label20 = pad2(
+        Number(bayLevelData.isoBay)
+      );
     }
 
     if (bayLevelData.label40) {

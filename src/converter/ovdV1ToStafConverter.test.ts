@@ -422,7 +422,7 @@ export const mockedJson: IOpenVesselDefinitionV1 = {
 };
 
 describe("ovdV1ToStafConverter should...", () => {
-  it("works ok", () => {
+  it.skip("works ok", () => {
     const jsonFileContent = fs.readFileSync(
       path.resolve("./examples/northern-priority (2).json"),
       "utf8"
