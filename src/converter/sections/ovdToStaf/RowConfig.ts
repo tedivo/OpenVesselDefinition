@@ -22,9 +22,10 @@ import sortByMultipleFields, {
 
 import ForeAftEnum from "../../../models/base/enums/ForeAftEnum";
 import { IJoinedRowTierPattern } from "../../../models/base/types/IPositionPatterns";
-import { IMasterCGs } from "../../../models/v1/parts/IShipData";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
+import IShipData from "../../../models/v1/parts/IShipData";
 import { SHIP_EDITOR_MIN_TIER } from "./consts";
+import ValuesSourceEnum from "../../../models/base/enums/ValuesSourceEnum";
 import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
 
@@ -193,8 +194,10 @@ interface IRowStafDataTemp extends IRowStafData {
 
 export function createRowStafData(
   bayData: IBayLevelData[],
-  masterCGs: IMasterCGs
+  shipData: IShipData
 ): IRowStafDataTemp[] {
+  const masterCGs = shipData.masterCGs;
+
   const bls = bayData.slice().sort(
     sortByMultipleFields([
       { name: "isoBay", ascending: true },
@@ -353,16 +356,17 @@ export function createRowStafData(
     const row = resp[i];
     const isoBay = row.isoBay;
 
-    row.sizesInBayAndShip = [
-      ...(allSizesByBay[isoBay].has(20) || allSizesByBay[isoBay].has(24)
-        ? sizesInArrayOnly20s
-        : []),
-      ...(allSizesByBay[isoBay].has(40) ||
-      allSizesByBay[isoBay].has(45) ||
-      allSizesByBay[isoBay].has(48)
-        ? sizesInArrayOnly40s
-        : []),
-    ];
+    if (shipData.lcgOptions?.values === ValuesSourceEnum.KNOWN)
+      row.sizesInBayAndShip = [
+        ...(allSizesByBay[isoBay].has(20) || allSizesByBay[isoBay].has(24)
+          ? sizesInArrayOnly20s
+          : []),
+        ...(allSizesByBay[isoBay].has(40) ||
+        allSizesByBay[isoBay].has(45) ||
+        allSizesByBay[isoBay].has(48)
+          ? sizesInArrayOnly40s
+          : []),
+      ];
 
     row.sizesInBayAndLevel = Array.from(
       allSizesByBayAndLevel[`${isoBay}-${row.level}`]

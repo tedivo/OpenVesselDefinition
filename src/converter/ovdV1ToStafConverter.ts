@@ -26,25 +26,28 @@ import RowConfig from "./sections/ovdToStaf/RowConfig";
 import ShipConfig from "./sections/ovdToStaf/ShipConfig";
 import SlotConfig from "./sections/ovdToStaf/SlotConfig";
 import TierConfig from "./sections/ovdToStaf/TierConfig";
+import { applyOvdToStafOptionsToData } from "./core/cleanup/applyOvdToStafOptionsToData";
 import { cgsRemapOvdToStaf } from "./core/cgsRemapOvdToStaf";
 import convertOvdToStafObject from "./core/convertOvdToStafObject";
 import { tiersRemap } from "./core/tiersRemap";
 
 export default function ovdV1ToStafConverter(
   originalJson: IOpenVesselDefinitionV1,
-  cgOptions?: {
-    lcgOptions?: ILCGOptionsIntermediate;
-    vcgOptions?: IVGCOptionsIntermediate;
-    tcgOptions?: ITGCOptionsIntermediate;
-  },
-  tier82is = 82
+  options: IConvertOvdToStafObjectOptions
 ): string {
   const stafParts: string[] = [];
+  const {
+    cgOptions,
+    tier82is = 82,
+    removeCGs = false,
+    removeBaysWithNonSizeSlots = false,
+  } = options;
 
-  // Use copy
-  const json = JSON.parse(
-    JSON.stringify(originalJson)
-  ) as IOpenVesselDefinitionV1;
+  // Use clone to avoid modifying the original json
+  const json = applyOvdToStafOptionsToData(
+    JSON.parse(JSON.stringify(originalJson)) as IOpenVesselDefinitionV1,
+    { removeCGs, removeBaysWithNonSizeSlots }
+  );
 
   // Create safe lcgOptions
   const lpp = cgOptions?.lcgOptions?.lpp || 0;
@@ -68,6 +71,12 @@ export default function ovdV1ToStafConverter(
     values: cgOptions?.tcgOptions?.values || ValuesSourceEnum.KNOWN,
     direction: cgOptions?.tcgOptions?.direction || PortStarboardEnum.STARBOARD,
   };
+
+  if (removeCGs) {
+    lcgOptions.values = ValuesSourceEnum.ESTIMATED;
+    vcgOptions.values = ValuesSourceRowTierEnum.ESTIMATED;
+    tcgOptions.values = ValuesSourceEnum.ESTIMATED;
+  }
 
   // Do CGs remapping given the safe cgOptions
   if (cgOptions) {
@@ -119,10 +128,7 @@ export default function ovdV1ToStafConverter(
     )
   );
 
-  const dataForRows = RowConfig.preProcessor(
-    json.baysData,
-    json.shipData.masterCGs
-  );
+  const dataForRows = RowConfig.preProcessor(json.baysData, json.shipData);
 
   stafParts.push(
     convertOvdToStafObject<IRowStafData, IRowStafData>(dataForRows, RowConfig)
@@ -155,4 +161,15 @@ export default function ovdV1ToStafConverter(
   stafParts.push(`*END${LINE_SEPARATOR}`);
 
   return stafParts.join(LINE_SEPARATOR);
+}
+
+interface IConvertOvdToStafObjectOptions {
+  cgOptions?: {
+    lcgOptions?: ILCGOptionsIntermediate;
+    vcgOptions?: IVGCOptionsIntermediate;
+    tcgOptions?: ITGCOptionsIntermediate;
+  };
+  tier82is?: number;
+  removeCGs?: boolean;
+  removeBaysWithNonSizeSlots?: boolean;
 }

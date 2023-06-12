@@ -5,13 +5,14 @@ import {
   IJoinedRowTierPattern,
   TYesNo,
 } from "../../../models/base/types/IPositionPatterns";
+import IShipData, { IMasterCGs } from "../../../models/v1/parts/IShipData";
 
 import BayLevelEnum from "../../../models/base/enums/BayLevelEnum";
 import IBayLevelData from "../../../models/v1/parts/IBayLevelData";
-import { IMasterCGs } from "../../../models/v1/parts/IShipData";
 import IRowStafData from "../../types/IRowStafData";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import ISlotData from "../../../models/v1/parts/ISlotData";
+import ValuesSourceEnum from "../../../models/base/enums/ValuesSourceEnum";
 import { createRowStafData } from "./RowConfig";
 import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
 import { pad2 } from "../../../helpers/pad";
@@ -52,12 +53,16 @@ function createSlotData(bayData: IBayLevelData[]): ISlotData[] {
     belowTcgs: {},
     bottomBases: {},
   };
+  const dummyIshipData = {
+    masterCGs: dummyMasterCGs,
+    lcgOptions: { values: ValuesSourceEnum.KNOWN } as IShipData["lcgOptions"],
+  } as IShipData;
 
   bayData.forEach((bl) => {
     const perSlotInfo = bl.perSlotInfo;
     if (perSlotInfo) {
       const slotsDataBL: ISlotData[] = [];
-      const rowData = createRowStafData([bl], dummyMasterCGs);
+      const rowData = createRowStafData([bl], dummyIshipData);
       const rowDataByRow = rowData.reduce((acc, sData) => {
         acc[sData.isoRow] = sData;
         return acc;

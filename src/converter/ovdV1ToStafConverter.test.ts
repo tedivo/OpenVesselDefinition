@@ -3,7 +3,7 @@ import fs from "fs";
 import ovdV1ToStafConverter from "./ovdV1ToStafConverter";
 import path from "path";
 
-const json: IOpenVesselDefinitionV1 = {
+export const mockedJson: IOpenVesselDefinitionV1 = {
   schema: "OpenVesselDefinition",
   version: "1.0.0",
   sizeSummary: {
@@ -422,18 +422,21 @@ const json: IOpenVesselDefinitionV1 = {
 };
 
 describe("ovdV1ToStafConverter should...", () => {
-  it.skip("works ok", () => {
+  it("works ok", () => {
     const jsonFileContent = fs.readFileSync(
-      path.resolve("./examples/northern-priority.json"),
+      path.resolve("./examples/northern-priority (2).json"),
       "utf8"
     );
 
     const json = JSON.parse(jsonFileContent) as IOpenVesselDefinitionV1;
 
-    const processed = ovdV1ToStafConverter(json);
+    const processed = ovdV1ToStafConverter(json, {
+      removeBaysWithNonSizeSlots: true,
+      removeCGs: true,
+    });
 
     fs.writeFileSync(
-      path.resolve("./examples/northern-priority.txt"),
+      path.resolve("./examples/northern-priority (2).txt"),
       processed
     );
   });

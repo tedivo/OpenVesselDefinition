@@ -22,7 +22,7 @@ export const getStafValuesSourceEnumValue = (
 export const getValuesSourceEnumValueToStaf = (
   s: ValuesSourceEnum
 ): TStafValuesSource => {
-  if (s === ValuesSourceEnum.KNOWN) return "Y";
+  if (Number(s) === ValuesSourceEnum.KNOWN) return "Y";
   return "N";
 };
 
@@ -36,8 +36,8 @@ export const getStafValuesSourceRowTierEnumValue = (
 
 export const getValuesSourceRowTierEnumValueToStaf = (
   s: ValuesSourceRowTierEnum
-): TStafValuesSourceRowTier => {
-  if (s === ValuesSourceRowTierEnum.ESTIMATED) return "ESTIMATED";
+): TStafValuesSourceRowTier | "N" => {
+  if (Number(s) === ValuesSourceRowTierEnum.ESTIMATED) return "N";
   return "STACK";
 };
 

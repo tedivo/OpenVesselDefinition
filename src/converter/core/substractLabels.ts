@@ -4,7 +4,7 @@ import IPositionLabels, {
 } from "../../models/v1/parts/IPositionLabels";
 
 import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
-import { pad3 } from "../../helpers/pad";
+import { pad2 } from "../../helpers/pad";
 
 /**
  * Obtains a dictionary of labels (for bays, tiers and rows)
@@ -30,7 +30,7 @@ export default function substractLabels(
     if (bayLevelData.label40) {
       positionLabels.bays[bayLevelData.isoBay].label40 = bayLevelData.label40;
     } else {
-      positionLabels.bays[bayLevelData.isoBay].label40 = pad3(
+      positionLabels.bays[bayLevelData.isoBay].label40 = pad2(
         Number(bayLevelData.isoBay) + 1
       );
     }

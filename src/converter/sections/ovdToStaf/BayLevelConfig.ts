@@ -1,3 +1,6 @@
+import ForeAftEnum, {
+  getForeAftEnumToStaf,
+} from "../../../models/base/enums/ForeAftEnum";
 import IBayLevelData, {
   IBayLevelDataStaf,
 } from "../../../models/v1/parts/IBayLevelData";
@@ -6,9 +9,10 @@ import {
   safeNumberMmToMt,
 } from "../../../helpers/safeNumberConversions";
 
+import { IJoinedRowTierPattern } from "../../../models/base/types/IPositionPatterns";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
+import { TContainerLengths } from "../../../models/v1/parts/Types";
 import { getBayLevelEnumValueToStaf } from "../../../models/base/enums/BayLevelEnum";
-import { getForeAftEnumToStaf } from "../../../models/base/enums/ForeAftEnum";
 import { safePad2 } from "../../../helpers/pad";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
 
@@ -27,12 +31,12 @@ const BayLevelConfig: ISectionMapToStafConfig<
     {
       stafVar: "20 NAME",
       source: "label20",
-      passValue: true,
+      mapper: safePad2,
     },
     {
       stafVar: "40 NAME",
       source: "label40",
-      passValue: true,
+      mapper: safePad2,
     },
     {
       stafVar: "SL Hatch",
@@ -123,8 +127,47 @@ const BayLevelConfig: ISectionMapToStafConfig<
 export default BayLevelConfig;
 
 function cleanBayLevelData(bls: IBayLevelDataStaf[]): IBayLevelDataStaf[] {
+  // 1. Check labels
+  for (let i = 0; i < bls.length; i++) {
+    const bl = bls[i];
+    const perSlotInfo = bl.perSlotInfo;
+    const slotsData = Object.keys(perSlotInfo) as IJoinedRowTierPattern[];
+    const allSizesSet = new Set<TContainerLengths>();
+
+    let hasRestricted = false;
+
+    // Get all sizes in this bay
+    slotsData.forEach((slot) => {
+      const slotSizes = Object.keys(perSlotInfo[slot].sizes).map(
+        Number
+      ) as TContainerLengths[];
+
+      slotSizes.forEach((size) => allSizesSet.add(size));
+
+      if (perSlotInfo[slot].restricted) {
+        hasRestricted = true;
+      }
+    });
+
+    const allSizes = Array.from(allSizesSet);
+
+    const label20 =
+      allSizes.some((v) => v < 40) || hasRestricted
+        ? safePad2(Number(bl.isoBay))
+        : "-";
+
+    const label40 = allSizes.some((v) => v >= 40 && bl.pairedBay !== undefined)
+      ? safePad2(
+          Number(bl.isoBay) + (bl.pairedBay === ForeAftEnum.FWD ? -1 : 1)
+        )
+      : "-";
+
+    bl.label40 = label40;
+    bl.label20 = label20 === "-" && label40 !== "-" ? label40 : label20;
+  }
+
+  // 2. Check slots
   return bls.filter((bl) => {
-    const slotsData = Object.keys(bl.perSlotInfo);
-    return slotsData.length > 0;
+    return bl.label20 !== "-" || bl.label40 !== "-";
   });
 }
