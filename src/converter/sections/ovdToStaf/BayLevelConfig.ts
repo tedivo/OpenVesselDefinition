@@ -131,7 +131,7 @@ function cleanBayLevelData(bls: IBayLevelDataStaf[]): IBayLevelDataStaf[] {
   for (let i = 0; i < bls.length; i++) {
     const bl = bls[i];
     const perSlotInfo = bl.perSlotInfo;
-    const slotsData = Object.keys(perSlotInfo) as IJoinedRowTierPattern[];
+    const slotsData = Object.keys(perSlotInfo || {}) as IJoinedRowTierPattern[];
     const allSizesSet = new Set<TContainerLengths>();
 
     let hasRestricted = false;
