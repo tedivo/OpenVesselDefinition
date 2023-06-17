@@ -65,11 +65,22 @@ function joinAftFwdLids(
     // Join AFT
     if (lidsByLabel[label].joinLidAftLabel) {
       const joinLidAftLabel = lidsByLabel[label].joinLidAftLabel;
-      const currentEndIsoBay = Number(lidsByLabel[label].startIsoBay);
-      const proposedEndIsoBay = Number(lidsByLabel[joinLidAftLabel].endIsoBay);
 
-      if (proposedEndIsoBay > currentEndIsoBay)
-        lidsByLabel[label].endIsoBay = lidsByLabel[joinLidAftLabel].endIsoBay;
+      const strCurrentEndIsoBay = lidsByLabel[label].startIsoBay;
+      const strProposedEndIsoBay = lidsByLabel[joinLidAftLabel]?.endIsoBay;
+
+      if (
+        strCurrentEndIsoBay !== undefined &&
+        strProposedEndIsoBay !== undefined
+      ) {
+        const currentEndIsoBay = Number(lidsByLabel[label].startIsoBay);
+        const proposedEndIsoBay = Number(
+          lidsByLabel[joinLidAftLabel].endIsoBay
+        );
+
+        if (proposedEndIsoBay > currentEndIsoBay)
+          lidsByLabel[label].endIsoBay = lidsByLabel[joinLidAftLabel].endIsoBay;
+      }
     }
   });
 
