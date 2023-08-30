@@ -424,7 +424,7 @@ export const mockedJson: IOpenVesselDefinitionV1 = {
 describe("ovdV1ToStafConverter should...", () => {
   it.skip("works ok", () => {
     const jsonFileContent = fs.readFileSync(
-      path.resolve("./examples/northern-priority (2).json"),
+      path.resolve("./examples/msc-vittoria.json"),
       "utf8"
     );
 
@@ -435,9 +435,6 @@ describe("ovdV1ToStafConverter should...", () => {
       removeCGs: true,
     });
 
-    fs.writeFileSync(
-      path.resolve("./examples/northern-priority (2).txt"),
-      processed
-    );
+    fs.writeFileSync(path.resolve("./examples/msc-vittoria.txt"), processed);
   });
 });

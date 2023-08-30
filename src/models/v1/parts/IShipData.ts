@@ -62,6 +62,9 @@ interface IShipDataBase {
   /** Note and Revisions history */
   metaInfo: IShipMeta;
 
+  /** Ship _also known as_ Names */
+  shipNameAkas?: string[];
+
   // UNUSED
   // refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
   // dynamicRowWeightLimit?: TYesNo;
