@@ -121,6 +121,13 @@ export default function stafToOvdV1Converter(
     },
     containersLengths: getContainerLengths(dataProcessed.bayLevelData),
     masterCGs: { aboveTcgs: {}, belowTcgs: {}, bottomBases: {} },
+    loa: 0,
+    featuresAllowed: {
+      slotConeRequired: false,
+      slotHazardousProhibited: false,
+      slotCoolStowProhibited: false,
+    },
+    shipNameAkas: [],
   };
 
   // 8. Size Summary
