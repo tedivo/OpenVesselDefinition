@@ -11,7 +11,7 @@ import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import { ONE_MILLIMETER_IN_FEET } from "../consts";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
-import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceEnum";
+import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
 
 /**
  * Remaps STAF file CGs to OVD CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase)

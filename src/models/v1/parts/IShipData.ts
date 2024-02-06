@@ -3,9 +3,6 @@ import {
   IIsoTierPattern,
   TYesNo,
 } from "../../base/types/IPositionPatterns";
-import ValuesSourceEnum, {
-  ValuesSourceRowTierEnum,
-} from "../../base/enums/ValuesSourceEnum";
 
 import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import LcgReferenceEnum from "../../base/enums/LcgReferenceEnum";
@@ -13,6 +10,8 @@ import PortStarboardEnum from "../../base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../../base/enums/PositionFormatEnum";
 import RowWeightCalculationEnum from "../../base/enums/RowWeightCalculationEnum";
 import type { TContainerLengths } from "./Types";
+import ValuesSourceEnum from "../../base/enums/ValuesSourceEnum";
+import { ValuesSourceRowTierEnum } from "../../base/enums/ValuesSourceRowTierEnum";
 
 export default interface IShipData extends IShipDataBase {
   lcgOptions: ILCGOptions;
@@ -71,17 +70,9 @@ interface IShipDataBase {
   // visibility?: IVisibility;
 }
 
-interface IHistory {
-  personName: string;
-  date: Date;
-  observations: string;
-}
-
 interface IShipMeta {
   /** This notes display in the profile of the ship */
   note?: string;
-  /** History of revisions */
-  history?: Array<IHistory>;
 }
 
 interface IVisibility {

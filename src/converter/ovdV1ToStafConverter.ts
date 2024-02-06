@@ -7,9 +7,6 @@ import IShipData, {
   ITGCOptionsIntermediate,
   IVGCOptionsIntermediate,
 } from "../models/v1/parts/IShipData";
-import ValuesSourceEnum, {
-  ValuesSourceRowTierEnum,
-} from "../models/base/enums/ValuesSourceEnum";
 
 import BayLevelConfig from "./sections/ovdToStaf/BayLevelConfig";
 import ForeAftEnum from "../models/base/enums/ForeAftEnum";
@@ -26,6 +23,8 @@ import RowConfig from "./sections/ovdToStaf/RowConfig";
 import ShipConfig from "./sections/ovdToStaf/ShipConfig";
 import SlotConfig from "./sections/ovdToStaf/SlotConfig";
 import TierConfig from "./sections/ovdToStaf/TierConfig";
+import ValuesSourceEnum from "../models/base/enums/ValuesSourceEnum";
+import { ValuesSourceRowTierEnum } from "../models/base/enums/ValuesSourceRowTierEnum";
 import { applyOvdToStafOptionsToData } from "./core/cleanup/applyOvdToStafOptionsToData";
 import { cgsRemapOvdToStaf } from "./core/cgsRemapOvdToStaf";
 import convertOvdToStafObject from "./core/convertOvdToStafObject";

@@ -1,7 +1,3 @@
-import ValuesSourceEnum, {
-  ValuesSourceRowTierEnum,
-} from "../../models/base/enums/ValuesSourceEnum";
-
 import BayLevelConfig from "../sections/stafToOvd/BayLevelConfig";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
@@ -20,6 +16,8 @@ import RowConfig from "../sections/stafToOvd/RowConfig";
 import ShipConfig from "../sections/stafToOvd/ShipConfig";
 import SlotConfig from "../sections/stafToOvd/SlotConfig";
 import TierConfig from "../sections/stafToOvd/TierConfig";
+import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
+import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
 import convertStafObjectToOpenVesselDefinition from "../core/convertStafObjectToOpenVesselDefinition";
 import getSectionsFromFileContent from "../core/getSectionsFromFileContent";
 import mapStafSections from "../core/mapStafSections";

@@ -1,3 +1,4 @@
+/** Fore Aft Enum */
 enum ForeAftEnum {
   "FWD" = 1,
   "AFT" = 2,

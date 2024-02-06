@@ -11,6 +11,7 @@ import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import ISlotData from "./ISlotData";
 import { TContainerLengths } from "./Types";
 
+/** Contains the information of a Bay and a Level (i.e. 003 - Above) */
 interface IBayLevelDataBase {
   /** 3 digits ISO Bay */
   isoBay: IIsoBayPattern;
@@ -21,20 +22,23 @@ interface IBayLevelDataBase {
     notes?: string;
   };
 
-  /* AFT attribs */
   label20?: string;
   label40?: string;
   // Unused fields:
   // slHatch?: string;
   // slForeAft?: string;
 
+  /** Where are the reefer plugs. FWD or AFT */
   reeferPlugs?: ForeAftEnum;
+  /** Where should the doors be. FWD or AFT */
   doors?: ForeAftEnum;
+  /** Refers to the Bay (not the current one). If it's FWD, it means current is AFT */
   pairedBay?: ForeAftEnum;
   reeferPlugLimit?: number;
 
   bulkhead?: IBulkheadInfo;
 
+  /** Does it has Center Line Row (00)? */
   centerLineRow?: TYesNo;
   athwartShip?: TYesNo;
   foreHatch?: TYesNo;

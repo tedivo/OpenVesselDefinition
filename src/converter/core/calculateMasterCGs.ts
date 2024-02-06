@@ -9,11 +9,10 @@ import {
   IMasterCGs,
   IShipDataIntermediateStaf,
 } from "../../models/v1/parts/IShipData";
-import ValuesSourceEnum, {
-  ValuesSourceRowTierEnum,
-} from "../../models/base/enums/ValuesSourceEnum";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
+import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
 import sortRowsArray from "../../helpers/sortRowsArray";
 
 /**

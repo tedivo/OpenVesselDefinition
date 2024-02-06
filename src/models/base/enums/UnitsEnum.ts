@@ -1,3 +1,4 @@
+/** Units for Weights */
 export enum WeightUnitsEnum {
   "TONNES" = 1,
   "LONG_TONS" = 2,

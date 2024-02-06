@@ -1,3 +1,4 @@
+/** Position Format (from STAF) */
 export enum PositionFormatEnum {
   "BAY_STACK_TIER" = 1,
   "BAY_TIER_STACK" = 2,

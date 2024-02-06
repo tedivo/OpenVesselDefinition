@@ -25,9 +25,6 @@ import {
   LengthUnitsEnum,
   WeightUnitsEnum,
 } from "./models/base/enums/UnitsEnum";
-import ValuesSourceEnum, {
-  ValuesSourceRowTierEnum,
-} from "./models/base/enums/ValuesSourceEnum";
 import {
   createMockedSimpleBayLevelData,
   createMockedSingleBayLevelData,
@@ -45,7 +42,8 @@ import OpenVesselDefinition from "./models/OpenVesselDefinition";
 import PortStarboardEnum from "./models/base/enums/PortStarboardEnum";
 import PositionFormatEnum from "./models/base/enums/PositionFormatEnum";
 import RowWeightCalculationEnum from "./models/base/enums/RowWeightCalculationEnum";
-import VoidTypesEnum from "./models/base/enums/VoidTypesEnum";
+import ValuesSourceEnum from "./models/base/enums/ValuesSourceEnum";
+import { ValuesSourceRowTierEnum } from "./models/base/enums/ValuesSourceRowTierEnum";
 import destructurePosition from "./converter/core/destructurePosition";
 import { getContainerLengths } from "./converter/core/getContainerLengths";
 import ovdV1ToStafConverter from "./converter/ovdV1ToStafConverter";
@@ -85,7 +83,6 @@ export {
   LengthUnitsEnum,
   ValuesSourceEnum,
   ValuesSourceRowTierEnum,
-  VoidTypesEnum,
   stafToOvdV1Converter,
   stafToOvdShipData,
   ovdV1ToStafConverter,

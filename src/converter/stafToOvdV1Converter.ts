@@ -1,6 +1,3 @@
-import ValuesSourceEnum, {
-  ValuesSourceRowTierEnum,
-} from "../models/base/enums/ValuesSourceEnum";
 import {
   calculateMasterCGs,
   cleanRepeatedTcgs,
@@ -12,6 +9,8 @@ import IRowStafData from "./types/IRowStafData";
 import IShipData from "../models/v1/parts/IShipData";
 import IStafDataProcessed from "./types/IStafDataProcessed";
 import ITierStafData from "./types/ITierStafData";
+import ValuesSourceEnum from "../models/base/enums/ValuesSourceEnum";
+import { ValuesSourceRowTierEnum } from "../models/base/enums/ValuesSourceRowTierEnum";
 import { addMissingBays } from "./core/addMissingBays";
 import addPerRowInfo from "../converter/core/addPerRowInfo";
 import addPerSlotData from "../converter/core/addPerSlotData";

@@ -4,9 +4,6 @@ import {
   ITGCOptionsIntermediate,
   IVGCOptionsIntermediate,
 } from "../../models/v1/parts/IShipData";
-import ValuesSourceEnum, {
-  ValuesSourceRowTierEnum,
-} from "../../models/base/enums/ValuesSourceEnum";
 import { shipData, shipDataBays } from "../mocks/shipData";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
@@ -14,6 +11,8 @@ import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import { IJoinedRowTierPattern } from "../../models/base/types/IPositionPatterns";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
+import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
+import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
 import { cgsRemapOvdToStaf } from "./cgsRemapOvdToStaf";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import createSummary from "./createSummary";

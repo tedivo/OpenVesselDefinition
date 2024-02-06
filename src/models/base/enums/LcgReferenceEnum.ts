@@ -1,3 +1,4 @@
+/** LCG Reference from STAF */
 enum LcgReferenceEnum {
   "MIDSHIPS" = 1,
   "AFT_PERPENDICULAR" = 2,

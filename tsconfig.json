@@ -19,6 +19,6 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "build"
   },
-  "include": ["src"],
+  "include": ["src", "tools/schemaTools"],
   "exclude": ["node_modules", "tmp"]
 }

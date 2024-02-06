@@ -1,16 +1,14 @@
 import IShipData, {
   IShipDataFromStaf,
 } from "../../../models/v1/parts/IShipData";
-import {
-  getValuesSourceEnumValueToStaf,
-  getValuesSourceRowTierEnumValueToStaf,
-} from "../../../models/base/enums/ValuesSourceEnum";
 
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import { getForeAftEnumToStaf } from "../../../models/base/enums/ForeAftEnum";
 import { getLcgReferenceEnumValueToStaf } from "../../../models/base/enums/LcgReferenceEnum";
 import { getPortStarboardValueToStaf } from "../../../models/base/enums/PortStarboardEnum";
 import { getPositionFormatValueToStaf } from "../../../models/base/enums/PositionFormatEnum";
+import { getValuesSourceEnumValueToStaf } from "../../../models/base/enums/ValuesSourceEnum";
+import { getValuesSourceRowTierEnumValueToStaf } from "../../../models/base/enums/ValuesSourceRowTierEnum";
 
 /**
  * FROM OVD TO STAF
