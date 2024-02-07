@@ -28,6 +28,13 @@ M.I.T. License.
     "IOpenVesselDefinitionV1": {
       "additionalProperties": false,
       "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "$schemaId": {
+          "enum": ["OpenVesselDefinition", "IOpenVesselDefinitionV1"],
+          "type": "string"
+        },
         "baysData": {
           "items": {
             "$ref": "#/definitions/IBayLevelData"
@@ -43,10 +50,6 @@ M.I.T. License.
         "positionLabels": {
           "$ref": "#/definitions/IPositionLabels"
         },
-        "schema": {
-          "const": "OpenVesselDefinition",
-          "type": "string"
-        },
         "shipData": {
           "$ref": "#/definitions/IShipData"
         },
@@ -58,10 +61,11 @@ M.I.T. License.
         }
       },
       "required": [
+        "$schema",
+        "$schemaId",
         "baysData",
         "lidData",
         "positionLabels",
-        "schema",
         "shipData",
         "sizeSummary",
         "version"
@@ -79,11 +83,12 @@ M.I.T. License.
       "type": "number"
     },
     "IAcceptsContainers": {
-      "$ref": "#/definitions/Partial%3Cindexed-type-1364282619-642-705-1364282619-633-706-1364282619-380-707-1364282619-0-1405%3E",
+      "$ref": "#/definitions/Partial%3Cindexed-type-1364282619-642-705-1364282619-633-706-1364282619-380-707-1364282619-0-1427%3E",
       "description": "Dictionary of sizes. Value can be 0/1 (1 means the size is allowed) or an object of type  {@link  ISlotSizeOptions } . When this later object is present it's equivalent to value 1 (the size is allowed)."
     },
     "IBayLevelData": {
       "additionalProperties": false,
+      "description": "Contains the information of a Bay and a Level (i.e. 003 - Above)",
       "properties": {
         "athwartShip": {
           "$ref": "#/definitions/TYesNo"
@@ -270,10 +275,6 @@ M.I.T. License.
     },
     "IIsoBayPattern": {
       "description": "ISO Bay pattern: 3 numbers",
-      "type": "string"
-    },
-    "IIsoPositionPattern": {
-      "description": "ISO Position pattern: 7 numbers",
       "type": "string"
     },
     "IIsoRowPattern": {
@@ -492,7 +493,6 @@ M.I.T. License.
         "containersLengths",
         "lcgOptions",
         "masterCGs",
-        "metaInfo",
         "positionFormat",
         "shipClass",
         "tcgOptions",
@@ -561,10 +561,6 @@ M.I.T. License.
           "$ref": "#/definitions/IJoinedRowTierPattern",
           "description": "STACK_TIER. 2 chars for Row, 2 or 3 for Tier. i.e.: 0780 or 0014 or 00100"
         },
-        "position": {
-          "$ref": "#/definitions/IIsoPositionPattern",
-          "deprecated": "use pos."
-        },
         "reefer": {
           "$ref": "#/definitions/TYesNo",
           "description": "Reefer plug?"
@@ -623,7 +619,7 @@ M.I.T. License.
       "enum": [1, 2, 3],
       "type": "number"
     },
-    "Partial<indexed-type-1364282619-642-705-1364282619-633-706-1364282619-380-707-1364282619-0-1405>": {
+    "Partial<indexed-type-1364282619-642-705-1364282619-633-706-1364282619-380-707-1364282619-0-1427>": {
       "additionalProperties": false,
       "properties": {
         "20": {
