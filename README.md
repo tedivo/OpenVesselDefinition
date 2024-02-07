@@ -1,4 +1,4 @@
-<img src="https://tedivo.com/images/logos/logo_Definition-horizontal-color.svg" width="320" height="75" />
+<img src="https://tedivo.com/images/logos/logo_Definition-horizontal-color.svg" width="320" height="75" alt="Open Vessel Definition" />
 
 # Open Vessel Definition
 
@@ -6,11 +6,15 @@ Open Source definition / schema / specification of Container Vessel characterist
 
 [![Tests](https://github.com/tedivo/OpenVesselDefinition/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/tedivo/OpenVesselDefinition/actions/workflows/main.yml)
 
-Use a product such as TEDIVO LLC's interactive Vessel Designer at https://designer.tedivo.com to generate files in this standard.
+## Tools
+
+- TEDIVO LLC's interactive Vessel Designer at https://designer.tedivo.com
 
 ## License
 
 M.I.T. License.
+
+<img src="https://tedivo.com/images/illustrations/open-source.png" alt="Open Source" width="188" height="111" />
 
 ## Json Schema
 
