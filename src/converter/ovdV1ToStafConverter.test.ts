@@ -4,7 +4,9 @@ import ovdV1ToStafConverter from "./ovdV1ToStafConverter";
 import path from "path";
 
 export const mockedJson: IOpenVesselDefinitionV1 = {
-  schema: "OpenVesselDefinition",
+  $schema:
+    "https://github.com/tedivo/OpenVesselDefinition/blob/24092bd8cef7b360814c680e749b92ed5398ee0a/schema.json?raw=true",
+  $schemaId: "IOpenVesselDefinitionV1",
   version: "1.0.0",
   sizeSummary: {
     isoBays: 3,
@@ -424,7 +426,7 @@ export const mockedJson: IOpenVesselDefinitionV1 = {
 describe("ovdV1ToStafConverter should...", () => {
   it.skip("works ok", () => {
     const jsonFileContent = fs.readFileSync(
-      path.resolve("./examples/msc-vittoria.json"),
+      path.resolve("./examples/OOL.OASI.OOCL ASIA_OPENSHIPSPEC.json"),
       "utf8"
     );
 
@@ -432,7 +434,7 @@ describe("ovdV1ToStafConverter should...", () => {
 
     const processed = ovdV1ToStafConverter(json, {
       removeBaysWithNonSizeSlots: true,
-      removeCGs: true,
+      removeCGs: false,
     });
 
     fs.writeFileSync(path.resolve("./examples/msc-vittoria.txt"), processed);
