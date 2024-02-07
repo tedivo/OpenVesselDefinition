@@ -9,3 +9,11 @@ Use a product such as TEDIVO LLC's interactive Vessel Designer at https://design
 ## License
 
 M.I.T. License.
+
+## Schema
+
+[Json Schema of OVD](https://github.com/tedivo/OpenVesselDefinition/blob/24092bd8cef7b360814c680e749b92ed5398ee0a/schema.json)
+
+```json
+https://github.com/tedivo/OpenVesselDefinition/blob/24092bd8cef7b360814c680e749b92ed5398ee0a/schema.json
+```
