@@ -6,12 +6,14 @@ import {
   TYesNo,
 } from "../../../models/base/types/IPositionPatterns";
 import IShipData, { IMasterCGs } from "../../../models/v1/parts/IShipData";
+import ISlotData, {
+  ISlotDataIntermediate,
+} from "../../../models/v1/parts/ISlotData";
 
 import BayLevelEnum from "../../../models/base/enums/BayLevelEnum";
 import IBayLevelData from "../../../models/v1/parts/IBayLevelData";
 import IRowStafData from "../../types/IRowStafData";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
-import ISlotData from "../../../models/v1/parts/ISlotData";
 import ValuesSourceEnum from "../../../models/base/enums/ValuesSourceEnum";
 import { createRowStafData } from "./RowConfig";
 import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
@@ -22,7 +24,7 @@ import { yNToStaf } from "../../../helpers/yNToBoolean";
 /**
  * DEFINITION of SLOT
  */
-const SlotConfig: ISectionMapToStafConfig<ISlotData, ISlotData> = {
+const SlotConfig: ISectionMapToStafConfig<ISlotData, ISlotDataIntermediate> = {
   stafSection: "SLOT",
   mapVars: [
     { stafVar: "SLOT", source: "position", mapper: passAsString },
@@ -46,7 +48,7 @@ function iNToStaf(s: TYesNo): "I" | "N" {
   return s === 1 ? "I" : "N";
 }
 
-function createSlotData(bayData: IBayLevelData[]): ISlotData[] {
+function createSlotData(bayData: IBayLevelData[]): ISlotDataIntermediate[] {
   let slotsData: ISlotData[] = [];
   const dummyMasterCGs: IMasterCGs = {
     aboveTcgs: {},
@@ -61,7 +63,7 @@ function createSlotData(bayData: IBayLevelData[]): ISlotData[] {
   bayData.forEach((bl) => {
     const perSlotInfo = bl.perSlotInfo;
     if (perSlotInfo) {
-      const slotsDataBL: ISlotData[] = [];
+      const slotsDataBL: ISlotDataIntermediate[] = [];
       const rowData = createRowStafData([bl], dummyIshipData);
       const rowDataByRow = rowData.reduce((acc, sData) => {
         acc[sData.isoRow] = sData;

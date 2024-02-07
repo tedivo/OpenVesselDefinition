@@ -1,5 +1,6 @@
 export default interface OpenVesselDefinitionVersion {
-  schema: "OpenVesselDefinition";
+  $schema: string;
+  $schemaId: "OpenVesselDefinition" | "IOpenVesselDefinitionV1";
   version: TVersion;
 }
 

@@ -6,7 +6,7 @@ import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import IRowStafData from "../types/IRowStafData";
 import ISectionMapConfig from "../types/ISectionMapConfig";
 import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
-import ISlotData from "../../models/v1/parts/ISlotData";
+import { ISlotDataIntermediate } from "../../models/v1/parts/ISlotData";
 import ITierStafData from "../types/ITierStafData";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import LidConfig from "../sections/stafToOvd/LidConfig";
@@ -243,10 +243,11 @@ describe("for SLOT data", () => {
 
     const headerSection = sectionsByName["SLOT"];
 
-    const processed = convertStafObjectToOpenVesselDefinition<ISlotData>(
-      headerSection,
-      SlotConfig
-    );
+    const processed =
+      convertStafObjectToOpenVesselDefinition<ISlotDataIntermediate>(
+        headerSection,
+        SlotConfig
+      );
 
     expect(processed.length).toBe(23);
     const row1 = processed[0];
@@ -261,8 +262,8 @@ describe("for SLOT data", () => {
     expect(row1.sizes[48]).toBe(0);
     expect(row1.reefer).toBe(0);
 
-    expect(row2.sizes[20]).toBe(1);
     expect(row2.position).toBe("0190782");
+    expect(row2.sizes[20]).toBe(1);
     expect(row2.sizes[40]).toBe(1);
     expect(row2.sizes[45]).toBe(0);
     expect(row2.sizes[24]).toBe(0);

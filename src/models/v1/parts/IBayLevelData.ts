@@ -11,7 +11,6 @@ import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import ISlotData from "./ISlotData";
 import { TContainerLengths } from "./Types";
 
-/** Contains the information of a Bay and a Level (i.e. 003 - Above) */
 interface IBayLevelDataBase {
   /** 3 digits ISO Bay */
   isoBay: IIsoBayPattern;
@@ -80,6 +79,7 @@ export interface IBayLevelDataStaf extends IBayLevelDataBase {
   rowsLabelsDictionary?: string;
 }
 
+/** Contains the information of a Bay and a Level (i.e. 003 - Above) */
 export default interface IBayLevelData extends IBayLevelDataBase {
   /**
    * Dictionary: contains information that applies to all rows by container Length

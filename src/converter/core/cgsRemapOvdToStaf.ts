@@ -167,7 +167,7 @@ function remapLcgs(lcgOptions: ILCGOptionsIntermediate, bls: IBayLevelData[]) {
 
     // remap infoByContLength
     contLens.forEach((len) => {
-      let lcg = infoByContLength[len]?.lcg;
+      const lcg = infoByContLength[len]?.lcg;
       if (lcg !== undefined) {
         infoByContLength[len].lcg = lcgRebase(lcg);
       }

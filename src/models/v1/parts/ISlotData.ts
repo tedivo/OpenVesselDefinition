@@ -24,10 +24,6 @@ export type IAcceptsContainers = Partial<{
 }>;
 
 export default interface ISlotData {
-  /**
-   * @deprecated use pos.
-   * */
-  position?: IIsoPositionPattern;
   /** STACK_TIER. 2 chars for Row, 2 or 3 for Tier. i.e.: 0780 or 0014 or 00100 */
   pos: IJoinedRowTierPattern;
   /** An object with sizes allowed of type {@link IAcceptsContainers} */
@@ -40,4 +36,8 @@ export default interface ISlotData {
   coolStowProhibited?: TYesNo;
   /** Cannot stow container that are dangerous */
   hazardousProhibited?: true | IDangerousAndHazardous;
+}
+
+export interface ISlotDataIntermediate extends ISlotData {
+  position?: IIsoPositionPattern;
 }

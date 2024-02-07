@@ -1,12 +1,12 @@
 import ISectionMapConfig from "../../types/ISectionMapConfig";
-import ISlotData from "../../../models/v1/parts/ISlotData";
+import { ISlotDataIntermediate } from "../../../models/v1/parts/ISlotData";
 import { pad7 } from "../../../helpers/pad";
 import yNToBoolean from "../../../helpers/yNToBoolean";
 
 /**
  * DEFINITION of SLOT
  */
-const SlotConfig: ISectionMapConfig<ISlotData> = {
+const SlotConfig: ISectionMapConfig<ISlotDataIntermediate> = {
   stafSection: "SLOT",
   mapVars: {
     SLOT: { target: "position", mapper: pad7 },

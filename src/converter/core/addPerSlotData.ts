@@ -1,7 +1,7 @@
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { IJoinedRowTierPattern } from "../../models/base/types/IPositionPatterns";
-import ISlotData from "../../models/v1/parts/ISlotData";
+import { ISlotDataIntermediate } from "../../models/v1/parts/ISlotData";
 
 /**
  * Get SlotData and add it to BayLevelData
@@ -11,7 +11,7 @@ import ISlotData from "../../models/v1/parts/ISlotData";
  */
 export default function addPerSlotData(
   bayLevelData: IBayLevelDataStaf[],
-  slotData: ISlotData[],
+  slotData: ISlotDataIntermediate[],
   preCalculatedMinAboveTier: number
 ) {
   if (!bayLevelData) {

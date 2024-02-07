@@ -1,5 +1,8 @@
+import ISlotData, {
+  ISlotDataIntermediate,
+} from "../../models/v1/parts/ISlotData";
+
 import { IJoinedRowTierPattern } from "../../models/base/types/IPositionPatterns";
-import ISlotData from "../../models/v1/parts/ISlotData";
 import addPerSlotData from "./addPerSlotData";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import { shipDataBays } from "../mocks/shipData";
@@ -66,7 +69,7 @@ describe("addPerSlotData should", () => {
     const row03Prev = bayLevelData[0].perRowInfo["03"];
     expect(row03Prev).toBeUndefined();
 
-    const slotData: ISlotData[] = [
+    const slotData: ISlotDataIntermediate[] = [
       { position: "0010380", pos: "0380", sizes: { 20: 1, 24: 1 } },
     ];
 
