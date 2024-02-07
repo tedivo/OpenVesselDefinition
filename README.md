@@ -18,7 +18,7 @@ M.I.T. License.
 
 ## Json Schema
 
-[Download the Json Schema](https://github.com/tedivo/OpenVesselDefinition/blob/24092bd8cef7b360814c680e749b92ed5398ee0a/schema.json)
+[Download the Json Schema](https://github.com/tedivo/OpenVesselDefinition/blob/master/schema.json)
 
 ```json
 {

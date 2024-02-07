@@ -59,7 +59,7 @@ interface IShipDataBase {
   positionFormat: PositionFormatEnum;
 
   /** Note and Revisions history */
-  metaInfo: IShipMeta;
+  metaInfo?: IShipMeta;
 
   /** Ship _also known as_ Names */
   shipNameAkas?: string[];

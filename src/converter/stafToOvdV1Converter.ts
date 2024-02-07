@@ -170,7 +170,7 @@ export default function stafToOvdV1Converter(
   // OpenVesselDefinition JSON
   const result: IOpenVesselDefinitionV1 = {
     $schema:
-      "https://github.com/tedivo/OpenVesselDefinition/blob/24092bd8cef7b360814c680e749b92ed5398ee0a/schema.json?raw=true",
+      "https://raw.githubusercontent.com/tedivo/OpenVesselDefinition/master/schema.json",
     $schemaId: "IOpenVesselDefinitionV1",
     version: "1.0.0",
     shipData: { ...shipData, masterCGs: masterCGsTiersRemapped },
