@@ -1,6 +1,6 @@
 {
   "name": "open-vessel-definition",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "",
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
@@ -17,7 +17,7 @@
     "typescript": "^4.9.3"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf build/ && tsc",
     "test": "jest --watch --verbose",
     "testCI": "jest --passWithNoTests",
     "generateSchema": "ts-json-schema-generator -p src/models/v1/IOpenVesselDefinitionV1.ts -t 'IOpenVesselDefinitionV1' -e all -f tsconfig.json -o schema.json --no-type-check && ts-node tools/schemaTools/addDetailsToSchema.ts schema.json"

@@ -130,6 +130,10 @@ M.I.T. License.
         "label40": {
           "type": "string"
         },
+        "lashingBridges": {
+          "description": "Number of Lashing bridges TIERS -only for ABOVE-",
+          "type": "number"
+        },
         "level": {
           "$ref": "#/definitions/BayLevelEnum",
           "description": "Above, Below"
@@ -685,7 +689,7 @@ M.I.T. License.
       },
       "type": "object"
     },
-    "Partial<indexed-type-1634338809-2840-2893-1634338809-2831-2894-1634338809-2797-2895-1634338809-0-4402>": {
+    "Partial<indexed-type-1634338809-2925-2978-1634338809-2916-2979-1634338809-2882-2980-1634338809-0-4487>": {
       "additionalProperties": false,
       "properties": {
         "20": {
@@ -789,7 +793,7 @@ M.I.T. License.
       "type": "string"
     },
     "TRowInfoByLength": {
-      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-2840-2893-1634338809-2831-2894-1634338809-2797-2895-1634338809-0-4402%3E"
+      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-2925-2978-1634338809-2916-2979-1634338809-2882-2980-1634338809-0-4487%3E"
     },
     "TUnNumber": {
       "type": "string"

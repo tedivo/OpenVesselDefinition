@@ -11,7 +11,7 @@ import ForeAftEnum from "../../base/enums/ForeAftEnum";
 import ISlotData from "./ISlotData";
 import { TContainerLengths } from "./Types";
 
-interface IBayLevelDataBase {
+type IBayLevelDataBase = {
   /** 3 digits ISO Bay */
   isoBay: IIsoBayPattern;
   /** Above, Below */
@@ -49,7 +49,9 @@ interface IBayLevelDataBase {
   engineRmBulkFore?: TYesNo;
 
   telescoping?: TYesNo;
-}
+  /** Number of Lashing bridges TIERS -only for ABOVE- */
+  lashingBridges?: number;
+};
 
 export interface IBayLevelDataStaf extends IBayLevelDataBase {
   maxHeight?: number;
