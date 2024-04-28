@@ -131,8 +131,7 @@ M.I.T. License.
           "type": "string"
         },
         "lashingBridges": {
-          "description": "Number of Lashing bridges TIERS -only for ABOVE-",
-          "type": "number"
+          "$ref": "#/definitions/ILashingBridgeInfo"
         },
         "level": {
           "$ref": "#/definitions/BayLevelEnum",
@@ -317,6 +316,24 @@ M.I.T. License.
         }
       },
       "required": ["values", "lpp"],
+      "type": "object"
+    },
+    "ILashingBridgeInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "aft": {
+          "$ref": "#/definitions/TYesNo"
+        },
+        "aftLcg": {
+          "type": "number"
+        },
+        "fore": {
+          "$ref": "#/definitions/TYesNo"
+        },
+        "foreLcg": {
+          "type": "number"
+        }
+      },
       "type": "object"
     },
     "ILidData": {
@@ -689,7 +706,7 @@ M.I.T. License.
       },
       "type": "object"
     },
-    "Partial<indexed-type-1634338809-2925-2978-1634338809-2916-2979-1634338809-2882-2980-1634338809-0-4487>": {
+    "Partial<indexed-type-1634338809-2878-2931-1634338809-2869-2932-1634338809-2835-2933-1634338809-0-4560>": {
       "additionalProperties": false,
       "properties": {
         "20": {
@@ -793,7 +810,7 @@ M.I.T. License.
       "type": "string"
     },
     "TRowInfoByLength": {
-      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-2925-2978-1634338809-2916-2979-1634338809-2882-2980-1634338809-0-4487%3E"
+      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-2878-2931-1634338809-2869-2932-1634338809-2835-2933-1634338809-0-4560%3E"
     },
     "TUnNumber": {
       "type": "string"

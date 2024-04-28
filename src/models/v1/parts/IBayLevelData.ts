@@ -36,6 +36,7 @@ type IBayLevelDataBase = {
   reeferPlugLimit?: number;
 
   bulkhead?: IBulkheadInfo;
+  lashingBridges?: ILashingBridgeInfo;
 
   /** Does it has Center Line Row (00)? */
   centerLineRow?: TYesNo;
@@ -49,8 +50,6 @@ type IBayLevelDataBase = {
   engineRmBulkFore?: TYesNo;
 
   telescoping?: TYesNo;
-  /** Number of Lashing bridges TIERS -only for ABOVE- */
-  lashingBridges?: number;
 };
 
 export interface IBayLevelDataStaf extends IBayLevelDataBase {
@@ -169,6 +168,13 @@ export interface IBayTierInfo {
 }
 
 export interface IBulkheadInfo {
+  fore?: TYesNo;
+  foreLcg?: number;
+  aft?: TYesNo;
+  aftLcg?: number;
+}
+
+export interface ILashingBridgeInfo {
   fore?: TYesNo;
   foreLcg?: number;
   aft?: TYesNo;
