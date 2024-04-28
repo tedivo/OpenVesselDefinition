@@ -320,22 +320,108 @@
       "type": "object"
     },
     "ILashingBridgeInfo": {
-      "additionalProperties": false,
-      "properties": {
-        "aft": {
-          "$ref": "#/definitions/TYesNo"
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "aft": {
+              "const": 0,
+              "type": "number"
+            },
+            "fore": {
+              "const": 0,
+              "type": "number"
+            }
+          },
+          "required": [
+            "aft",
+            "fore"
+          ],
+          "type": "object"
         },
-        "aftLcg": {
-          "type": "number"
+        {
+          "additionalProperties": false,
+          "properties": {
+            "aft": {
+              "const": 1,
+              "type": "number"
+            },
+            "aftLcg": {
+              "type": "number"
+            },
+            "aftTiers": {
+              "type": "number"
+            },
+            "fore": {
+              "const": 0,
+              "type": "number"
+            }
+          },
+          "required": [
+            "aft",
+            "aftTiers",
+            "fore"
+          ],
+          "type": "object"
         },
-        "fore": {
-          "$ref": "#/definitions/TYesNo"
+        {
+          "additionalProperties": false,
+          "properties": {
+            "aft": {
+              "const": 0,
+              "type": "number"
+            },
+            "fore": {
+              "const": 1,
+              "type": "number"
+            },
+            "foreLcg": {
+              "type": "number"
+            },
+            "foreTiers": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "aft",
+            "fore",
+            "foreTiers"
+          ],
+          "type": "object"
         },
-        "foreLcg": {
-          "type": "number"
+        {
+          "additionalProperties": false,
+          "properties": {
+            "aft": {
+              "const": 1,
+              "type": "number"
+            },
+            "aftLcg": {
+              "type": "number"
+            },
+            "aftTiers": {
+              "type": "number"
+            },
+            "fore": {
+              "const": 1,
+              "type": "number"
+            },
+            "foreLcg": {
+              "type": "number"
+            },
+            "foreTiers": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "aft",
+            "aftTiers",
+            "fore",
+            "foreTiers"
+          ],
+          "type": "object"
         }
-      },
-      "type": "object"
+      ]
     },
     "ILidData": {
       "additionalProperties": false,
@@ -727,7 +813,7 @@
       },
       "type": "object"
     },
-    "Partial<indexed-type-1634338809-2878-2931-1634338809-2869-2932-1634338809-2835-2933-1634338809-0-4560>": {
+    "Partial<indexed-type-1634338809-2878-2931-1634338809-2869-2932-1634338809-2835-2933-1634338809-0-4907>": {
       "additionalProperties": false,
       "properties": {
         "20": {
@@ -865,7 +951,7 @@
       "type": "string"
     },
     "TRowInfoByLength": {
-      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-2878-2931-1634338809-2869-2932-1634338809-2835-2933-1634338809-0-4560%3E"
+      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-2878-2931-1634338809-2869-2932-1634338809-2835-2933-1634338809-0-4907%3E"
     },
     "TUnNumber": {
       "type": "string"

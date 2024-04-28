@@ -174,9 +174,28 @@ export interface IBulkheadInfo {
   aftLcg?: number;
 }
 
-export interface ILashingBridgeInfo {
-  fore?: TYesNo;
-  foreLcg?: number;
-  aft?: TYesNo;
-  aftLcg?: number;
-}
+export type ILashingBridgeInfo = ILashingBridgeInfoFore & ILashingBridgeInfoAft;
+
+type ILashingBridgeInfoFore =
+  | {
+      fore: 0;
+      foreTiers?: never;
+      foreLcg?: never;
+    }
+  | {
+      fore: 1;
+      foreTiers: number;
+      foreLcg?: number;
+    };
+
+type ILashingBridgeInfoAft =
+  | {
+      aft: 0;
+      aftTiers?: never;
+      aftLcg?: never;
+    }
+  | {
+      aft: 1;
+      aftTiers: number;
+      aftLcg?: number;
+    };
