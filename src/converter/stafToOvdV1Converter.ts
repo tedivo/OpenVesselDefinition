@@ -178,6 +178,7 @@ export default function stafToOvdV1Converter(
     baysData: baysDataTiersRemapped,
     positionLabels,
     lidData: transformLids(dataProcessed.lidData),
+    vesselPartsData: [],
   };
 
   // Final Clean-Up

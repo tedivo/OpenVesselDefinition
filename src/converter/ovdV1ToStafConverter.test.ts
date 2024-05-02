@@ -18,6 +18,7 @@ export const mockedJson: IOpenVesselDefinitionV1 = {
     minBelowTier: 16,
   },
   positionLabels: {},
+  vesselPartsData: [],
   shipData: {
     shipClass: "MYCLASS",
     containersLengths: [],

@@ -58,6 +58,12 @@ M.I.T. License.
         },
         "version": {
           "$ref": "#/definitions/TVersion"
+        },
+        "vesselPartsData": {
+          "items": {
+            "$ref": "#/definitions/IVesselParts"
+          },
+          "type": "array"
         }
       },
       "required": [
@@ -68,7 +74,8 @@ M.I.T. License.
         "positionLabels",
         "shipData",
         "sizeSummary",
-        "version"
+        "version",
+        "vesselPartsData"
       ],
       "type": "object"
     },
@@ -76,6 +83,10 @@ M.I.T. License.
       "description": "Bay Level. ABOVE = 1, BELOW = 2, TWINDECK = 3",
       "enum": [1, 2, 3],
       "type": "number"
+    },
+    "CraneSideEnum": {
+      "enum": ["PORT", "STARBOARD", "CENTER"],
+      "type": "string"
     },
     "ForeAftEnum": {
       "description": "Fore Aft Enum. FWD = 1, AFT = 2",
@@ -705,6 +716,169 @@ M.I.T. License.
       "required": ["values"],
       "type": "object"
     },
+    "IVesselPartBridge": {
+      "additionalProperties": false,
+      "properties": {
+        "heatSrcBelow": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "len": {
+          "type": "number"
+        },
+        "posRef": {
+          "$ref": "#/definitions/ForeAftEnum"
+        },
+        "slotRefId": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/VesselPartTypeEnum.BRIDGE"
+        }
+      },
+      "required": [
+        "heatSrcBelow",
+        "id",
+        "label",
+        "len",
+        "posRef",
+        "slotRefId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVesselPartCrane": {
+      "additionalProperties": false,
+      "properties": {
+        "cranes": {
+          "items": {
+            "$ref": "#/definitions/CraneSideEnum"
+          },
+          "type": "array"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "len": {
+          "type": "number"
+        },
+        "posRef": {
+          "$ref": "#/definitions/ForeAftEnum"
+        },
+        "slotRefId": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/VesselPartTypeEnum.CRANE"
+        }
+      },
+      "required": [
+        "cranes",
+        "id",
+        "label",
+        "len",
+        "posRef",
+        "slotRefId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVesselPartSmokeStack": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "len": {
+          "type": "number"
+        },
+        "numberOfSmokeStacks": {
+          "type": "number"
+        },
+        "posRef": {
+          "$ref": "#/definitions/ForeAftEnum"
+        },
+        "slotRefId": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/VesselPartTypeEnum.SMOKE"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "len",
+        "numberOfSmokeStacks",
+        "posRef",
+        "slotRefId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVesselPartSpacer": {
+      "additionalProperties": false,
+      "properties": {
+        "heatSrcBelow": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "len": {
+          "type": "number"
+        },
+        "posRef": {
+          "$ref": "#/definitions/ForeAftEnum"
+        },
+        "slotRefId": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/VesselPartTypeEnum.SPACER"
+        }
+      },
+      "required": [
+        "heatSrcBelow",
+        "id",
+        "label",
+        "len",
+        "posRef",
+        "slotRefId",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVesselParts": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVesselPartSpacer"
+        },
+        {
+          "$ref": "#/definitions/IVesselPartCrane"
+        },
+        {
+          "$ref": "#/definitions/IVesselPartSmokeStack"
+        },
+        {
+          "$ref": "#/definitions/IVesselPartBridge"
+        }
+      ]
+    },
     "LcgReferenceEnum": {
       "description": "LCG Reference from STAF. MIDSHIPS = 1, AFT_PERPENDICULAR = 2, FWD_PERPENDICULAR = 3",
       "enum": [1, 2, 3],
@@ -897,6 +1071,22 @@ M.I.T. License.
       "description": "CGs Values Source (from STAF). ESTIMATED = 1, KNOWN = 2",
       "enum": [1, 2],
       "type": "number"
+    },
+    "VesselPartTypeEnum.BRIDGE": {
+      "const": "BRG",
+      "type": "string"
+    },
+    "VesselPartTypeEnum.CRANE": {
+      "const": "CRN",
+      "type": "string"
+    },
+    "VesselPartTypeEnum.SMOKE": {
+      "const": "SMK",
+      "type": "string"
+    },
+    "VesselPartTypeEnum.SPACER": {
+      "const": "SPC",
+      "type": "string"
     }
   }
 }
