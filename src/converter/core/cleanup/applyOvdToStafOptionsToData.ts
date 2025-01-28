@@ -1,4 +1,8 @@
-import { IBayLevelDataStaf } from "../../../models/v1/parts/IBayLevelData";
+import {
+  IBayLevelDataStaf,
+  IBaySlotData,
+} from "../../../models/v1/parts/IBayLevelData";
+
 import { IIsoRowPattern } from "../../../models/base/types/IPositionPatterns";
 import IOpenVesselDefinitionV1 from "../../../models/v1/IOpenVesselDefinitionV1";
 import IShipData from "../../../models/v1/parts/IShipData";
@@ -8,6 +12,7 @@ import ValuesSourceEnum from "../../../models/base/enums/ValuesSourceEnum";
 type TApplyOvdToStafOptionsToData = {
   removeCGs: boolean;
   removeBaysWithNonSizeSlots: boolean;
+  removeBelowTiers24AndHigher: boolean;
 };
 
 export function applyOvdToStafOptionsToData(
@@ -15,6 +20,7 @@ export function applyOvdToStafOptionsToData(
   {
     removeCGs = false,
     removeBaysWithNonSizeSlots = false,
+    removeBelowTiers24AndHigher = false,
   }: TApplyOvdToStafOptionsToData
 ): IOpenVesselDefinitionV1 {
   if (removeBaysWithNonSizeSlots) {
@@ -37,6 +43,12 @@ export function applyOvdToStafOptionsToData(
     safeCGValue(ValuesSourceEnum.ESTIMATED, "lcgOptions");
     safeCGValue(ValuesSourceEnum.ESTIMATED, "vcgOptions");
     safeCGValue(ValuesSourceEnum.ESTIMATED, "tcgOptions");
+  }
+
+  if (removeBelowTiers24AndHigher) {
+    // 3. Remove below tiers 24 and higher
+    json.sizeSummary.maxBelowTier = 22;
+    json.baysData = removeBelowTiersAbove22FromBayLevelData(json.baysData);
   }
 
   return json;
@@ -121,5 +133,34 @@ function removeBaysWithNoSlotsFromBayLevelData(
         !!perSlotInfo[slotName].restricted;
       return !noSlots;
     });
+  });
+}
+
+function removeBelowTiersAbove22FromBayLevelData(
+  bls: IBayLevelDataStaf[]
+): IBayLevelDataStaf[] {
+  return bls.map((bl) => {
+    const perSlotInfo = bl.perSlotInfo;
+    if (!perSlotInfo) {
+      return bl;
+    }
+
+    const slotsDataKeys = Object.keys(perSlotInfo) as IIsoRowPattern[];
+
+    const newPerSlotInfo = slotsDataKeys.reduce((acc, slotName) => {
+      const tier = slotName.substring(2);
+
+      if (tier && Number(tier) >= 24) {
+        return acc;
+      }
+
+      acc[slotName] = perSlotInfo[slotName];
+
+      return acc;
+    }, {} as IBaySlotData);
+
+    bl.perSlotInfo = newPerSlotInfo;
+
+    return bl;
   });
 }

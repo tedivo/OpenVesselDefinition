@@ -440,4 +440,20 @@ describe("ovdV1ToStafConverter should...", () => {
 
     fs.writeFileSync(path.resolve("./examples/msc-vittoria.txt"), processed);
   });
+
+  it.skip("works ok", () => {
+    const jsonFileContent = fs.readFileSync(
+      path.resolve("./examples/zim-gemini.json"),
+      "utf8"
+    );
+
+    const json = JSON.parse(jsonFileContent) as IOpenVesselDefinitionV1;
+
+    const processed = ovdV1ToStafConverter(json, {
+      removeBaysWithNonSizeSlots: true,
+      removeCGs: true,
+    });
+
+    fs.writeFileSync(path.resolve("./examples/zim-gemini.txt"), processed);
+  });
 });

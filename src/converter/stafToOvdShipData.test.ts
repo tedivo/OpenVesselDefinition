@@ -1,6 +1,5 @@
 import ForeAftEnum from "../models/base/enums/ForeAftEnum";
 import LcgReferenceEnum from "../models/base/enums/LcgReferenceEnum";
-import { LengthUnitsEnum } from "../models/base/enums/UnitsEnum";
 import PortStarboardEnum from "../models/base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../models/base/enums/PositionFormatEnum";
 import ValuesSourceEnum from "../models/base/enums/ValuesSourceEnum";

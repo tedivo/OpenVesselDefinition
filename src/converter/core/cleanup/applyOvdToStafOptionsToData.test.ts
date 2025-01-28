@@ -6,7 +6,11 @@ describe("applyOvdToStafOptionsToData should", () => {
   it("Don't remove CGs", () => {
     const json = applyOvdToStafOptionsToData(
       JSON.parse(JSON.stringify(mockedJson)),
-      { removeCGs: false, removeBaysWithNonSizeSlots: false }
+      {
+        removeCGs: false,
+        removeBaysWithNonSizeSlots: false,
+        removeBelowTiers24AndHigher: false,
+      }
     );
 
     // 1. Check CG Options
@@ -34,7 +38,11 @@ describe("applyOvdToStafOptionsToData should", () => {
   it("Remove CGs", () => {
     const json = applyOvdToStafOptionsToData(
       JSON.parse(JSON.stringify(mockedJson)),
-      { removeCGs: true, removeBaysWithNonSizeSlots: false }
+      {
+        removeCGs: true,
+        removeBaysWithNonSizeSlots: false,
+        removeBelowTiers24AndHigher: false,
+      }
     );
 
     // 1. Check CG Options
@@ -69,6 +77,7 @@ describe("applyOvdToStafOptionsToData should", () => {
     const jsonApplied = applyOvdToStafOptionsToData(json, {
       removeCGs: false,
       removeBaysWithNonSizeSlots: false,
+      removeBelowTiers24AndHigher: false,
     });
 
     expect(jsonApplied.baysData.length).toBe(4);
@@ -91,8 +100,32 @@ describe("applyOvdToStafOptionsToData should", () => {
     const jsonApplied = applyOvdToStafOptionsToData(json, {
       removeCGs: false,
       removeBaysWithNonSizeSlots: true,
+      removeBelowTiers24AndHigher: false,
     });
 
     expect(jsonApplied.baysData.length).toBe(3);
+  });
+
+  it("Remove Slots above 22", () => {
+    const json = JSON.parse(JSON.stringify(mockedJson));
+    json.baysData[1].perSlotInfo["0224"] = { sizes: { 20: 1 } };
+
+    expect(json.baysData.length).toBe(4);
+
+    const slotsKeys = Object.keys(json.baysData[1].perSlotInfo);
+    expect(slotsKeys.length).toBe(5);
+    expect(slotsKeys.includes("0224")).toBe(true);
+
+    const jsonApplied = applyOvdToStafOptionsToData(json, {
+      removeCGs: false,
+      removeBaysWithNonSizeSlots: false,
+      removeBelowTiers24AndHigher: true,
+    });
+
+    const slotsKeys2 = Object.keys(jsonApplied.baysData[1].perSlotInfo);
+    expect(slotsKeys2.length).toBe(4);
+    expect(slotsKeys2.includes("0224")).toBe(false);
+
+    expect(jsonApplied.baysData.length).toBe(4);
   });
 });

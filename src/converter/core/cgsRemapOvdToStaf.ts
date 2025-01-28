@@ -65,16 +65,20 @@ function remapTcgs(
 
   const tcgSignMult = -1;
 
-  (Object.keys(masterCGs.aboveTcgs) as IIsoRowPattern[]).forEach((row) => {
-    masterCGs.aboveTcgs[row] = tcgSignMult * masterCGs.aboveTcgs[row];
-  });
+  (Object.keys(masterCGs.aboveTcgs || {}) as IIsoRowPattern[]).forEach(
+    (row) => {
+      masterCGs.aboveTcgs[row] = tcgSignMult * masterCGs.aboveTcgs[row];
+    }
+  );
 
-  (Object.keys(masterCGs.belowTcgs) as IIsoRowPattern[]).forEach((row) => {
-    masterCGs.belowTcgs[row] = tcgSignMult * masterCGs.belowTcgs[row];
-  });
+  (Object.keys(masterCGs.belowTcgs || {}) as IIsoRowPattern[]).forEach(
+    (row) => {
+      masterCGs.belowTcgs[row] = tcgSignMult * masterCGs.belowTcgs[row];
+    }
+  );
 
   bls.forEach((bl) => {
-    const perRowInfoEach = bl.perRowInfo.each;
+    const perRowInfoEach = bl.perRowInfo?.each || {};
     const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
 
     rows.forEach((row) => {

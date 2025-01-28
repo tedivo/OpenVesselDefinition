@@ -40,12 +40,13 @@ export default function ovdV1ToStafConverter(
     tier82is = 82,
     removeCGs = false,
     removeBaysWithNonSizeSlots = false,
+    removeBelowTiers24AndHigher = false,
   } = options;
 
   // Use clone to avoid modifying the original json
   const json = applyOvdToStafOptionsToData(
     JSON.parse(JSON.stringify(originalJson)) as IOpenVesselDefinitionV1,
-    { removeCGs, removeBaysWithNonSizeSlots }
+    { removeCGs, removeBaysWithNonSizeSlots, removeBelowTiers24AndHigher }
   );
 
   // Create safe lcgOptions
@@ -171,4 +172,5 @@ interface IConvertOvdToStafObjectOptions {
   tier82is?: number;
   removeCGs?: boolean;
   removeBaysWithNonSizeSlots?: boolean;
+  removeBelowTiers24AndHigher?: boolean;
 }
