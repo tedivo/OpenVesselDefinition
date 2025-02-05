@@ -91,7 +91,6 @@ const BayLevelConfig: ISectionMapConfig<IBayLevelDataStaf> = {
       "doors",
       "pairedBay",
       "reeferPlugLimit",
-      "centerLineRow",
       "athwartShip",
       "foreHatch",
       "ventilated",

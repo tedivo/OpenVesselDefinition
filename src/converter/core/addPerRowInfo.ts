@@ -34,7 +34,7 @@ export default function addPerRowInfo(
     if (!bl.perSlotInfo) bl.perSlotInfo = {};
 
     if (rowDataOfBay) {
-      let centerLineRow = 0;
+      let centerLineRow: 0 | 1 = 0;
       rowDataOfBay
         .sort((a, b) => sortRowsArray(a.isoRow, b.isoRow))
         .forEach((sData) => {
@@ -59,7 +59,7 @@ export default function addPerRowInfo(
           if (sDataK.isoRow === "00") centerLineRow = 1;
         });
 
-      if (centerLineRow) bl.centerLineRow = 1;
+      bl.centerLineRow = centerLineRow;
     }
   });
   return isoBays;
