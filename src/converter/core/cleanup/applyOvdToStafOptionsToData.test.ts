@@ -1,3 +1,4 @@
+import BayLevelEnum from "../../../models/base/enums/BayLevelEnum";
 import ValuesSourceEnum from "../../../models/base/enums/ValuesSourceEnum";
 import { applyOvdToStafOptionsToData } from "./applyOvdToStafOptionsToData";
 import { mockedJson } from "../../ovdV1ToStafConverter.test";
@@ -109,6 +110,7 @@ describe("applyOvdToStafOptionsToData should", () => {
   it("Remove Slots above 22", () => {
     const json = JSON.parse(JSON.stringify(mockedJson));
     json.baysData[1].perSlotInfo["0224"] = { sizes: { 20: 1 } };
+    json.sizeSummary.maxBelowTier = 24;
 
     expect(json.baysData.length).toBe(4);
 
@@ -123,6 +125,7 @@ describe("applyOvdToStafOptionsToData should", () => {
     });
 
     const slotsKeys2 = Object.keys(jsonApplied.baysData[1].perSlotInfo);
+
     expect(slotsKeys2.length).toBe(4);
     expect(slotsKeys2.includes("0224")).toBe(false);
 
