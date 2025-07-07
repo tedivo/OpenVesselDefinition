@@ -35,10 +35,6 @@ import {
   LengthUnitsEnum,
   WeightUnitsEnum,
 } from "./models/base/enums/UnitsEnum";
-import {
-  createMockedSimpleBayLevelData,
-  createMockedSingleBayLevelData,
-} from "./converter/mocks/bayLevelData";
 import createSummary, { addBayToSummary } from "./converter/core/createSummary";
 
 import BayLevelEnum from "./models/base/enums/BayLevelEnum";
@@ -102,8 +98,6 @@ export {
   VesselPartTypeEnum,
   WeightUnitsEnum,
   addBayToSummary,
-  createMockedSimpleBayLevelData,
-  createMockedSingleBayLevelData,
   createSummary,
   destructurePosition,
   getContainerLengths,

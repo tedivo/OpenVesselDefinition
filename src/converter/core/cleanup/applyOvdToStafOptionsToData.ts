@@ -2,8 +2,12 @@ import {
   IBayLevelDataStaf,
   IBaySlotData,
 } from "../../../models/v1/parts/IBayLevelData";
+import {
+  IIsoRowPattern,
+  IJoinedRowTierPattern,
+} from "../../../models/base/types/IPositionPatterns";
 
-import { IIsoRowPattern } from "../../../models/base/types/IPositionPatterns";
+import BayLevelEnum from "../../../models/base/enums/BayLevelEnum";
 import IOpenVesselDefinitionV1 from "../../../models/v1/IOpenVesselDefinitionV1";
 import IShipData from "../../../models/v1/parts/IShipData";
 import { TContainerLengths } from "../../../models/v1/parts/Types";
@@ -45,7 +49,7 @@ export function applyOvdToStafOptionsToData(
     safeCGValue(ValuesSourceEnum.ESTIMATED, "tcgOptions");
   }
 
-  if (removeBelowTiers24AndHigher) {
+  if (removeBelowTiers24AndHigher && json.sizeSummary.maxBelowTier > 22) {
     // 3. Remove below tiers 24 and higher
     json.sizeSummary.maxBelowTier = 22;
     json.baysData = removeBelowTiersAbove22FromBayLevelData(json.baysData);
@@ -127,12 +131,18 @@ function removeBaysWithNoSlotsFromBayLevelData(
 
     const slotsDataKeys = Object.keys(perSlotInfo) as IIsoRowPattern[];
 
-    return slotsDataKeys.some((slotName) => {
-      const noSlots =
-        Object.keys(perSlotInfo[slotName].sizes).length === 0 ||
-        !!perSlotInfo[slotName].restricted;
-      return !noSlots;
+    const slotsDataKeysLength = slotsDataKeys.length;
+    if (slotsDataKeysLength === 0) {
+      return false;
+    }
+
+    const haveDefinedSizes = slotsDataKeys.filter((slotName) => {
+      if (perSlotInfo[slotName].restricted) return false;
+
+      return Object.keys(perSlotInfo[slotName].sizes).length > 0;
     });
+
+    return haveDefinedSizes.length > 0;
   });
 }
 
@@ -141,16 +151,17 @@ function removeBelowTiersAbove22FromBayLevelData(
 ): IBayLevelDataStaf[] {
   return bls.map((bl) => {
     const perSlotInfo = bl.perSlotInfo;
-    if (!perSlotInfo) {
+    if (!perSlotInfo || bl.level === BayLevelEnum.ABOVE) {
       return bl;
     }
 
-    const slotsDataKeys = Object.keys(perSlotInfo) as IIsoRowPattern[];
+    const slotsDataKeys = Object.keys(perSlotInfo) as IJoinedRowTierPattern[];
 
     const newPerSlotInfo = slotsDataKeys.reduce((acc, slotName) => {
       const tier = slotName.substring(2);
+      const iTier = Number(tier);
 
-      if (tier && Number(tier) >= 24) {
+      if (isNaN(iTier) || iTier >= 24) {
         return acc;
       }
 

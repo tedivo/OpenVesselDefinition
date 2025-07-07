@@ -46,7 +46,11 @@ export default function ovdV1ToStafConverter(
   // Use clone to avoid modifying the original json
   const json = applyOvdToStafOptionsToData(
     JSON.parse(JSON.stringify(originalJson)) as IOpenVesselDefinitionV1,
-    { removeCGs, removeBaysWithNonSizeSlots, removeBelowTiers24AndHigher }
+    {
+      removeCGs,
+      removeBaysWithNonSizeSlots,
+      removeBelowTiers24AndHigher,
+    }
   );
 
   // Create safe lcgOptions

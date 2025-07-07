@@ -40,7 +40,6 @@ export function cgsRemapOvdToStaf(
   const clonedMasterCGs = JSON.parse(JSON.stringify(masterCGs));
 
   remapLcgs(lcgOptions, clonedBls);
-
   remapVcgs(vcgOptions, clonedBls, clonedMasterCGs);
   remapTcgs(tcgOptions, clonedBls, clonedMasterCGs);
 
