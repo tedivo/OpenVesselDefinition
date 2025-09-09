@@ -189,6 +189,25 @@ M.I.T. License.
       "required": ["infoByContLength", "isoBay", "level"],
       "type": "object"
     },
+    "IBayLevelOffsetBottomBase": {
+      "additionalProperties": false,
+      "properties": {
+        "bays": {
+          "items": {
+            "$ref": "#/definitions/IIsoBayPattern"
+          },
+          "type": "array"
+        },
+        "level": {
+          "$ref": "#/definitions/BayLevelEnum"
+        },
+        "offset": {
+          "type": "number"
+        }
+      },
+      "required": ["bays", "level", "offset"],
+      "type": "object"
+    },
     "IBayRowInfo": {
       "additionalProperties": false,
       "properties": {
@@ -473,7 +492,15 @@ M.I.T. License.
           "additionalProperties": {
             "type": "number"
           },
+          "description": "Bottom bases for each tier, absolute values",
           "type": "object"
+        },
+        "offsetBottomBases": {
+          "description": "For manual adjustment of bottom bases (+/- offset). Relative to mid bottom base (deck). Only used for missing bottom bases (No VCGs)",
+          "items": {
+            "$ref": "#/definitions/IBayLevelOffsetBottomBase"
+          },
+          "type": "array"
         }
       },
       "required": ["aboveTcgs", "belowTcgs", "bottomBases"],

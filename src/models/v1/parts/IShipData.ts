@@ -4,7 +4,9 @@ import {
   TYesNo,
 } from "../../base/types/IPositionPatterns";
 
+import BayLevelEnum from "../../base/enums/BayLevelEnum";
 import ForeAftEnum from "../../base/enums/ForeAftEnum";
+import { IIsoBayPattern } from "../../base/types/IPositionPatterns";
 import LcgReferenceEnum from "../../base/enums/LcgReferenceEnum";
 import PortStarboardEnum from "../../base/enums/PortStarboardEnum";
 import PositionFormatEnum from "../../base/enums/PositionFormatEnum";
@@ -142,7 +144,18 @@ export interface IMasterCGs {
   belowTcgs: {
     [row: IIsoRowPattern]: number;
   };
+  /** Bottom bases for each tier, absolute values */
   bottomBases: {
     [tier: IIsoTierPattern]: number;
   };
+
+  /** For manual adjustment of bottom bases (+/- offset).
+   * Relative to mid bottom base (deck). Only used for missing bottom bases (No VCGs) */
+  offsetBottomBases?: Array<IBayLevelOffsetBottomBase>;
+}
+
+export interface IBayLevelOffsetBottomBase {
+  bays: IIsoBayPattern[];
+  level: BayLevelEnum;
+  offset: number;
 }
