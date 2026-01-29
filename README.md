@@ -6,9 +6,14 @@ Open Source definition / schema / specification of Container Vessel characterist
 
 [![Tests](https://github.com/tedivo/OpenVesselDefinition/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/tedivo/OpenVesselDefinition/actions/workflows/main.yml)
 
+## Definitions of vessels
+
+- Lynxis/TEDIVO Vessel Profiles library at https://tedivo.com/library
+
 ## Tools
 
-- TEDIVO LLC's interactive Vessel Designer at https://designer.tedivo.com
+- Lynxis/TEDIVO interactive Vessel Designer at https://designer.tedivo.com
+- Lynxis/TEDIVO Baplie Viewer Online at https://baplieviewer.com
 
 ## License
 
