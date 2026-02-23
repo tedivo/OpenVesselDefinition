@@ -1,30 +1,3 @@
-<img src="https://tedivo.com/images/logos/logo_Definition-horizontal-color.svg" width="320" height="75" alt="Open Vessel Definition" />
-
-# Open Vessel Definition
-
-Open Source definition / schema / specification of Container Vessel characteristics.
-
-[![Tests](https://github.com/tedivo/OpenVesselDefinition/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/tedivo/OpenVesselDefinition/actions/workflows/main.yml)
-
-## Definitions of vessels
-
-- Lynxis/TEDIVO Vessel Profiles library at https://tedivo.com/library
-
-## Tools
-
-- Lynxis/TEDIVO interactive Vessel Designer at https://designer.tedivo.com
-- Lynxis/TEDIVO Baplie Viewer Online at https://baplieviewer.com
-
-## License
-
-M.I.T. License.
-
-<img src="https://tedivo.com/images/illustrations/open-source.png" alt="Open Source" width="188" height="111" />
-
-## Json Schema
-
-[Download the Json Schema](https://github.com/tedivo/OpenVesselDefinition/blob/master/schema.json)
-
 ```json
 {
   "$ref": "#/definitions/IOpenVesselDefinitionV1",
@@ -37,7 +10,10 @@ M.I.T. License.
           "type": "string"
         },
         "$schemaId": {
-          "enum": ["OpenVesselDefinition", "IOpenVesselDefinitionV1"],
+          "enum": [
+            "OpenVesselDefinition",
+            "IOpenVesselDefinitionV1"
+          ],
           "type": "string"
         },
         "baysData": {
@@ -86,16 +62,27 @@ M.I.T. License.
     },
     "BayLevelEnum": {
       "description": "Bay Level. ABOVE = 1, BELOW = 2, TWINDECK = 3",
-      "enum": [1, 2, 3],
+      "enum": [
+        1,
+        2,
+        3
+      ],
       "type": "number"
     },
     "CraneSideEnum": {
-      "enum": ["PORT", "STARBOARD", "CENTER"],
+      "enum": [
+        "PORT",
+        "STARBOARD",
+        "CENTER"
+      ],
       "type": "string"
     },
     "ForeAftEnum": {
       "description": "Fore Aft Enum. FWD = 1, AFT = 2",
-      "enum": [1, 2],
+      "enum": [
+        1,
+        2
+      ],
       "type": "number"
     },
     "IAcceptsContainers": {
@@ -191,7 +178,11 @@ M.I.T. License.
           "$ref": "#/definitions/TYesNo"
         }
       },
-      "required": ["infoByContLength", "isoBay", "level"],
+      "required": [
+        "infoByContLength",
+        "isoBay",
+        "level"
+      ],
       "type": "object"
     },
     "IBayLevelOffsetBottomBase": {
@@ -210,7 +201,11 @@ M.I.T. License.
           "type": "number"
         }
       },
-      "required": ["bays", "level", "offset"],
+      "required": [
+        "bays",
+        "level",
+        "offset"
+      ],
       "type": "object"
     },
     "IBayRowInfo": {
@@ -236,7 +231,9 @@ M.I.T. License.
           "type": "number"
         }
       },
-      "required": ["isoRow"],
+      "required": [
+        "isoRow"
+      ],
       "type": "object"
     },
     "IBaySlotData": {
@@ -288,7 +285,10 @@ M.I.T. License.
           "type": "array"
         }
       },
-      "required": ["imdgClasses", "compatibilityGroups"],
+      "required": [
+        "imdgClasses",
+        "compatibilityGroups"
+      ],
       "type": "object"
     },
     "IFeaturesAllowed": {
@@ -313,14 +313,20 @@ M.I.T. License.
     },
     "IIsoBayPattern": {
       "description": "ISO Bay pattern: 3 numbers",
+      "pattern": "^[0-9][0-9][13579]$",
       "type": "string"
     },
     "IIsoRowPattern": {
       "description": "ISO Row pattern: 2 numbers",
+      "pattern": "^[0-9]{2}$",
       "type": "string"
     },
     "IJoinedRowTierPattern": {
-      "type": ["string"]
+      "description": "Joined Row Tier pattern",
+      "pattern": "^[0-9]{2}([0-9][24680]|1[0-9][24680])$",
+      "type": [
+        "string"
+      ]
     },
     "ILCGOptions": {
       "additionalProperties": false,
@@ -350,7 +356,10 @@ M.I.T. License.
           "$ref": "#/definitions/ValuesSourceEnum"
         }
       },
-      "required": ["values", "lpp"],
+      "required": [
+        "values",
+        "lpp"
+      ],
       "type": "object"
     },
     "ILashingBridgeInfo": {
@@ -367,7 +376,10 @@ M.I.T. License.
               "type": "number"
             }
           },
-          "required": ["aft", "fore"],
+          "required": [
+            "aft",
+            "fore"
+          ],
           "type": "object"
         },
         {
@@ -388,7 +400,11 @@ M.I.T. License.
               "type": "number"
             }
           },
-          "required": ["aft", "aftTiers", "fore"],
+          "required": [
+            "aft",
+            "aftTiers",
+            "fore"
+          ],
           "type": "object"
         },
         {
@@ -409,7 +425,11 @@ M.I.T. License.
               "type": "number"
             }
           },
-          "required": ["aft", "fore", "foreTiers"],
+          "required": [
+            "aft",
+            "fore",
+            "foreTiers"
+          ],
           "type": "object"
         },
         {
@@ -436,7 +456,12 @@ M.I.T. License.
               "type": "number"
             }
           },
-          "required": ["aft", "aftTiers", "fore", "foreTiers"],
+          "required": [
+            "aft",
+            "aftTiers",
+            "fore",
+            "foreTiers"
+          ],
           "type": "object"
         }
       ]
@@ -508,7 +533,11 @@ M.I.T. License.
           "type": "array"
         }
       },
-      "required": ["aboveTcgs", "belowTcgs", "bottomBases"],
+      "required": [
+        "aboveTcgs",
+        "belowTcgs",
+        "bottomBases"
+      ],
       "type": "object"
     },
     "IPositionLabels": {
@@ -548,7 +577,9 @@ M.I.T. License.
           "$ref": "#/definitions/TContainerLengths"
         }
       },
-      "required": ["size"],
+      "required": [
+        "size"
+      ],
       "type": "object"
     },
     "IShipData": {
@@ -669,7 +700,10 @@ M.I.T. License.
           "type": "number"
         }
       },
-      "required": ["isoBays", "centerLineRow"],
+      "required": [
+        "isoBays",
+        "centerLineRow"
+      ],
       "type": "object"
     },
     "ISlotData": {
@@ -708,7 +742,10 @@ M.I.T. License.
           "description": "An object with sizes allowed of type  {@link  IAcceptsContainers }"
         }
       },
-      "required": ["pos", "sizes"],
+      "required": [
+        "pos",
+        "sizes"
+      ],
       "type": "object"
     },
     "ISlotSizeOptions": {
@@ -732,7 +769,9 @@ M.I.T. License.
           "$ref": "#/definitions/ValuesSourceEnum"
         }
       },
-      "required": ["values"],
+      "required": [
+        "values"
+      ],
       "type": "object"
     },
     "IVGCOptions": {
@@ -745,7 +784,9 @@ M.I.T. License.
           "$ref": "#/definitions/ValuesSourceEnum"
         }
       },
-      "required": ["values"],
+      "required": [
+        "values"
+      ],
       "type": "object"
     },
     "IVesselPartBridge": {
@@ -913,7 +954,11 @@ M.I.T. License.
     },
     "LcgReferenceEnum": {
       "description": "LCG Reference from STAF. MIDSHIPS = 1, AFT_PERPENDICULAR = 2, FWD_PERPENDICULAR = 3",
-      "enum": [1, 2, 3],
+      "enum": [
+        1,
+        2,
+        3
+      ],
       "type": "number"
     },
     "Partial<indexed-type-1364282619-642-705-1364282619-633-706-1364282619-380-707-1364282619-0-1427>": {
@@ -1008,17 +1053,30 @@ M.I.T. License.
     },
     "PortStarboardEnum": {
       "description": "Port & Stbd. PORT = 1, STARBOARD = 2",
-      "enum": [1, 2],
+      "enum": [
+        1,
+        2
+      ],
       "type": "number"
     },
     "PositionFormatEnum": {
       "description": "Position Format (from STAF). BAY_STACK_TIER = 1, BAY_TIER_STACK = 2, STACK_BAY_TIER = 3, STACK_TIER_BAY = 4, TIER_BAY_STACK = 5, TIER_STACK_BAY = 6",
-      "enum": [1, 2, 3, 4, 5, 6],
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
       "type": "number"
     },
     "RowWeightCalculationEnum": {
       "description": "Row Weight Calculation. CONTAINER_LENGTH = 1, LENGTH_40_AVG20 = 2",
-      "enum": [1, 2],
+      "enum": [
+        1,
+        2
+      ],
       "type": "number"
     },
     "TBayRowInfo": {
@@ -1049,11 +1107,32 @@ M.I.T. License.
       "type": "object"
     },
     "TCompatibilityGroups": {
-      "enum": ["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "N", "S"],
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "J",
+        "K",
+        "L",
+        "N",
+        "S"
+      ],
       "type": "string"
     },
     "TContainerLengths": {
-      "enum": [20, 40, 24, 45, 48, 53],
+      "enum": [
+        20,
+        40,
+        24,
+        45,
+        48,
+        53
+      ],
       "type": "number"
     },
     "TImdgClasses": {
@@ -1096,12 +1175,19 @@ M.I.T. License.
     },
     "TYesNo": {
       "description": "Yes = 1, No = 0",
-      "enum": [1, 0],
+      "enum": [
+        1,
+        0
+      ],
+      "pattern": "^1|0$",
       "type": "number"
     },
     "ValuesSourceEnum": {
       "description": "CGs Values Source (from STAF). ESTIMATED = 1, KNOWN = 2",
-      "enum": [1, 2],
+      "enum": [
+        1,
+        2
+      ],
       "type": "number"
     },
     "VesselPartTypeEnum.BRIDGE": {
@@ -1122,4 +1208,5 @@ M.I.T. License.
     }
   }
 }
-```
+```<!-- SCHEMA:END -->
+

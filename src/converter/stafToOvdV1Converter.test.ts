@@ -229,4 +229,30 @@ describe("stafToOvdV1Converter should...", () => {
       );
     });
   });
+
+  it.skip("just convert", () => {
+    const mockedFiles: [string, string, number][] = [
+      [
+        "./examples/DMS.MSK.ADAMS.txt",
+        "./examples/DMS.MSK.ADAMS-ovd.json",
+        0,
+      ],
+      [
+        "./examples/ARGENTINA.CHO.CMA-CGM-HOPE.txt",
+        "./examples/ARGENTINA.CHO.CMA-CGM-HOPE-ovd.json",
+        0,
+      ],
+    ];
+
+    mockedFiles.forEach(([inputFileName, outputFileName, blp]) => {
+      const converted = stafToOvdV1Converter(
+        fs.readFileSync(path.resolve(inputFileName), "utf8"),
+        blp
+      );
+      fs.writeFileSync(
+        path.resolve(outputFileName),
+        JSON.stringify(converted, null, 2)
+      );
+    });
+  });
 });

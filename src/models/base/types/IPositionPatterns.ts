@@ -22,14 +22,14 @@ export type IIsoPositionPattern =
   `${number}${number}${number}${number}${number}${number}${number}`;
 
 /** Combined Row Tier pattern 
- * @pattern ^[0-9]{2}|[0-9]{2,3}$
+ * @pattern "^([0-9]{2})|([0-9][24680]|1[0-9][24680])$"
 */
 export type ICombinedRowTierPattern =
   | `${number}${number}|${number}${number}`
   | `${number}${number}|${number}${number}${number}`;
 
 /** Joined Row Tier pattern
- * @pattern ^[0-9]{4,5}$
+ * @pattern "^([0-9]{2})([0-9][24680]|1[0-9][24680])$"
 */
 export type IJoinedRowTierPattern =
   | `${number}${number}${number}${number}`
