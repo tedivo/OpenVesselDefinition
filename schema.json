@@ -322,7 +322,7 @@
     },
     "IJoinedRowTierPattern": {
       "description": "Joined Row Tier pattern",
-      "pattern": "^[0-9]{2}([0-9][24680]|1[0-9][24680])$",
+      "pattern": "\"^([0-9]{2})([0-9][24680]|1[0-9][24680])$\"",
       "type": [
         "string"
       ]

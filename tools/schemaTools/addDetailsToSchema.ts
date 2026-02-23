@@ -37,7 +37,7 @@ function replaceSchemaInReadme(readmeString: string, schemaString: string) {
   const schemaStartIndex = readmeString.indexOf("<!-- SCHEMA:START -->");
   const schemaEndIndex = readmeString.indexOf("<!-- SCHEMA:END -->");
   const schema = readmeString.substring(schemaStartIndex, schemaEndIndex);
-  readmeString = readmeString.replace(schema, "```json\n" + JSON.stringify(schemaString, null, 2) + "\n```");
+  readmeString = readmeString.replace(schema, "<!-- SCHEMA:START -->\n```json\n" + JSON.stringify(schemaString, null, 2) + "\n```\n");
 
   return readmeString;
 }

@@ -1,3 +1,31 @@
+<img src="https://tedivo.com/images/logos/logo_Definition-horizontal-color.svg" width="320" height="75" alt="Open Vessel Definition" />
+
+# Open Vessel Definition
+
+Open Source definition / schema / specification of Container Vessel characteristics.
+
+[![Tests](https://github.com/tedivo/OpenVesselDefinition/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/tedivo/OpenVesselDefinition/actions/workflows/main.yml)
+
+## Definitions of vessels
+
+- Lynxis/TEDIVO Vessel Profiles library at https://tedivo.com/library
+
+## Tools
+
+- Lynxis/TEDIVO interactive Vessel Designer at https://designer.tedivo.com
+- Lynxis/TEDIVO Baplie Viewer Online at https://baplieviewer.com
+
+## License
+
+M.I.T. License.
+
+<img src="https://tedivo.com/images/illustrations/open-source.png" alt="Open Source" width="188" height="111" />
+
+## Json Schema
+
+[Download the Json Schema](https://github.com/tedivo/OpenVesselDefinition/blob/master/schema.json)
+
+<!-- SCHEMA:START -->
 ```json
 {
   "$ref": "#/definitions/IOpenVesselDefinitionV1",
@@ -323,7 +351,7 @@
     },
     "IJoinedRowTierPattern": {
       "description": "Joined Row Tier pattern",
-      "pattern": "^[0-9]{2}([0-9][24680]|1[0-9][24680])$",
+      "pattern": "\"^([0-9]{2})([0-9][24680]|1[0-9][24680])$\"",
       "type": [
         "string"
       ]
@@ -1208,5 +1236,5 @@
     }
   }
 }
-```<!-- SCHEMA:END -->
-
+```
+<!-- SCHEMA:END -->
