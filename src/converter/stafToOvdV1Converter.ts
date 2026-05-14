@@ -19,6 +19,7 @@ import calculateCommonRowInfo from "./core/calculateCommonRowInfo";
 import { cgsRemapStafToOvd } from "./core/cgsRemapStafToOvd";
 import { cleanBayLevelDataNoStaf } from "./core/cleanBayLevelDataNoStaf";
 import { cleanUpOvdJson } from "./core/cleanup/cleanUpOvdJson";
+import { connectPairedBays } from "./core/connectPairedBays";
 import { createDictionaryMultiple } from "../helpers/createDictionary";
 import createSummary from "./core/createSummary";
 import { getContainerLengths } from "./core/getContainerLengths";
@@ -58,9 +59,9 @@ export default function stafToOvdV1Converter(
 
   // 1. Create dictionaries
   const rowDataByBayLevel = createDictionaryMultiple<IRowStafData, string>(
-      dataProcessed.rowData,
-      (d) => `${d.isoBay}-${d.level}`
-    ),
+    dataProcessed.rowData,
+    (d) => `${d.isoBay}-${d.level}`
+  ),
     tierDataByBayLevel = createDictionaryMultiple<ITierStafData, string>(
       dataProcessed.tierData,
       (d) => `${d.isoBay}-${d.level}`
@@ -89,6 +90,13 @@ export default function stafToOvdV1Converter(
     dataProcessed.slotData,
     Number(preSizeSummary.minAboveTier)
   );
+
+  /** Pair bays according to:
+ * 1. Those that have 40s AFT or FORE
+ * 2. In Between bays
+ * 3. Check OVD FROM BVO
+ * */
+  dataProcessed.bayLevelData = connectPairedBays(dataProcessed.bayLevelData);
 
   // 5. Create labels dictionaries
   const positionLabels = substractLabels(dataProcessed.bayLevelData);
@@ -166,6 +174,9 @@ export default function stafToOvdV1Converter(
     bls: cleanBayLevelDataNoStaf(dataProcessed.bayLevelData),
     tier82is,
   });
+
+
+
 
   // OpenVesselDefinition JSON
   const result: IOpenVesselDefinitionV1 = {
