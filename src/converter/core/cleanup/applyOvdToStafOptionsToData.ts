@@ -76,48 +76,45 @@ export function applyOvdToStafOptionsToData(
 function removeCGsFromBayLevelData(
   bls: IBayLevelDataStaf[]
 ): IBayLevelDataStaf[] {
-  return bls
-    .filter((bl) => {
-      const slotsDataKeys = Object.keys(bl.perSlotInfo);
-      return slotsDataKeys.length > 0;
-    })
-    .map((bl) => {
-      // 1. TCGs, VCGs and Bottom Bases
-      const perRowInfo = bl.perRowInfo;
-      if (perRowInfo) {
+  return bls.map((bl) => {
+    // 1. TCGs, VCGs and Bottom Bases
+    const perRowInfo = bl.perRowInfo;
+    if (perRowInfo) {
+      if (perRowInfo.common) {
         perRowInfo.common.maxHeight = undefined;
         perRowInfo.common.bottomBase = undefined;
-        if (perRowInfo.each) {
-          (Object.keys(perRowInfo.each) as IIsoRowPattern[]).forEach((row) => {
-            const rowInfoEach = perRowInfo.each[row];
-            rowInfoEach.bottomBase = undefined;
-            rowInfoEach.tcg = undefined;
-            rowInfoEach.maxHeight = undefined;
-          });
-        }
       }
-
-      // 2. By Size
-      const perSizeInfo = bl.infoByContLength;
-      if (perSizeInfo) {
-        const sizes = Object.keys(perSizeInfo).map(
-          Number
-        ) as TContainerLengths[];
-        sizes.forEach((size) => {
-          const sizeInfo = perSizeInfo[size];
-          sizeInfo.lcg = undefined;
+      if (perRowInfo.each) {
+        (Object.keys(perRowInfo.each) as IIsoRowPattern[]).forEach((row) => {
+          const rowInfoEach = perRowInfo.each[row];
+          rowInfoEach.bottomBase = undefined;
+          rowInfoEach.tcg = undefined;
+          rowInfoEach.maxHeight = undefined;
         });
       }
+    }
 
-      // 3. Bulkheads
-      const bulkheads = bl.bulkhead;
-      if (bulkheads) {
-        bulkheads.foreLcg = undefined;
-        bulkheads.aftLcg = undefined;
-      }
+    // 2. By Size
+    const perSizeInfo = bl.infoByContLength;
+    if (perSizeInfo) {
+      const sizes = Object.keys(perSizeInfo).map(
+        Number
+      ) as TContainerLengths[];
+      sizes.forEach((size) => {
+        const sizeInfo = perSizeInfo[size];
+        sizeInfo.lcg = undefined;
+      });
+    }
 
-      return bl;
-    });
+    // 3. Bulkheads
+    const bulkheads = bl.bulkhead;
+    if (bulkheads) {
+      bulkheads.foreLcg = undefined;
+      bulkheads.aftLcg = undefined;
+    }
+
+    return bl;
+  });
 }
 
 function removeBaysWithNoSlotsFromBayLevelData(

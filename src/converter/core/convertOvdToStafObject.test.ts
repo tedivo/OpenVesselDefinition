@@ -41,6 +41,7 @@ interface IDummy {
   var4: number;
   var5: number;
   var6: number | undefined;
+  var7: string;
 }
 
 const dummyData: IDummy = {
@@ -55,6 +56,7 @@ const dummyData: IDummy = {
   var4: 1,
   var5: 0,
   var6: undefined,
+  var7: "",
 };
 
 describe("getNestedValue should...", () => {
@@ -96,6 +98,11 @@ describe("convertOvdToStafObject should", () => {
         passValue: true,
       },
       {
+        stafVar: "VAR7",
+        source: "var7",
+        passValue: true,
+      },
+      {
         stafVar: "VAR FIXED",
         fixedValue: "METRIC",
       },
@@ -105,10 +112,10 @@ describe("convertOvdToStafObject should", () => {
   it("applies the mappers correctly", () => {
     const processed = convertOvdToStafObject<IDummy, IDummy>(
       [dummyData],
-      sectionConfig
+      sectionConfig,
     );
 
-    const expectedRes = `*DUMMY${LINE_SEPARATOR}**VAR1\tVAR2\tVAR3\tVAR4\tVAR5\tVAR6\tVAR FIXED${LINE_SEPARATOR}AAA\tBBB\tCCC\tY\t1000\t-\tMETRIC`;
+    const expectedRes = `*DUMMY${LINE_SEPARATOR}**VAR1\tVAR2\tVAR3\tVAR4\tVAR5\tVAR6\tVAR7\tVAR FIXED${LINE_SEPARATOR}AAA\tBBB\tCCC\tY\t1000\t-\t-\tMETRIC`;
 
     expect(processed).toBe(expectedRes);
   });
@@ -137,7 +144,7 @@ describe("for SHIP data", () => {
 
     const processed = convertOvdToStafObject<IShipData, IShipDataFromStaf>(
       [shipData],
-      ShipConfig
+      ShipConfig,
     );
 
     const expectedRes = `*SHIP${LINE_SEPARATOR}**CLASS\tUNITS\tLCG IN USE\tLCG REF PT\tLCG + DIR\tVCG IN USE\tTCG IN USE\tTCG + DIR\tPOSITION FORMAT${LINE_SEPARATOR}MY CLASS\tMETRIC\tY\tAP\tF\tN\tN\tSTBD\tBAY-STACK-TIER`;
@@ -167,7 +174,7 @@ describe("for SHIP data", () => {
 
     const processed = convertOvdToStafObject<IShipData, IShipDataFromStaf>(
       [shipData],
-      ShipConfig
+      ShipConfig,
     );
 
     const expectedRes = `*SHIP${LINE_SEPARATOR}**CLASS\tUNITS\tLCG IN USE\tLCG REF PT\tLCG + DIR\tVCG IN USE\tTCG IN USE\tTCG + DIR\tPOSITION FORMAT${LINE_SEPARATOR}MY CLASS\tMETRIC\tY\tAP\tF\tSTACK\tN\tSTBD\tBAY-STACK-TIER`;
@@ -181,7 +188,7 @@ describe("for STAF_BAY data", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       3,
       ["0282", "0082", "0182", "0284", "0084", "0184", "0080"],
-      ["0218", "0018", "0118", "0016"]
+      ["0218", "0018", "0118", "0016"],
     );
 
     const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
@@ -203,26 +210,26 @@ describe("for STAF_BAY data", () => {
 
     const processed = convertOvdToStafObject<IBayLevelDataStaf, IBayLevelData>(
       bayLevelData,
-      BayLevelConfig
+      BayLevelConfig,
     );
 
     const processedLines = processed.split(LINE_SEPARATOR);
     expect(processedLines.length).toBe(1 + 1 + 4);
     expect(processedLines[0]).toBe("*SECTION");
     expect(processedLines[1]).toBe(
-      "**STAF BAY\tLEVEL\t20 NAME\t40 NAME\tSL Hatch\tSL ForeAft\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HEIGHT\tPAIRED BAY\tREEFER PLUGS\tDOORS\tATHWARTSHIPS\tBULKHEAD\tBULKHEAD LCG\tLCG 24\tSTACK WT 24"
+      "**STAF BAY\tLEVEL\t20 NAME\t40 NAME\tSL Hatch\tSL ForeAft\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HEIGHT\tPAIRED BAY\tREEFER PLUGS\tDOORS\tATHWARTSHIPS\tBULKHEAD\tBULKHEAD LCG\tLCG 24\tSTACK WT 24",
     );
     expect(processedLines[2]).toBe(
-      "01\tA\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5.0\tA\tA\t-\tY\tN\t-\t-\t-"
+      "01\tA\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t5.0\tA\tA\t-\tY\tN\t-\t-\t-",
     );
     expect(processedLines[3]).toBe(
-      "01\tB\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tA\t-\t-\tN\tY\t119.0\t-\t-"
+      "01\tB\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t-\t4.50\tA\t-\t-\tN\tY\t119.0\t-\t-",
     );
     expect(processedLines[4]).toBe(
-      "03\tA\t-\t-\t-\t-\t100.0\t110.0\t111.0\t112.0\t2.0\t2.10\t2.20\t2.30\t5.50\tF\tF\tA\tN\tN\t-\t-\t-"
+      "03\tA\t-\t-\t-\t-\t100.0\t110.0\t111.0\t112.0\t2.0\t2.10\t2.20\t2.30\t5.50\tF\tF\tA\tN\tN\t-\t-\t-",
     );
     expect(processedLines[5]).toBe(
-      "03\tB\t-\t-\t-\t-\t100.0\t-\t-\t-\t2.10\t-\t-\t-\t5.20\tF\t-\tA\tN\tN\t-\t99.0\t2.90"
+      "03\tB\t-\t-\t-\t-\t100.0\t-\t-\t-\t2.10\t-\t-\t-\t5.20\tF\t-\tA\tN\tN\t-\t99.0\t2.90",
     );
   });
 });
@@ -232,7 +239,7 @@ describe("for STACK data", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       3,
       ["0282", "0082", "0182", "0284", "0084", "0184"],
-      ["0218", "0018", "0118", "0016"]
+      ["0218", "0018", "0118", "0016"],
     );
 
     const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
@@ -249,54 +256,55 @@ describe("for STACK data", () => {
       lcgOptions: { values: ValuesSourceEnum.KNOWN } as IShipData["lcgOptions"],
     } as IShipData;
 
-    const data = RowConfig.preProcessor(bayLevelData, shipData);
+    const data = RowConfig.preProcessor?.(bayLevelData, shipData);
+    if (!data) throw "No fata after RowConfig.preProcessor";
 
     const processed = convertOvdToStafObject<IRowStafData, IRowStafData>(
       data,
-      RowConfig
+      RowConfig,
     );
 
     const processedLines = processed.split(LINE_SEPARATOR);
     expect(processedLines.length).toBe(1 + 1 + 12);
     expect(processedLines[0]).toBe("*STACK");
     expect(processedLines[1]).toBe(
-      "**STAF BAY\tLEVEL\tISO STACK\tCUSTOM STACK\tTOP TIER\tBOTTOM TIER\tBOTTOM VCG\tTCG\tACCEPTS 20\tACCEPTS 40\tACCEPTS 45\tACCEPTS 48\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HT\tACCEPTS 24\tLCG 24\tSTACK WT 24\t20 ISO STK\t40 ISO STK"
+      "**STAF BAY\tLEVEL\tISO STACK\tCUSTOM STACK\tTOP TIER\tBOTTOM TIER\tBOTTOM VCG\tTCG\tACCEPTS 20\tACCEPTS 40\tACCEPTS 45\tACCEPTS 48\tLCG 20\tLCG 40\tLCG 45\tLCG 48\tSTACK WT 20\tSTACK WT 40\tSTACK WT 45\tSTACK WT 48\tMAX HT\tACCEPTS 24\tLCG 24\tSTACK WT 24\t20 ISO STK\t40 ISO STK",
     );
     expect(processedLines[2]).toBe(
-      "01\tA\t00\t-\t84\t82\t21.10\t0.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0100\t-"
+      "01\tA\t00\t-\t84\t82\t21.10\t0.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0100\t-",
     );
     expect(processedLines[3]).toBe(
-      "01\tA\t01\t-\t84\t82\t21.10\t3.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0101\t-"
+      "01\tA\t01\t-\t84\t82\t21.10\t3.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0101\t-",
     );
     expect(processedLines[4]).toBe(
-      "01\tA\t02\t-\t84\t82\t21.10\t-3.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0102\t-"
+      "01\tA\t02\t-\t84\t82\t21.10\t-3.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0102\t-",
     );
     expect(processedLines[5]).toBe(
-      "01\tB\t00\t-\t18\t16\t15.30\t0.50\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t7.0\tY\t%\t%\t0100\t-"
+      "01\tB\t00\t-\t18\t16\t15.30\t0.50\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t7.0\tY\t%\t%\t0100\t-",
     );
     expect(processedLines[6]).toBe(
-      "01\tB\t01\t-\t18\t18\t17.20\t3.50\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t4.50\tY\t%\t%\t0101\t-"
+      "01\tB\t01\t-\t18\t18\t17.20\t3.50\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t4.50\tY\t%\t%\t0101\t-",
     );
     expect(processedLines[7]).toBe(
-      "01\tB\t02\t-\t18\t18\t17.20\t-3.50\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t4.50\tY\t%\t%\t0102\t-"
+      "01\tB\t02\t-\t18\t18\t17.20\t-3.50\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t4.50\tY\t%\t%\t0102\t-",
     );
     expect(processedLines[8]).toBe(
-      "03\tA\t00\t-\t84\t82\t21.10\t0.0\tY\tY\tY\tY\t100.0\t102.50\t107.50\t110.0\t1.25\t2.25\t2.26\t2.27\t5.50\tY\t105.0\t1.26\t0300\t0200"
+      "03\tA\t00\t-\t84\t82\t21.10\t0.0\tY\tY\tY\tY\t100.0\t102.50\t107.50\t110.0\t1.25\t2.25\t2.26\t2.27\t5.50\tY\t105.0\t1.26\t0300\t0200",
     );
     expect(processedLines[9]).toBe(
-      "03\tA\t01\t-\t84\t82\t21.10\t3.0\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t%\t%\t5.50\tN\t%\t%\t0301\t0201"
+      "03\tA\t01\t-\t84\t82\t21.10\t3.0\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t%\t%\t5.50\tN\t%\t%\t0301\t0201",
     );
     expect(processedLines[10]).toBe(
-      "03\tA\t02\t-\t84\t82\t21.10\t-3.0\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t%\t%\t5.50\tN\t%\t%\t0302\t0202"
+      "03\tA\t02\t-\t84\t82\t21.10\t-3.0\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t%\t%\t5.50\tN\t%\t%\t0302\t0202",
     );
     expect(processedLines[11]).toBe(
-      "03\tB\t00\t-\t18\t16\t15.30\t0.50\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t-\t-\t7.0\tN\t%\t-\t0300\t0200"
+      "03\tB\t00\t-\t18\t16\t15.30\t0.50\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t-\t-\t7.0\tN\t%\t-\t0300\t0200",
     );
     expect(processedLines[12]).toBe(
-      "03\tB\t01\t-\t18\t18\t17.20\t3.50\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t-\t-\t5.20\tN\t%\t-\t0301\t0201"
+      "03\tB\t01\t-\t18\t18\t17.20\t3.50\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t-\t-\t5.20\tN\t%\t-\t0301\t0201",
     );
     expect(processedLines[13]).toBe(
-      "03\tB\t02\t-\t18\t18\t17.20\t-3.50\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t-\t-\t5.20\tN\t%\t-\t0302\t0202"
+      "03\tB\t02\t-\t18\t18\t17.20\t-3.50\tY\tY\tN\tN\t%\t%\t%\t%\t%\t%\t-\t-\t5.20\tN\t%\t-\t0302\t0202",
     );
   });
 
@@ -304,7 +312,7 @@ describe("for STACK data", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       3,
       ["0282", "0082", "0182", "0284", "0084", "0184", "0080"],
-      ["0218", "0018", "0118", "0016"]
+      ["0218", "0018", "0118", "0016"],
     );
 
     const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
@@ -321,21 +329,22 @@ describe("for STACK data", () => {
       lcgOptions: { values: ValuesSourceEnum.KNOWN } as IShipData["lcgOptions"],
     } as IShipData;
 
-    const data = RowConfig.preProcessor(bayLevelData, shipData);
+    const data = RowConfig.preProcessor?.(bayLevelData, shipData);
+    if (!data) throw "No fata after RowConfig.preProcessor";
 
     const processed = convertOvdToStafObject<IRowStafData, IRowStafData>(
       data,
-      RowConfig
+      RowConfig,
     );
 
     const processedLines = processed.split(LINE_SEPARATOR);
     expect(processedLines.length).toBe(1 + 1 + 12);
 
     expect(processedLines[2]).toBe(
-      "01\tA\t00\t-\t84\t80\t21.10\t0.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0100\t-"
+      "01\tA\t00\t-\t84\t80\t21.10\t0.0\tY\tN\tN\tN\t%\t-\t-\t-\t%\t-\t-\t-\t5.0\tY\t%\t%\t0100\t-",
     );
     expect(processedLines[8]).toBe(
-      "03\tA\t00\t-\t84\t80\t21.10\t0.0\tY\tY\tY\tY\t100.0\t102.50\t107.50\t110.0\t1.25\t2.25\t2.26\t2.27\t5.50\tY\t105.0\t1.26\t0300\t0200"
+      "03\tA\t00\t-\t84\t80\t21.10\t0.0\tY\tY\tY\tY\t100.0\t102.50\t107.50\t110.0\t1.25\t2.25\t2.26\t2.27\t5.50\tY\t105.0\t1.26\t0300\t0200",
     );
   });
 });
@@ -345,17 +354,18 @@ describe("for TIER data", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       3,
       ["0282", "0082", "0182", "0284", "0084", "0184"],
-      ["0218", "0018", "0118", "0016"]
+      ["0218", "0018", "0118", "0016"],
     );
 
     const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
     addMockedAttributes(b001Above, b001Below, b003Above, b003Below);
 
-    const data = TierConfig.preProcessor(bayLevelData);
+    const data = TierConfig.preProcessor?.(bayLevelData);
+    if (!data) throw "No fata after RowConfig.preProcessor";
 
     const processed = convertOvdToStafObject<ITierStafData, ITierStafData>(
       data,
-      TierConfig
+      TierConfig,
     );
 
     const processedLines = processed.split(LINE_SEPARATOR);
@@ -366,24 +376,25 @@ describe("for TIER data", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       3,
       ["0282", "0082", "0182", "0284", "0084", "0184", "0080"],
-      ["0218", "0018", "0118", "0016"]
+      ["0218", "0018", "0118", "0016"],
     );
 
     const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
     addMockedAttributes(b001Above, b001Below, b003Above, b003Below);
 
-    const data = TierConfig.preProcessor(bayLevelData);
+    const data = TierConfig.preProcessor?.(bayLevelData);
+    if (!data) throw "No fata after RowConfig.preProcessor";
 
     const processed = convertOvdToStafObject<ITierStafData, ITierStafData>(
       data,
-      TierConfig
+      TierConfig,
     );
 
     const processedLines = processed.split(LINE_SEPARATOR);
     expect(processedLines.length).toBe(1 + 1 + 6);
     expect(processedLines[0]).toBe("*TIER");
     expect(processedLines[1]).toBe(
-      "**STAF BAY\tLEVEL\tISO TIER\tCUSTOM TIER\tTIER VCG"
+      "**STAF BAY\tLEVEL\tISO TIER\tCUSTOM TIER\tTIER VCG",
     );
     expect(processedLines[2]).toBe("01\tA\t82\t80\t-");
     expect(processedLines[3]).toBe("01\tA\t84\t82\t-");
@@ -399,29 +410,32 @@ describe("for SLOT data", () => {
     const bayLevelData = createMockedSimpleBayLevelData(
       3,
       ["0282", "0082", "0182", "0284", "0084", "0184", "0080"],
-      ["0218", "0018", "0118", "0016"]
+      ["0218", "0018", "0118", "0016"],
     );
 
     const [b001Above, b001Below, b003Above, b003Below] = bayLevelData;
     addMockedAttributes(b001Above, b001Below, b003Above, b003Below);
+
+    if (!b001Below.perSlotInfo) throw "No b001Below.perSlotInfo";
 
     b001Below.perSlotInfo["0018"].sizes = {};
     b001Below.perSlotInfo["0118"].reefer = 1;
     b001Below.perSlotInfo["0218"].reefer = 1;
     b001Below.perSlotInfo["0018"].restricted = 1;
 
-    const data = SlotConfig.preProcessor(bayLevelData);
+    const data = SlotConfig.preProcessor?.(bayLevelData);
+    if (!data) throw "No data after SlotConfig.preProcessor";
 
     const processed = convertOvdToStafObject<ISlotData, ISlotData>(
       data,
-      SlotConfig
+      SlotConfig,
     );
 
     const processedLines = processed.split(LINE_SEPARATOR);
     expect(processedLines.length).toBe(1 + 1 + 6);
     expect(processedLines[0]).toBe("*SLOT");
     expect(processedLines[1]).toBe(
-      "**SLOT\tACCEPTS 20\tACCEPTS 40\tACCEPTS 45\tACCEPTS 48\tREEFER TYPE\tACCEPTS 24"
+      "**SLOT\tACCEPTS 20\tACCEPTS 40\tACCEPTS 45\tACCEPTS 48\tREEFER TYPE\tACCEPTS 24",
     );
     expect(processedLines[2]).toBe("010018\tN\tN\tN\tN\tN\tN");
     expect(processedLines[3]).toBe("010118\tY\tN\tN\tN\tI\tY");
@@ -477,7 +491,8 @@ describe("for LID data", () => {
     expect(lidData.length).toBe(5);
 
     // Test pre-processor
-    const data = LidConfig.preProcessor(lidData);
+    const data = LidConfig.preProcessor?.(lidData);
+    if (!data) throw "No data after LidConfig.preProcessor";
 
     // Expect 8: Why?
     // 1A01 -> 2 lines as it's in 001, 003
@@ -497,7 +512,7 @@ describe("for LID data", () => {
 
     expect(header).toBe("*LID");
     expect(titles).toBe(
-      "**LID ID\tSTAF BAY\tLEVEL\tPORT ISO STACK\tSTBD ISO STACK\tJOIN LID FWD\tJOIN LID AFT\tOVERLAP PORT\tOVERLAP STBD"
+      "**LID ID\tSTAF BAY\tLEVEL\tPORT ISO STACK\tSTBD ISO STACK\tJOIN LID FWD\tJOIN LID AFT\tOVERLAP PORT\tOVERLAP STBD",
     );
 
     const expectedLines = [
@@ -514,7 +529,7 @@ describe("for LID data", () => {
     const sortedProcLines = processedLines.sort();
 
     expect(expectedLines.join(LINE_SEPARATOR)).toStrictEqual(
-      sortedProcLines.join(LINE_SEPARATOR)
+      sortedProcLines.join(LINE_SEPARATOR),
     );
   });
 });
@@ -523,7 +538,7 @@ function addMockedAttributes(
   b001Above: IBayLevelDataStaf,
   b001Below: IBayLevelDataStaf,
   b003Above: IBayLevelDataStaf,
-  b003Below: IBayLevelDataStaf
+  b003Below: IBayLevelDataStaf,
 ) {
   b001Above.label20 = "001-Label-20-A";
   b001Below.label20 = "001-Label-20-B";

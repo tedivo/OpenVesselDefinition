@@ -6,5 +6,6 @@ import { TYesNo } from "../models/base/types/IPositionPatterns";
  * @returns TYesNo
  */
 export default function yNToBooleanLoose(s: string): TYesNo | undefined {
-  return s !== "" && s !== "-" ? 1 : undefined;
+  if (s === "" || s === "-") return undefined;
+  return s === "N" ? 0 : 1;
 }

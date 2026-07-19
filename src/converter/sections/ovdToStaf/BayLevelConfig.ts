@@ -130,6 +130,7 @@ function cleanBayLevelData(bls: IBayLevelDataStaf[]): IBayLevelDataStaf[] {
   // 1. Check labels
   for (let i = 0; i < bls.length; i++) {
     const bl = bls[i];
+    if (!bl.perSlotInfo) bl.perSlotInfo = {};
     const perSlotInfo = bl.perSlotInfo;
     const slotsData = Object.keys(perSlotInfo || {}) as IJoinedRowTierPattern[];
     const allSizesSet = new Set<TContainerLengths>();
@@ -139,7 +140,7 @@ function cleanBayLevelData(bls: IBayLevelDataStaf[]): IBayLevelDataStaf[] {
     // Get all sizes in this bay
     slotsData.forEach((slot) => {
       const slotSizes = Object.keys(perSlotInfo[slot].sizes).map(
-        Number
+        Number,
       ) as TContainerLengths[];
 
       slotSizes.forEach((size) => allSizesSet.add(size));
@@ -158,7 +159,7 @@ function cleanBayLevelData(bls: IBayLevelDataStaf[]): IBayLevelDataStaf[] {
 
     const label40 = allSizes.some((v) => v >= 40 && bl.pairedBay !== undefined)
       ? safePad2(
-          Number(bl.isoBay) + (bl.pairedBay === ForeAftEnum.FWD ? -1 : 1)
+          Number(bl.isoBay) + (bl.pairedBay === ForeAftEnum.FWD ? -1 : 1),
         )
       : "-";
 

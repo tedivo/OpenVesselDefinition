@@ -2,6 +2,10 @@ import {
   IBayRowInfoStaf,
   TBayRowInfo,
 } from "../../models/v1/parts/IBayLevelData";
+import {
+  IIsoTierPattern,
+  IJoinedRowTierPattern,
+} from "../../models/base/types/IPositionPatterns";
 import createSlotsFromRowsInfo, {
   createSlotsFromRow,
 } from "./createSlotsFromRowsInfo";
@@ -43,7 +47,7 @@ describe("createSlotsFromRow should", () => {
   it("work correctly with acceptsSize = 1", () => {
     const res = createSlotsFromRow(testRow01, {});
 
-    const keys = Object.keys(res);
+    const keys = Object.keys(res) as IJoinedRowTierPattern[];
     expect(keys.length).toBe(5); // 72-74-76-78-80
     expect(keys).toContain("0172");
     expect(keys).toContain("0174");
@@ -51,17 +55,20 @@ describe("createSlotsFromRow should", () => {
     expect(keys).toContain("0178");
     expect(keys).toContain("0180");
 
-    expect(res[keys[0]].sizes).toBeDefined();
-    expect(Object.keys(res[keys[0]].sizes).length).toBe(3); //20-40-48
-    expect(res[keys[0]].sizes[20]).toBe(1);
-    expect(res[keys[0]].sizes[40]).toBe(1);
-    expect(res[keys[0]].sizes[48]).toBe(1);
+    const key0 = keys[0];
+    if (!res[key0]) throw new Error("res 0172 is undefined");
+
+    expect(res[key0].sizes).toBeDefined();
+    expect(Object.keys(res[key0].sizes).length).toBe(3); //20-40-48
+    expect(res[key0].sizes[20]).toBe(1);
+    expect(res[key0].sizes[40]).toBe(1);
+    expect(res[key0].sizes[48]).toBe(1);
   });
 
   it("work correctly with acceptsSize = 0", () => {
     const res = createSlotsFromRow(testRow03, {});
 
-    const keys = Object.keys(res);
+    const keys = Object.keys(res) as IJoinedRowTierPattern[];
     expect(keys.length).toBe(5); // 72-74-76-78-80
     expect(keys).toContain("0172");
     expect(keys).toContain("0174");
@@ -88,7 +95,7 @@ describe("createSlotsFromRowsInfo should", () => {
     };
     const res = createSlotsFromRowsInfo(rows, {});
 
-    const keys = Object.keys(res);
+    const keys = Object.keys(res) as IJoinedRowTierPattern[];
     expect(keys.length).toBe(8); // 72-74-76-78-80 & 72-74-76
     expect(keys).toContain("0172");
     expect(keys).toContain("0174");

@@ -27,12 +27,13 @@ import ValuesSourceEnum from "../models/base/enums/ValuesSourceEnum";
 import { ValuesSourceRowTierEnum } from "../models/base/enums/ValuesSourceRowTierEnum";
 import { applyOvdToStafOptionsToData } from "./core/cleanup/applyOvdToStafOptionsToData";
 import { cgsRemapOvdToStaf } from "./core/cgsRemapOvdToStaf";
+import { cloneObject } from "../helpers/objectHelpers";
 import convertOvdToStafObject from "./core/convertOvdToStafObject";
 import { tiersRemap } from "./core/tiersRemap";
 
 export default function ovdV1ToStafConverter(
   originalJson: IOpenVesselDefinitionV1,
-  options: IConvertOvdToStafObjectOptions
+  options: IConvertOvdToStafObjectOptions,
 ): string {
   const stafParts: string[] = [];
   const {
@@ -45,12 +46,12 @@ export default function ovdV1ToStafConverter(
 
   // Use clone to avoid modifying the original json
   const json = applyOvdToStafOptionsToData(
-    JSON.parse(JSON.stringify(originalJson)) as IOpenVesselDefinitionV1,
+    cloneObject(originalJson) as IOpenVesselDefinitionV1,
     {
       removeCGs,
       removeBaysWithNonSizeSlots,
       removeBelowTiers24AndHigher,
-    }
+    },
   );
 
   // Create safe lcgOptions
@@ -89,7 +90,7 @@ export default function ovdV1ToStafConverter(
       json.shipData.masterCGs,
       lcgOptions,
       vcgOptions,
-      tcgOptions
+      tcgOptions,
     );
 
     json.shipData.masterCGs = mCGs;
@@ -119,48 +120,56 @@ export default function ovdV1ToStafConverter(
   stafParts.push(
     convertOvdToStafObject<IShipData, IShipDataFromStaf>(
       [json.shipData],
-      ShipConfig
-    )
+      ShipConfig,
+    ),
   );
 
-  const dataForBLs = BayLevelConfig.preProcessor(json.baysData);
+  const dataForBLs = BayLevelConfig.preProcessor?.(json.baysData);
 
-  stafParts.push(
-    convertOvdToStafObject<IBayLevelDataStaf, IBayLevelData>(
-      dataForBLs,
-      BayLevelConfig
-    )
-  );
+  if (dataForBLs)
+    stafParts.push(
+      convertOvdToStafObject<IBayLevelDataStaf, IBayLevelData>(
+        dataForBLs,
+        BayLevelConfig,
+      ),
+    );
 
-  const dataForRows = RowConfig.preProcessor(json.baysData, json.shipData);
+  const dataForRows = RowConfig.preProcessor?.(json.baysData, json.shipData);
 
-  stafParts.push(
-    convertOvdToStafObject<IRowStafData, IRowStafData>(dataForRows, RowConfig)
-  );
+  if (dataForRows)
+    stafParts.push(
+      convertOvdToStafObject<IRowStafData, IRowStafData>(
+        dataForRows,
+        RowConfig,
+      ),
+    );
 
-  const dataForTiers = TierConfig.preProcessor(json.baysData);
+  const dataForTiers = TierConfig.preProcessor?.(json.baysData);
 
-  stafParts.push(
-    convertOvdToStafObject<ITierStafData, ITierStafData>(
-      dataForTiers,
-      TierConfig
-    )
-  );
+  if (dataForTiers)
+    stafParts.push(
+      convertOvdToStafObject<ITierStafData, ITierStafData>(
+        dataForTiers,
+        TierConfig,
+      ),
+    );
 
-  const dataForSlots = SlotConfig.preProcessor(json.baysData);
+  const dataForSlots = SlotConfig.preProcessor?.(json.baysData);
 
-  stafParts.push(
-    convertOvdToStafObject<ISlotData, ISlotData>(dataForSlots, SlotConfig)
-  );
+  if (dataForSlots)
+    stafParts.push(
+      convertOvdToStafObject<ISlotData, ISlotData>(dataForSlots, SlotConfig),
+    );
 
-  const dataForLids = LidConfig.preProcessor(json.lidData);
+  const dataForLids = LidConfig.preProcessor?.(json.lidData);
 
-  stafParts.push(
-    convertOvdToStafObject<ILidDataFromStaf, ILidDataFromStaf>(
-      dataForLids,
-      LidConfig
-    )
-  );
+  if (dataForLids)
+    stafParts.push(
+      convertOvdToStafObject<ILidDataFromStaf, ILidDataFromStaf>(
+        dataForLids,
+        LidConfig,
+      ),
+    );
 
   stafParts.push(`*END${LINE_SEPARATOR}`);
 

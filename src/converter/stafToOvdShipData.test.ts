@@ -53,4 +53,25 @@ describe("stafToShipInfoDefinitionConverter should...", () => {
     expect(shipData.tcgOptions.values).toBe(ValuesSourceEnum.KNOWN);
     expect(shipData.tcgOptions.direction).toBe(PortStarboardEnum.STARBOARD);
   });
+
+  it("throws when UNITS is not METRIC", () => {
+    const stafWithBritishUnits = stafHeaderString.replace(
+      "METRIC",
+      "BRITISH"
+    );
+
+    expect(() => stafToOvdShipData(stafWithBritishUnits)).toThrow(
+      /Unsupported STAF UNITS value/
+    );
+  });
+
+  it("doesn't throw when the UNITS column is absent", () => {
+    const stafWithoutUnitsColumn = `
+*SHIP
+**CLASS	LCG IN USE	LCG REF PT	LCG + DIR	VCG IN USE	TCG IN USE	TCG + DIR	POSITION FORMAT
+OAME	Y	MS	A	TIER	Y	STBD	BAY-STACK-TIER
+*END`;
+
+    expect(() => stafToOvdShipData(stafWithoutUnitsColumn)).not.toThrow();
+  });
 });

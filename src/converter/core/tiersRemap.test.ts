@@ -18,7 +18,7 @@ function createMockedBl() {
   const bayLevelData = createMockedSimpleBayLevelData(
     3,
     mockSlotInfoKeysAbove,
-    mockSlotInfoKeysBelow
+    mockSlotInfoKeysBelow,
   ).map((bl) => {
     const { perTierInfo, ...rest } = bl;
     return rest;
@@ -63,12 +63,9 @@ describe("stafTiersRemap should", () => {
     expect(summary.maxAboveTier).toBe(86);
     expect(summary.minAboveTier).toBe(80);
     expect(bayLevelData.length).toBe(4);
-    expect(Object.keys(bayLevelData[0].perSlotInfo).sort()).toStrictEqual([
-      "0080",
-      "0082",
-      "0084",
-      "0086",
-    ]);
+    expect(Object.keys(bayLevelData[0].perSlotInfo || {}).sort()).toStrictEqual(
+      ["0080", "0082", "0084", "0086"],
+    );
 
     const {
       sizeSummary,
@@ -84,7 +81,7 @@ describe("stafTiersRemap should", () => {
     expect(sizeSummary.maxAboveTier).toBe(86);
     expect(sizeSummary.minAboveTier).toBe(80);
     expect(bls.length).toBe(4);
-    expect(Object.keys(bls[0].perSlotInfo).sort()).toStrictEqual([
+    expect(Object.keys(bls[0].perSlotInfo || {}).sort()).toStrictEqual([
       "0080",
       "0082",
       "0084",
@@ -107,12 +104,9 @@ describe("stafTiersRemap should", () => {
     expect(summary.maxAboveTier).toBe(86);
     expect(summary.minAboveTier).toBe(80);
     expect(bayLevelData.length).toBe(4);
-    expect(Object.keys(bayLevelData[0].perSlotInfo).sort()).toStrictEqual([
-      "0080",
-      "0082",
-      "0084",
-      "0086",
-    ]);
+    expect(Object.keys(bayLevelData[0].perSlotInfo || {}).sort()).toStrictEqual(
+      ["0080", "0082", "0084", "0086"],
+    );
 
     const {
       sizeSummary,
@@ -128,7 +122,7 @@ describe("stafTiersRemap should", () => {
     expect(sizeSummary.maxAboveTier).toBe(76);
     expect(sizeSummary.minAboveTier).toBe(70);
     expect(bls.length).toBe(4);
-    expect(Object.keys(bls[0].perSlotInfo).sort()).toStrictEqual([
+    expect(Object.keys(bls[0].perSlotInfo || {}).sort()).toStrictEqual([
       "0070",
       "0072",
       "0074",
@@ -143,6 +137,8 @@ describe("stafTiersRemap should", () => {
     expect(newMCGs.belowTcgs["02"]).toBe(-2590);
     expect(newMCGs.bottomBases["70"]).toBe(20000);
     expect(newMCGs.bottomBases["02"]).toBe(1000);
+    // the pre-remap tier "80" key must not survive alongside the remapped "70" one
+    expect(Object.keys(newMCGs.bottomBases).sort()).toStrictEqual(["02", "70"]);
   });
 
   it("Translate tiers when tier82is !== 82, OVD->STAF", () => {
@@ -151,15 +147,12 @@ describe("stafTiersRemap should", () => {
     expect(summary.maxAboveTier).toBe(86);
     expect(summary.minAboveTier).toBe(80);
     expect(bayLevelData.length).toBe(4);
-    expect(Object.keys(bayLevelData[0].perSlotInfo).sort()).toStrictEqual([
-      "0080",
-      "0082",
-      "0084",
-      "0086",
-    ]);
+    expect(Object.keys(bayLevelData[0].perSlotInfo || {}).sort()).toStrictEqual(
+      ["0080", "0082", "0084", "0086"],
+    );
 
     const {
-      sizeSummary,
+      sizeSummary: newSizeSummary,
       bls,
       masterCGs: newMCGs,
     } = tiersRemap({
@@ -169,10 +162,10 @@ describe("stafTiersRemap should", () => {
       tier82is: 92,
     });
 
-    expect(sizeSummary.maxAboveTier).toBe(96);
-    expect(sizeSummary.minAboveTier).toBe(90);
+    expect(newSizeSummary.maxAboveTier).toBe(96);
+    expect(newSizeSummary.minAboveTier).toBe(90);
     expect(bls.length).toBe(4);
-    expect(Object.keys(bls[0].perSlotInfo).sort()).toStrictEqual([
+    expect(Object.keys(bls[0].perSlotInfo || {}).sort()).toStrictEqual([
       "0090",
       "0092",
       "0094",
@@ -185,7 +178,10 @@ describe("stafTiersRemap should", () => {
     expect(newMCGs.belowTcgs["00"]).toBe(10);
     expect(newMCGs.belowTcgs["01"]).toBe(2610);
     expect(newMCGs.belowTcgs["02"]).toBe(-2590);
+
     expect(newMCGs.bottomBases["90"]).toBe(20000);
     expect(newMCGs.bottomBases["02"]).toBe(1000);
+    // the pre-remap tier "80" key must not survive alongside the remapped "90" one
+    expect(Object.keys(newMCGs.bottomBases).sort()).toStrictEqual(["02", "90"]);
   });
 });

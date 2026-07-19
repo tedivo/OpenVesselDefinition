@@ -10,7 +10,12 @@ import sortRowsArray from "./sortRowsArray";
 export function getRowsAndTiersFromSlotKeys(
   slotKeys?: IJoinedRowTierPattern[]
 ): IRowTiersFromSlotsResult {
-  if (slotKeys === undefined) {
+  // A defined-but-empty array (e.g. a bay whose perSlotInfo is {}) has no rows/tiers to
+  // scan either, so it must short-circuit the same way `undefined` does. Without this,
+  // minTier/maxTier/maxRow are left at their Infinity/-Infinity sentinels below and get
+  // stringified into the nonsensical "Infinity"/"-Infinity" (not a valid IIsoTierPattern
+  // or IIsoRowPattern) instead of `undefined`.
+  if (slotKeys === undefined || slotKeys.length === 0) {
     return {
       rows: [],
       tiers: [],

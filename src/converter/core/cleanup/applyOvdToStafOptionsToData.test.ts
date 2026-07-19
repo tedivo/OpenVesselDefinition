@@ -107,6 +107,48 @@ describe("applyOvdToStafOptionsToData should", () => {
     expect(jsonApplied.baysData.length).toBe(3);
   });
 
+  it("Remove CGs without removing a bay that has an empty (but defined) perSlotInfo", () => {
+    const json = JSON.parse(JSON.stringify(mockedJson));
+    json.baysData[0].perSlotInfo = {};
+
+    const jsonApplied = applyOvdToStafOptionsToData(json, {
+      removeCGs: true,
+      removeBaysWithNonSizeSlots: false,
+      removeBelowTiers24AndHigher: false,
+    });
+
+    // removeCGs must not remove bays - that's removeBaysWithNonSizeSlots's job
+    expect(jsonApplied.baysData.length).toBe(4);
+    // CGs should still be cleared on that bay
+    expect(jsonApplied.baysData[0].perRowInfo.common.bottomBase).toBeUndefined();
+  });
+
+  it("Remove CGs without throwing when a bay's perSlotInfo is undefined", () => {
+    const json = JSON.parse(JSON.stringify(mockedJson));
+    json.baysData[0].perSlotInfo = undefined;
+
+    expect(() =>
+      applyOvdToStafOptionsToData(json, {
+        removeCGs: true,
+        removeBaysWithNonSizeSlots: false,
+        removeBelowTiers24AndHigher: false,
+      })
+    ).not.toThrow();
+  });
+
+  it("Remove CGs without throwing when a bay's perRowInfo has no common", () => {
+    const json = JSON.parse(JSON.stringify(mockedJson));
+    json.baysData[0].perRowInfo.common = undefined;
+
+    expect(() =>
+      applyOvdToStafOptionsToData(json, {
+        removeCGs: true,
+        removeBaysWithNonSizeSlots: false,
+        removeBelowTiers24AndHigher: false,
+      })
+    ).not.toThrow();
+  });
+
   it("Remove Slots above 22", () => {
     const json = JSON.parse(JSON.stringify(mockedJson));
     json.baysData[1].perSlotInfo["0224"] = { sizes: { 20: 1 } };

@@ -5,7 +5,9 @@ import { IIsoBayPattern } from "../../models/base/types/IPositionPatterns";
 import { pad3 } from "../../helpers/pad";
 import { sortNumericAsc } from "../../helpers/sortByMultipleFields";
 
-export function connectPairedBays(bayLevelData: IBayLevelData[]): IBayLevelData[] {
+export function connectPairedBays(
+  bayLevelData: IBayLevelData[],
+): IBayLevelData[] {
   const bayLevelExtends: {
     [BayLevelEnum.ABOVE]: { [key: IIsoBayPattern]: ForeAftEnum | undefined };
     [BayLevelEnum.BELOW]: { [key: IIsoBayPattern]: ForeAftEnum | undefined };
@@ -24,8 +26,10 @@ export function connectPairedBays(bayLevelData: IBayLevelData[]): IBayLevelData[
     .filter((v, i, a) => !!v && a.indexOf(v) === i)
     .sort(sortNumericAsc) as IIsoBayPattern[];
 
-  bayLevelData.forEach(bl => {
-    bayLevelExtends[bl.level][bl.isoBay] = bl.pairedBay
+  bayLevelData.forEach((bl) => {
+    bayLevelExtends[bl.level as BayLevelEnum.ABOVE | BayLevelEnum.BELOW][
+      bl.isoBay
+    ] = bl.pairedBay;
   });
 
   // 1st pass, pair bays that extend after pairing
@@ -74,17 +78,28 @@ export function connectPairedBays(bayLevelData: IBayLevelData[]): IBayLevelData[
     const above = findBayAndLevel(isoBay, BayLevelEnum.ABOVE, bayLevelData);
     const below = findBayAndLevel(isoBay, BayLevelEnum.BELOW, bayLevelData);
 
-    if (above?.pairedBay !== undefined && below && below.pairedBay === undefined) {
+    if (
+      above?.pairedBay !== undefined &&
+      below &&
+      below.pairedBay === undefined
+    ) {
       below.pairedBay = above.pairedBay;
       newConnections++;
-      newConnectionsBays.push(`${BayLevelEnum.BELOW}-${below.isoBay}: ${ForeAftEnum[below.pairedBay]}`);
-
+      newConnectionsBays.push(
+        `${BayLevelEnum.BELOW}-${below.isoBay}: ${ForeAftEnum[below.pairedBay]}`,
+      );
     }
 
-    if (below?.pairedBay !== undefined && above && above.pairedBay === undefined) {
+    if (
+      below?.pairedBay !== undefined &&
+      above &&
+      above.pairedBay === undefined
+    ) {
       above.pairedBay = below.pairedBay;
       newConnections++;
-      newConnectionsBays.push(`${BayLevelEnum.ABOVE}-${above.isoBay}: ${ForeAftEnum[above.pairedBay]}`);
+      newConnectionsBays.push(
+        `${BayLevelEnum.ABOVE}-${above.isoBay}: ${ForeAftEnum[above.pairedBay]}`,
+      );
     }
   });
 
@@ -94,40 +109,69 @@ export function connectPairedBays(bayLevelData: IBayLevelData[]): IBayLevelData[
     const above = findBayAndLevel(isoBay, BayLevelEnum.ABOVE, bayLevelData);
     const below = findBayAndLevel(isoBay, BayLevelEnum.BELOW, bayLevelData);
 
-    if (above?.pairedBay !== undefined && below?.pairedBay === above?.pairedBay) {
+    if (
+      above?.pairedBay !== undefined &&
+      below?.pairedBay === above?.pairedBay
+    ) {
       pairedBayKeys[isoBay] = above.pairedBay;
     } else {
       pairedBayKeys[isoBay] = undefined;
     }
   });
 
-  const pairedBayKeysArray = Object.keys(pairedBayKeys).sort() as IIsoBayPattern[];
+  const pairedBayKeysArray = Object.keys(
+    pairedBayKeys,
+  ).sort() as IIsoBayPattern[];
   for (let i = 1; i < pairedBayKeysArray.length - 1; i++) {
     const kPrev = pairedBayKeys[pairedBayKeysArray[i - 1]];
     const kCurr = pairedBayKeys[pairedBayKeysArray[i]];
     const kNext = pairedBayKeys[pairedBayKeysArray[i + 1]];
     const kNNNx = pairedBayKeys[pairedBayKeysArray[i + 2]];
 
-    if (kPrev === ForeAftEnum.FWD && kCurr === undefined && kNext === undefined && kNNNx === ForeAftEnum.AFT) {
-      const aboveF = findBayAndLevel(pairedBayKeysArray[i], BayLevelEnum.ABOVE, bayLevelData);
-      const belowF = findBayAndLevel(pairedBayKeysArray[i], BayLevelEnum.BELOW, bayLevelData);
-      const aboveA = findBayAndLevel(pairedBayKeysArray[i + 1], BayLevelEnum.ABOVE, bayLevelData);
-      const belowA = findBayAndLevel(pairedBayKeysArray[i + 1], BayLevelEnum.BELOW, bayLevelData);
+    if (
+      kPrev === ForeAftEnum.FWD &&
+      kCurr === undefined &&
+      kNext === undefined &&
+      kNNNx === ForeAftEnum.AFT
+    ) {
+      const aboveF = findBayAndLevel(
+        pairedBayKeysArray[i],
+        BayLevelEnum.ABOVE,
+        bayLevelData,
+      );
+      const belowF = findBayAndLevel(
+        pairedBayKeysArray[i],
+        BayLevelEnum.BELOW,
+        bayLevelData,
+      );
+      const aboveA = findBayAndLevel(
+        pairedBayKeysArray[i + 1],
+        BayLevelEnum.ABOVE,
+        bayLevelData,
+      );
+      const belowA = findBayAndLevel(
+        pairedBayKeysArray[i + 1],
+        BayLevelEnum.BELOW,
+        bayLevelData,
+      );
 
       if (aboveF) aboveF.pairedBay = ForeAftEnum.AFT;
       if (belowF) belowF.pairedBay = ForeAftEnum.AFT;
       if (aboveA) aboveA.pairedBay = ForeAftEnum.FWD;
       if (belowA) belowA.pairedBay = ForeAftEnum.FWD;
-      newConnections++;
-      newConnectionsBays.push(`${BayLevelEnum.ABOVE}-${aboveF.isoBay}: AFT`);
-      newConnectionsBays.push(`${BayLevelEnum.BELOW}-${belowF.isoBay}: AFT`);
-      newConnectionsBays.push(`${BayLevelEnum.ABOVE}-${aboveA.isoBay}: FWD`);
-      newConnectionsBays.push(`${BayLevelEnum.BELOW}-${belowA.isoBay}: FWD`);
 
+      newConnections++;
+
+      if (aboveF)
+        newConnectionsBays.push(`${BayLevelEnum.ABOVE}-${aboveF.isoBay}: AFT`);
+      if (belowF)
+        newConnectionsBays.push(`${BayLevelEnum.BELOW}-${belowF.isoBay}: AFT`);
+      if (aboveA)
+        newConnectionsBays.push(`${BayLevelEnum.ABOVE}-${aboveA.isoBay}: FWD`);
+      if (belowA)
+        newConnectionsBays.push(`${BayLevelEnum.BELOW}-${belowA.isoBay}: FWD`);
     }
   }
-
-  console.log("newConnections", newConnections, newConnectionsBays);
 
   return bayLevelData;
 }

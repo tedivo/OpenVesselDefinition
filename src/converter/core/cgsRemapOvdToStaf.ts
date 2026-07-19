@@ -18,6 +18,7 @@ import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import { ONE_MILLIMETER_IN_FEET } from "../consts";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
+import { cloneObject } from "../../helpers/objectHelpers";
 import { getRowsAndTiersFromSlotKeys } from "../../helpers/getRowsAndTiersFromSlotKeys";
 import { pad2 } from "../../helpers/pad";
 
@@ -34,10 +35,10 @@ export function cgsRemapOvdToStaf(
   masterCGs: IMasterCGs,
   lcgOptions: ILCGOptionsIntermediate,
   vcgOptions: IVGCOptionsIntermediate,
-  tcgOptions: ITGCOptionsIntermediate
+  tcgOptions: ITGCOptionsIntermediate,
 ): { bls: IBayLevelDataStaf[]; mCGs: IMasterCGs } {
-  const clonedBls = bls.slice().map((bl) => JSON.parse(JSON.stringify(bl)));
-  const clonedMasterCGs = JSON.parse(JSON.stringify(masterCGs));
+  const clonedBls = bls.slice().map((bl) => cloneObject(bl));
+  const clonedMasterCGs = cloneObject(masterCGs);
 
   remapLcgs(lcgOptions, clonedBls);
   remapVcgs(vcgOptions, clonedBls, clonedMasterCGs);
@@ -58,7 +59,7 @@ export function cgsRemapOvdToStaf(
 function remapTcgs(
   tcgOptions: ITGCOptionsIntermediate,
   bls: IBayLevelData[],
-  masterCGs: IMasterCGs
+  masterCGs: IMasterCGs,
 ) {
   if (tcgOptions.direction === PortStarboardEnum.STARBOARD) return;
 
@@ -67,13 +68,13 @@ function remapTcgs(
   (Object.keys(masterCGs.aboveTcgs || {}) as IIsoRowPattern[]).forEach(
     (row) => {
       masterCGs.aboveTcgs[row] = tcgSignMult * masterCGs.aboveTcgs[row];
-    }
+    },
   );
 
   (Object.keys(masterCGs.belowTcgs || {}) as IIsoRowPattern[]).forEach(
     (row) => {
       masterCGs.belowTcgs[row] = tcgSignMult * masterCGs.belowTcgs[row];
-    }
+    },
   );
 
   bls.forEach((bl) => {
@@ -96,10 +97,10 @@ function remapTcgs(
 function remapVcgs(
   vcgOptions: IVGCOptionsIntermediate,
   bls: IBayLevelData[],
-  masterCGs: IMasterCGs
+  masterCGs: IMasterCGs,
 ) {
   const baseAdjust = Math.round(
-    (8.5 / ONE_MILLIMETER_IN_FEET) * (vcgOptions.heightFactor || 0)
+    (8.5 / ONE_MILLIMETER_IN_FEET) * (vcgOptions.heightFactor || 0),
   );
 
   bls.forEach((bl) => {
@@ -108,20 +109,22 @@ function remapVcgs(
       const { tiersByRow } = getRowsAndTiersFromSlotKeys(
         bl.perSlotInfo
           ? (Object.keys(bl.perSlotInfo) as IJoinedRowTierPattern[])
-          : undefined
+          : undefined,
       );
 
       const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
       rows.forEach((row) => {
         const bottomIsoTier = tiersByRow[row]?.minTier
           ? pad2(tiersByRow[row]?.minTier)
-          : "";
+          : undefined;
 
         let vcg: number | undefined = undefined;
 
         vcg =
           perRowInfoEach[row].bottomBase ??
-          masterCGs.bottomBases[bottomIsoTier];
+          (bottomIsoTier !== undefined
+            ? masterCGs.bottomBases[bottomIsoTier]
+            : undefined);
 
         // Adjust using vcgOptions.heightFactor
         if (vcg !== undefined) {
@@ -159,20 +162,20 @@ function remapLcgs(lcgOptions: ILCGOptionsIntermediate, bls: IBayLevelData[]) {
     lcgOptions.reference === LcgReferenceEnum.FWD_PERPENDICULAR
       ? (lcg: number) => lpp + lcg * lcgSignMult
       : lcgOptions.reference === LcgReferenceEnum.MIDSHIPS
-      ? (lcg: number) => (lcg - lpp * 0.5) * lcgSignMult
-      : (lcg: number) => lcg * lcgSignMult;
+        ? (lcg: number) => (lcg - lpp * 0.5) * lcgSignMult
+        : (lcg: number) => lcg * lcgSignMult;
 
   bls.forEach((bl) => {
     const infoByContLength = bl.infoByContLength;
     const contLens = Object.keys(
-      infoByContLength
+      infoByContLength,
     ) as unknown as TContainerLengths[];
 
     // remap infoByContLength
     contLens.forEach((len) => {
-      const lcg = infoByContLength[len]?.lcg;
-      if (lcg !== undefined) {
-        infoByContLength[len].lcg = lcgRebase(lcg);
+      const o = infoByContLength[len];
+      if (o?.lcg !== undefined) {
+        o.lcg = lcgRebase(o.lcg);
       }
     });
 
@@ -193,12 +196,12 @@ function remapLcgs(lcgOptions: ILCGOptionsIntermediate, bls: IBayLevelData[]) {
         const rowInfoByLength = perRowInfoEach[row].rowInfoByLength;
         if (rowInfoByLength) {
           const sizes = Object.keys(rowInfoByLength).map(
-            Number
+            Number,
           ) as TContainerLengths[];
           sizes.forEach((size) => {
-            const lcg = rowInfoByLength[size].lcg;
-            if (lcg !== undefined) {
-              rowInfoByLength[size].lcg = lcgRebase(lcg);
+            const o = rowInfoByLength[size];
+            if (o?.lcg !== undefined) {
+              o.lcg = lcgRebase(o.lcg);
             }
           });
         }

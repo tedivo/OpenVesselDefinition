@@ -24,7 +24,6 @@ import ForeAftEnum from "../../../models/base/enums/ForeAftEnum";
 import { IJoinedRowTierPattern } from "../../../models/base/types/IPositionPatterns";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import IShipData from "../../../models/v1/parts/IShipData";
-import { SHIP_EDITOR_MIN_TIER } from "./consts";
 import ValuesSourceEnum from "../../../models/base/enums/ValuesSourceEnum";
 import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
@@ -168,7 +167,7 @@ function pad4(num: string) {
 function createSafeNumberMmToMtOrPercentageBySize(
   n: number,
   record: IRowStafDataTemp,
-  size: TContainerLengths
+  size: TContainerLengths,
 ): string {
   const hasSize = record.sizesInBayAndShip.indexOf(size) >= 0;
 
@@ -179,7 +178,7 @@ function createSafeNumberMmToMtOrPercentageBySize(
 function createSafeNumberGramsToTonsOrPercentageBySize(
   n: number,
   record: IRowStafDataTemp,
-  size: TContainerLengths
+  size: TContainerLengths,
 ): string {
   const hasSize = record.sizesInBayAndLevel.indexOf(size) >= 0;
 
@@ -194,7 +193,7 @@ interface IRowStafDataTemp extends IRowStafData {
 
 export function createRowStafData(
   bayData: IBayLevelData[],
-  shipData: IShipData
+  shipData: IShipData,
 ): IRowStafDataTemp[] {
   const masterCGs = shipData.masterCGs;
 
@@ -202,7 +201,7 @@ export function createRowStafData(
     sortByMultipleFields([
       { name: "isoBay", ascending: true },
       { name: "level", ascending: true },
-    ])
+    ]),
   );
 
   const allSizesByBay: { [key: string]: Set<TContainerLengths> } = {};
@@ -238,24 +237,33 @@ export function createRowStafData(
             ...rowInfoByLength[len],
             acceptsSize: 1,
             bayHasLcg: infoByContLength?.[len]?.lcg !== undefined ? 1 : 0,
-          };
+          } as IRowInfoByLengthWithAcceptsSize;
           allSizes.push(len);
         });
       } else {
         const sizesInBay = Object.keys(infoByContLength).map(
-          Number
+          Number,
         ) as TContainerLengths[];
         if (!bl.perRowInfo) bl.perRowInfo = { each: {}, common: {} };
         if (!bl.perRowInfo.each) bl.perRowInfo.each = {};
-        sizesInBay.forEach((len) => {
-          if (bl.perRowInfo.each[len] === undefined)
-            bl.perRowInfo.each[len] = {} as IBayRowInfo;
-          if (!bl.perRowInfo.each[len].rowInfoByLength)
-            bl.perRowInfo.each[len].rowInfoByLength =
-              {} as IRowInfoByLengthWithAcceptsSize;
+        const perRowInfoEach = bl.perRowInfo.each;
 
-          const rowInfoBLWithSizeOfLen: IRowInfoByLengthWithAcceptsSize =
-            bl.perRowInfo.each[len].rowInfoByLength;
+        sizesInBay.forEach((len) => {
+          if (perRowInfoEach[row] === undefined)
+            perRowInfoEach[row] = {} as IBayRowInfo;
+          if (!perRowInfoEach[row].rowInfoByLength)
+            perRowInfoEach[row].rowInfoByLength = {};
+
+          if (!perRowInfoEach[row].rowInfoByLength[len]) {
+            perRowInfoEach[row].rowInfoByLength[len] = {
+              size: len,
+              acceptsSize: 1,
+            } as IRowInfoByLengthWithAcceptsSize;
+          }
+
+          const rowInfoBLWithSizeOfLen = perRowInfoEach[row].rowInfoByLength[
+            len
+          ] as IRowInfoByLengthWithAcceptsSize;
 
           rowInfoBLWithSizeOfLen.bayHasLcg =
             infoByContLength?.[len]?.lcg !== undefined ? 1 : 0;
@@ -263,9 +271,9 @@ export function createRowStafData(
       }
 
       slotKeys.forEach((slotKey) => {
-        const slot = bl.perSlotInfo[slotKey];
-        const sizes = Object.keys(slot.sizes || {}).map(
-          Number
+        const slot = bl.perSlotInfo?.[slotKey];
+        const sizes = Object.keys(slot?.sizes || {}).map(
+          Number,
         ) as TContainerLengths[];
         sizes.forEach((len) => {
           if (!rowInfoBLWithSize[len]) {
@@ -287,10 +295,10 @@ export function createRowStafData(
         : "-";
 
       const isoRow40 = allSizes.some(
-        (v) => v >= 40 && bl.pairedBay !== undefined
+        (v) => v >= 40 && bl.pairedBay !== undefined,
       )
         ? `${safePad2(
-            Number(bl.isoBay) + (bl.pairedBay === ForeAftEnum.FWD ? -1 : 1)
+            Number(bl.isoBay) + (bl.pairedBay === ForeAftEnum.FWD ? -1 : 1),
           )}${row}`
         : "-";
 
@@ -299,12 +307,12 @@ export function createRowStafData(
 
       maxSize20InVessel = Math.max(
         ...allSizes.filter((s) => s < 40),
-        maxSize20InVessel
+        maxSize20InVessel,
       ) as TContainerLengths;
 
       maxSize40InVessel = Math.max(
         ...allSizes.filter((s) => s >= 40),
-        maxSize40InVessel
+        maxSize40InVessel,
       ) as TContainerLengths;
 
       if (!allSizesByBay[bl.isoBay]) allSizesByBay[bl.isoBay] = new Set();
@@ -345,11 +353,11 @@ export function createRowStafData(
   });
 
   const sizesInArrayOnly20s = CONTAINER_LENGTHS.filter(
-    (v) => v <= maxSize20InVessel
+    (v) => v <= maxSize20InVessel,
   );
 
   const sizesInArrayOnly40s = CONTAINER_LENGTHS.filter(
-    (v) => v >= 40 && v <= maxSize40InVessel
+    (v) => v >= 40 && v <= maxSize40InVessel,
   );
 
   for (let i = 0; i < resp.length; i++) {
@@ -369,7 +377,7 @@ export function createRowStafData(
       ];
 
     row.sizesInBayAndLevel = Array.from(
-      allSizesByBayAndLevel[`${isoBay}-${row.level}`]
+      allSizesByBayAndLevel[`${isoBay}-${row.level}`],
     );
   }
 

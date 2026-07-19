@@ -12,6 +12,7 @@ import { ONE_MILLIMETER_IN_FEET } from "../consts";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
 import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
+import { cloneObject } from "../../helpers/objectHelpers";
 
 /**
  * Remaps STAF file CGs to OVD CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase)
@@ -24,9 +25,9 @@ export function cgsRemapStafToOvd(
   bls: IBayLevelDataStaf[],
   lcgOptions: ILCGOptionsIntermediate,
   vcgOptions: IVGCOptionsIntermediate,
-  tcgOptions: ITGCOptionsIntermediate
+  tcgOptions: ITGCOptionsIntermediate,
 ) {
-  const clonedBls = bls.slice().map((bl) => JSON.parse(JSON.stringify(bl)));
+  const clonedBls = bls.slice().map((bl) => cloneObject(bl));
   remapLcgs(lcgOptions, clonedBls);
   remapVcgs(vcgOptions, clonedBls);
   remapTcgs(tcgOptions, clonedBls);
@@ -40,13 +41,15 @@ export function cgsRemapStafToOvd(
  */
 function remapTcgs(
   tcgOptions: ITGCOptionsIntermediate,
-  bls: IBayLevelDataStaf[]
+  bls: IBayLevelDataStaf[],
 ) {
   const tcgSignMult =
     tcgOptions.direction === PortStarboardEnum.STARBOARD ? 1 : -1;
 
   bls.forEach((bl) => {
-    const perRowInfoEach = bl.perRowInfo.each;
+    const perRowInfoEach = bl.perRowInfo?.each;
+    if (!perRowInfoEach) return;
+
     const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
 
     rows.forEach((row) => {
@@ -63,16 +66,19 @@ function remapTcgs(
  */
 function remapVcgs(
   vcgOptions: IVGCOptionsIntermediate,
-  bls: IBayLevelDataStaf[]
+  bls: IBayLevelDataStaf[],
 ) {
-  const isByTier = vcgOptions.values === ValuesSourceRowTierEnum.BY_TIER,
-    isByStack = ValuesSourceRowTierEnum.BY_STACK;
+  const isByTier = vcgOptions.values === ValuesSourceRowTierEnum.BY_TIER;
 
   const baseAdjust = Math.round(
-    (8.5 / ONE_MILLIMETER_IN_FEET) * (vcgOptions.heightFactor || 0)
+    (8.5 / ONE_MILLIMETER_IN_FEET) * (vcgOptions.heightFactor || 0),
   );
 
   bls.forEach((bl) => {
+    if (!bl.perRowInfo) bl.perRowInfo = { common: {}, each: {} };
+    if (!bl.perRowInfo.each) bl.perRowInfo.each = {};
+    if (!bl.perTierInfo) bl.perTierInfo = {};
+
     const perRowInfoEach = bl.perRowInfo.each;
     const perTierInfo = bl.perTierInfo;
 
@@ -84,9 +90,10 @@ function remapVcgs(
 
       if (isByTier) {
         // If BY_TIER, get the perTierInfo of bottom Tier's VCG
-        vcg = perTierInfo[bottomIsoTier]?.vcg;
-      } else if (isByStack) {
+        if (bottomIsoTier) vcg = perTierInfo[bottomIsoTier]?.vcg;
+      } else {
         // If BY_STACK, just get the bottomBase
+        // it will be undefined otherwise (Estimated might have a 'BY_STACK` value or undefined)
         vcg = perRowInfoEach[row].bottomBase;
       }
 
@@ -108,7 +115,7 @@ function remapVcgs(
  */
 function remapLcgs(
   lcgOptions: ILCGOptionsIntermediate,
-  bls: IBayLevelDataStaf[]
+  bls: IBayLevelDataStaf[],
 ) {
   const lpp = lcgOptions.lpp;
 
@@ -119,20 +126,20 @@ function remapLcgs(
     lcgOptions.reference === LcgReferenceEnum.FWD_PERPENDICULAR
       ? (lcg: number) => lpp + lcg * lcgSignMult
       : lcgOptions.reference === LcgReferenceEnum.MIDSHIPS
-      ? (lcg: number) => lpp * 0.5 + lcg * lcgSignMult
-      : (lcg: number) => lcg * lcgSignMult;
+        ? (lcg: number) => lpp * 0.5 + lcg * lcgSignMult
+        : (lcg: number) => lcg * lcgSignMult;
 
   bls.forEach((bl) => {
     const infoByContLength = bl.infoByContLength;
     const contLens = Object.keys(
-      infoByContLength
+      infoByContLength,
     ) as unknown as TContainerLengths[];
 
     // remap infoByContLength
     contLens.forEach((len) => {
-      let lcg = infoByContLength[len]?.lcg;
-      if (lcg !== undefined) {
-        infoByContLength[len].lcg = lcgRebase(lcg);
+      const o = infoByContLength[len];
+      if (o?.lcg !== undefined) {
+        o.lcg = lcgRebase(o.lcg);
       }
     });
 
@@ -153,12 +160,12 @@ function remapLcgs(
         const rowInfoByLength = perRowInfoEach[row].rowInfoByLength;
         if (rowInfoByLength) {
           const sizes = Object.keys(rowInfoByLength).map(
-            Number
+            Number,
           ) as TContainerLengths[];
           sizes.forEach((size) => {
-            const lcg = rowInfoByLength[size].lcg;
-            if (lcg !== undefined) {
-              rowInfoByLength[size].lcg = lcgRebase(lcg);
+            const o = rowInfoByLength[size];
+            if (o?.lcg !== undefined) {
+              o.lcg = lcgRebase(o.lcg);
             }
           });
         }

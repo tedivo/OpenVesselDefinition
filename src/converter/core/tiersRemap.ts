@@ -9,6 +9,7 @@ import {
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { IMasterCGs } from "../../models/v1/parts/IShipData";
 import ISizeSummary from "../../models/base/ISizeSummary";
+import { cloneObject } from "../../helpers/objectHelpers";
 import { pad2 } from "../../helpers/pad";
 
 const MAX_BELOW_TIER = 66;
@@ -48,12 +49,22 @@ export function tiersRemap({
   newSizeSummary.maxAboveTier = sizeSummary.maxAboveTier - aboveTierDiff;
   newSizeSummary.minAboveTier = sizeSummary.minAboveTier - aboveTierDiff;
 
-  // Master CGs
-  const newMCGs: IMasterCGs = JSON.parse(JSON.stringify(masterCGs));
+  // Master CGs. Rebuilt from scratch (rather than mutated in place) so a remapped tier
+  // replaces its old key instead of leaving both the old and new tier keys present.
+  const newMCGs: IMasterCGs = cloneObject(masterCGs);
+  const newBottomBases: IMasterCGs["bottomBases"] = {};
   (Object.keys(masterCGs.bottomBases) as IIsoTierPattern[]).forEach((tier) => {
-    newMCGs.bottomBases[pad2(Number(tier) - aboveTierDiff)] =
-      newMCGs.bottomBases[tier];
+    const iTier = Number(tier);
+
+    const newTier =
+      sizeSummary.minAboveTier !== undefined &&
+      iTier >= sizeSummary.minAboveTier
+        ? pad2(iTier - aboveTierDiff)
+        : tier;
+
+    newBottomBases[newTier] = masterCGs.bottomBases[tier];
   });
+  newMCGs.bottomBases = newBottomBases;
 
   // Bays data
   bls.forEach((bl, arrIdx) => {
@@ -74,7 +85,7 @@ export function tiersRemap({
             const newTier = pad2(iTier - aboveTierDiff);
             const newSlotKey = `${slotKey.substring(
               0,
-              2
+              2,
             )}${newTier}` as IJoinedRowTierPattern;
             newperSlotInfo[newSlotKey] = perSlotInfo[slotKey];
             newperSlotInfo[newSlotKey].pos = newSlotKey;

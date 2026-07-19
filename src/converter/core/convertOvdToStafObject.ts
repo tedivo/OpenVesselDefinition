@@ -4,7 +4,7 @@ import RecursiveKeyOf from "../../helpers/types/RecursiveKeyOf";
 
 export default function convertOvdToStafObject<T, U>(
   data: T[],
-  sectionConfig: ISectionMapToStafConfig<U, T>
+  sectionConfig: ISectionMapToStafConfig<U, T>,
 ): string {
   const linesArray = new Array(data.length + 2);
   const mapVarsLenght = sectionConfig.mapVars.length;
@@ -26,13 +26,16 @@ export default function convertOvdToStafObject<T, U>(
     const line: string[] = new Array(mapVarsLenght);
 
     sectionConfig.mapVars.forEach((cfg, idx) => {
-      if ("fixedValue" in cfg) {
-        line[idx] = cfg.fixedValue;
+      if ("fixedValue" in cfg && cfg.fixedValue) {
+        line[idx] = cfg["fixedValue"];
       } else if ("source" in cfg) {
-        if ("mapper" in cfg) {
-          line[idx] = cfg.mapper(getNestedValue(row, cfg.source), row);
+        if ("mapper" in cfg && cfg.mapper) {
+          const val = getNestedValue(row, cfg.source);
+          const valMapped = cfg.mapper(val as string | number, row);
+          if (valMapped !== undefined) line[idx] = valMapped;
         } else {
-          line[idx] = convertToStafString(getNestedValue(row, cfg.source));
+          if (cfg.source !== undefined)
+            line[idx] = convertToStafString(getNestedValue(row, cfg.source));
         }
       }
     });
@@ -47,7 +50,7 @@ const STAF_UNDEFINED = "-";
 
 export function getNestedValue<T>(
   obj: T,
-  key: RecursiveKeyOf<T>
+  key: RecursiveKeyOf<T>,
 ): string | number | undefined {
   if (key.indexOf(".") < 0) {
     return (obj as any)[key];
@@ -55,7 +58,9 @@ export function getNestedValue<T>(
     const subKeyParts = key.split(".");
     const firstSubKey = subKeyParts.shift();
 
-    let subObj = obj[firstSubKey];
+    if (firstSubKey === undefined) return undefined;
+
+    let subObj = (obj as any)[firstSubKey];
     if (subObj === undefined) return STAF_UNDEFINED;
 
     return getNestedValue(subObj, subKeyParts.join("."));
@@ -63,7 +68,10 @@ export function getNestedValue<T>(
 }
 
 function convertToStafString(v: string | number | undefined) {
-  if (v === undefined) return STAF_UNDEFINED;
+  // Number("") is 0, not NaN, so an empty string (e.g. a round-tripped field that was
+  // "-" in the original STAF file and got parsed to "" via dashIsEmpty) must be treated
+  // as missing here too, or it silently becomes the literal string "0" below.
+  if (v === undefined || v === "") return STAF_UNDEFINED;
 
   const vAsNumber = Number(v);
   if (!isNaN(vAsNumber)) return vAsNumber.toString();

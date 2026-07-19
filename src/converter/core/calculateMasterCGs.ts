@@ -41,7 +41,11 @@ export function calculateMasterCGs(
     const perRowInfoEach = bl.perRowInfo.each;
     const perRowInfoCommon = bl.perRowInfo.common;
 
-    if (shouldProcessRows && perRowInfoEach !== undefined) {
+    // TCGs are gated by shouldProcessRows (tcgOptions), VCGs/bottomBases by
+    // shouldProcessTiers (vcgOptions) - these are independent STAF settings (a file can
+    // have known TCGs but only estimated VCGs, or vice versa), so this bay's rows must
+    // be visited whenever either applies, with each extraction gated separately below.
+    if ((shouldProcessRows || shouldProcessTiers) && perRowInfoEach !== undefined) {
       const rows = Object.keys(perRowInfoEach) as IIsoRowPattern[];
       const extractedTCGs =
         bl.level === BayLevelEnum.ABOVE
@@ -49,43 +53,52 @@ export function calculateMasterCGs(
           : extractedBelowTCGs;
 
       rows.forEach((row) => {
-        // Create dictionary for this row if it doesn't exist
-        if (!extractedTCGs[row]) extractedTCGs[row] = new Map<number, number>();
-        // Gather TCG value
-        const tcgValue = perRowInfoEach[row].tcg;
+        if (shouldProcessRows) {
+          // Create dictionary for this row if it doesn't exist
+          if (!extractedTCGs[row])
+            extractedTCGs[row] = new Map<number, number>();
+          // Gather TCG value
+          const tcgValue = perRowInfoEach[row].tcg;
 
-        if (tcgValue !== undefined) {
-          // Create repetitions counter
-          if (!extractedTCGs[row].has(tcgValue)) {
-            extractedTCGs[row].set(tcgValue, 0);
+          if (tcgValue !== undefined) {
+            // Create repetitions counter
+            if (!extractedTCGs[row].has(tcgValue)) {
+              extractedTCGs[row].set(tcgValue, 0);
+            }
+            // Annotate repetition
+            extractedTCGs[row].set(
+              tcgValue,
+              extractedTCGs[row].get(tcgValue) + 1
+            );
           }
-          // Annotate repetition
-          extractedTCGs[row].set(
-            tcgValue,
-            extractedTCGs[row].get(tcgValue) + 1
-          );
         }
 
-        const vcgValue =
-          perRowInfoEach[row].bottomBase || perRowInfoCommon.bottomBase;
+        if (shouldProcessTiers) {
+          // A row's own bottomBase can legitimately be 0 (at baseline) - `??` (not
+          // `||`) is required so that's not mistaken for "missing" and overwritten by
+          // the bay's common value.
+          const vcgValue =
+            perRowInfoEach[row].bottomBase ?? perRowInfoCommon.bottomBase;
 
-        if (vcgValue !== undefined) {
-          const tier =
-            perRowInfoEach[row].bottomIsoTier || perRowInfoCommon.bottomIsoTier;
+          if (vcgValue !== undefined) {
+            const tier =
+              perRowInfoEach[row].bottomIsoTier ||
+              perRowInfoCommon.bottomIsoTier;
 
-          if (!extractedBottomBases[tier])
-            extractedBottomBases[tier] = new Map<number, number>();
+            if (!extractedBottomBases[tier])
+              extractedBottomBases[tier] = new Map<number, number>();
 
-          // Create repetitions counter
-          if (!extractedBottomBases[tier].has(vcgValue)) {
-            extractedBottomBases[tier].set(vcgValue, 0);
+            // Create repetitions counter
+            if (!extractedBottomBases[tier].has(vcgValue)) {
+              extractedBottomBases[tier].set(vcgValue, 0);
+            }
+
+            // Annotate repetition
+            extractedBottomBases[tier].set(
+              vcgValue,
+              extractedBottomBases[tier].get(vcgValue) + 1
+            );
           }
-
-          // Annotate repetition
-          extractedBottomBases[tier].set(
-            vcgValue,
-            extractedBottomBases[tier].get(vcgValue) + 1
-          );
         }
       });
     }

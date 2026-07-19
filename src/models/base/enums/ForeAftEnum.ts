@@ -6,7 +6,9 @@ enum ForeAftEnum {
 
 type TStafForeAft = "A" | "F" | "-";
 
-export const getStafForeAftEnumValue = (s: TStafForeAft): ForeAftEnum => {
+export const getStafForeAftEnumValue = (
+  s: TStafForeAft,
+): ForeAftEnum | undefined => {
   if (s === "A") return ForeAftEnum.AFT;
   if (s === "F") return ForeAftEnum.FWD;
   return undefined;

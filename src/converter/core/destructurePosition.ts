@@ -19,9 +19,9 @@ export interface IDestructuredPosition {
 }
 
 export default function destructurePosition(
-  position: IIsoPositionPattern
+  position: IIsoPositionPattern,
 ): IDestructuredPosition | null {
-  if (position.length !== 7) return null;
+  if (position.length < 7 || position.length > 8) return null;
 
   if (position.indexOf("000") === 0 || position.indexOf("999") >= 0)
     return null;
