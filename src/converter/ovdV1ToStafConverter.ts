@@ -7,13 +7,14 @@ import IShipData, {
   ITGCOptionsIntermediate,
   IVGCOptionsIntermediate,
 } from "../models/v1/parts/IShipData";
+import ISlotData, { ISlotDataIntermediate } from "../models/v1/parts/ISlotData";
 
 import BayLevelConfig from "./sections/ovdToStaf/BayLevelConfig";
 import ForeAftEnum from "../models/base/enums/ForeAftEnum";
+import { IIsoPositionPattern } from "../models/base/types/IPositionPatterns";
 import { ILidDataFromStaf } from "../models/v1/parts/ILidData";
 import IOpenVesselDefinitionV1 from "../models/v1/IOpenVesselDefinitionV1";
 import IRowStafData from "./types/IRowStafData";
-import ISlotData from "../models/v1/parts/ISlotData";
 import ITierStafData from "./types/ITierStafData";
 import { LINE_SEPARATOR } from "./sections/ovdToStaf/consts";
 import LcgReferenceEnum from "../models/base/enums/LcgReferenceEnum";
@@ -34,7 +35,7 @@ import { tiersRemap } from "./core/tiersRemap";
 export default function ovdV1ToStafConverter(
   originalJson: IOpenVesselDefinitionV1,
   options: IConvertOvdToStafObjectOptions,
-): string {
+): { stafText: string; slotsAbove100: string[] } {
   const stafParts: string[] = [];
   const {
     cgOptions,
@@ -155,11 +156,26 @@ export default function ovdV1ToStafConverter(
     );
 
   const dataForSlots = SlotConfig.preProcessor?.(json.baysData);
+  const dataForSlotsTier100OrAbove: ISlotDataIntermediate[] = [];
+  const dataForSlotsTier98OrBelow: ISlotDataIntermediate[] = [];
 
-  if (dataForSlots)
+  if (dataForSlots) {
+    dataForSlots.forEach((s) => {
+      const tier = s.pos.substring(2);
+      if (tier.length > 2) {
+        dataForSlotsTier100OrAbove.push(s);
+      } else {
+        dataForSlotsTier98OrBelow.push(s);
+      }
+    });
+
     stafParts.push(
-      convertOvdToStafObject<ISlotData, ISlotData>(dataForSlots, SlotConfig),
+      convertOvdToStafObject<ISlotData, ISlotData>(
+        dataForSlotsTier98OrBelow,
+        SlotConfig,
+      ),
     );
+  }
 
   const dataForLids = LidConfig.preProcessor?.(json.lidData);
 
@@ -173,7 +189,15 @@ export default function ovdV1ToStafConverter(
 
   stafParts.push(`*END${LINE_SEPARATOR}`);
 
-  return stafParts.join(LINE_SEPARATOR);
+  const stafText = stafParts.join(LINE_SEPARATOR);
+  console.log("OVD ovdV1ToStafConverter", stafText.length, options);
+
+  return {
+    stafText,
+    slotsAbove100: dataForSlotsTier100OrAbove
+      .map((s) => s.position)
+      .filter((pos): pos is IIsoPositionPattern => pos !== undefined),
+  };
 }
 
 interface IConvertOvdToStafObjectOptions {

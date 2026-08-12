@@ -25,7 +25,7 @@ export function applyOvdToStafOptionsToData(
     removeCGs = false,
     removeBaysWithNonSizeSlots = false,
     removeBelowTiers24AndHigher = false,
-  }: TApplyOvdToStafOptionsToData
+  }: TApplyOvdToStafOptionsToData,
 ): IOpenVesselDefinitionV1 {
   if (removeBaysWithNonSizeSlots) {
     // 1. Remove bays with no slots
@@ -49,7 +49,11 @@ export function applyOvdToStafOptionsToData(
     safeCGValue(ValuesSourceEnum.ESTIMATED, "tcgOptions");
   }
 
-  if (removeBelowTiers24AndHigher && json.sizeSummary.maxBelowTier > 22) {
+  if (
+    removeBelowTiers24AndHigher &&
+    json.sizeSummary.maxBelowTier &&
+    json.sizeSummary.maxBelowTier > 22
+  ) {
     // 3. Remove below tiers 24 and higher
     json.sizeSummary.maxBelowTier = 22;
     json.baysData = removeBelowTiersAbove22FromBayLevelData(json.baysData);
@@ -59,7 +63,7 @@ export function applyOvdToStafOptionsToData(
 
   function safeCGValue(
     v: ValuesSourceEnum,
-    obj: "lcgOptions" | "vcgOptions" | "tcgOptions"
+    obj: "lcgOptions" | "vcgOptions" | "tcgOptions",
   ) {
     if (!json.shipData) {
       json.shipData = {} as IShipData;
@@ -74,7 +78,7 @@ export function applyOvdToStafOptionsToData(
 }
 
 function removeCGsFromBayLevelData(
-  bls: IBayLevelDataStaf[]
+  bls: IBayLevelDataStaf[],
 ): IBayLevelDataStaf[] {
   return bls.map((bl) => {
     // 1. TCGs, VCGs and Bottom Bases
@@ -86,7 +90,8 @@ function removeCGsFromBayLevelData(
       }
       if (perRowInfo.each) {
         (Object.keys(perRowInfo.each) as IIsoRowPattern[]).forEach((row) => {
-          const rowInfoEach = perRowInfo.each[row];
+          const rowInfoEach = perRowInfo.each?.[row];
+          if (!rowInfoEach) return;
           rowInfoEach.bottomBase = undefined;
           rowInfoEach.tcg = undefined;
           rowInfoEach.maxHeight = undefined;
@@ -97,12 +102,10 @@ function removeCGsFromBayLevelData(
     // 2. By Size
     const perSizeInfo = bl.infoByContLength;
     if (perSizeInfo) {
-      const sizes = Object.keys(perSizeInfo).map(
-        Number
-      ) as TContainerLengths[];
+      const sizes = Object.keys(perSizeInfo).map(Number) as TContainerLengths[];
       sizes.forEach((size) => {
         const sizeInfo = perSizeInfo[size];
-        sizeInfo.lcg = undefined;
+        if (sizeInfo) sizeInfo.lcg = undefined;
       });
     }
 
@@ -118,7 +121,7 @@ function removeCGsFromBayLevelData(
 }
 
 function removeBaysWithNoSlotsFromBayLevelData(
-  bls: IBayLevelDataStaf[]
+  bls: IBayLevelDataStaf[],
 ): IBayLevelDataStaf[] {
   return bls.filter((bl) => {
     const perSlotInfo = bl.perSlotInfo;
@@ -126,7 +129,7 @@ function removeBaysWithNoSlotsFromBayLevelData(
       return false;
     }
 
-    const slotsDataKeys = Object.keys(perSlotInfo) as IIsoRowPattern[];
+    const slotsDataKeys = Object.keys(perSlotInfo) as IJoinedRowTierPattern[];
 
     const slotsDataKeysLength = slotsDataKeys.length;
     if (slotsDataKeysLength === 0) {
@@ -134,7 +137,7 @@ function removeBaysWithNoSlotsFromBayLevelData(
     }
 
     const haveDefinedSizes = slotsDataKeys.filter((slotName) => {
-      if (perSlotInfo[slotName].restricted) return false;
+      if (perSlotInfo?.[slotName].restricted) return false;
 
       return Object.keys(perSlotInfo[slotName].sizes).length > 0;
     });
@@ -144,7 +147,7 @@ function removeBaysWithNoSlotsFromBayLevelData(
 }
 
 function removeBelowTiersAbove22FromBayLevelData(
-  bls: IBayLevelDataStaf[]
+  bls: IBayLevelDataStaf[],
 ): IBayLevelDataStaf[] {
   return bls.map((bl) => {
     const perSlotInfo = bl.perSlotInfo;
