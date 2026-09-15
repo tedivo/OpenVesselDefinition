@@ -1,9 +1,7 @@
 import ForeAftEnum, {
   getForeAftEnumToStaf,
 } from "../../../models/base/enums/ForeAftEnum";
-import IBayLevelData, {
-  IBayLevelDataStaf,
-} from "../../../models/v1/parts/IBayLevelData";
+import IBayLevelData from "../../../models/v1/parts/IBayLevelData";
 import {
   safeNumberGramsToTons,
   safeNumberMmToMt,
@@ -15,6 +13,7 @@ import { TContainerLengths } from "../../../models/v1/parts/Types";
 import { getBayLevelEnumValueToStaf } from "../../../models/base/enums/BayLevelEnum";
 import { safePad2 } from "../../../helpers/pad";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
+import { IBayLevelDataStaf } from "../../types/IBayLevelDataStaf";
 
 /**
  * FROM OVD TO STAF

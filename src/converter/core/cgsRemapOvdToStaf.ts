@@ -1,17 +1,10 @@
-import IBayLevelData, {
-  IBayLevelDataStaf,
-} from "../../models/v1/parts/IBayLevelData";
+import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import {
   IIsoRowPattern,
   IIsoTierPattern,
   IJoinedRowTierPattern,
 } from "../../models/base/types/IPositionPatterns";
-import {
-  ILCGOptionsIntermediate,
-  IMasterCGs,
-  ITGCOptionsIntermediate,
-  IVGCOptionsIntermediate,
-} from "../../models/v1/parts/IShipData";
+import { IMasterCGs } from "../../models/v1/parts/IShipData";
 
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
@@ -21,6 +14,8 @@ import { TContainerLengths } from "../../models/v1/parts/Types";
 import { cloneObject } from "../../helpers/objectHelpers";
 import { getRowsAndTiersFromSlotKeys } from "../../helpers/getRowsAndTiersFromSlotKeys";
 import { pad2 } from "../../helpers/pad";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
+import { ILCGOptionsIntermediate, ITGCOptionsIntermediate, IVGCOptionsIntermediate } from "../types/IShipDataStaf";
 
 /**
  * Remaps D CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase) to other CGSs references

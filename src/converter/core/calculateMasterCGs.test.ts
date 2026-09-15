@@ -1,10 +1,10 @@
 import { IInventory, calculateMasterCGs, chooseMostRepeatedValue } from "./calculateMasterCGs";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
-import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
 import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
 import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
+import { IShipDataIntermediateStaf } from "../types/IShipDataStaf";
 
 describe("calculateMasterCGs should...", () => {
   it("keep a row's own bottomBase of 0 instead of falling back to the bay's common value", () => {

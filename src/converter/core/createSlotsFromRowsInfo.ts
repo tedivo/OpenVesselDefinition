@@ -1,8 +1,4 @@
-import {
-  IBayRowInfoStaf,
-  IBaySlotData,
-  TBayRowInfoStaf,
-} from "../../models/v1/parts/IBayLevelData";
+import { IBaySlotData } from "../../models/v1/parts/IBayLevelData";
 import {
   IIsoRowPattern,
   IJoinedRowTierPattern,
@@ -12,6 +8,7 @@ import { IRowInfoByLengthWithAcceptsSize } from "../types/IRowStafData";
 import ISlotData from "../../models/v1/parts/ISlotData";
 import { TContainerLengths } from "../../models/v1/parts/Types";
 import { pad2 } from "../../helpers/pad";
+import { IBayRowInfoStaf, TBayRowInfoStaf } from "../types/IBayLevelDataStaf";
 
 export function createSlotsFromRow(
   rowData: IBayRowInfoStaf,

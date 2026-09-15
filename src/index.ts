@@ -25,13 +25,7 @@ import IPositionLabels, {
   ITierRowLabelDictionaries,
   ITierRowLabelDictionary,
 } from "./models/v1/parts/IPositionLabels";
-import IShipData, {
-  IBayLevelOffsetBottomBase,
-  IFeaturesAllowed,
-  ILCGOptions,
-  IMasterCGs,
-  IShipDataFromStaf,
-} from "./models/v1/parts/IShipData";
+import IShipData, { IBayLevelOffsetBottomBase, IFeaturesAllowed, ILCGOptions, IMasterCGs } from "./models/v1/parts/IShipData";
 import {
   LengthUnitsEnum,
   WeightUnitsEnum,
@@ -56,6 +50,7 @@ import { getContainerLengths } from "./converter/core/getContainerLengths";
 import ovdV1ToStafConverter from "./converter/ovdV1ToStafConverter";
 import stafToOvdShipData from "./converter/stafToOvdShipData";
 import stafToOvdV1Converter from "./converter/stafToOvdV1Converter";
+import { IShipDataFromStaf } from "./converter/types/IShipDataStaf";
 
 export {
   addBayToSummary,

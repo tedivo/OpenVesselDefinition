@@ -13,7 +13,6 @@ import PositionFormatEnum from "../../base/enums/PositionFormatEnum";
 import RowWeightCalculationEnum from "../../base/enums/RowWeightCalculationEnum";
 import type { TContainerLengths } from "./Types";
 import ValuesSourceEnum from "../../base/enums/ValuesSourceEnum";
-import { ValuesSourceRowTierEnum } from "../../base/enums/ValuesSourceRowTierEnum";
 
 export default interface IShipData extends IShipDataBase {
   lcgOptions: ILCGOptions;
@@ -37,19 +36,7 @@ export default interface IShipData extends IShipDataBase {
   sternToAftPp?: number;
 }
 
-export interface IShipDataIntermediateStaf extends IShipDataBase {
-  lenghtUnits: "METRIC" | "BRITISH";
-  lcgOptions: ILCGOptionsIntermediate;
-  vcgOptions: IVGCOptionsIntermediate;
-  tcgOptions: ITGCOptionsIntermediate;
-}
-
-export type IShipDataFromStaf = Pick<
-  IShipDataIntermediateStaf,
-  "shipClass" | "lcgOptions" | "tcgOptions" | "vcgOptions" | "positionFormat"
->;
-
-interface IShipDataBase {
+export interface IShipDataBase {
   lineOperator?: string;
   shipName?: string;
   callSign?: string;
@@ -111,26 +98,6 @@ export interface ITGCOptions {
   values: ValuesSourceEnum;
   direction?: PortStarboardEnum;
 }
-
-//#region intermediate
-export interface ILCGOptionsIntermediate {
-  values: ValuesSourceEnum;
-  reference: LcgReferenceEnum;
-  /** FWD or AFT */
-  orientationIncrease?: ForeAftEnum;
-  lpp: number;
-}
-
-export interface IVGCOptionsIntermediate {
-  values: ValuesSourceRowTierEnum;
-  heightFactor?: number;
-}
-
-export interface ITGCOptionsIntermediate {
-  values: ValuesSourceEnum;
-  direction?: PortStarboardEnum;
-}
-//#endregion intermediate
 
 interface IRefrigeratedContainersOptions {
   reeferPlugLimit: number;

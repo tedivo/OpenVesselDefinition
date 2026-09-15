@@ -2,10 +2,11 @@ import {
   IIsoBayPattern,
   TYesNo,
 } from "../../models/base/types/IPositionPatterns";
-import ILidData, { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
+import ILidData from "../../models/v1/parts/ILidData";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { pad2 } from "../../helpers/pad";
+import { ILidDataFromStaf } from "../types/ILidDataFromStaf";
 
 // A STAF file describes a hatch cover ("lid") once per ISO bay it sits over, even when
 // the physical lid actually spans several adjacent bays. Each per-bay record repeats the

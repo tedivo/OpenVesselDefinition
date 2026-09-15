@@ -1,7 +1,7 @@
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { IJoinedRowTierPattern } from "../../models/base/types/IPositionPatterns";
 import { ISlotDataIntermediate } from "../../models/v1/parts/ISlotData";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
 
 /**
  * Get SlotData and add it to BayLevelData

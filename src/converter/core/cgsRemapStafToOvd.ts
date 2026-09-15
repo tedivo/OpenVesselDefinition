@@ -1,11 +1,5 @@
-import {
-  ILCGOptionsIntermediate,
-  ITGCOptionsIntermediate,
-  IVGCOptionsIntermediate,
-} from "../../models/v1/parts/IShipData";
 
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { IIsoRowPattern } from "../../models/base/types/IPositionPatterns";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import { ONE_MILLIMETER_IN_FEET } from "../consts";
@@ -13,6 +7,8 @@ import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
 import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
 import { cloneObject } from "../../helpers/objectHelpers";
+import { ILCGOptionsIntermediate, ITGCOptionsIntermediate, IVGCOptionsIntermediate } from "../types/IShipDataStaf";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
 
 /**
  * Remaps STAF file CGs to OVD CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase)

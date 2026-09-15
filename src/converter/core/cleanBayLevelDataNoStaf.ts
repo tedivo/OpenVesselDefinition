@@ -1,9 +1,8 @@
-import IBayLevelData, {
-  IBayLevelDataStaf,
-} from "../../models/v1/parts/IBayLevelData";
+import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 
 import { IIsoRowPattern } from "../../models/base/types/IPositionPatterns";
 import sortByMultipleFields from "../../helpers/sortByMultipleFields";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
 
 export function cleanBayLevelDataNoStaf<T>(
   bayLevelDataFromStaf: IBayLevelDataStaf[]

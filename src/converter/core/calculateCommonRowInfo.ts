@@ -1,11 +1,7 @@
-import {
-  IBayLevelDataStaf,
-  IBayRowInfoStaf,
-  TCommonBayInfoStaf,
-} from "../../models/v1/parts/IBayLevelData";
 
 import { IIsoRowPattern } from "../../models/base/types/IPositionPatterns";
 import { pad2 } from "../../helpers/pad";
+import { IBayLevelDataStaf, IBayRowInfoStaf, TCommonBayInfoStaf } from "../types/IBayLevelDataStaf";
 
 /**
  * Add `commonRowInfo` to the bay. Deletes repeated values

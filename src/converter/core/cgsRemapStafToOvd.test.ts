@@ -1,8 +1,3 @@
-import {
-  ILCGOptionsIntermediate,
-  ITGCOptionsIntermediate,
-  IVGCOptionsIntermediate,
-} from "../../models/v1/parts/IShipData";
 import { shipData, shipDataBays } from "../mocks/shipData";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
@@ -15,6 +10,7 @@ import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRow
 import { cgsRemapStafToOvd } from "./cgsRemapStafToOvd";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import createSummary from "./createSummary";
+import { ILCGOptionsIntermediate, ITGCOptionsIntermediate, IVGCOptionsIntermediate } from "../types/IShipDataStaf";
 
 function createMockedBl() {
   const mockSlotInfoKeysAbove: IJoinedRowTierPattern[] = [

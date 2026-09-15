@@ -1,19 +1,16 @@
-import IBayLevelData, {
-  IBayLevelDataStaf,
-} from "../../models/v1/parts/IBayLevelData";
+import IBayLevelData from "../../models/v1/parts/IBayLevelData";
 import {
   IIsoRowPattern,
   IIsoTierPattern,
 } from "../../models/base/types/IPositionPatterns";
-import {
-  IMasterCGs,
-  IShipDataIntermediateStaf,
-} from "../../models/v1/parts/IShipData";
+import { IMasterCGs } from "../../models/v1/parts/IShipData";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
 import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
 import sortRowsArray from "../../helpers/sortRowsArray";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
+import { IShipDataIntermediateStaf } from "../types/IShipDataStaf";
 
 /**
  * Extract main TCGs and VCGs. Once extracted, delete repetitions

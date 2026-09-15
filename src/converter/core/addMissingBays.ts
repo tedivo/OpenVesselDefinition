@@ -1,9 +1,9 @@
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { IIsoBayPattern } from "../../models/base/types/IPositionPatterns";
 import ISizeSummary from "../../models/base/ISizeSummary";
 import { pad3 } from "../../helpers/pad";
 import sortByMultipleFields from "../../helpers/sortByMultipleFields";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
 
 export function addMissingBays(
   currentBaysData: IBayLevelDataStaf[],

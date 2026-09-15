@@ -3,8 +3,8 @@ import IPositionLabels, {
   ITierRowLabelDictionary,
 } from "../../models/v1/parts/IPositionLabels";
 
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { pad2 } from "../../helpers/pad";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
 
 /**
  * Obtains a dictionary of labels (for bays, tiers and rows)

@@ -1,12 +1,13 @@
 import BayLevelEnum, {
   getBayLevelEnumValueToStaf,
 } from "../../../models/base/enums/BayLevelEnum";
-import ILidData, { ILidDataFromStaf } from "../../../models/v1/parts/ILidData";
+import ILidData from "../../../models/v1/parts/ILidData";
 import { pad2, pad3 } from "../../../helpers/pad";
 
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import sortByMultipleFields from "../../../helpers/sortByMultipleFields";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
+import { ILidDataFromStaf } from "../../types/ILidDataFromStaf";
 
 const LidConfig: ISectionMapToStafConfig<ILidDataFromStaf, ILidDataFromStaf> = {
   stafSection: "LID",

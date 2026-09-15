@@ -7,12 +7,12 @@ import {
   safeNumberTonsToGrams,
 } from "../../../helpers/safeNumberConversions";
 
-import { IBayLevelDataStaf } from "../../../models/v1/parts/IBayLevelData";
 import ISectionMapConfig from "../../types/ISectionMapConfig";
 import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
 import { getStafForeAftEnumValue } from "../../../models/base/enums/ForeAftEnum";
 import { pad3 } from "../../../helpers/pad";
 import yNToBoolean from "../../../helpers/yNToBoolean";
+import { IBayLevelDataStaf } from "../../types/IBayLevelDataStaf";
 
 /**
  * FROM STAF TO OVD

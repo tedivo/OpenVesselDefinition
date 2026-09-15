@@ -1,18 +1,10 @@
-import IBayLevelData, {
-  IBayLevelDataStaf,
-} from "../models/v1/parts/IBayLevelData";
-import IShipData, {
-  ILCGOptionsIntermediate,
-  IShipDataFromStaf,
-  ITGCOptionsIntermediate,
-  IVGCOptionsIntermediate,
-} from "../models/v1/parts/IShipData";
+import IBayLevelData from "../models/v1/parts/IBayLevelData";
+import IShipData from "../models/v1/parts/IShipData";
 import ISlotData, { ISlotDataIntermediate } from "../models/v1/parts/ISlotData";
 
 import BayLevelConfig from "./sections/ovdToStaf/BayLevelConfig";
 import ForeAftEnum from "../models/base/enums/ForeAftEnum";
 import { IIsoPositionPattern } from "../models/base/types/IPositionPatterns";
-import { ILidDataFromStaf } from "../models/v1/parts/ILidData";
 import IOpenVesselDefinitionV1 from "../models/v1/IOpenVesselDefinitionV1";
 import IRowStafData from "./types/IRowStafData";
 import ITierStafData from "./types/ITierStafData";
@@ -31,6 +23,9 @@ import { cgsRemapOvdToStaf } from "./core/cgsRemapOvdToStaf";
 import { cloneObject } from "../helpers/objectHelpers";
 import convertOvdToStafObject from "./core/convertOvdToStafObject";
 import { tiersRemap } from "./core/tiersRemap";
+import { IBayLevelDataStaf } from "./types/IBayLevelDataStaf";
+import { ILCGOptionsIntermediate, IShipDataFromStaf, ITGCOptionsIntermediate, IVGCOptionsIntermediate } from "./types/IShipDataStaf";
+import { ILidDataFromStaf } from "./types/ILidDataFromStaf";
 
 export default function ovdV1ToStafConverter(
   originalJson: IOpenVesselDefinitionV1,

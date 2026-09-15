@@ -1,11 +1,9 @@
-import {
-  IBayRowInfoStaf,
-  IRowInfoByLength,
-} from "../../models/v1/parts/IBayLevelData";
+import { IRowInfoByLength } from "../../models/v1/parts/IBayLevelData";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
 import { TYesNo } from "../../models/base/types/IPositionPatterns";
+import { IBayRowInfoStaf } from "./IBayLevelDataStaf";
 
 export type IRowInfoByLengthWithAcceptsSize = IRowInfoByLength & {
   acceptsSize: TYesNo;

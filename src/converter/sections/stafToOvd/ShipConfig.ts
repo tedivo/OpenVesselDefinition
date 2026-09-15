@@ -1,11 +1,11 @@
 import ISectionMapConfig from "../../types/ISectionMapConfig";
-import { IShipDataIntermediateStaf } from "../../../models/v1/parts/IShipData";
 import { getStafForeAftEnumValue } from "../../../models/base/enums/ForeAftEnum";
 import { getStafLcgReferenceEnumValue } from "../../../models/base/enums/LcgReferenceEnum";
 import { getStafPortStarboardValue } from "../../../models/base/enums/PortStarboardEnum";
 import { getStafPositionFormatEnumValue } from "../../../models/base/enums/PositionFormatEnum";
 import { getStafValuesSourceEnumValue } from "../../../models/base/enums/ValuesSourceEnum";
 import { getStafValuesSourceRowTierEnumValue } from "../../../models/base/enums/ValuesSourceRowTierEnum";
+import { IShipDataIntermediateStaf } from "../../types/IShipDataStaf";
 
 // This converter only implements metric unit conversions (safeNumberMtToMm,
 // safeNumberTonsToGrams, etc. all assume meters/tonnes input). There is no spec yet for

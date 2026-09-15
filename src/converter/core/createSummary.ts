@@ -1,7 +1,7 @@
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import ISizeSummary from "../../models/base/ISizeSummary";
 import { sortNumericAsc } from "../../helpers/sortByMultipleFields";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
 
 /**
  * Examines the data to return a summary (bays, max/min tiers and rows)

@@ -1,4 +1,3 @@
-import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import LidConfig from "../sections/stafToOvd/LidConfig";
 import convertStafObjectToOpenVesselDefinition from "./convertStafObjectToOpenVesselDefinition";
@@ -6,6 +5,7 @@ import getSectionsFromFileContent from "./getSectionsFromFileContent";
 import mapStafSections from "./mapStafSections";
 import stafLidString from "../mocks/stafLidString";
 import transformLids from "./transformLids";
+import { ILidDataFromStaf } from "../types/ILidDataFromStaf";
 
 describe("transformLids should...", () => {
   it("work ok", () => {

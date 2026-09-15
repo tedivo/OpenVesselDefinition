@@ -1,12 +1,9 @@
-import {
-  IShipDataFromStaf,
-  IShipDataIntermediateStaf,
-} from "../models/v1/parts/IShipData";
 
 import ShipConfig from "./sections/stafToOvd/ShipConfig";
 import convertStafObjectToOpenVesselDefinition from "./core/convertStafObjectToOpenVesselDefinition";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
+import { IShipDataFromStaf, IShipDataIntermediateStaf } from "./types/IShipDataStaf";
 
 /**
  * This function only converts the SHIP section to OVD. Use `stafToOvdV1Converter` to do a full conversion.

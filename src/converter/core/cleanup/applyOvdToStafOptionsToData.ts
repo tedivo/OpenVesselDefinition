@@ -1,7 +1,4 @@
-import {
-  IBayLevelDataStaf,
-  IBaySlotData,
-} from "../../../models/v1/parts/IBayLevelData";
+import { IBaySlotData } from "../../../models/v1/parts/IBayLevelData";
 import {
   IIsoRowPattern,
   IJoinedRowTierPattern,
@@ -12,6 +9,7 @@ import IOpenVesselDefinitionV1 from "../../../models/v1/IOpenVesselDefinitionV1"
 import IShipData from "../../../models/v1/parts/IShipData";
 import { TContainerLengths } from "../../../models/v1/parts/Types";
 import ValuesSourceEnum from "../../../models/base/enums/ValuesSourceEnum";
+import { IBayLevelDataStaf } from "../../types/IBayLevelDataStaf";
 
 type TApplyOvdToStafOptionsToData = {
   removeCGs: boolean;

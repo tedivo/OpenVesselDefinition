@@ -1,11 +1,8 @@
 import BayLevelConfig from "../sections/stafToOvd/BayLevelConfig";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
-import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import IRowStafData from "../types/IRowStafData";
 import ISectionMapConfig from "../types/ISectionMapConfig";
-import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
 import { ISlotDataIntermediate } from "../../models/v1/parts/ISlotData";
 import ITierStafData from "../types/ITierStafData";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
@@ -27,6 +24,9 @@ import stafLidString from "../mocks/stafLidString";
 import stafRowString from "../mocks/stafRowString";
 import stafSlotString from "../mocks/stafSlotString";
 import stafTierString from "../mocks/stafTierString";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
+import { ILidDataFromStaf } from "../types/ILidDataFromStaf";
+import { IShipDataIntermediateStaf } from "../types/IShipDataStaf";
 
 describe("convertStafObjectToOpenVesselDefinition should", () => {
   interface IDummy {

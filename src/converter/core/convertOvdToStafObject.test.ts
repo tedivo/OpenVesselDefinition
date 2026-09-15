@@ -1,11 +1,6 @@
-import IBayLevelData, {
-  IBayLevelDataStaf,
-} from "../../models/v1/parts/IBayLevelData";
-import ILidData, { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
-import IShipData, {
-  IMasterCGs,
-  IShipDataFromStaf,
-} from "../../models/v1/parts/IShipData";
+import IBayLevelData from "../../models/v1/parts/IBayLevelData";
+import ILidData from "../../models/v1/parts/ILidData";
+import IShipData, { IMasterCGs } from "../../models/v1/parts/IShipData";
 import convertOvdToStafObject, {
   getNestedValue,
 } from "../core/convertOvdToStafObject";
@@ -28,6 +23,9 @@ import SlotConfig from "../sections/ovdToStaf/SlotConfig";
 import TierConfig from "../sections/ovdToStaf/TierConfig";
 import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
+import { ILidDataFromStaf } from "../types/ILidDataFromStaf";
+import { IShipDataFromStaf } from "../types/IShipDataStaf";
 
 interface IDummy {
   var1: string;

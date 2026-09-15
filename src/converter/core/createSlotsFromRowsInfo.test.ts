@@ -1,7 +1,4 @@
-import {
-  IBayRowInfoStaf,
-  TBayRowInfo,
-} from "../../models/v1/parts/IBayLevelData";
+import { TBayRowInfo } from "../../models/v1/parts/IBayLevelData";
 import {
   IIsoTierPattern,
   IJoinedRowTierPattern,
@@ -11,6 +8,7 @@ import createSlotsFromRowsInfo, {
 } from "./createSlotsFromRowsInfo";
 
 import { IRowInfoByLengthWithAcceptsSize } from "../types/IRowStafData";
+import { IBayRowInfoStaf } from "../types/IBayLevelDataStaf";
 
 const testRow01: IBayRowInfoStaf = {
   isoRow: "01",

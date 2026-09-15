@@ -1,9 +1,9 @@
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
-import { ILidDataFromStaf } from "../../models/v1/parts/ILidData";
 import IRowStafData from "./IRowStafData";
-import { IShipDataIntermediateStaf } from "../../models/v1/parts/IShipData";
 import ISlotData from "../../models/v1/parts/ISlotData";
 import ITierStafData from "./ITierStafData";
+import { IBayLevelDataStaf } from "./IBayLevelDataStaf";
+import { ILidDataFromStaf } from "./ILidDataFromStaf";
+import { IShipDataIntermediateStaf } from "./IShipDataStaf";
 
 export default interface IStafDataProcessed {
   shipData: IShipDataIntermediateStaf;

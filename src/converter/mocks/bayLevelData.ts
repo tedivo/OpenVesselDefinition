@@ -1,10 +1,4 @@
-import IBayLevelData, {
-  IBayLevelDataStaf,
-  IBayRowInfo,
-  TBayRowInfo,
-  TBayTierInfoStaf,
-  TRowInfoByLength,
-} from "../../models/v1/parts/IBayLevelData";
+import IBayLevelData, { IBayRowInfo, TBayRowInfo, TRowInfoByLength } from "../../models/v1/parts/IBayLevelData";
 import {
   IIsoBayPattern,
   IIsoRowPattern,
@@ -14,6 +8,7 @@ import {
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { pad3 } from "../../helpers/pad";
+import { IBayLevelDataStaf, TBayTierInfoStaf } from "../types/IBayLevelDataStaf";
 
 const defaultAboveTiers: IIsoTierPattern[] = ["80", "82", "84", "86"];
 const defaultBelowTiers: IIsoTierPattern[] = ["02", "04", "06", "08"];

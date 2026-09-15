@@ -1,10 +1,10 @@
-import { IBayLevelDataStaf } from "../../models/v1/parts/IBayLevelData";
 import { IIsoRowPattern } from "../../models/base/types/IPositionPatterns";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
 import IRowStafData from "../types/IRowStafData";
 import { createSlotsFromRow } from "../core/createSlotsFromRowsInfo";
 import sortRowsArray from "../../helpers/sortRowsArray";
 import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
+import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
 
 /**
  * Add Row Info to the Bay
