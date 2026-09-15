@@ -251,9 +251,13 @@ M.I.T. License.
         "maxHeight": {
           "type": "number"
         },
+        "minTierHeights": {
+          "$ref": "#/definitions/TMinTierHeights",
+          "description": "Overrides the bay's common tier heights for this row"
+        },
         "rowInfoByLength": {
           "$ref": "#/definitions/TRowInfoByLength",
-          "description": "Overrides general bay LCG and Row Weight by length"
+          "description": "Overrides general bay LCG, Row Weight and size restrictions by length"
         },
         "tcg": {
           "type": "number"
@@ -596,6 +600,10 @@ M.I.T. License.
           "type": "number"
         },
         "lcg": {
+          "type": "number"
+        },
+        "minBottomHeight": {
+          "description": "Minimum height, in mm **above the stack bottom**, at which a container of this size may be stowed.\n\nExample: a 45' requiring two 9'6\" High-Cubes below it → `5791`.\n\nSome formats state this restriction explicitly per size; others only imply it through per-tier heights (see  {@link  TMinTierHeights } ). When both are present this one wins, as it is stated rather than derived.",
           "type": "number"
         },
         "rowWeight": {
@@ -1055,7 +1063,7 @@ M.I.T. License.
       },
       "type": "object"
     },
-    "Partial<indexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-3153>": {
+    "Partial<indexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-4470>": {
       "additionalProperties": false,
       "properties": {
         "20": {
@@ -1130,6 +1138,10 @@ M.I.T. License.
         },
         "maxHeight": {
           "type": "number"
+        },
+        "minTierHeights": {
+          "$ref": "#/definitions/TMinTierHeights",
+          "description": "Nominal container height per tier, applying to every row of the bay"
         }
       },
       "type": "object"
@@ -1192,8 +1204,15 @@ M.I.T. License.
       ],
       "type": "string"
     },
+    "TMinTierHeights": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "description": "Nominal container height, in mm, per ISO tier.\n\nSparse: only tiers that differ from the vessel's usual height need an entry. 8'6\" ≈ 2591, 9'6\" High-Cube ≈ 2896.\n\nFormats that express stack geometry per tier (rather than per stack) encode minimum container heights this way, which in turn implies which sizes fit at which elevation. Kept so conversion back to such a format stays lossless.\n\nThese are differences, not positions, so they are unaffected by the LCG/VCG rebasing the converters apply to `bottomBase`, `lcg` and `tcg`.",
+      "type": "object"
+    },
     "TRowInfoByLength": {
-      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-3153%3E"
+      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-4470%3E"
     },
     "TUnNumber": {
       "type": "string"

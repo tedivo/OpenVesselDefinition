@@ -81,7 +81,33 @@ export interface IRowInfoByLength {
   lcg?: number;
   rowWeight?: number;
   bottomWeight?: number;
+  /**
+   * Minimum height, in mm **above the stack bottom**, at which a container of
+   * this size may be stowed.
+   *
+   * Example: a 45' requiring two 9'6" High-Cubes below it → `5791`.
+   *
+   * Some formats state this restriction explicitly per size; others only imply
+   * it through per-tier heights (see {@link TMinTierHeights}). When both are
+   * present this one wins, as it is stated rather than derived.
+   */
+  minBottomHeight?: number;
 }
+
+/**
+ * Nominal container height, in mm, per ISO tier.
+ *
+ * Sparse: only tiers that differ from the vessel's usual height need an entry.
+ * 8'6" ≈ 2591, 9'6" High-Cube ≈ 2896.
+ *
+ * Formats that express stack geometry per tier (rather than per stack) encode
+ * minimum container heights this way, which in turn implies which sizes fit at
+ * which elevation. Kept so conversion back to such a format stays lossless.
+ *
+ * These are differences, not positions, so they are unaffected by the LCG/VCG
+ * rebasing the converters apply to `bottomBase`, `lcg` and `tcg`.
+ */
+export type TMinTierHeights = { [tier: IIsoTierPattern]: number };
 
 export interface TBayRowInfo {
   common?: TCommonBayInfo;
@@ -93,6 +119,8 @@ export interface TBayRowInfo {
 export interface TCommonBayInfo {
   bottomBase?: number;
   maxHeight?: number;
+  /** Nominal container height per tier, applying to every row of the bay */
+  minTierHeights?: TMinTierHeights;
 }
 
 export interface IBayRowInfo {
@@ -101,8 +129,10 @@ export interface IBayRowInfo {
   tcg?: number;
   bottomBase?: number;
   maxHeight?: number;
-  /** Overrides general bay LCG and Row Weight by length */
+  /** Overrides general bay LCG, Row Weight and size restrictions by length */
   rowInfoByLength?: TRowInfoByLength;
+  /** Overrides the bay's common tier heights for this row */
+  minTierHeights?: TMinTierHeights;
 }
 
 export interface IBayTierInfo {

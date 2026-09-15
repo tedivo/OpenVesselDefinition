@@ -17,8 +17,10 @@ import {
 import IBayLevelData, {
   IBaySlotData,
   IBulkheadInfo,
+  IRowInfoByLength,
   TBayRowInfo,
   TCommonBayInfo,
+  TMinTierHeights,
   TRowInfoByLength,
 } from "./models/v1/parts/IBayLevelData";
 import IPositionLabels, {
@@ -71,6 +73,7 @@ export {
   IMasterCGs,
   IOpenVesselDefinitionV1,
   IPositionLabels,
+  IRowInfoByLength,
   IShipData,
   IShipDataFromStaf,
   ISlotData,
@@ -96,6 +99,7 @@ export {
   TCompatibilityGroups,
   TContainerLengths,
   TImdgClasses,
+  TMinTierHeights,
   TRowInfoByLength,
   ValuesSourceEnum,
   ValuesSourceRowTierEnum,
