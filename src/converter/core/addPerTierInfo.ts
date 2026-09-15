@@ -1,6 +1,6 @@
 import { IIsoTierPattern } from "../../models/base/types/IPositionPatterns";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import ITierStafData from "../types/ITierStafData";
+import ITierDataStaf from "../types/ITierDataStaf";
 import sortByMultipleFields from "../../helpers/sortByMultipleFields";
 import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
 import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
@@ -12,7 +12,7 @@ import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
  */
 export default function addPerTierInfo(
   bayLevelData: IBayLevelDataStaf[],
-  tierDataByBayLevel: IObjectKeyArray<ITierStafData, string>
+  tierDataByBayLevel: IObjectKeyArray<ITierDataStaf, string>
 ) {
   if (!bayLevelData) {
     throw { message: "Missing bayLevelData", code: "MissingBayData" };
@@ -27,7 +27,7 @@ export default function addPerTierInfo(
     if (tierDataOfBay) {
       tierDataOfBay
         .sort(
-          sortByMultipleFields<ITierStafData>([
+          sortByMultipleFields<ITierDataStaf>([
             { name: "isoTier", ascending: true },
           ])
         )

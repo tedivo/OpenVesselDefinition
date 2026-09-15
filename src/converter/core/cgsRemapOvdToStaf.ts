@@ -15,7 +15,7 @@ import { cloneObject } from "../../helpers/objectHelpers";
 import { getRowsAndTiersFromSlotKeys } from "../../helpers/getRowsAndTiersFromSlotKeys";
 import { pad2 } from "../../helpers/pad";
 import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
-import { ILCGOptionsIntermediate, ITGCOptionsIntermediate, IVGCOptionsIntermediate } from "../types/IShipDataStaf";
+import { ILCGOptionsStaf, ITGCOptionsStaf, IVGCOptionsStaf } from "../types/IShipDataStaf";
 
 /**
  * Remaps D CGS (LCG: Aft-Persp, TCG: STBD, VCG: BottomBase) to other CGSs references
@@ -28,9 +28,9 @@ import { ILCGOptionsIntermediate, ITGCOptionsIntermediate, IVGCOptionsIntermedia
 export function cgsRemapOvdToStaf(
   bls: IBayLevelDataStaf[],
   masterCGs: IMasterCGs,
-  lcgOptions: ILCGOptionsIntermediate,
-  vcgOptions: IVGCOptionsIntermediate,
-  tcgOptions: ITGCOptionsIntermediate,
+  lcgOptions: ILCGOptionsStaf,
+  vcgOptions: IVGCOptionsStaf,
+  tcgOptions: ITGCOptionsStaf,
 ): { bls: IBayLevelDataStaf[]; mCGs: IMasterCGs } {
   const clonedBls = bls.slice().map((bl) => cloneObject(bl));
   const clonedMasterCGs = cloneObject(masterCGs);
@@ -52,7 +52,7 @@ export function cgsRemapOvdToStaf(
  * @param masterCGs
  */
 function remapTcgs(
-  tcgOptions: ITGCOptionsIntermediate,
+  tcgOptions: ITGCOptionsStaf,
   bls: IBayLevelData[],
   masterCGs: IMasterCGs,
 ) {
@@ -90,7 +90,7 @@ function remapTcgs(
  * @param masterCGs
  */
 function remapVcgs(
-  vcgOptions: IVGCOptionsIntermediate,
+  vcgOptions: IVGCOptionsStaf,
   bls: IBayLevelData[],
   masterCGs: IMasterCGs,
 ) {
@@ -139,7 +139,7 @@ function remapVcgs(
  * @param lcgOptions
  * @param bls
  */
-function remapLcgs(lcgOptions: ILCGOptionsIntermediate, bls: IBayLevelData[]) {
+function remapLcgs(lcgOptions: ILCGOptionsStaf, bls: IBayLevelData[]) {
   const lpp = lcgOptions.lpp;
 
   if (

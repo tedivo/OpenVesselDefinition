@@ -5,10 +5,10 @@ import {
 import mapStafSections, { STAF_MIN_SECTIONS } from "./core/mapStafSections";
 
 import IOpenVesselDefinitionV1 from "../models/v1/IOpenVesselDefinitionV1";
-import IRowStafData from "./types/IRowStafData";
+import IRowDataStaf from "./types/IRowDataStaf";
 import IShipData from "../models/v1/parts/IShipData";
 import IStafDataProcessed from "./types/IStafDataProcessed";
-import ITierStafData from "./types/ITierStafData";
+import ITierDataStaf from "./types/ITierDataStaf";
 import ValuesSourceEnum from "../models/base/enums/ValuesSourceEnum";
 import { ValuesSourceRowTierEnum } from "../models/base/enums/ValuesSourceRowTierEnum";
 import { addMissingBays } from "./core/addMissingBays";
@@ -58,11 +58,11 @@ export default function stafToOvdV1Converter(
   dataProcessed.shipData.vcgOptions.heightFactor = vgcHeightFactor;
 
   // 1. Create dictionaries
-  const rowDataByBayLevel = createDictionaryMultiple<IRowStafData, string>(
+  const rowDataByBayLevel = createDictionaryMultiple<IRowDataStaf, string>(
     dataProcessed.rowData,
     (d) => `${d.isoBay}-${d.level}`
   ),
-    tierDataByBayLevel = createDictionaryMultiple<ITierStafData, string>(
+    tierDataByBayLevel = createDictionaryMultiple<ITierDataStaf, string>(
       dataProcessed.tierData,
       (d) => `${d.isoBay}-${d.level}`
     );

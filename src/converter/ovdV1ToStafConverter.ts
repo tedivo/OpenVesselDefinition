@@ -1,8 +1,8 @@
 import {
-  ILCGOptionsIntermediate,
+  ILCGOptionsStaf,
   IShipDataFromStaf,
-  ITGCOptionsIntermediate,
-  IVGCOptionsIntermediate,
+  ITGCOptionsStaf,
+  IVGCOptionsStaf,
 } from "./types/IShipDataStaf";
 import ISlotData, { ISlotDataIntermediate } from "../models/v1/parts/ISlotData";
 
@@ -11,11 +11,11 @@ import ForeAftEnum from "../models/base/enums/ForeAftEnum";
 import IBayLevelData from "../models/v1/parts/IBayLevelData";
 import { IBayLevelDataStaf } from "./types/IBayLevelDataStaf";
 import { IIsoPositionPattern } from "../models/base/types/IPositionPatterns";
-import { ILidDataFromStaf } from "./types/ILidDataFromStaf";
+import { ILidDataStaf } from "./types/ILidDataStaf";
 import IOpenVesselDefinitionV1 from "../models/v1/IOpenVesselDefinitionV1";
-import IRowStafData from "./types/IRowStafData";
+import IRowDataStaf from "./types/IRowDataStaf";
 import IShipData from "../models/v1/parts/IShipData";
-import ITierStafData from "./types/ITierStafData";
+import ITierDataStaf from "./types/ITierDataStaf";
 import { LINE_SEPARATOR } from "./sections/ovdToStaf/consts";
 import LcgReferenceEnum from "../models/base/enums/LcgReferenceEnum";
 import LidConfig from "./sections/ovdToStaf/LidConfig";
@@ -58,7 +58,7 @@ export default function ovdV1ToStafConverter(
 
   // Create safe lcgOptions
   const lpp = cgOptions?.lcgOptions?.lpp || 0;
-  const lcgOptions: ILCGOptionsIntermediate = {
+  const lcgOptions: ILCGOptionsStaf = {
     reference: lpp
       ? cgOptions?.lcgOptions?.reference || LcgReferenceEnum.AFT_PERPENDICULAR
       : LcgReferenceEnum.AFT_PERPENDICULAR,
@@ -69,12 +69,12 @@ export default function ovdV1ToStafConverter(
     lpp,
   };
 
-  const vcgOptions: IVGCOptionsIntermediate = {
+  const vcgOptions: IVGCOptionsStaf = {
     values: cgOptions?.vcgOptions?.values || ValuesSourceRowTierEnum.BY_STACK,
     heightFactor: cgOptions?.vcgOptions?.heightFactor || 0,
   };
 
-  const tcgOptions: ITGCOptionsIntermediate = {
+  const tcgOptions: ITGCOptionsStaf = {
     values: cgOptions?.tcgOptions?.values || ValuesSourceEnum.KNOWN,
     direction: cgOptions?.tcgOptions?.direction || PortStarboardEnum.STARBOARD,
   };
@@ -140,7 +140,7 @@ export default function ovdV1ToStafConverter(
 
   if (dataForRows)
     stafParts.push(
-      convertOvdToStafObject<IRowStafData, IRowStafData>(
+      convertOvdToStafObject<IRowDataStaf, IRowDataStaf>(
         dataForRows,
         RowConfig,
       ),
@@ -150,7 +150,7 @@ export default function ovdV1ToStafConverter(
 
   if (dataForTiers)
     stafParts.push(
-      convertOvdToStafObject<ITierStafData, ITierStafData>(
+      convertOvdToStafObject<ITierDataStaf, ITierDataStaf>(
         dataForTiers,
         TierConfig,
       ),
@@ -188,7 +188,7 @@ export default function ovdV1ToStafConverter(
 
   if (dataForLids)
     stafParts.push(
-      convertOvdToStafObject<ILidDataFromStaf, ILidDataFromStaf>(
+      convertOvdToStafObject<ILidDataStaf, ILidDataStaf>(
         dataForLids,
         LidConfig,
       ),
@@ -209,9 +209,9 @@ export default function ovdV1ToStafConverter(
 
 interface IConvertOvdToStafObjectOptions {
   cgOptions?: {
-    lcgOptions?: ILCGOptionsIntermediate;
-    vcgOptions?: IVGCOptionsIntermediate;
-    tcgOptions?: ITGCOptionsIntermediate;
+    lcgOptions?: ILCGOptionsStaf;
+    vcgOptions?: IVGCOptionsStaf;
+    tcgOptions?: ITGCOptionsStaf;
   };
   tier82is?: number;
   removeCGs?: boolean;

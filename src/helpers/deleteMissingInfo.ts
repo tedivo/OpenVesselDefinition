@@ -1,4 +1,4 @@
-import { IRowInfoByLengthWithAcceptsSize } from "../converter/types/IRowStafData";
+import { IRowInfoByLengthWithAcceptsSize } from "../converter/types/IRowDataStaf";
 import { TRowInfoByLength } from "../models/v1/parts/IBayLevelData";
 
 /**

@@ -1,15 +1,15 @@
-import IRowStafData from "./IRowStafData";
+import IRowDataStaf from "./IRowDataStaf";
 import ISlotData from "../../models/v1/parts/ISlotData";
-import ITierStafData from "./ITierStafData";
+import ITierDataStaf from "./ITierDataStaf";
 import { IBayLevelDataStaf } from "./IBayLevelDataStaf";
-import { ILidDataFromStaf } from "./ILidDataFromStaf";
-import { IShipDataIntermediateStaf } from "./IShipDataStaf";
+import { ILidDataStaf } from "./ILidDataStaf";
+import { IShipDataStaf } from "./IShipDataStaf";
 
 export default interface IStafDataProcessed {
-  shipData: IShipDataIntermediateStaf;
+  shipData: IShipDataStaf;
   bayLevelData: IBayLevelDataStaf[];
-  rowData: IRowStafData[];
-  tierData: ITierStafData[];
+  rowData: IRowDataStaf[];
+  tierData: ITierDataStaf[];
   slotData: ISlotData[];
-  lidData: ILidDataFromStaf[];
+  lidData: ILidDataStaf[];
 }

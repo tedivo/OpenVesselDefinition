@@ -11,7 +11,7 @@ export type IRowInfoByLengthWithAcceptsSize = IRowInfoByLength & {
   bayHasLcg?: TYesNo;
 };
 
-type IRowStafData = {
+type IRowDataStaf = {
   /** 3 digits ISO Bay */
   isoBay: `${number}${number}${number}`;
   /** Above, Below */
@@ -23,4 +23,4 @@ type IRowStafData = {
   }>;
 } & Omit<IBayRowInfoStaf, "rowInfoByLength">;
 
-export default IRowStafData;
+export default IRowDataStaf;

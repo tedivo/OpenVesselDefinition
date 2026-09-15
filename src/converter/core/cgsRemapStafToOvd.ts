@@ -7,7 +7,7 @@ import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
 import { TContainerLengths } from "../../models/v1/parts/Types";
 import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
 import { cloneObject } from "../../helpers/objectHelpers";
-import { ILCGOptionsIntermediate, ITGCOptionsIntermediate, IVGCOptionsIntermediate } from "../types/IShipDataStaf";
+import { ILCGOptionsStaf, ITGCOptionsStaf, IVGCOptionsStaf } from "../types/IShipDataStaf";
 import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
 
 /**
@@ -19,9 +19,9 @@ import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
  */
 export function cgsRemapStafToOvd(
   bls: IBayLevelDataStaf[],
-  lcgOptions: ILCGOptionsIntermediate,
-  vcgOptions: IVGCOptionsIntermediate,
-  tcgOptions: ITGCOptionsIntermediate,
+  lcgOptions: ILCGOptionsStaf,
+  vcgOptions: IVGCOptionsStaf,
+  tcgOptions: ITGCOptionsStaf,
 ) {
   const clonedBls = bls.slice().map((bl) => cloneObject(bl));
   remapLcgs(lcgOptions, clonedBls);
@@ -36,7 +36,7 @@ export function cgsRemapStafToOvd(
  * @param bls
  */
 function remapTcgs(
-  tcgOptions: ITGCOptionsIntermediate,
+  tcgOptions: ITGCOptionsStaf,
   bls: IBayLevelDataStaf[],
 ) {
   const tcgSignMult =
@@ -61,7 +61,7 @@ function remapTcgs(
  * @param bls
  */
 function remapVcgs(
-  vcgOptions: IVGCOptionsIntermediate,
+  vcgOptions: IVGCOptionsStaf,
   bls: IBayLevelDataStaf[],
 ) {
   const isByTier = vcgOptions.values === ValuesSourceRowTierEnum.BY_TIER;
@@ -110,7 +110,7 @@ function remapVcgs(
  * @param bls
  */
 function remapLcgs(
-  lcgOptions: ILCGOptionsIntermediate,
+  lcgOptions: ILCGOptionsStaf,
   bls: IBayLevelDataStaf[],
 ) {
   const lpp = lcgOptions.lpp;

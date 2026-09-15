@@ -12,10 +12,10 @@ import ISlotData, {
 
 import BayLevelEnum from "../../../models/base/enums/BayLevelEnum";
 import IBayLevelData from "../../../models/v1/parts/IBayLevelData";
-import IRowStafData from "../../types/IRowStafData";
+import IRowDataStaf from "../../types/IRowDataStaf";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import ValuesSourceEnum from "../../../models/base/enums/ValuesSourceEnum";
-import { createRowStafData } from "./RowConfig";
+import { createRowDataStaf } from "./RowConfig";
 import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
 import { pad2 } from "../../../helpers/pad";
 import { sortNumericAsc } from "../../../helpers/sortByMultipleFields";
@@ -64,11 +64,11 @@ function createSlotData(bayData: IBayLevelData[]): ISlotDataIntermediate[] {
     const perSlotInfo = bl.perSlotInfo;
     if (perSlotInfo) {
       const slotsDataBL: ISlotDataIntermediate[] = [];
-      const rowData = createRowStafData([bl], dummyIshipData);
+      const rowData = createRowDataStaf([bl], dummyIshipData);
       const rowDataByRow = rowData.reduce((acc, sData) => {
         acc[sData.isoRow] = sData;
         return acc;
-      }, {} as { [row: IIsoRowPattern]: IRowStafData });
+      }, {} as { [row: IIsoRowPattern]: IRowDataStaf });
 
       const slotsKeys = Object.keys(perSlotInfo) as IJoinedRowTierPattern[];
       const { minTier } = getRowsAndTiersFromSlotKeys(slotsKeys);
@@ -76,7 +76,7 @@ function createSlotData(bayData: IBayLevelData[]): ISlotDataIntermediate[] {
       slotsKeys.forEach((slotKey) => {
         const slotRow = slotKey.substring(0, 2);
         if (rowDataByRow[slotRow]) {
-          const rowDataOfRow: IRowStafData = rowDataByRow[slotRow];
+          const rowDataOfRow: IRowDataStaf = rowDataByRow[slotRow];
           // If not contained, add it
           if (!slotIsContainedInRowData(rowDataOfRow, perSlotInfo[slotKey])) {
             slotsDataBL.push({
@@ -137,7 +137,7 @@ function createSlotData(bayData: IBayLevelData[]): ISlotDataIntermediate[] {
   type SixDigitPos = `${number}${number}${number}${number}${number}${number}`;
 
   function slotIsContainedInRowData(
-    rowDataOfRow: IRowStafData,
+    rowDataOfRow: IRowDataStaf,
     slotData: ISlotData
   ): boolean {
     const slotDataTier = Number(slotData.pos.substring(2));

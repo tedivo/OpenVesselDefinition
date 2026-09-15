@@ -4,7 +4,7 @@ import {
   safeNumberTonsToGrams,
 } from "../../../helpers/safeNumberConversions";
 
-import IRowStafData from "../../types/IRowStafData";
+import IRowDataStaf from "../../types/IRowDataStaf";
 import ISectionMapConfig from "../../types/ISectionMapConfig";
 import { deleteMissingRowInfoByLength } from "../../../helpers/deleteMissingInfo";
 import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
@@ -13,7 +13,7 @@ import yNToBoolean from "../../../helpers/yNToBoolean";
 /**
  * DEFINITION of a Row
  */
-const RowConfig: ISectionMapConfig<IRowStafData> = {
+const RowConfig: ISectionMapConfig<IRowDataStaf> = {
   stafSection: "STACK",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },

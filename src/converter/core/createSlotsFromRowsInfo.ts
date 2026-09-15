@@ -4,7 +4,7 @@ import {
   IJoinedRowTierPattern,
 } from "../../models/base/types/IPositionPatterns";
 
-import { IRowInfoByLengthWithAcceptsSize } from "../types/IRowStafData";
+import { IRowInfoByLengthWithAcceptsSize } from "../types/IRowDataStaf";
 import ISlotData from "../../models/v1/parts/ISlotData";
 import { TContainerLengths } from "../../models/v1/parts/Types";
 import { pad2 } from "../../helpers/pad";

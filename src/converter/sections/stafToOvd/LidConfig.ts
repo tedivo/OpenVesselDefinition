@@ -3,12 +3,12 @@ import { pad2, pad3 } from "../../../helpers/pad";
 import ISectionMapConfig from "../../types/ISectionMapConfig";
 import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
 import yNToBooleanLoose from "../../../helpers/yNToBooleanLoose";
-import { ILidDataFromStaf } from "../../types/ILidDataFromStaf";
+import { ILidDataStaf } from "../../types/ILidDataStaf";
 
 /**
  * DEFINITION of LID
  */
-const SlotConfig: ISectionMapConfig<ILidDataFromStaf> = {
+const SlotConfig: ISectionMapConfig<ILidDataStaf> = {
   stafSection: "LID",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },

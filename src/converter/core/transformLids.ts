@@ -6,7 +6,7 @@ import ILidData from "../../models/v1/parts/ILidData";
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { pad2 } from "../../helpers/pad";
-import { ILidDataFromStaf } from "../types/ILidDataFromStaf";
+import { ILidDataStaf } from "../types/ILidDataStaf";
 
 // A STAF file describes a hatch cover ("lid") once per ISO bay it sits over, even when
 // the physical lid actually spans several adjacent bays. Each per-bay record repeats the
@@ -14,7 +14,7 @@ import { ILidDataFromStaf } from "../types/ILidDataFromStaf";
 // `joinLidAftLabel` pointers to the neighboring bay's record so the full bay range can be
 // reconstructed. This function turns those per-bay STAF records back into one OVD lid per
 // physical hatch cover, with a single startIsoBay/endIsoBay range.
-export default function transformLids(lidData: ILidDataFromStaf[]): ILidData[] {
+export default function transformLids(lidData: ILidDataStaf[]): ILidData[] {
   const lidsByLabel: { [name: string]: ILidDataTemp } = {};
 
   const result = joinAftFwdLids(lidData, lidsByLabel);
@@ -23,7 +23,7 @@ export default function transformLids(lidData: ILidDataFromStaf[]): ILidData[] {
 }
 
 function joinAftFwdLids(
-  lidDataFromStaf: ILidDataFromStaf[],
+  lidDataFromStaf: ILidDataStaf[],
   lidsByLabel: { [name: string]: ILidDataTemp },
 ): ILidData[] {
   if (!lidDataFromStaf || lidDataFromStaf.length === 0) {

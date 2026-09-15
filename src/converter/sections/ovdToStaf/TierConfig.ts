@@ -6,7 +6,7 @@ import { pad2, safePad2 } from "../../../helpers/pad";
 import IBayLevelData from "../../../models/v1/parts/IBayLevelData";
 import { IJoinedRowTierPattern } from "../../../models/base/types/IPositionPatterns";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
-import ITierStafData from "../../types/ITierStafData";
+import ITierDataStaf from "../../types/ITierDataStaf";
 import { SHIP_EDITOR_MIN_TIER } from "./consts";
 import { getRowsAndTiersFromSlotKeys } from "../../../helpers/getRowsAndTiersFromSlotKeys";
 import sortByMultipleFields from "../../../helpers/sortByMultipleFields";
@@ -14,7 +14,7 @@ import sortByMultipleFields from "../../../helpers/sortByMultipleFields";
 /**
  * DEFINITION of Tier
  */
-const TierConfig: ISectionMapToStafConfig<ITierStafData, ITierStafData> = {
+const TierConfig: ISectionMapToStafConfig<ITierDataStaf, ITierDataStaf> = {
   stafSection: "TIER",
   mapVars: [
     { stafVar: "STAF BAY", source: "isoBay", mapper: safePad2 },
@@ -28,7 +28,7 @@ const TierConfig: ISectionMapToStafConfig<ITierStafData, ITierStafData> = {
 
 export default TierConfig;
 
-function createRowTierData(bayData: IBayLevelData[]): ITierStafData[] {
+function createRowTierData(bayData: IBayLevelData[]): ITierDataStaf[] {
   const bls = bayData.slice().sort(
     sortByMultipleFields([
       { name: "isoBay", ascending: true },
@@ -36,7 +36,7 @@ function createRowTierData(bayData: IBayLevelData[]): ITierStafData[] {
     ])
   );
 
-  const tiersData: ITierStafData[] = [];
+  const tiersData: ITierDataStaf[] = [];
 
   bls.forEach((bl) => {
     const slotKeys = bl.perSlotInfo
@@ -54,7 +54,7 @@ function createRowTierData(bayData: IBayLevelData[]): ITierStafData[] {
       const iMaxTier = Number(maxTier);
       const minus = SHIP_EDITOR_MIN_TIER - iMinTier;
       for (let t = iMinTier; t <= iMaxTier; t += 2) {
-        const tData: ITierStafData = {
+        const tData: ITierDataStaf = {
           isoBay: bl.isoBay,
           level: bl.level,
           isoTier: pad2(t + minus),

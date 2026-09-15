@@ -7,9 +7,9 @@ import { pad2, pad3 } from "../../../helpers/pad";
 import ISectionMapToStafConfig from "../../types/ISectionMapToStafConfig";
 import sortByMultipleFields from "../../../helpers/sortByMultipleFields";
 import { yNToStaf } from "../../../helpers/yNToBoolean";
-import { ILidDataFromStaf } from "../../types/ILidDataFromStaf";
+import { ILidDataStaf } from "../../types/ILidDataStaf";
 
-const LidConfig: ISectionMapToStafConfig<ILidDataFromStaf, ILidDataFromStaf> = {
+const LidConfig: ISectionMapToStafConfig<ILidDataStaf, ILidDataStaf> = {
   stafSection: "LID",
   mapVars: [
     { stafVar: "LID ID", source: "label", passValue: true },
@@ -48,7 +48,7 @@ const LidConfig: ISectionMapToStafConfig<ILidDataFromStaf, ILidDataFromStaf> = {
 
 export default LidConfig;
 
-function convertLidsFromOvdToStaf(source: ILidData[]): ILidDataFromStaf[] {
+function convertLidsFromOvdToStaf(source: ILidData[]): ILidDataStaf[] {
   const lidData: ILidDataTemp[] = [];
   let lastDupLabelSequence = 0;
 

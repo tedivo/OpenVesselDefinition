@@ -5,7 +5,7 @@ import {
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import ITierStafData from "../types/ITierStafData";
+import ITierDataStaf from "../types/ITierDataStaf";
 import addPerTierInfo from "./addPerTierInfo";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import { shipDataBays } from "../mocks/shipData";
@@ -23,7 +23,7 @@ describe("addPerTierInfo should", () => {
 
     addPerTierInfo(
       bayLevelData,
-      undefined as IObjectKeyArray<ITierStafData, string>
+      undefined as IObjectKeyArray<ITierDataStaf, string>
     );
 
     expect(bayLevelData).toBeDefined();
@@ -39,7 +39,7 @@ describe("addPerTierInfo should", () => {
     const tier78Prev = bayLevelData[0].perTierInfo["78"];
     expect(tier78Prev).toBeUndefined();
 
-    const tierData: IObjectKeyArray<ITierStafData, string> = {
+    const tierData: IObjectKeyArray<ITierDataStaf, string> = {
       [`001-${BayLevelEnum.ABOVE}`]: [
         {
           isoBay: "001" as IIsoBayPattern,

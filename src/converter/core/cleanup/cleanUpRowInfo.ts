@@ -1,4 +1,4 @@
-import { IRowInfoByLengthWithAcceptsSize } from "../../types/IRowStafData";
+import { IRowInfoByLengthWithAcceptsSize } from "../../types/IRowDataStaf";
 import { TBayRowInfo } from "../../../models/v1/parts/IBayLevelData";
 import { TContainerLengths } from "../../../models/v1/parts/Types";
 

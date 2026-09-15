@@ -7,7 +7,7 @@ import createSlotsFromRowsInfo, {
   createSlotsFromRow,
 } from "./createSlotsFromRowsInfo";
 
-import { IRowInfoByLengthWithAcceptsSize } from "../types/IRowStafData";
+import { IRowInfoByLengthWithAcceptsSize } from "../types/IRowDataStaf";
 import { IBayRowInfoStaf } from "../types/IBayLevelDataStaf";
 
 const testRow01: IBayRowInfoStaf = {

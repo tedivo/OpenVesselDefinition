@@ -5,7 +5,7 @@ import { getStafPortStarboardValue } from "../../../models/base/enums/PortStarbo
 import { getStafPositionFormatEnumValue } from "../../../models/base/enums/PositionFormatEnum";
 import { getStafValuesSourceEnumValue } from "../../../models/base/enums/ValuesSourceEnum";
 import { getStafValuesSourceRowTierEnumValue } from "../../../models/base/enums/ValuesSourceRowTierEnum";
-import { IShipDataIntermediateStaf } from "../../types/IShipDataStaf";
+import { IShipDataStaf } from "../../types/IShipDataStaf";
 
 // This converter only implements metric unit conversions (safeNumberMtToMm,
 // safeNumberTonsToGrams, etc. all assume meters/tonnes input). There is no spec yet for
@@ -24,7 +24,7 @@ function assertMetricUnits(s: string): "METRIC" {
 /**
  * DEFINITION of main Ship class for the converter
  */
-const ShipConfig: ISectionMapConfig<IShipDataIntermediateStaf> = {
+const ShipConfig: ISectionMapConfig<IShipDataStaf> = {
   stafSection: "SHIP",
   singleRow: true,
   mapVars: {

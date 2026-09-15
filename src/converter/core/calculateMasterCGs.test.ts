@@ -4,14 +4,14 @@ import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
 import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
 import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
-import { IShipDataIntermediateStaf } from "../types/IShipDataStaf";
+import { IShipDataStaf } from "../types/IShipDataStaf";
 
 describe("calculateMasterCGs should...", () => {
   it("keep a row's own bottomBase of 0 instead of falling back to the bay's common value", () => {
     const shipData = {
       tcgOptions: { values: ValuesSourceEnum.KNOWN },
       vcgOptions: { values: ValuesSourceRowTierEnum.BY_STACK },
-    } as IShipDataIntermediateStaf;
+    } as IShipDataStaf;
 
     const bls = [
       {
@@ -34,7 +34,7 @@ describe("calculateMasterCGs should...", () => {
     const shipData = {
       tcgOptions: { values: ValuesSourceEnum.ESTIMATED },
       vcgOptions: { values: ValuesSourceRowTierEnum.BY_STACK },
-    } as IShipDataIntermediateStaf;
+    } as IShipDataStaf;
 
     const bls = [
       {
@@ -58,7 +58,7 @@ describe("calculateMasterCGs should...", () => {
     const shipData = {
       tcgOptions: { values: ValuesSourceEnum.KNOWN },
       vcgOptions: { values: ValuesSourceRowTierEnum.ESTIMATED },
-    } as IShipDataIntermediateStaf;
+    } as IShipDataStaf;
 
     const bls = [
       {

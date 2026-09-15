@@ -1,10 +1,10 @@
 import BayLevelConfig from "../sections/stafToOvd/BayLevelConfig";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
-import IRowStafData from "../types/IRowStafData";
+import IRowDataStaf from "../types/IRowDataStaf";
 import ISectionMapConfig from "../types/ISectionMapConfig";
 import { ISlotDataIntermediate } from "../../models/v1/parts/ISlotData";
-import ITierStafData from "../types/ITierStafData";
+import ITierDataStaf from "../types/ITierDataStaf";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import LidConfig from "../sections/stafToOvd/LidConfig";
 import PortStarboardEnum from "../../models/base/enums/PortStarboardEnum";
@@ -25,8 +25,8 @@ import stafRowString from "../mocks/stafRowString";
 import stafSlotString from "../mocks/stafSlotString";
 import stafTierString from "../mocks/stafTierString";
 import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
-import { ILidDataFromStaf } from "../types/ILidDataFromStaf";
-import { IShipDataIntermediateStaf } from "../types/IShipDataStaf";
+import { ILidDataStaf } from "../types/ILidDataStaf";
+import { IShipDataStaf } from "../types/IShipDataStaf";
 
 describe("convertStafObjectToOpenVesselDefinition should", () => {
   interface IDummy {
@@ -82,7 +82,7 @@ describe("for SHIP data", () => {
     const headerSection = sectionsByName["SHIP"];
 
     const processed =
-      convertStafObjectToOpenVesselDefinition<IShipDataIntermediateStaf>(
+      convertStafObjectToOpenVesselDefinition<IShipDataStaf>(
         headerSection,
         ShipConfig
       );
@@ -155,7 +155,7 @@ describe("for STACK data", () => {
 
     const headerSection = sectionsByName["STACK"];
 
-    const processed = convertStafObjectToOpenVesselDefinition<IRowStafData>(
+    const processed = convertStafObjectToOpenVesselDefinition<IRowDataStaf>(
       headerSection,
       RowConfig
     );
@@ -203,7 +203,7 @@ describe("for TIER data", () => {
 
     const headerSection = sectionsByName["TIER"];
 
-    const processed = convertStafObjectToOpenVesselDefinition<ITierStafData>(
+    const processed = convertStafObjectToOpenVesselDefinition<ITierDataStaf>(
       headerSection,
       TierConfig
     );
@@ -288,7 +288,7 @@ describe("for LID data", () => {
 
     const headerSection = sectionsByName["LID"];
 
-    const processed = convertStafObjectToOpenVesselDefinition<ILidDataFromStaf>(
+    const processed = convertStafObjectToOpenVesselDefinition<ILidDataStaf>(
       headerSection,
       LidConfig
     );

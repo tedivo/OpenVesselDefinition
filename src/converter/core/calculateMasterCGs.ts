@@ -10,13 +10,13 @@ import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
 import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRowTierEnum";
 import sortRowsArray from "../../helpers/sortRowsArray";
 import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
-import { IShipDataIntermediateStaf } from "../types/IShipDataStaf";
+import { IShipDataStaf } from "../types/IShipDataStaf";
 
 /**
  * Extract main TCGs and VCGs. Once extracted, delete repetitions
  */
 export function calculateMasterCGs(
-  shipData: IShipDataIntermediateStaf,
+  shipData: IShipDataStaf,
   bls: IBayLevelDataStaf[]
 ): IMasterCGs {
   const extractedAboveTCGs: IInventory = {};

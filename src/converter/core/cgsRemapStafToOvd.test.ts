@@ -10,7 +10,7 @@ import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRow
 import { cgsRemapStafToOvd } from "./cgsRemapStafToOvd";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import createSummary from "./createSummary";
-import { ILCGOptionsIntermediate, ITGCOptionsIntermediate, IVGCOptionsIntermediate } from "../types/IShipDataStaf";
+import { ILCGOptionsStaf, ITGCOptionsStaf, IVGCOptionsStaf } from "../types/IShipDataStaf";
 
 function createMockedBl() {
   const mockSlotInfoKeysAbove: IJoinedRowTierPattern[] = [
@@ -67,15 +67,15 @@ function createMockedBl() {
       reference: LcgReferenceEnum.AFT_PERPENDICULAR,
       orientationIncrease: ForeAftEnum.FWD,
       lpp: 100000,
-    } as ILCGOptionsIntermediate,
+    } as ILCGOptionsStaf,
     baseVcgOptions: {
       values: ValuesSourceRowTierEnum.BY_STACK,
       heightFactor: 0,
-    } as IVGCOptionsIntermediate,
+    } as IVGCOptionsStaf,
     baseTcgOptions: {
       values: ValuesSourceEnum.KNOWN,
       direction: PortStarboardEnum.STARBOARD,
-    } as ITGCOptionsIntermediate,
+    } as ITGCOptionsStaf,
   };
 }
 

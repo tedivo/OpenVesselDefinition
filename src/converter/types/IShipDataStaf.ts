@@ -12,19 +12,19 @@ import { ValuesSourceRowTierEnum } from "../../models/base/enums/ValuesSourceRow
  * the CG options keep their original references, before being remapped into the
  * OVD {@link IShipData}.
  */
-export interface IShipDataIntermediateStaf extends IShipDataBase {
+export interface IShipDataStaf extends IShipDataBase {
   lenghtUnits: "METRIC" | "BRITISH";
-  lcgOptions: ILCGOptionsIntermediate;
-  vcgOptions: IVGCOptionsIntermediate;
-  tcgOptions: ITGCOptionsIntermediate;
+  lcgOptions: ILCGOptionsStaf;
+  vcgOptions: IVGCOptionsStaf;
+  tcgOptions: ITGCOptionsStaf;
 }
 
 export type IShipDataFromStaf = Pick<
-  IShipDataIntermediateStaf,
+  IShipDataStaf,
   "shipClass" | "lcgOptions" | "tcgOptions" | "vcgOptions" | "positionFormat"
 >;
 
-export interface ILCGOptionsIntermediate {
+export interface ILCGOptionsStaf {
   values: ValuesSourceEnum;
   reference: LcgReferenceEnum;
   /** FWD or AFT */
@@ -32,12 +32,12 @@ export interface ILCGOptionsIntermediate {
   lpp: number;
 }
 
-export interface IVGCOptionsIntermediate {
+export interface IVGCOptionsStaf {
   values: ValuesSourceRowTierEnum;
   heightFactor?: number;
 }
 
-export interface ITGCOptionsIntermediate {
+export interface ITGCOptionsStaf {
   values: ValuesSourceEnum;
   direction?: PortStarboardEnum;
 }

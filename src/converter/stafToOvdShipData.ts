@@ -3,7 +3,7 @@ import ShipConfig from "./sections/stafToOvd/ShipConfig";
 import convertStafObjectToOpenVesselDefinition from "./core/convertStafObjectToOpenVesselDefinition";
 import getSectionsFromFileContent from "./core/getSectionsFromFileContent";
 import mapStafSections from "./core/mapStafSections";
-import { IShipDataFromStaf, IShipDataIntermediateStaf } from "./types/IShipDataStaf";
+import { IShipDataFromStaf, IShipDataStaf } from "./types/IShipDataStaf";
 
 /**
  * This function only converts the SHIP section to OVD. Use `stafToOvdV1Converter` to do a full conversion.
@@ -26,7 +26,7 @@ export default function stafToOvdShipData(
   }
 
   const shipData =
-    convertStafObjectToOpenVesselDefinition<IShipDataIntermediateStaf>(
+    convertStafObjectToOpenVesselDefinition<IShipDataStaf>(
       sectionsByName["SHIP"],
       ShipConfig
     )[0];

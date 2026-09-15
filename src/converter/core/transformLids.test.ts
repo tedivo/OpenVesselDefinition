@@ -5,7 +5,7 @@ import getSectionsFromFileContent from "./getSectionsFromFileContent";
 import mapStafSections from "./mapStafSections";
 import stafLidString from "../mocks/stafLidString";
 import transformLids from "./transformLids";
-import { ILidDataFromStaf } from "../types/ILidDataFromStaf";
+import { ILidDataStaf } from "../types/ILidDataStaf";
 
 describe("transformLids should...", () => {
   it("work ok", () => {
@@ -14,7 +14,7 @@ describe("transformLids should...", () => {
     );
     const lidSection = sectionsByName["LID"];
 
-    const processed = convertStafObjectToOpenVesselDefinition<ILidDataFromStaf>(
+    const processed = convertStafObjectToOpenVesselDefinition<ILidDataStaf>(
       lidSection,
       LidConfig
     );
@@ -30,7 +30,7 @@ describe("transformLids should...", () => {
     // to a larger one. "A" (bay 001) and "B" (bay 005) are standalone lids at the
     // chain's ends. "C" (bay 003, the middle bay) joins FWD to "A" and AFT to "B", so
     // the three per-bay STAF records should collapse into one lid spanning 001-005.
-    const testLids: ILidDataFromStaf[] = [
+    const testLids: ILidDataStaf[] = [
       {
         isoBay: "001",
         level: BayLevelEnum.BELOW,

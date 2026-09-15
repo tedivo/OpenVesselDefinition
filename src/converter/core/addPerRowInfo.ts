@@ -1,6 +1,6 @@
 import { IIsoRowPattern } from "../../models/base/types/IPositionPatterns";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import IRowStafData from "../types/IRowStafData";
+import IRowDataStaf from "../types/IRowDataStaf";
 import { createSlotsFromRow } from "../core/createSlotsFromRowsInfo";
 import sortRowsArray from "../../helpers/sortRowsArray";
 import { stringIsTierOrStafNumber } from "./stringIsTierOrStafNumber";
@@ -9,12 +9,12 @@ import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
 /**
  * Add Row Info to the Bay
  * @param bayLevelData
- * @param rowDataByBayLevel IObjectKeyArray<IRowStafData, string>
+ * @param rowDataByBayLevel IObjectKeyArray<IRowDataStaf, string>
  * @returns
  */
 export default function addPerRowInfo(
   bayLevelData: IBayLevelDataStaf[],
-  rowDataByBayLevel: IObjectKeyArray<IRowStafData, string>
+  rowDataByBayLevel: IObjectKeyArray<IRowDataStaf, string>
 ) {
   if (!bayLevelData) {
     throw { message: "Missing bayLevelData", code: "MissingBayData" };

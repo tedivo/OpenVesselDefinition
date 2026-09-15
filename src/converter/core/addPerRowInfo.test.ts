@@ -5,7 +5,7 @@ import {
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import IRowStafData from "../types/IRowStafData";
+import IRowDataStaf from "../types/IRowDataStaf";
 import addPerRowInfo from "./addPerRowInfo";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import { shipDataBays } from "../mocks/shipData";
@@ -23,7 +23,7 @@ describe("addPerRowInfo should", () => {
 
     const isoBays = addPerRowInfo(
       bayLevelData,
-      undefined as IObjectKeyArray<IRowStafData, string>
+      undefined as IObjectKeyArray<IRowDataStaf, string>
     );
 
     expect(isoBays).toBe(0);
@@ -51,7 +51,7 @@ describe("addPerRowInfo should", () => {
     const row03Prev = bayLevelData[0].perRowInfo.each["03"];
     expect(row03Prev).toBeUndefined();
 
-    const rowData: IObjectKeyArray<IRowStafData, string> = {
+    const rowData: IObjectKeyArray<IRowDataStaf, string> = {
       [`001-${BayLevelEnum.ABOVE}`]: [
         {
           isoBay: "001" as IIsoBayPattern,

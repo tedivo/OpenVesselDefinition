@@ -1,5 +1,5 @@
 import ISectionMapConfig from "../../types/ISectionMapConfig";
-import ITierStafData from "../../types/ITierStafData";
+import ITierDataStaf from "../../types/ITierDataStaf";
 import { getStafBayLevelEnumValue } from "../../../models/base/enums/BayLevelEnum";
 import { pad3 } from "../../../helpers/pad";
 import { safeNumberMtToMm } from "../../../helpers/safeNumberConversions";
@@ -7,7 +7,7 @@ import { safeNumberMtToMm } from "../../../helpers/safeNumberConversions";
 /**
  * DEFINITION of Tier
  */
-const TierConfig: ISectionMapConfig<ITierStafData> = {
+const TierConfig: ISectionMapConfig<ITierDataStaf> = {
   stafSection: "TIER",
   mapVars: {
     STAF_BAY: { target: "isoBay", mapper: pad3 },

@@ -8,10 +8,10 @@ import convertOvdToStafObject, {
 import BayLevelConfig from "../sections/ovdToStaf/BayLevelConfig";
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import ForeAftEnum from "../../models/base/enums/ForeAftEnum";
-import IRowStafData from "../types/IRowStafData";
+import IRowDataStaf from "../types/IRowDataStaf";
 import ISectionMapToStafConfig from "../types/ISectionMapToStafConfig";
 import ISlotData from "../../models/v1/parts/ISlotData";
-import ITierStafData from "../types/ITierStafData";
+import ITierDataStaf from "../types/ITierDataStaf";
 import { LINE_SEPARATOR } from "../sections/ovdToStaf/consts";
 import LcgReferenceEnum from "../../models/base/enums/LcgReferenceEnum";
 import LidConfig from "../sections/ovdToStaf/LidConfig";
@@ -24,7 +24,7 @@ import TierConfig from "../sections/ovdToStaf/TierConfig";
 import ValuesSourceEnum from "../../models/base/enums/ValuesSourceEnum";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import { IBayLevelDataStaf } from "../types/IBayLevelDataStaf";
-import { ILidDataFromStaf } from "../types/ILidDataFromStaf";
+import { ILidDataStaf } from "../types/ILidDataStaf";
 import { IShipDataFromStaf } from "../types/IShipDataStaf";
 
 interface IDummy {
@@ -257,7 +257,7 @@ describe("for STACK data", () => {
     const data = RowConfig.preProcessor?.(bayLevelData, shipData);
     if (!data) throw "No fata after RowConfig.preProcessor";
 
-    const processed = convertOvdToStafObject<IRowStafData, IRowStafData>(
+    const processed = convertOvdToStafObject<IRowDataStaf, IRowDataStaf>(
       data,
       RowConfig,
     );
@@ -330,7 +330,7 @@ describe("for STACK data", () => {
     const data = RowConfig.preProcessor?.(bayLevelData, shipData);
     if (!data) throw "No fata after RowConfig.preProcessor";
 
-    const processed = convertOvdToStafObject<IRowStafData, IRowStafData>(
+    const processed = convertOvdToStafObject<IRowDataStaf, IRowDataStaf>(
       data,
       RowConfig,
     );
@@ -361,7 +361,7 @@ describe("for TIER data", () => {
     const data = TierConfig.preProcessor?.(bayLevelData);
     if (!data) throw "No fata after RowConfig.preProcessor";
 
-    const processed = convertOvdToStafObject<ITierStafData, ITierStafData>(
+    const processed = convertOvdToStafObject<ITierDataStaf, ITierDataStaf>(
       data,
       TierConfig,
     );
@@ -383,7 +383,7 @@ describe("for TIER data", () => {
     const data = TierConfig.preProcessor?.(bayLevelData);
     if (!data) throw "No fata after RowConfig.preProcessor";
 
-    const processed = convertOvdToStafObject<ITierStafData, ITierStafData>(
+    const processed = convertOvdToStafObject<ITierDataStaf, ITierDataStaf>(
       data,
       TierConfig,
     );
@@ -501,8 +501,8 @@ describe("for LID data", () => {
     expect(data.length).toBe(8);
 
     const processed = convertOvdToStafObject<
-      ILidDataFromStaf,
-      ILidDataFromStaf
+      ILidDataStaf,
+      ILidDataStaf
     >(data, LidConfig);
 
     const [header, titles, ...processedLines] = processed.split(LINE_SEPARATOR);

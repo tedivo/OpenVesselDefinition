@@ -1,0 +1,11 @@
+import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
+import { IBayTierInfo } from "../../models/v1/parts/IBayLevelData";
+
+type ITierDataStaf = {
+  /** 3 digits ISO Bay */
+  isoBay: `${number}${number}${number}`;
+  /** Above, Below */
+  level: BayLevelEnum;
+} & IBayTierInfo;
+
+export default ITierDataStaf;

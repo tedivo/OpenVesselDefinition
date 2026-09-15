@@ -5,7 +5,7 @@ import {
 
 import BayLevelEnum from "../../models/base/enums/BayLevelEnum";
 import { IObjectKeyArray } from "../../helpers/types/IObjectKey";
-import IRowStafData from "../types/IRowStafData";
+import IRowDataStaf from "../types/IRowDataStaf";
 import { addMissingBays } from "./addMissingBays";
 import { createMockedSimpleBayLevelData } from "../mocks/bayLevelData";
 import createSummary from "./createSummary";
