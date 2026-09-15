@@ -463,14 +463,11 @@ describe("ovdV1ToStafConverter should...", () => {
     );
   });
 
-  it("return an object with the STAF text and no slots above tier 100", () => {
-    const processed = ovdV1ToStafConverter(
-      JSON.parse(JSON.stringify(mockedJson)),
-      {
-        removeBaysWithNonSizeSlots: true,
-        removeCGs: false,
-      }
-    );
+  it("return an object with the STAF text", () => {
+    const processed = ovdV1ToStafConverter(cloneMockedJson(), {
+      removeBaysWithNonSizeSlots: true,
+      removeCGs: false,
+    });
 
     expect(typeof processed.stafText).toBe("string");
     expect(processed.stafText).toContain("*SHIP");
@@ -480,39 +477,88 @@ describe("ovdV1ToStafConverter should...", () => {
     expect(processed.slotsAbove100).toHaveLength(0);
   });
 
-  it("return the slots of tiers 100 and above, excluded from the STAF text", () => {
-    const json = JSON.parse(
-      JSON.stringify(mockedJson)
-    ) as IOpenVesselDefinitionV1;
-
-    json.sizeSummary.maxAboveTier = 102;
-
-    // Replace the slots of the first ABOVE bay with tiers 100 & 102.
-    // They are marked as reefer so they are never considered
-    // "already contained" in the ROW section.
-    json.baysData[0].perSlotInfo = {
-      "02100": { pos: "02100", sizes: { "20": 1 }, reefer: 1 },
-      "02102": { pos: "02102", sizes: { "20": 1 }, reefer: 1 },
-      "00100": { pos: "00100", sizes: { "20": 1 }, reefer: 1 },
-    };
-
-    const processed = ovdV1ToStafConverter(json, {
+  it("return no slots above tier 100 when there are none, even with remove100s", () => {
+    const processed = ovdV1ToStafConverter(cloneMockedJson(), {
       removeBaysWithNonSizeSlots: true,
       removeCGs: false,
+      remove100s: true,
     });
 
-    expect(processed.slotsAbove100.sort()).toEqual([
-      "0100100",
-      "0102100",
-      "0102102",
-    ]);
-
-    // Tiers 100 & above aren't part of the STAF output...
-    expect(processed.stafText).not.toContain("0102100");
-    expect(processed.stafText).not.toContain("0102102");
-    expect(processed.stafText).not.toContain("0100100");
-    // ...but the slots of tiers 98 & below still are
     expect(processed.stafText).toContain("*SLOT");
-    expect(processed.stafText).toContain("010218");
+    expect(processed.slotsAbove100).toHaveLength(0);
+  });
+
+  describe("with slots of tiers 100 and above...", () => {
+    it("remove them from the STAF text and return them when remove100s is true", () => {
+      const processed = ovdV1ToStafConverter(mockedJsonWithTiersAbove100(), {
+        removeBaysWithNonSizeSlots: true,
+        removeCGs: false,
+        remove100s: true,
+      });
+
+      expect(processed.slotsAbove100.sort()).toEqual([
+        "0100100",
+        "0102100",
+        "0102102",
+      ]);
+
+      // Tiers 100 & above aren't part of the STAF output...
+      expect(processed.stafText).not.toContain("0102100");
+      expect(processed.stafText).not.toContain("0102102");
+      expect(processed.stafText).not.toContain("0100100");
+      // ...but the slots of tiers 98 & below still are
+      expect(processed.stafText).toContain("*SLOT");
+      expect(processed.stafText).toContain("010218");
+    });
+
+    it("keep them in the STAF text and return none when remove100s is false", () => {
+      const processed = ovdV1ToStafConverter(mockedJsonWithTiersAbove100(), {
+        removeBaysWithNonSizeSlots: true,
+        removeCGs: false,
+        remove100s: false,
+      });
+
+      expect(processed.slotsAbove100).toHaveLength(0);
+
+      expect(processed.stafText).toContain("0102100");
+      expect(processed.stafText).toContain("0102102");
+      expect(processed.stafText).toContain("0100100");
+      expect(processed.stafText).toContain("010218");
+    });
+
+    it("keep them in the STAF text and return none when remove100s isn't set", () => {
+      const processed = ovdV1ToStafConverter(mockedJsonWithTiersAbove100(), {
+        removeBaysWithNonSizeSlots: true,
+        removeCGs: false,
+      });
+
+      expect(processed.slotsAbove100).toHaveLength(0);
+
+      expect(processed.stafText).toContain("0102100");
+      expect(processed.stafText).toContain("0102102");
+      expect(processed.stafText).toContain("0100100");
+      expect(processed.stafText).toContain("010218");
+    });
   });
 });
+
+function cloneMockedJson(): IOpenVesselDefinitionV1 {
+  return JSON.parse(JSON.stringify(mockedJson)) as IOpenVesselDefinitionV1;
+}
+
+/** {@link mockedJson} with the slots of its first ABOVE bay set to tiers 100 & 102 */
+function mockedJsonWithTiersAbove100(): IOpenVesselDefinitionV1 {
+  const json = cloneMockedJson();
+
+  json.sizeSummary.maxAboveTier = 102;
+
+  // The slots are marked as reefer so they are never considered
+  // "already contained" in the ROW section.
+  json.baysData[0].perSlotInfo = {
+    "02100": { pos: "02100", sizes: { "20": 1 }, reefer: 1 },
+    "02102": { pos: "02102", sizes: { "20": 1 }, reefer: 1 },
+    "00100": { pos: "00100", sizes: { "20": 1 }, reefer: 1 },
+  };
+
+  return json;
+}

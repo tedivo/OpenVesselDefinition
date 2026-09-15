@@ -43,6 +43,7 @@ export default function ovdV1ToStafConverter(
     removeCGs = false,
     removeBaysWithNonSizeSlots = false,
     removeBelowTiers24AndHigher = false,
+    remove100s = false,
   } = options;
 
   // Use clone to avoid modifying the original json
@@ -160,21 +161,27 @@ export default function ovdV1ToStafConverter(
   const dataForSlotsTier98OrBelow: ISlotDataIntermediate[] = [];
 
   if (dataForSlots) {
-    dataForSlots.forEach((s) => {
-      const tier = s.pos.substring(2);
-      if (tier.length > 2) {
-        dataForSlotsTier100OrAbove.push(s);
-      } else {
-        dataForSlotsTier98OrBelow.push(s);
-      }
-    });
+    if (remove100s) {
+      dataForSlots.forEach((s) => {
+        const tier = s.pos.substring(2);
+        if (tier.length > 2) {
+          dataForSlotsTier100OrAbove.push(s);
+        } else {
+          dataForSlotsTier98OrBelow.push(s);
+        }
+      });
 
-    stafParts.push(
-      convertOvdToStafObject<ISlotData, ISlotData>(
-        dataForSlotsTier98OrBelow,
-        SlotConfig,
-      ),
-    );
+      stafParts.push(
+        convertOvdToStafObject<ISlotData, ISlotData>(
+          dataForSlotsTier98OrBelow,
+          SlotConfig,
+        ),
+      );
+    } else {
+      stafParts.push(
+        convertOvdToStafObject<ISlotData, ISlotData>(dataForSlots, SlotConfig),
+      );
+    }
   }
 
   const dataForLids = LidConfig.preProcessor?.(json.lidData);
@@ -210,4 +217,5 @@ interface IConvertOvdToStafObjectOptions {
   removeCGs?: boolean;
   removeBaysWithNonSizeSlots?: boolean;
   removeBelowTiers24AndHigher?: boolean;
+  remove100s?: boolean;
 }
