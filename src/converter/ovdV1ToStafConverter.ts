@@ -44,6 +44,7 @@ export default function ovdV1ToStafConverter(
     removeBaysWithNonSizeSlots = false,
     removeBelowTiers24AndHigher = false,
     remove100s = false,
+    collapseTrailing40sBay = true,
   } = options;
 
   // Use clone to avoid modifying the original json
@@ -53,6 +54,7 @@ export default function ovdV1ToStafConverter(
       removeCGs,
       removeBaysWithNonSizeSlots,
       removeBelowTiers24AndHigher,
+      collapseTrailing40sBay,
     },
   );
 
@@ -218,4 +220,10 @@ interface IConvertOvdToStafObjectOptions {
   removeBaysWithNonSizeSlots?: boolean;
   removeBelowTiers24AndHigher?: boolean;
   remove100s?: boolean;
+  /**
+   * Fold the last bay back into the one it extends from, when it holds nothing
+   * but 40s. The inverse of what the STAF importer does.
+   * See {@link collapseTrailing40sBays}. Default `true`.
+   */
+  collapseTrailing40sBay?: boolean;
 }

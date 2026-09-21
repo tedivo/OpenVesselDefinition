@@ -47,6 +47,24 @@ export interface IShipDataBase {
   /** Position format. Default is *BAY_STACK_TIER*: ##B#S#T */
   positionFormat: PositionFormatEnum;
 
+  /**
+   * In a pair of bays that together hold 40'+ containers, which of the two
+   * bays carries the 40'+ definitions (slots, LCGs, weights): the FWD bay or
+   * the AFT bay of the pair.
+   *
+   * This is an *authoring convention*, not a property of the vessel: the same
+   * ship can be described either way. It is declared once, at ship level, so
+   * that every paired bay in the file follows the same rule.
+   *
+   * Optional, and not enforced by this schema. Older definitions omit it and
+   * some may be internally inconsistent; tools are expected to detect the
+   * dominant convention, write it here, and normalise the bays to match.
+   *
+   * @see {@link IBayLevelData.pairedBay} - note its value refers to the *other*
+   * bay of the pair, whereas this one names the bay holding the 40'+ data.
+   */
+  bay40sLocation?: ForeAftEnum;
+
   /** Note and Revisions history */
   metaInfo?: IShipMeta;
 

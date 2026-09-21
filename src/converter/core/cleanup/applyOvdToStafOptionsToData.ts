@@ -9,12 +9,14 @@ import IOpenVesselDefinitionV1 from "../../../models/v1/IOpenVesselDefinitionV1"
 import IShipData from "../../../models/v1/parts/IShipData";
 import { TContainerLengths } from "../../../models/v1/parts/Types";
 import ValuesSourceEnum from "../../../models/base/enums/ValuesSourceEnum";
+import { collapseTrailing40sBays } from "../bay40s/trailing40sBays";
 import { IBayLevelDataStaf } from "../../types/IBayLevelDataStaf";
 
 type TApplyOvdToStafOptionsToData = {
   removeCGs: boolean;
   removeBaysWithNonSizeSlots: boolean;
   removeBelowTiers24AndHigher: boolean;
+  collapseTrailing40sBay?: boolean;
 };
 
 export function applyOvdToStafOptionsToData(
@@ -23,8 +25,22 @@ export function applyOvdToStafOptionsToData(
     removeCGs = false,
     removeBaysWithNonSizeSlots = false,
     removeBelowTiers24AndHigher = false,
+    collapseTrailing40sBay = true,
   }: TApplyOvdToStafOptionsToData,
 ): IOpenVesselDefinitionV1 {
+  if (collapseTrailing40sBay) {
+    // 0. The last bay of a vessel, when it holds nothing but the 40s that
+    // extend into it, is not written out: its 40s go back to the bay they
+    // extend from, the way STAF files normally express them.
+    const { baysData, changed, maxIsoBay } = collapseTrailing40sBays(
+      json.baysData,
+      { mutate: true },
+    );
+
+    json.baysData = baysData;
+    if (changed.length > 0) json.sizeSummary.isoBays = maxIsoBay;
+  }
+
   if (removeBaysWithNonSizeSlots) {
     // 1. Remove bays with no slots
     json.baysData = removeBaysWithNoSlotsFromBayLevelData(json.baysData);

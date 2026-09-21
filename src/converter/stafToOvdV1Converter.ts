@@ -20,6 +20,9 @@ import { cgsRemapStafToOvd } from "./core/cgsRemapStafToOvd";
 import { cleanBayLevelDataNoStaf } from "./core/cleanBayLevelDataNoStaf";
 import { cleanUpOvdJson } from "./core/cleanup/cleanUpOvdJson";
 import { connectPairedBays } from "./core/connectPairedBays";
+import detectBay40sLocation from "./core/bay40s/detectBay40sLocation";
+import { expandTrailing40sBays } from "./core/bay40s/trailing40sBays";
+import ForeAftEnum from "../models/base/enums/ForeAftEnum";
 import { createDictionaryMultiple } from "../helpers/createDictionary";
 import createSummary from "./core/createSummary";
 import { getContainerLengths } from "./core/getContainerLengths";
@@ -29,11 +32,26 @@ import substractLabels from "./core/substractLabels";
 import { tiersRemap } from "./core/tiersRemap";
 import transformLids from "./core/transformLids";
 
+export interface IStafToOvdOptions {
+  /**
+   * Create the missing half of the pair at the end of the vessel, so the last
+   * bay follows the same 40s convention as every other pair.
+   * See {@link expandTrailing40sBays}. Default `true`.
+   */
+  normalizeTrailing40sBay?: boolean;
+  /**
+   * The convention to place the trailing 40s under. Defaults to whatever the
+   * rest of the file already uses, and to `AFT` when the file says nothing.
+   */
+  bay40sLocation?: ForeAftEnum;
+}
+
 export default function stafToOvdV1Converter(
   fileContent: string,
   lpp: number,
   vgcHeightFactor = 0.45,
-  tier82is = 82
+  tier82is = 82,
+  { normalizeTrailing40sBay = true, bay40sLocation }: IStafToOvdOptions = {}
 ): IOpenVesselDefinitionV1 {
   const sectionsByName = mapStafSections(
     getSectionsFromFileContent(fileContent)
@@ -98,6 +116,44 @@ export default function stafToOvdV1Converter(
  * */
   dataProcessed.bayLevelData = connectPairedBays(dataProcessed.bayLevelData);
 
+  /** 4.1. Where does this file keep its 40s? */
+  let bay40sLocationUsed =
+    bay40sLocation ??
+    detectBay40sLocation(dataProcessed.bayLevelData).bay40sLocation;
+
+  /**
+   * 4.2. The last bay of a vessel has no 20' stack aft of it, so STAF exports
+   * routinely declare its 40s in the bay itself and never create the bay they
+   * extend into. Create it, so the last pair looks like all the others.
+   */
+  let isoBaysTotal = isoBays;
+
+  if (normalizeTrailing40sBay) {
+    const { changed, maxIsoBay } = expandTrailing40sBays(
+      dataProcessed.bayLevelData,
+      {
+        bay40sLocation: bay40sLocationUsed ?? ForeAftEnum.AFT,
+        mutate: true,
+      }
+    );
+
+    if (changed.length > 0) {
+      isoBaysTotal = Math.max(isoBaysTotal, maxIsoBay);
+
+      // The bay was created on the deck that needed it. Fill the other decks
+      // too: bays 1..isoBays must exist at every level, which is what
+      // `addMissingBays` is for, and what lets pairing rely on N and N+2.
+      dataProcessed.bayLevelData = addMissingBays(dataProcessed.bayLevelData, {
+        ...preSizeSummary,
+        isoBays: isoBaysTotal,
+      });
+
+      bay40sLocationUsed =
+        bay40sLocation ??
+        detectBay40sLocation(dataProcessed.bayLevelData).bay40sLocation;
+    }
+  }
+
   // 5. Create labels dictionaries
   const positionLabels = substractLabels(dataProcessed.bayLevelData);
 
@@ -126,6 +182,7 @@ export default function stafToOvdV1Converter(
           : ValuesSourceEnum.ESTIMATED,
       heightFactor: vcgOptions.heightFactor,
     },
+    bay40sLocation: bay40sLocationUsed,
     containersLengths: getContainerLengths(dataProcessed.bayLevelData),
     masterCGs: { aboveTcgs: {}, belowTcgs: {}, bottomBases: {} },
     loa: 0,
@@ -139,7 +196,7 @@ export default function stafToOvdV1Converter(
 
   // 8. Size Summary
   const sizeSummary = createSummary({
-    isoBays,
+    isoBays: isoBaysTotal,
     bayLevelData: dataProcessed.bayLevelData,
   });
 

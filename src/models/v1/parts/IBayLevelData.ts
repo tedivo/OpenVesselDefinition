@@ -85,11 +85,24 @@ export interface IRowInfoByLength {
    * Minimum height, in mm **above the stack bottom**, at which a container of
    * this size may be stowed.
    *
+   * The stack bottom is the lowest `bottomBase` of the stack the container
+   * rests in. For a 40'+ size in a pair of bays that means the lower of the
+   * two bays' `bottomBase` for that row — not necessarily the one of the bay
+   * this entry is written in, since the two bays of a pair may start at
+   * different ISO tiers. That lowest bottom base never moves, which is what
+   * makes it usable as a reference from either bay.
+   *
    * Example: a 45' requiring two 9'6" High-Cubes below it → `5791`.
    *
+   * Example: row 10 starts at tier 12 in bay 001 (`bottomBase` 4591) and at
+   * tier 10 in bay 003 (`bottomBase` 2000). A 40' spanning the pair can only
+   * rest at 4591, so its `minBottomHeight` is `2591` — and whatever stows at
+   * 003 tier 10 has to be at least that tall to support it.
+   *
    * Some formats state this restriction explicitly per size; others only imply
-   * it through per-tier heights (see {@link TMinTierHeights}). When both are
-   * present this one wins, as it is stated rather than derived.
+   * it through per-tier heights (see {@link TMinTierHeights}) or through the
+   * bays' bottom bases. When both are present this one wins, as it is stated
+   * rather than derived.
    */
   minBottomHeight?: number;
 }
