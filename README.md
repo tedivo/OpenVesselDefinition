@@ -276,6 +276,7 @@ M.I.T. License.
     },
     "IBulkheadInfo": {
       "additionalProperties": false,
+      "description": "Bulkheads at the ends of this bay. Mostly found on Below bay-levels.\n\nEach physical bulkhead is written once. Between two bays with nothing else in the gap, write it as `fore` of the aft bay (the convention STAF uses). Use `aft` only when a vessel part follows this bay, or for the aft-most bay.",
       "properties": {
         "aft": {
           "$ref": "#/definitions/TYesNo"
@@ -394,109 +395,64 @@ M.I.T. License.
       ],
       "type": "object"
     },
-    "ILashingBridgeInfo": {
-      "anyOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "aft": {
-              "const": 0,
-              "type": "number"
-            },
-            "fore": {
-              "const": 0,
-              "type": "number"
-            }
+    "ILashingBridge": {
+      "additionalProperties": false,
+      "description": "A lashing bridge. Defaults apply to every row of the bay; `perRow` overrides them for stepped bridges or bridges that don't span the beam.",
+      "properties": {
+        "height": {
+          "description": "Height of the top of the bridge, in mm **above the stack bottom** of the row (its above-deck `bottomBase`). Wins over `tiers` when both are present.\n\nIt is a difference, not a position, so it is unaffected by the VCG rebasing the converters apply to `bottomBase`.",
+          "type": "number"
+        },
+        "lcg": {
+          "description": "Position of the bridge. When omitted, it is drawn at the bay's end",
+          "type": "number"
+        },
+        "perRow": {
+          "additionalProperties": {
+            "$ref": "#/definitions/ILashingBridgeHeight"
           },
-          "required": [
-            "aft",
-            "fore"
-          ],
+          "description": "Sparse per-row overrides. `tiers: 0` means no bridge in that row",
           "type": "object"
         },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "aft": {
-              "const": 1,
-              "type": "number"
-            },
-            "aftLcg": {
-              "type": "number"
-            },
-            "aftTiers": {
-              "type": "number"
-            },
-            "fore": {
-              "const": 0,
-              "type": "number"
-            }
-          },
-          "required": [
-            "aft",
-            "aftTiers",
-            "fore"
-          ],
-          "type": "object"
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "aft": {
-              "const": 0,
-              "type": "number"
-            },
-            "fore": {
-              "const": 1,
-              "type": "number"
-            },
-            "foreLcg": {
-              "type": "number"
-            },
-            "foreTiers": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "aft",
-            "fore",
-            "foreTiers"
-          ],
-          "type": "object"
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "aft": {
-              "const": 1,
-              "type": "number"
-            },
-            "aftLcg": {
-              "type": "number"
-            },
-            "aftTiers": {
-              "type": "number"
-            },
-            "fore": {
-              "const": 1,
-              "type": "number"
-            },
-            "foreLcg": {
-              "type": "number"
-            },
-            "foreTiers": {
-              "type": "number"
-            }
-          },
-          "required": [
-            "aft",
-            "aftTiers",
-            "fore",
-            "foreTiers"
-          ],
-          "type": "object"
+        "tiers": {
+          "description": "Tiers the bridge reaches above the hatch cover (an \"N-tier lashing bridge\")",
+          "type": "number"
         }
-      ]
+      },
+      "required": [
+        "tiers"
+      ],
+      "type": "object"
+    },
+    "ILashingBridgeHeight": {
+      "additionalProperties": false,
+      "properties": {
+        "height": {
+          "description": "Height of the top of the bridge, in mm **above the stack bottom** of the row (its above-deck `bottomBase`). Wins over `tiers` when both are present.\n\nIt is a difference, not a position, so it is unaffected by the VCG rebasing the converters apply to `bottomBase`.",
+          "type": "number"
+        },
+        "tiers": {
+          "description": "Tiers the bridge reaches above the hatch cover (an \"N-tier lashing bridge\")",
+          "type": "number"
+        }
+      },
+      "required": [
+        "tiers"
+      ],
+      "type": "object"
+    },
+    "ILashingBridgeInfo": {
+      "additionalProperties": false,
+      "description": "Lashing bridges at the ends of this bay. Only meaningful on the Above level.\n\nSame convention as  {@link  IBulkheadInfo } : between two bays with nothing else in the gap, write the bridge as `fore` of the aft bay. Use `aft` only when a vessel part follows this bay (i.e. a bridge against the fore face of the deckhouse), or for the aft-most bay.",
+      "properties": {
+        "aft": {
+          "$ref": "#/definitions/ILashingBridge"
+        },
+        "fore": {
+          "$ref": "#/definitions/ILashingBridge"
+        }
+      },
+      "type": "object"
     },
     "ILidData": {
       "additionalProperties": false,
@@ -1067,7 +1023,7 @@ M.I.T. License.
       },
       "type": "object"
     },
-    "Partial<indexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-5247>": {
+    "Partial<indexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-6490>": {
       "additionalProperties": false,
       "properties": {
         "20": {
@@ -1216,7 +1172,7 @@ M.I.T. License.
       "type": "object"
     },
     "TRowInfoByLength": {
-      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-5247%3E"
+      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-6490%3E"
     },
     "TUnNumber": {
       "type": "string"

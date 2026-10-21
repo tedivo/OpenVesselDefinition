@@ -154,6 +154,13 @@ export interface IBayTierInfo {
   vcg?: number;
 }
 
+/**
+ * Bulkheads at the ends of this bay. Mostly found on Below bay-levels.
+ *
+ * Each physical bulkhead is written once. Between two bays with nothing else
+ * in the gap, write it as `fore` of the aft bay (the convention STAF uses).
+ * Use `aft` only when a vessel part follows this bay, or for the aft-most bay.
+ */
 export interface IBulkheadInfo {
   fore?: TYesNo;
   foreLcg?: number;
@@ -161,28 +168,39 @@ export interface IBulkheadInfo {
   aftLcg?: number;
 }
 
-export type ILashingBridgeInfo = ILashingBridgeInfoFore & ILashingBridgeInfoAft;
+/**
+ * Lashing bridges at the ends of this bay. Only meaningful on the Above level.
+ *
+ * Same convention as {@link IBulkheadInfo}: between two bays with nothing else
+ * in the gap, write the bridge as `fore` of the aft bay. Use `aft` only when a
+ * vessel part follows this bay (i.e. a bridge against the fore face of the
+ * deckhouse), or for the aft-most bay.
+ */
+export interface ILashingBridgeInfo {
+  fore?: ILashingBridge;
+  aft?: ILashingBridge;
+}
 
-type ILashingBridgeInfoFore =
-  | {
-      fore: 0;
-      foreTiers?: never;
-      foreLcg?: never;
-    }
-  | {
-      fore: 1;
-      foreTiers: number;
-      foreLcg?: number;
-    };
+/**
+ * A lashing bridge. Defaults apply to every row of the bay; `perRow`
+ * overrides them for stepped bridges or bridges that don't span the beam.
+ */
+export interface ILashingBridge extends ILashingBridgeHeight {
+  /** Position of the bridge. When omitted, it is drawn at the bay's end */
+  lcg?: number;
+  /** Sparse per-row overrides. `tiers: 0` means no bridge in that row */
+  perRow?: { [row: IIsoRowPattern]: ILashingBridgeHeight };
+}
 
-type ILashingBridgeInfoAft =
-  | {
-      aft: 0;
-      aftTiers?: never;
-      aftLcg?: never;
-    }
-  | {
-      aft: 1;
-      aftTiers: number;
-      aftLcg?: number;
-    };
+export interface ILashingBridgeHeight {
+  /** Tiers the bridge reaches above the hatch cover (an "N-tier lashing bridge") */
+  tiers: number;
+  /**
+   * Height of the top of the bridge, in mm **above the stack bottom** of the
+   * row (its above-deck `bottomBase`). Wins over `tiers` when both are present.
+   *
+   * It is a difference, not a position, so it is unaffected by the VCG
+   * rebasing the converters apply to `bottomBase`.
+   */
+  height?: number;
+}
