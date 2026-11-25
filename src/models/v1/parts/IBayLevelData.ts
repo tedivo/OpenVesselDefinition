@@ -141,6 +141,15 @@ export interface IBayRowInfo {
   label?: string;
   tcg?: number;
   bottomBase?: number;
+  /**
+   * `1` when `bottomBase` was read from an imported source file rather than
+   * estimated by a tool. A writer whose `shipData.vcgOptions.values` is ESTIMATED
+   * leaves estimated bottom bases out, but still writes the ones marked here: they
+   * are vessel data. Tools that change `bottomBase` should keep or drop the mark
+   * accordingly.
+   * @since 1.4.0
+   */
+  bottomBaseFromSource?: TYesNo;
   maxHeight?: number;
   /** Overrides general bay LCG, Row Weight and size restrictions by length */
   rowInfoByLength?: TRowInfoByLength;

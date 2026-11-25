@@ -242,6 +242,10 @@ M.I.T. License.
         "bottomBase": {
           "type": "number"
         },
+        "bottomBaseFromSource": {
+          "$ref": "#/definitions/TYesNo",
+          "description": "`1` when `bottomBase` was read from an imported source file rather than estimated by a tool. A writer whose `shipData.vcgOptions.values` is ESTIMATED leaves estimated bottom bases out, but still writes the ones marked here: they are vessel data. Tools that change `bottomBase` should keep or drop the mark accordingly."
+        },
         "isoRow": {
           "$ref": "#/definitions/IIsoRowPattern"
         },
@@ -549,6 +553,20 @@ M.I.T. License.
       },
       "type": "object"
     },
+    "IRefrigeratedContainersOptions": {
+      "additionalProperties": false,
+      "properties": {
+        "copyLimitFwdAft": {
+          "$ref": "#/definitions/TYesNo",
+          "description": "The \"Copy Limit Fwd/Aft\" option for reefer plug limits"
+        },
+        "reeferPlugLimit": {
+          "description": "Ship-level reefer plug limit",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
     "IRowInfoByLength": {
       "additionalProperties": false,
       "properties": {
@@ -591,6 +609,10 @@ M.I.T. License.
           },
           "type": "array"
         },
+        "dangerousAndHazardousInfo": {
+          "$ref": "#/definitions/TYesNo",
+          "description": "Whether the vessel carries Dangerous & Hazardous (D&H) information. When it is off, tools may hide the per-bay D&H attributes and the per-slot hazardous restrictions."
+        },
         "featuresAllowed": {
           "$ref": "#/definitions/IFeaturesAllowed",
           "description": "Features allowed in slot or bay definitions"
@@ -620,6 +642,10 @@ M.I.T. License.
           "$ref": "#/definitions/PositionFormatEnum",
           "description": "Position format. Default is *BAY_STACK_TIER*: ##B#S#T"
         },
+        "refrigeratedContainersOptions": {
+          "$ref": "#/definitions/IRefrigeratedContainersOptions",
+          "description": "Ship-level reefer options."
+        },
         "rowWeightCalculation": {
           "$ref": "#/definitions/RowWeightCalculationEnum"
         },
@@ -645,6 +671,10 @@ M.I.T. License.
         },
         "vcgOptions": {
           "$ref": "#/definitions/IVGCOptions"
+        },
+        "visibility": {
+          "$ref": "#/definitions/IVisibility",
+          "description": "Visibility reference points (observer, bow, stern). LCGs follow the file's LCG reference like any other LCG; VCGs are absolute."
         },
         "yearBuilt": {
           "type": "number"
@@ -948,6 +978,38 @@ M.I.T. License.
         }
       ]
     },
+    "IVisibility": {
+      "additionalProperties": false,
+      "description": "Visibility reference points, in mm",
+      "properties": {
+        "bowLCG": {
+          "description": "Foremost point to see past",
+          "type": "number"
+        },
+        "bowVCG": {
+          "type": "number"
+        },
+        "observerLCG": {
+          "description": "Observer (bridge) position",
+          "type": "number"
+        },
+        "observerVCG": {
+          "type": "number"
+        },
+        "sternLCG": {
+          "description": "Aftmost point",
+          "type": "number"
+        }
+      },
+      "required": [
+        "observerLCG",
+        "observerVCG",
+        "bowLCG",
+        "bowVCG",
+        "sternLCG"
+      ],
+      "type": "object"
+    },
     "LcgReferenceEnum": {
       "description": "LCG Reference from STAF. MIDSHIPS = 1, AFT_PERPENDICULAR = 2, FWD_PERPENDICULAR = 3",
       "enum": [
@@ -1023,7 +1085,7 @@ M.I.T. License.
       },
       "type": "object"
     },
-    "Partial<indexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-6490>": {
+    "Partial<indexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-6897>": {
       "additionalProperties": false,
       "properties": {
         "20": {
@@ -1172,7 +1234,7 @@ M.I.T. License.
       "type": "object"
     },
     "TRowInfoByLength": {
-      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-6490%3E"
+      "$ref": "#/definitions/Partial%3Cindexed-type-1634338809-1889-1940-1634338809-1880-1941-1634338809-1848-1942-1634338809-0-6897%3E"
     },
     "TUnNumber": {
       "type": "string"
