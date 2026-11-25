@@ -34,6 +34,26 @@ export default interface IShipData extends IShipDataBase {
   loa?: number;
   /** Distance from Ster to Aft Perpendicular */
   sternToAftPp?: number;
+
+  /**
+   * Visibility reference points (observer, bow, stern). LCGs follow the file's LCG
+   * reference like any other LCG; VCGs are absolute.
+   * @since 1.4.0
+   */
+  visibility?: IVisibility;
+
+  /**
+   * Ship-level reefer options.
+   * @since 1.4.0
+   */
+  refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
+
+  /**
+   * Whether the vessel carries Dangerous & Hazardous (D&H) information. When it is off,
+   * tools may hide the per-bay D&H attributes and the per-slot hazardous restrictions.
+   * @since 1.4.0
+   */
+  dangerousAndHazardousInfo?: TYesNo;
 }
 
 export interface IShipDataBase {
@@ -72,9 +92,7 @@ export interface IShipDataBase {
   shipNameAkas?: string[];
 
   // UNUSED
-  // refrigeratedContainersOptions?: IRefrigeratedContainersOptions;
   // dynamicRowWeightLimit?: TYesNo;
-  // visibility?: IVisibility;
 }
 
 interface IShipMeta {
@@ -82,11 +100,15 @@ interface IShipMeta {
   note?: string;
 }
 
-interface IVisibility {
+/** Visibility reference points, in mm */
+export interface IVisibility {
+  /** Observer (bridge) position */
   observerLCG: number;
   observerVCG: number;
+  /** Foremost point to see past */
   bowLCG: number;
   bowVCG: number;
+  /** Aftmost point */
   sternLCG: number;
 }
 
@@ -117,8 +139,10 @@ export interface ITGCOptions {
   direction?: PortStarboardEnum;
 }
 
-interface IRefrigeratedContainersOptions {
-  reeferPlugLimit: number;
+export interface IRefrigeratedContainersOptions {
+  /** Ship-level reefer plug limit */
+  reeferPlugLimit?: number;
+  /** The "Copy Limit Fwd/Aft" option for reefer plug limits */
   copyLimitFwdAft?: TYesNo;
 }
 

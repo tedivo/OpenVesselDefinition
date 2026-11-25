@@ -30,7 +30,14 @@ import IPositionLabels, {
   ITierRowLabelDictionaries,
   ITierRowLabelDictionary,
 } from "./models/v1/parts/IPositionLabels";
-import IShipData, { IBayLevelOffsetBottomBase, IFeaturesAllowed, ILCGOptions, IMasterCGs } from "./models/v1/parts/IShipData";
+import IShipData, {
+  IBayLevelOffsetBottomBase,
+  IFeaturesAllowed,
+  ILCGOptions,
+  IMasterCGs,
+  IRefrigeratedContainersOptions,
+  IVisibility,
+} from "./models/v1/parts/IShipData";
 import {
   LengthUnitsEnum,
   WeightUnitsEnum,
@@ -122,6 +129,7 @@ export {
   IOpenVesselDefinitionV1,
   IPairedBays,
   IPositionLabels,
+  IRefrigeratedContainersOptions,
   IRowInfoByLength,
   IShipData,
   IShipDataFromStaf,
@@ -137,6 +145,7 @@ export {
   IVesselPartSmokeStack,
   IUnpairedBay,
   IVesselPartSpacer,
+  IVisibility,
   LcgReferenceEnum,
   LengthUnitsEnum,
   moveBay40sToLocation,
